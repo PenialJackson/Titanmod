@@ -1,10 +1,9 @@
-
 if not ATTACHMENT then
 	ATTACHMENT = {}
 end
 
 ATTACHMENT.Name = "9x25"
-ATTACHMENT.ShortName = "9x25" --Abbreviation, 5 chars or less please
+ATTACHMENT.ShortName = "9x25"
 ATTACHMENT.Description = {
 	TFA.AttachmentColors["="], "9x25mm Mauser Conversion",
 	TFA.AttachmentColors["+"], "50% more RPM",
@@ -12,7 +11,7 @@ ATTACHMENT.Description = {
 	TFA.AttachmentColors["-"], "75% more horizontal recoil",
 	TFA.AttachmentColors["-"], "50% more spread",
 }
-ATTACHMENT.Icon = "attachments/conversion.png" --Revers to label, please give it an icon though!  This should be the path to a png, like "entities/tfa_ammo_match.png"
+ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {

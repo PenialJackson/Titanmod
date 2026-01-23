@@ -1,3 +1,5 @@
+if engine.ActiveGamemode() != "titanmod" then return end
+
 local surface = surface
 local Color = Color
 
@@ -829,12 +831,12 @@ end
 -- derma overrides
 function DBinder:UpdateText()
 
-    local str = input.GetKeyName(self:GetSelectedNumber())
-    if (!str) then str = "NONE" end
+	local str = input.GetKeyName(self:GetSelectedNumber())
+	if (!str) then str = "NONE" end
 
-    str = language.GetPhrase(str)
+	str = language.GetPhrase(str)
 
-    self:SetText(string.upper(str))
+	self:SetText(string.upper(str))
 
 end
 

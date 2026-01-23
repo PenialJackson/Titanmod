@@ -11,7 +11,7 @@ function GM:InitPostEntity()
 		local time = GetGlobal2Int("tm_matchtime", 0)
 		if time - CurTime() < (time - GetConVar("tm_intermissiontimer"):GetInt()) then
 			SetGlobal2Bool("tm_intermission", false)
-			for k, ply in pairs(player.GetAll()) do ply:Freeze(false) end
+			for k, ply in ipairs(player.GetAll()) do ply:Freeze(false) end
 			if activeGamemode == "Fiesta" then CreateFiestaTimer() end
 			hook.Remove("Think", "IntermissionFreeze")
 			hook.Remove("CanPlayerSuicide", "IntermissionBlocksSuicide")
@@ -172,10 +172,10 @@ hook.Add("EntityTakeDamage", "ExplosiveKnockback", ExplosiveKnockback)
 
 -- change explosive audio distortion
 hook.Add("OnDamagedByExplosion", "TinnitusSoundOnExplosion", function(ply, dmginfo)
-    if IsValid(ply) and ply:IsPlayer() then
-        ply:SetDSP(32, false)
-        return false
-    end
+	if IsValid(ply) and ply:IsPlayer() then
+		ply:SetDSP(32, false)
+		return false
+	end
 end)
 
 -- disable fall damage
@@ -529,7 +529,7 @@ end )
 
 if healthRegeneration == true then
 	local function Regeneration()
-		for _, ply in pairs(player.GetAll()) do
+		for _, ply in ipairs(player.GetAll()) do
 			if ply:Alive() then
 				if (ply:Health() < (ply.LastHealth or 0)) then ply.HealthRegenNext = CurTime() + healthRegenDamageDelay end
 				if (CurTime() > (ply.HealthRegenNext or 0)) then
@@ -657,7 +657,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 		-- failsafe for empty servers, will skip to a new map if there are no players connected to the server
 		if player.GetCount() == 0 then RunConsoleCommand("changelevel", firstMap) return end
 
-		for k, v in pairs(player.GetAll()) do
+		for k, v in ipairs(player.GetAll()) do
 			v:SetLaggedMovementValue(0.2)
 			v:SetNWBool("PostGameMute", false)
 		end
@@ -676,7 +676,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 		net.Broadcast()
 
 		timer.Create("killAfterDelay", 8, 1, function()
-			for k, v in pairs(player.GetAll()) do
+			for k, v in ipairs(player.GetAll()) do
 				v:KillSilent()
 			end
 		end)
@@ -684,7 +684,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 		local connectedPlayers = player.GetHumans()
 		if activeGamemode == "Gun Game" then table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end) else table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end) end
 
-		for k, v in pairs(connectedPlayers) do
+		for k, v in ipairs(connectedPlayers) do
 			if player.GetCount() > 1 then
 				v:SetNWInt("matchesPlayed", v:GetNWInt("matchesPlayed") + 1)
 				if v:Frags() >= v:GetNWInt("highestKillGame") then v:SetNWInt("highestKillGame", v:Frags()) end
@@ -850,9 +850,9 @@ if table.HasValue(availableMaps, game.GetMap()) then
 					modeVotes[k] = modeVotes[k] + 1
 					if modeIndex == 1 then
 						SetGlobal2Int("VotesOnModeOne", GetGlobal2Int("VotesOnModeOne", 0) + 1, 0)
-						SetGlobal2Int("VotesOnModeTwo", GetGlobal2Int("VotesOnModeTwo", 0) - 1, 0) 
+						SetGlobal2Int("VotesOnModeTwo", GetGlobal2Int("VotesOnModeTwo", 0) - 1, 0)
 					elseif modeIndex == 2 then
-						SetGlobal2Int("VotesOnModeTwo", GetGlobal2Int("VotesOnModeTwo", 0) + 1, 0) 
+						SetGlobal2Int("VotesOnModeTwo", GetGlobal2Int("VotesOnModeTwo", 0) + 1, 0)
 						SetGlobal2Int("VotesOnModeOne", GetGlobal2Int("VotesOnModeOne", 0) - 1, 0)
 					end
 				end

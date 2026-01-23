@@ -1,11 +1,21 @@
+# January 23rd, 2025 (01/23/26)
+**>QOL & BUG FIXES**
+- Various optimizations back ported from my newer gamemode
+
+- Improved algorithm for player spawning
+
+- Fixed matches instantly ending upon starting
+
+
+
 # December 29th, 2025 (12/29/25)
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Fixed non-Titanmod maps with different spawn entities from base sandbox maps not working as intended
 
 
 
 # December 21st, 2025 (12/21/25)
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Quick weapon switching is now properly client sided and players will no longer experience a delay when switching between weapons because of their ping
 
 - Lens Flare no longer renders through viewmodels
@@ -19,7 +29,7 @@
 
 
 # September 27th, 2025 (9/27/25)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *NEW WEAPONS*
 - **Coonan .357** (Secondary, Pistol)
 - **Flamethrower** (Primary, Special)
@@ -33,19 +43,19 @@
 *WEAPON FEEL*
 - Added a new viewmodel inertia system (does not take effect when ADSing)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Added the "tm_unlockall" ConVar that allows players to equip cosmetic items (models/cards/melees) that they do not meet the unlock req. for
 
 
 
 # April 23rd, 2025 (4/23/25)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *RECOIL OVERHAUL*
 - Recoil across all weapons are now seeded and pattern based
 - Each weapon now has a unique recoil pattern
 - Weapons are now either left-drifting or right-drifting, meaning recoil will mainly drift to the left or right instead of picking a left or right direction at random
 
-**>BALANCE**    
+**>BALANCE**
 *FN 2000*
 - Reduced vertical recoil to 25 (previously 40)
 - Reduced horizontal recoil to 10 (previously 25)
@@ -61,13 +71,13 @@
 - Reduced vertical recoil to 24 (previously 30)
 - Reduced horizontal recoil to 12 (previously 20)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Fixed over 100+ instances of specific weapon sights being misaligned from a weapons point of fire
 
 
 
 # April 21st, 2025 (4/21/25)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *SIGHTS & SCOPES*
 - Added the RUSAK, Coyote and HD-33 sights
 - Reworked most sight and scope reticles to improve clarity
@@ -77,7 +87,7 @@
 - Optic and scope shortnames are now the sights magnification
 - Fixed all instances of sights varying in height across different weapons
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Replaced "SAS" and "Winter SAS" models with "Elite" and "Cloaker" models due to height differences between other models
 
 - Added 12 new leveling calling cards (every 5 levels of prestige 4)
@@ -91,7 +101,7 @@
 
 
 # April 16th, 2025 (4/16/25)
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Overhauled file precaching system
 
 - Fixed console errors when using certain weapons (notably Riot Shield)
@@ -99,22 +109,22 @@
 
 
 # April 15th, 2025 (4/15/25)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *AMMO CONVERSIONS*
 - Added new attachment types to the **ASh-12** and **OTs-33 Pernach** that rework their gun stats
 
 *END OF MATCH ADJUSTMENTS*
 - Three maps are now available in the map voting pool instead of two
 
-*NEW SETTINGS*  
+*NEW SETTINGS*
 - Sprinting FOV Increase
 - Lens Flare
 
-**>MAPS**   
+**>MAPS**
 *RETURNING MAPS*
 - Grid
 
-**>BALANCE**    
+**>BALANCE**
 *M14*
 - Increased damage to 50 (previously 40)
 - Reduced vertical recoil to 50 (previously 80)
@@ -139,7 +149,7 @@
 *Stevens 620*
 - Increased damage to 18x7 (previously 16x7)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Player ragdolls are now synced across clients and will look the same for all players
 
 - All snipers now have higher auto-switch weight compared to shotguns, making them always the equipped weapon when spawning in the Shotty Snipers gamemode
@@ -183,15 +193,15 @@
 
 
 # April 12th, 2025 (4/12/25)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *CUSTOMIZATION*
 - Added 8 new player models
 
-**>MAPS**   
+**>MAPS**
 *RETURNING MAPS*
 - Station
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Improved fluidity with weapon firing and ADSing while sprinting and sliding
 
 - Added subtle camera flinch when being hit (more obvious that you are being hit by bullets and whatnot)
@@ -211,7 +221,7 @@
 
 
 # April 11th, 2025 (4/11/25)
-**>MAPS**   
+**>MAPS**
 *Arctic*
 - Added additional player spawns
 - Removed various props
@@ -305,7 +315,7 @@
 *Wreck*
 - Added additional player spawns
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Adjusted visuals of player flashlights to make the player easier to see
 
 - Skulls in the kill UI now stack
@@ -315,14 +325,14 @@
 
 
 # April 10th, 2025 (4/10/25)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *AMMO CONVERSIONS*
 - Added new attachment types to the **FN FAL** and **MP5K** that rework their gun stats
 
 *SHOTGUN CHANGES*
 - Some shotguns received a 10-25% spread reduction to help them perform better at further ranges
 
-**>BALANCE**    
+**>BALANCE**
 *Dragon's Breath Shells*
 - Reduced extra spread to +66% (previously +100%)
 - Reduced damage reduction to -40% (previously -50%)
@@ -467,7 +477,7 @@
 - Reduced vertical recoil to 60 (previously 80)
 - Reduced horizontal recoil to 25 (previously 50)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Overhauled save file system that is 175x faster on average
 
 - Improved load times when switching to a new map and gamemode
@@ -487,14 +497,14 @@
 
 
 # April 2nd, 2025 (4/2/25)
-**>GAMEPLAY**   
-*NEW SETTINGS*  
+**>GAMEPLAY**
+*NEW SETTINGS*
 - HUD Scale
 
-*ANIMATIONS*  
+*ANIMATIONS*
 - Disabled all first deploy animations for all weapons
 
-**>BALANCE**    
+**>BALANCE**
 *AK-12*
 - Reduced vertical recoil to 55 (previously 70)
 - Reduced horizontal recoil to 10 (previously 20)
@@ -563,7 +573,7 @@
 - Reduced vertical recoil to 25 (previously 30)
 - Reduced horizontal recoil to 5 (previously 10)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - All interfaces and UI elements are now scaled by the users resolution to look identical no matter the resolution used
 
 - Replaced tinnitus sound effect with a less drastic effect
@@ -575,12 +585,12 @@
 
 
 # March 30th, 2025 (3/30/25)
-**>BALANCE**    
+**>BALANCE**
 *Melee*
 - Thrown melee will now despawn instantly upon colliding with a surface
 - Melee kills will no longer advance a player in the Gun Game ladder if they are not on the final weapon
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Added viewmodel animation when opening doors
 
 - Adjusted sliding viewmodel animation
@@ -596,7 +606,7 @@
 
 
 # March 29th, 2025 (3/29/25)
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Fixed the Overkill gamemode from not fucking working
 
 - Fixed melee throw checks not being ran when using the numeric ammo style
@@ -606,17 +616,17 @@
 
 
 # March 29th, 2025 (3/29/25)
-**>GAMEPLAY**  
+**>GAMEPLAY**
 *NEW SETTINGS*
 - Headshot Kill SFX Style
 - Sensitivity Transition Style (Gradual and Instant)
 - Show Crosshair When Sprinting
 
-**>BALANCE**    
+**>BALANCE**
 *M134 Minigun*
 - Can now be fired while sprinting
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Strafing inputs can now be inputted while sliding to very slightly redirect your sliding angle
 
 - Fixed players spawning abnormally if no suitable spawn points were fonud on the map
@@ -637,12 +647,12 @@
 
 
 
-# March 28th, 2025 (3/28/25)  
-**>GAMEPLAY**  
+# March 28th, 2025 (3/28/25)
+**>GAMEPLAY**
 *NEW GAMEMODE*
 - **Fisticuffs**, typical FFA but with only melee weapons
 
-**>BALANCE**    
+**>BALANCE**
 *Grappling Hook*
 - Cooldown reduced to 15 seconds (previously 20)
 - Players now spawn with 3 seconds on the cooldown (previously 5)
@@ -651,20 +661,20 @@
 *Melee*
 - Both swings now reach 1.25 meters / 65 hammer units
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Fixed multiple bugs introduced in the last major update
 
 
 
-# March 28th, 2025 (3/28/25)  
-**>GAMEPLAY**  
+# March 28th, 2025 (3/28/25)
+**>GAMEPLAY**
 *MELEE OVER-OVERHAUL*
 - Melee damage is now identical no matter the limb hit
 - Both swing types now do 75 damage
 - Both swings now reach 0.75 meters / 39.15 hammer units
 - Heavy swings can now backstab, one shotting the enemy if hit in the back (180 degrees from the back)
 
-**>BALANCE**    
+**>BALANCE**
 *Shotguns*
 - Spread has been reduced by 20-30% across all shotguns
 
@@ -673,15 +683,15 @@
 - Players now spawn with 5 seconds on the cooldown (previously 0)
 - Players now reduce the cooldown by 10 seconds for each kill (previously 20)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Fixed multiple bugs introduced in the last major update
 
 - Melees can no longer be thrown in the Gun Game gamemode
 
 
 
-# March 27th, 2025 (3/27/25)  
-**>GAMEPLAY**  
+# March 27th, 2025 (3/27/25)
+**>GAMEPLAY**
 *NEW WEAPONS*
 - **American-180** (Primary, SMG)
 - **AVT-40** (Primary, Rifle)
@@ -753,7 +763,7 @@
 - Inspect Bind
 - Attachments Bind (overrides default context key to open attachments menu)
 
-**>BALANCE**    
+**>BALANCE**
 *Shotguns*
 - Spread has been tripled to quadrupled across all shotguns
 - ADS spread now matches the hip fire spread on all shotguns
@@ -777,7 +787,7 @@
 - Added Point Shooting to the many new weapons
 - Aiming down sights while using the attachment will no longer make your crosshair fade out
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Brand new spawn logic that should avoid spawns with other players nearby and should fix instances of spawning inside other players
 
 - Brand new derma skin ported from EFGMR, improving visuals on all default Garry's Mod UI assets
@@ -834,23 +844,23 @@
 
 
 
-# February 1st, 2025 (2/1/25)  
-**>GAMEPLAY**  
+# February 1st, 2025 (2/1/25)
+**>GAMEPLAY**
 *MOVEMENT CHANGES*
 - Wall Running now carries over the players previous forward momentum if it exceeds the base wall run momentum
 - Wall Running minimum velocity increase reduced by 20% to compensate for momentum conservation
 - Wall Jumping no longer stalls a players forward momentum, instead slowing said momentum by 25%
 - Base crouching/uncrouching speeds increased by 25%, speed following a slide is unchanged
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Removed sight bobbing while mid-air
 
 - Numerous menu and HUD improvements, redesigns, optimizations and fixes
 
 
 
-# August 1st, 2024 (8/1/24)  
-**>GAMEPLAY**  
+# August 1st, 2024 (8/1/24)
+**>GAMEPLAY**
 *CAMERA SHAKE*
 - Firing a weapon now causes a slight amount of camera shake to be applied
 - This was done because Titanmod's recoil tends to have very little shake, making the firing feel bland
@@ -860,7 +870,7 @@
 - Player acceleration is now 60% faster (moving from a complete stop or changing direction will be quicker)
 
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Optimized array usage
 
 - Added reticle previews while editing the Optic Reticle Color setting
@@ -873,8 +883,8 @@
 
 
 
-# August 1st, 2024 (8/1/24)  
-**>GAMEPLAY**  
+# August 1st, 2024 (8/1/24)
+**>GAMEPLAY**
 *CAMERA SHAKE*
 - Firing a weapon now causes a slight amount of camera shake to be applied
 - This was done because Titanmod's recoil tends to have very little shake, making the firing feel bland
@@ -884,7 +894,7 @@
 - Player acceleration is now 60% faster (moving from a complete stop or changing direction will be quicker)
 
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Optimized array usage
 
 - Added reticle previews while editing the Optic Reticle Color setting
@@ -897,22 +907,22 @@
 
 
 
-# April 13th, 2024 (4/13/24)  
-**>GAMEPLAY**   
+# April 13th, 2024 (4/13/24)
+**>GAMEPLAY**
 *NEW SETTING*
 - Precache Gamemode Files
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - The setting above is a fix for users experiencing a CVEngineServer overflow when joining a Titanmod server, players with mechanical hard drives will also experience much faster load times with this setting disabled (while experiencing more in game stutters)
 
 
 
-# March 31th, 2024 (3/31/24)  
-**>GAMEPLAY**  
+# March 31th, 2024 (3/31/24)
+**>GAMEPLAY**
 *NEW SETTING*
 - Render Hands
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Decreased gamemode file size by 500 MB~
 
 - Player hands are now rendered during the death cam
@@ -935,18 +945,18 @@
 
 
 
-# March 27th, 2024 (3/27/24)  
-**>GAMEPLAY**  
-*RELOADING QUALITY OF LIFE* 
+# March 27th, 2024 (3/27/24)
+**>GAMEPLAY**
+*RELOADING QUALITY OF LIFE*
 - All reloads can now be started while aiming down sights (reload canceling is still only possible from the hip)
 - Players can now aim down sights during a reload
 
-**>BALANCE**    
+**>BALANCE**
 *Point Shooting Attachment*
 - Added ADS spread (50% to the weapons hip fire spread)
 - Increased ADS time decrease to 50% (previously 25%)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Added interchangable map and gamemode votes, allowing players to now change which item they vote for during the voting period
 
 - Added a notification when entering spectator mode
@@ -969,8 +979,8 @@
 
 
 
-# March 5th, 2024 (3/5/24)  
-**>GAMEPLAY**   
+# March 5th, 2024 (3/5/24)
+**>GAMEPLAY**
 *AMMO CONVERSIONS*
 - Added new attachment types to the **AA-12**, **AK-47**, **AKS-74U**, **Bren**, **Colt 9mm**, **CZ 75**, **FG 42**, **G28**, **Groza**, **HK53**, **Honey Badger**, **Howa Type 64**, **Imbel IA2**, **L85**, **Lewis**, **M1911**, **M1918**, **M1919**, **M3 Grease Gun**, **Mare's Leg**, **MG 34**, **MG 42**, **MP-443**, **MP5**, **OSP-18**, **PPSH**, **RFB**, **Spike X1S**, **StG 44** and **Webley** that rework their gun stats
 
@@ -980,7 +990,7 @@
 *NEW KILLSOUND OPTIONS*
 - Overwatch
 
-**>BALANCE**    
+**>BALANCE**
 *G28*
 - Decreased damage to 49 (previously 57)
 
@@ -993,7 +1003,7 @@
 *Thompson M1A1*
 - Decreased damage to 32 (previously 36)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Adjusted the firing sound effects for various weapons
 
 - Fixed HUD code importing not working
@@ -1008,8 +1018,8 @@
 
 
 
-# February 3rd, 2024 (2/3/24)    
-**>GAMEPLAY**   
+# February 3rd, 2024 (2/3/24)
+**>GAMEPLAY**
 *NEW WEAPON*
 - **ASh-12** (Primary, Rifle)
 - **MPX** (Primary, SMG)
@@ -1043,7 +1053,7 @@
 - Renamed Sten Gun to Sten
 - Renamed UMP .45 to UMP
 
-**>MAPS**   
+**>MAPS**
 *NEW MAPS*
 - Rust
 
@@ -1068,7 +1078,7 @@
 *Wreck*
 - Reduced amount of props
 
-**>BALANCE**    
+**>BALANCE**
 - Crouching/sliding recoil reduction is now a flat 20% on every weapon
 - Crouching/sliding spread reduction is now a flat 30% on every weapon
 
@@ -1128,7 +1138,7 @@
 *PP-19 Bizon*
 - Increased damage to 29 (previously 28)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Leaderboard is now dynamically sized depending on the number of players/entries being shown
 
 - Added variations to the victory/defeat music on match end
@@ -1181,15 +1191,15 @@
 
 
 
-# January 3rd, 2024 (1/3/24)    
-**>GAMEPLAY**   
+# January 3rd, 2024 (1/3/24)
+**>GAMEPLAY**
 *AMMO CONVERSIONS*
 - Added new attachment types to the **MP 40**, **MP18** and **Uzi** that rework their gun stats
 
 *LEADERBOARDS*
 - Leaderboards now show the top 100 players in any given category (previously showed top 50)
 
-**>BALANCE**    
+**>BALANCE**
 *FAMAS*
 - Reduced damage to 25 (previously 27)
 - Reduced vertical recoil to 35 (previously 80)
@@ -1201,7 +1211,7 @@
 *Spike X1S*
 - Increased range to 131m (previously 31m)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Fixed no player being assigned VIP status in the VIP gamemode
 
 - Fixed players being able to secure the hill during intermission in the KOTH gamemode
@@ -1210,12 +1220,12 @@
 
 - Fixed death cam still playing despite being disabled by the user or the server
 
-- Fixed AWM mastery calling card not being unlockable   
+- Fixed AWM mastery calling card not being unlockable
 
 
 
-# January 1st, 2024 (1/1/24)   
-**>QOL & BUG FIXES**   
+# January 1st, 2024 (1/1/24)
+**>QOL & BUG FIXES**
 - Text displaying a players keybind now shows the letter as a capital letter
 
 - Fixed Main Menu requiring a forced delay before showing up after connecting to a server, should now be close to instant
@@ -1228,8 +1238,8 @@
 
 
 
-# December 31th, 2023 (12/31/23)   
-**>GAMEPLAY**   
+# December 31th, 2023 (12/31/23)
+**>GAMEPLAY**
 *MATCH INTERMISSION*
 - By default, players will be frozen for the first 30 seconds of a match to allow other players to connect in time
 
@@ -1238,7 +1248,7 @@
 - Sliding at a downward angle will now set your sliding duration to 0.4 seconds if it was below 0.4 seconds when beginning the downward slide
 - Slide fatigue now affects your sliding duration
 
-*NEW SETTINGS*  
+*NEW SETTINGS*
 - 2x ADS Sensitivity
 - 4x ADS Sensitivity
 - 8x ADS Sensitivity
@@ -1262,7 +1272,7 @@
 - Renamed SIG P320 Veresk to P320
 - Renamed UZK-BR99 Veresk to BR99
 
-**>BALANCE**    
+**>BALANCE**
 - All melee weapons have been standardized stat-wise and will all deal the same damage and have the same swing cooldown
 - Increased reload, empty reload, and rechambering speeds across almost every weapon (typically a 15-30% improvement)
 - Reduced visual recoil across all shotguns
@@ -1316,7 +1326,7 @@
 *Typhoon F12*
 - Reduced vertical recoil to 150 (previously 200)
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Players can now send and read chat messages during map/gamemode voting
 
 - Overhauled the playermodel customization screen
@@ -1369,15 +1379,15 @@
 
 
 
-# November 26th, 2023 (11/26/23)    
-**>GAMEPLAY**   
+# November 26th, 2023 (11/26/23)
+**>GAMEPLAY**
 *RELOAD CANCELING*
 - Most reloads can now be canceled by left clicking if you have ammo left in the magazine, this can not be done while sprinting/aiming down sights
 
 *ADS SENSITIVITY PARITY*
 - All weapons now have the same ADS sensitivity, no matter the weapons mobility (your sensitivity might feel a bit high, especially with scopes, you can lower this in the Titanmod settings)
 
-**>BALANCE**    
+**>BALANCE**
 *Barrett M98B*
 - Reduced mobility to 75% (previously 80%)
 - Reduced rechambering speed slightly
@@ -1394,7 +1404,7 @@
 *Mosin Nagant*
 - Doubled rechambering speed
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Server ConVars are now properly replicated for players, fixing a variety of visual bugs
 
 - Fixed "'Player' is on the Knife" notifications on Gun Game only being sent to the player that is now on the knife
@@ -1405,14 +1415,14 @@
 
 
 
-# November 25th, 2023 (11/25/23)    
-**>QOL & BUG FIXES**   
+# November 25th, 2023 (11/25/23)
+**>QOL & BUG FIXES**
 - Corrupted player saves are now fixed accordingly upon joining a server running the gamemode
 
 
 
 # November 24th, 2023 (11/24/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *CLIENT SIDED MOVEMENT*
 - Wall running, wall jumping, and sliding are now all done on the client, this means that no matter your ping, there will be no delay or stutters
 
@@ -1423,7 +1433,7 @@
 - Time spent sliding at an downward angle will no longer count towards your slide duration
 - Sliding at a downward angle will now add extra velocity to the slide
 
-**>MAPS**   
+**>MAPS**
 *Arctic*
 - Added access to the roofs of buildings
 - Improved the atmosphere of the unreachable areas
@@ -1435,7 +1445,7 @@
 - Removed most on-ground props
 - Improved map geometry consistency
 
-**>QOL & BUG FIXES**   
+**>QOL & BUG FIXES**
 - Overhauled the notification system for things like match time warning, level up notifications, and more
 
 - Overhauled the card customization screen
@@ -1463,10 +1473,10 @@
 
 
 # November 8th, 2023 (11/8/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 - Reverted new custom bullet tracers due to visual bugs, will return in the future
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Fixed locked mastery cards not showing progress bars
 
 - Adjusted various menu UI objects that wouldn't trigger a UI sound
@@ -1476,8 +1486,8 @@
 
 
 # November 4th, 2023 (11/4/23)
-**>GAMEPLAY**   
-*MOVEMENT ADDITIONS/CHANGES*    
+**>GAMEPLAY**
+*MOVEMENT ADDITIONS/CHANGES*
 - Added Slide Cancelling (new settings determines which input cancels a slide)
 - Sliding speed is now affected by velocity (if the player is moving at a decent speed)
 - Canceling a Slide will dynamically impact the Slide cooldown
@@ -1487,52 +1497,52 @@
 - Slide duration increased by 25%
 - Removed Jump Sliding (was very powerful, but was only used by a handful of players, giving them a big advantage)
 
-*GUN TRACERS OVERHAUL*  
+*GUN TRACERS OVERHAUL*
 - Tracers have been completely redesigned and are now gun dependent (a SMG will have a smaller and less visible tracer compared to a Sniper)
 
-*AMMO CONVERSIONS*  
+*AMMO CONVERSIONS*
 - Added experimental attachment options to the **KRISS Vector** and the **Mac 10** that rework the guns stats
 
-*NEW SETTINGS*  
+*NEW SETTINGS*
 - Slide Cancel type (Release, Jump, or Sprint)
 - Dynamic Crosshair type
 
-**>BALANCE**    
+**>BALANCE**
 - Removed **Magnum Ammunition** from all weapons (was a free damage upgrade, couldn't tell when it was being used, new players who didn't learn to equip it were at a big disadvantage)
 - Removed **Match Ammunition** from all weapons (wasn't very useful, was basically a free recoil reduction)
 - All Secondaries (excluding hand cannons/revolvers) now have point fire as an attachment option
 - Point Fire no longer requires a laser sight to be attached to a weapon
 
-*FN 2000*   
+*FN 2000*
 - Reduced damage to 27 (previously 31)
 
-*M249*  
+*M249*
 - Increased spread to 50 (previously 40)
 
-*M3 Grease Gun* 
+*M3 Grease Gun*
 - Reduced damage to 30 (previously 32)
 - Reduced vertical recoil to 20 (previously 32)
 - Reduced horizontal recoil to 5 (previously 12)
 
-*PKP*   
+*PKP*
 - Increased spread to 59 (previously 29)
 
-*PM-9*  
+*PM-9*
 - Gas Port Adjustment now decreases recoil by 50% and increases damage by 10%
 
-*Sten Gun*  
+*Sten Gun*
 - Increased damage to 32 (previously 30)
 
-*StG 44*    
+*StG 44*
 - Reduced damage to 35 (previously 40)
 - Increased vertical recoil to 45 (previously 32)
 - Increased horizontal recoil to 20 (previously 12)
 
-*VHS-D2*    
+*VHS-D2*
 - Reduced vertical recoil to 45 (previously 65)
 - Reduced horizontal recoil to 20 (previously 30)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Official Servers now run on 60hz again (previously 30hz) (will monitor server performance to see if this runs smoothly)
 
 - All sniper scopes are now set to the same FOV
@@ -1570,7 +1580,7 @@
 
 
 # October 25th, 2023 (10/25/23)
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Fixed KOTH from, literally not functioning at all
 
 - New end of match quotes from community members
@@ -1578,17 +1588,17 @@
 
 
 # October 19th, 2023 (10/19/23)
-**>GAMEPLAY**   
-*CROSSHAIR OVERHAUL*    
+**>GAMEPLAY**
+*CROSSHAIR OVERHAUL*
 - I ditched the TFA crosshair and created my own crosshair system with even more customization options, a preview while editing the settings, and more
 
-*HUD CODES* 
+*HUD CODES*
 - You can now export your HUD customization settings as a code and can import other codes sent to you in the HUD editor
 
-*NEW SETTING*   
+*NEW SETTING*
 - Render Body toggle
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - All text color based HUD settings were combined into one universal setting
 
 - Added various crosshair settings
@@ -1608,7 +1618,7 @@
 
 
 # October 16th, 2023 (10/16/23)
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Added Score as a leaderboard category
 
 - Increased strength of the Main Menu background gradient
@@ -1624,23 +1634,23 @@
 
 
 # October 8th, 2023 (10/8/23)
-**DISCLAIMER!!!**   
+**DISCLAIMER!!!**
 - Default HUD settings now differ GREATLY as of this update, I recommend reverting to default through the HUD Editor, or at the very least, resetting all of your 'offset' settings due to the new HUD edge bound settings.
 
-**>GAMEPLAY**   
-*NEW SETTINGS*  
+**>GAMEPLAY**
+*NEW SETTINGS*
 - HUD Edge Bounds X
 - HUD Edge Bounds Y
 - Damage Indicator toggle
 - Damage Indicator color
 - Damage indicator opacity
 
-**>MAPS**   
-*Legacy*    
+**>MAPS**
+*Legacy*
 - Added additional player spawns
 - Fixed missing tree model
 
-**>BALANCE**    
+**>BALANCE**
 *Beretta Mx4*
 - Reduced damage to 27 (previously 28)
 - Increased vertical recoil to 35 (previously 30)
@@ -1677,7 +1687,7 @@
 - Reduced horizontal recoil to 7 (previously 15)
 *While the gun was never hard to control, its DPS is still pretty low, this change should help it stand out.*
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Garry's Mod Pause Menu/Console is now accessible while in the Titanmod Main Menu/EOR Menu
 
 - Added gamemode specific HUD elements to the HUD editor preview
@@ -1717,11 +1727,11 @@
 
 
 # September 24th, 2023 (9/24/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *HUD IMPROVMENTS*
 - Many HUD elements like the match time, kill feed, and gamemode specific information are now shown while waiting to respawn
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Potential fix for Engine Error crashes related to model preloading
 
 - Complete icon overhaul across the Menu/UI for more consistency and a cleaner look
@@ -1741,11 +1751,11 @@
 
 
 # September 3rd, 2023 (9/3/23)
-**>BALANCE**    
+**>BALANCE**
 *Webley*
 - Increased damage to 80 (previously 75)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Removed TCo Stim Pistol from Quickdraw rotation
 
 - Removed XP from objective based score (was too easy to farm lmao)
@@ -1767,7 +1777,7 @@
 
 
 # September 2nd, 2023 (9/2/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *NEW WEAPONS*
 - **KAC ChainSAW** (Primary, LMG)
 - **PKP** (Primary, LMG)
@@ -1804,11 +1814,11 @@
 *NEW KILLSOUND OPTIONS*
 - Apex Legends
 
-**>MAPS**   
+**>MAPS**
 *NEW MAPS*
 - Shoot House
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - The order of weapons on the weapon selector have been reversed to better represent the new quick switch setting (Primary > Secondary > Melee)
 
 - Gun Game weapon ladder has been increased to 26 weapons (previously 24)
@@ -1852,7 +1862,7 @@
 
 
 # August 7th, 2023 (8/7/23)
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Added player cards for levels 185 - 240
 
 - Reduced strength of weapon bobbing while jumping/mid air
@@ -1866,11 +1876,11 @@
 
 
 # August 6th, 2023 (8/6/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *WEAPON BOB/SWAY*
 - Weapon bob and weapon sway have been completely redesigned to be much more consistent and more grounded
 
-**>MAPS**   
+**>MAPS**
 *Disequilibrium*
 - Reduced brightness of the sun
 
@@ -1882,7 +1892,7 @@
 - Removed spawn that was exposed to acid
 - Added additional player spawns
 
-**>BALANCE**    
+**>BALANCE**
 *Crossbow*
 - Increased reload speed
 
@@ -1919,7 +1929,7 @@
 
 
 # August 5th, 2023 (8/5/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *KNOCKBACK ADDITION*
 - Sawed Off now has an attachment (Gust) that allows you to shotgun jump (may be added to more shotguns in the future)
 - RPG-7 now knocks the player back after shooting, performing a rocket jump also has extra upwards velocity due to this change
@@ -1932,7 +1942,7 @@
 - Increased reload speed across many different weapons (mostly on secondaries)
 - Reduced bounciness on certain guns when being fired with iron sights (mostly on secondaries)
 
-**>BALANCE**    
+**>BALANCE**
 *CZ 75*
 - Now fires in automatic
 - Reduced damage to 30 (previously 31)
@@ -1957,7 +1967,7 @@
 *Tariq*
 - Removed Extended Magazine attachment
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Adjusted text on the Velocity counter
 
 - Fixed Health Bar coloring not matching the proper color settings
@@ -1969,7 +1979,7 @@
 
 
 # August 1st, 2023 (8/1/23)
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Server ConVars for every Config option is now available ("sv_tm" with 30+ changeable options available)
 
 - Removed obsolete Config values
@@ -1977,7 +1987,7 @@
 
 
 # July 31st, 2023 (7/31/23)
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Added a visual progress bar that counts down the players Cranked timer
 
 - Players now explode once their Cranked timer ends
@@ -1989,10 +1999,10 @@
 
 
 # July 22nd, 2023 (7/22/23)
-**>BALANCE**    
+**>BALANCE**
 - Increased reload speed across all revolver-based weapons
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - On match end, the played gamemode will no longer appear in the next gamemode vote
 
 - HUD functions have been refactored
@@ -2006,7 +2016,7 @@
 
 
 # July 20th, 2023 (7/20/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *ANIMATION CHANGES*
 - Deploy animations sped up on all weapons by 200-400%
 - Draw/switching animations sped up on all secondaries by 150-250%
@@ -2014,7 +2024,7 @@
 *MOVEMENT CHANGES*
 - Grapple cooldown reduced to 15 seconds (previously 18)
 
-**>BALANCE**    
+**>BALANCE**
 *AUG A3*
 - Increased mobility to 93% (previously 87%)
 
@@ -2035,7 +2045,7 @@
 - Drastically increased rechambering speed
 - Drastically increased reload speed
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - 7 new Accolade unlock-able player models (1 per accolade)
 
 - Leveling calling cards are now unlocked every 5 levels (previously 10)
@@ -2065,7 +2075,7 @@
 
 
 # July 17th, 2023 (7/17/23)
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Added Precaching on models, materials, sounds, and particles (slightly longer load times, but far less stuttering)
 
 - Fixed Cranked time on the HUD not resetting properly on death
@@ -2079,14 +2089,14 @@
 
 
 # July 15th, 2023 (7/15/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *NEW GAMEMODE*
 - Cranked is now in Titanmod! Once getting a kill, you will receive a 30% buff to your mobility, but at a cost, if you do not kill another player within 25 seconds, you will die. Getting a kill resets this timer back to 25 seconds.
 
 *WEAPON ADJUSTMENTS*
 - Renamed Japanese Ararebo to Mace
 
-**>BALANCE**    
+**>BALANCE**
 *FN FAL*
 - Removed 30 round magazine attachment
 
@@ -2109,7 +2119,7 @@
 *Scorpion Evo*
 - Reduced damage to 19 (previously 20)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Reduced volume of sliding
 
 - Fixed rare cases where certain guns w/ specific attachments would not come loaded when first equipped
@@ -2123,14 +2133,14 @@
 
 
 # July 14th, 2023 (7/14/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *GUNPLAY CHANGES*
 - Mechanical and visual recoil has been reduced by 5% across all weapons
 
 *MOVEMENT CHANGES*
 - Mantling can now be performed while crouching
 
-**>MAPS**   
+**>MAPS**
 *Initial*
 - Added additional player spawns
 - Adjusted lighting
@@ -2143,7 +2153,7 @@
 - Halved the amount of rain particles
 - Improved performance
 
-**>BALANCE**    
+**>BALANCE**
 *AS-VAL*
 - Increased default magazine capacity to 30 (previously 20)
 - Reduced horizontal recoil to 15 (previously 18)
@@ -2180,7 +2190,7 @@
 - Reduced vertical recoil to 115 (previously 255)
 - Reduced intensity of visual kick when firing
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Optimized HUD
 
 - Added Credits button on the Main Menu
@@ -2189,7 +2199,7 @@
 
 - Removed weapons from the Gun Game ladder generation that have bugged sounds while playing Gun Game
 
-- Fixed oddities in weapon priority (no longer spawning with melee equipped instead of a weapon) 
+- Fixed oddities in weapon priority (no longer spawning with melee equipped instead of a weapon)
 
 - Pause Menu button now properly stops the Menu Music
 
@@ -2202,14 +2212,14 @@
 
 
 # July 11th, 2023 (7/11/23) (Steam Workshop Release)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *WEAPON ADJUSTMENTS*
 - Renamed MTs225-12 to MTs225
 - Renamed PINDAD SS2-V1 to PINDAD SS2
 - Renamed PPSH-41 to PPSH
 - Renamed SR-2M Veresk to SR-2
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Max Player Count is now 12 on official dedicated servers
 
 - 14 new Accolade unlockable calling cards (2 per accolade)
@@ -2229,7 +2239,7 @@
 
 
 # July 1st, 2023 (7/1/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *GUNPLAY CHANGES*
 - Hip fire spread has been reduced globally by 20%
 - Standardized knife damage profiles (read **BALANCE** for more details)
@@ -2242,7 +2252,7 @@
 - Added all Accolades as selectable options
 - Visual overhaul of the Leaderboard menu
 
-**>MAPS**   
+**>MAPS**
 *NEW MAPS*
 - Legacy
 - Oxide
@@ -2250,7 +2260,7 @@
 *REMOVED MAPS*
 - Devtown
 
-**>BALANCE**    
+**>BALANCE**
 *Colt 9mm*
 - Reduced vertical recoil to 20 (previously 35)
 - Reduced horizontal recoil to 8 (previously 16)
@@ -2264,7 +2274,7 @@
 *KM-2000 & Tanto*
 - Both knifes now have the same stats, and have both seen a buff to their damage (66 primary, 125 secondary)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - A player will now always spawn with their primary equipped
 
 - A player will now always spawn with their sniper equipped when playing the Shotty Snipers gamemode
@@ -2290,18 +2300,18 @@
 
 
 # June 24st, 2023 (6/24/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *MOVEMENT*
 - A missed grapple shot will no longer trigger a grappling hook cooldown
 
-**>MAPS**   
+**>MAPS**
 *NEW MAPS*
 - Wreck
 
 *REMOVED MAPS*
 - Hydro
 
-**>BALANCE**    
+**>BALANCE**
 *Mac 10*
 - Reduced horizontal recoil to 10 (previously 30)
 
@@ -2309,7 +2319,7 @@
 - Increased damage to 99 (previously 95)
 - Removed Ammunition attachments
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 *END OF MATCH REWORK*
 - The end of match and voting process has been overhauled to be more visually appealing and to provide more functionality
 
@@ -2347,7 +2357,7 @@
 
 
 # June 20th, 2023 (6/20/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *LEADERBOARD ADJUSTMENTS*
 - Three new stats are now viewable from the Leaderboard menu
 - Level, K/D Ratio, and W/L Ratio are now selectable options
@@ -2356,7 +2366,7 @@
 - Renamed CZ 75 B to CZ 75
 - Renamed FAMAS F1 to FAMAS
 
-**>MAPS**   
+**>MAPS**
 *Disequilibrium*
 - Complete rework of the map layout
 - Improved performance
@@ -2377,7 +2387,7 @@
 - Fixed invisible walls in some interiors
 - Restricted out-of-bounds areas from being accessed (for real this time)
 
-**>BALANCE**    
+**>BALANCE**
 *FAMAS*
 - Now fires in a forced 3 Round Burst with 1100 RPM
 - Increased vertical recoil to 80 (previously 50)
@@ -2448,7 +2458,7 @@
 - Reduced damage to 24 (previously 25)
 - Increased vertical recoil to 37 (previously 32)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Hints are now shown in the Main Menu via a bar that slowly scrolls through all available hints
 
 - Removed built-in flashlights from all weapons due to interference with the custom server-side flashlight system
@@ -2460,7 +2470,7 @@
 
 
 # June 11th, 2023 (6/11/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *LEADERBOARDS*
 - There are now Leaderboards for all basic statistics + kills on specific weapons
 - Leaderboards can be accessed from the Main Menu via the button on the top left and will show the top 50 players of a selected stat
@@ -2476,7 +2486,7 @@
 - Removed Ammunition attachments from snipers
 - Snipers have been given view punch again when firing to be more satisfying to use
 
-**>BALANCE**    
+**>BALANCE**
 *AWM*
 - Reduced damage to 117 (previously 165)
 
@@ -2510,7 +2520,7 @@
 *T-5000*
 - Reduced damage to 116 (previously 180)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Voice chat is now available in the map/mode voting menu (players can push a button to enable/disable their microphone input, a prompt will be shown asking for microphone permission when pressing it for the first time)
 
 - Proximity voice chat range increased by 25%
@@ -2536,10 +2546,10 @@
 
 
 # June 8th, 2023 (6/8/23)
-**>DISCLAIMER** 
+**>DISCLAIMER**
 - All player data/stats/unlocks/levels have been **RESET** as of this update, this is a massive inconvenience, but it was required in order to switch to a safer and stable saving system, a data wipe should never have to occur ever again, and I am sorry for doing this so suddenly.
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Player statistics and how they are saved after playing have been completely reworked to avoid future problems
 
 - New player statistics have been added (Highest Kill Game and W/L Ratio)
@@ -2557,7 +2567,7 @@
 
 
 # June 7th, 2023 (6/7/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *COMPLETE GUNPLAY OVERHAUL*
 - Gunplay as a whole has been completely altered for a much more consistent and skill based experience, here are a few notable changes:
 - Weapons no longer have any spread when aiming down sights and bullets will always follow your reticle
@@ -2574,7 +2584,7 @@
 - Renamed Sten Mk.II to Sten Gun
 - Removed the DDM4V5, FB MSBS-B, KSVK 12.7, RK62, and the Type 81 from the weapon pool (either similar to other, more prominent weapons, or too low quality)
 
-**>MAPS**   
+**>MAPS**
 *Nuketown*
 - Fixed players spawning into brushes
 
@@ -2588,7 +2598,7 @@
 - Improved performance
 - Restricted access to unintended parts of the map
 
-**>BALANCE**    
+**>BALANCE**
 *Bow*
 - Increased projectile velocity to 6000 (previously 3000)
 
@@ -2613,7 +2623,7 @@
 *Scorpion Evo*
 - Reduced damage to 20 (previously 22)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Weapons now properly deal their intended damage to specific limbs
 
 - Three new music tracks, two of which being tracks suggested or created by the community
@@ -2635,11 +2645,11 @@
 
 
 # May 27th, 2023 (5/27/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *NEW GAMEMODE*
 - Shotty Snipers is now in Titanmod! Players will always spawn with a sniper and a shotgun when playing on this gamemode.
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - New logo and banner art
 
 - Reduced gamemode size by 150~ MB
@@ -2675,14 +2685,14 @@
 
 
 # May 19th, 2023 (5/19/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *NEW GAMEMODE*
 - Fiesta is the third Titanmod gamemode. Every player has the same shuffled loadout, and this loadout is changed every 30 seconds.
 
 *TUTORIAL*
 - Players who join a server running Titanmod for the first time will be shown a basic Tutorial. This is meant to improve the new-player experience. The tutorial can be opened up by anyone through a new button in the Main Menu
 
-**>BALANCE**    
+**>BALANCE**
 *KRISS Vector*
 - Reduced aim spread to 20 (previously 50)
 - Reduced spread growth to 3 (previously 4)
@@ -2693,7 +2703,7 @@
 *G28*
 - Increased vertical recoil to 114 (previously 44)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Changing your calling card now updates the calling card in the Main Menu instantly
 
 - Fixed a error when unmuting Main Menu music through the quick mute button
@@ -2707,7 +2717,7 @@
 
 
 # April 30th, 2023 (4/30/23)
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Players can no longer get soft locked if they get demoted without getting a kill first in Gun Game
 
 - Gun audio should no longer loop on rare occasions in Gun Game
@@ -2717,18 +2727,18 @@
 
 
 # April 29th, 2023 (4/29/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *NEW GAMEMODE*
 - Gun Game is now in Titanmod! Players can now vote for a gamemode during the usual map vote, expect more gamemodes to come in the future
 
-**>MAPS**   
+**>MAPS**
 *NEW MAPS*
 - Corrugated
 
 *REMOVED MAPS*
 - Station
 
-**>BALANCE**    
+**>BALANCE**
 - **Muzzle Brake** has a spread penalty of 25% (previously 30%)
 - Removed **Flash Hider** from all weapons
 - Removed **Heavy Barrel** from all weapons
@@ -2827,7 +2837,7 @@
 *Crossbow*
 - Increased damage to 105 (previously 85)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Health regeneration begins instantly upon getting a kill
 
 - Disabled default HL2 ammo and weapon pickup notifications
@@ -2841,7 +2851,7 @@
 
 
 # April 26th, 2023 (4/26/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *NEW WEAPONS*
 - **USP** (Secondary, Pistol)
 - **Webley** (Secondary, Pistol)
@@ -2850,7 +2860,7 @@
 - Keypress Overlay
 - FPS and Ping counter
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Added countless HUD options for both of the new settings
 
 - Added audio cues for match time warnings
@@ -2864,16 +2874,16 @@
 
 
 # April 15th, 2023 (4/15/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *MATCH TIME WARNING*
 - Warnings show up periodically throughout matches (5:00, 1:00, and 0:10) that remind the player of the remaining match time
 
-**>MAPS**   
+**>MAPS**
 *NEW MAPS*
 - Hydro
 - Villa
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Refactored how proximity voice chat is handled to eventually allow global voice chat during map voting
 
 - Replaced most of the gamemode backgrounds for new ones
@@ -2881,15 +2891,15 @@
 
 
 # April 10th, 2023 (4/10/23)
-**>MAPS**   
+**>MAPS**
 *NEW MAPS*
 - Mephitic (adjusted since removal for better visibility and performance)
 - Sanctuary
 
-**>BALANCE**    
+**>BALANCE**
 *G36A1*
 - Reduced damage to 31 (previously 33)
-    
+
 *PM-9*
 - Reduced damage to 24 (previously 25)
 
@@ -2924,17 +2934,17 @@
 *SR-2M Veresk*
 - Increased vertical recoil to 30 (previously 22)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Added player tags to the scoreboard (shows if a player is a Developer, Moderator, etc)
 
 
 
 # April 9th, 2023 (4/9/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *DAMAGE ADJUSTMENT*
 - Headshot damage multiplier reduced to 130% (previously 140%)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Fixed players not properly installing the required content automatically upon joining for the first time
 
 - Pick Random option in the model and card customization menus
@@ -2946,18 +2956,18 @@
 
 
 # April 8th, 2023 (4/8/23)
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Fixed softlock in main menu after a level change
 
 
 
 # April 7th, 2023 (4/7/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *NEW WEAPONS*
 - **Bow** (Secondary, Sniper)
 - **Crossbow** (Primary, Sniper)
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Added 7 new unlockable playermodels (one new model for each accolade)
 
 - Adjusted unlock requirements for certain playermodels to be more consistent
@@ -2973,20 +2983,20 @@
 
 
 # April 6th, 2023 (4/6/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *ANIMATION CHANGES*
 - Other than for a few exceptions, all animations have been increased in speed by 40% (this applies to reloads, switching to and from weapons, bolting/pumping, and more)
 
-**>BALANCE**    
+**>BALANCE**
 - Removed UBGLs (underbarrel grenade launchers) from being equipped on weapons
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Removed muzzle flash (improved visibilty and FPS)
 
 
 
 # April 4th, 2023 (4/4/23)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *DAMAGE ADJUSTMENTS*
 - Updated Damage multiplers (Head = 140%, Torso/Stomach = 100%, Arms/Legs = 80%)
 - Wallbang/penetration damage increased by 25%
@@ -2998,7 +3008,7 @@
 - Increased crouch transition speed by 7.5%
 - Increased crouch movement speed by 10%
 
-**>BALANCE**    
+**>BALANCE**
 *AUG A3*
 - Increased mobility to 87% (previously 80%)
 - Reduced hip spread to 16 (previously 20)
@@ -3008,24 +3018,24 @@
 
 *M4A1*
 - Reduced damage to 32 (previously 35)
-        
+
 *MP40*
 - Reduced ADS spread to 20 (previously 25)
 
 *UMP .45*
 - Reduced damage to 33 (previously 34)
-    
+
 *SCAR-H*
 - Reduced damage to 57 (previously 61)
 
 
 
 # April 3rd, 2023 (4/3/23) (Public Playtest/BETA Began)
-**>GAMEPLAY**   
+**>GAMEPLAY**
 *MAP VOTE ADJUSTMENTS*
 - Small maps no longer appear in the map vote when there are more than 5 players connected (this applies to Nuketown, Shipment, and the new Initial map)
 
-**>MAPS**   
+**>MAPS**
 *NEW MAPS*
 - Devtown
 - Initial
@@ -3033,7 +3043,7 @@
 *REMOVED MAPS*
 - Mephetic (will return after adjustments)
 
-**>BALANCE**    
+**>BALANCE**
 *Dual Skorpions*
 - Reduced damage to 24 (previously 25)
 
@@ -3042,7 +3052,7 @@
 
 - Adjusted reload speed on the AS Val and M4A1
 
-**>QOL & BUG FIXES**    
+**>QOL & BUG FIXES**
 - Mute button beside music name to quickly disable/enable menu music without navigating to options
 
 - Discord button added to the social tray in the Main Menu

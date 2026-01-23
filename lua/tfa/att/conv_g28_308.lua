@@ -1,10 +1,9 @@
-
 if not ATTACHMENT then
 	ATTACHMENT = {}
 end
 
 ATTACHMENT.Name = ".308"
-ATTACHMENT.ShortName = ".308" --Abbreviation, 5 chars or less please
+ATTACHMENT.ShortName = ".308"
 ATTACHMENT.Description = {
 	TFA.AttachmentColors["="], ".308 Winchester Conversion",
 	TFA.AttachmentColors["+"], "45% more damage",
@@ -12,7 +11,7 @@ ATTACHMENT.Description = {
 	TFA.AttachmentColors["-"], "250% more recoil",
 	TFA.AttachmentColors["-"], "6% less mobility",
 }
-ATTACHMENT.Icon = "attachments/conversion.png" --Revers to label, please give it an icon though!  This should be the path to a png, like "entities/tfa_ammo_match.png"
+ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["MoveSpeed"] = function(wep,stat) return stat * 0.94 end,

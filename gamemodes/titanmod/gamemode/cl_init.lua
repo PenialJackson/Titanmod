@@ -7,18 +7,18 @@ TM = {}
 local tm_hud_scale = GetConVar("tm_hud_scale")
 TM.HUDScale = function(size)
 	if size > 0 then
-        return math.max(1, size / 3 * (ScrW() / 640) * tm_hud_scale:GetFloat())
-    else
-        return math.min(-1, size / 3 * (ScrW() / 640) * tm_hud_scale:GetFloat())
-    end
+		return math.max(1, size / 3 * (ScrW() / 640) * tm_hud_scale:GetFloat())
+	else
+		return math.min(-1, size / 3 * (ScrW() / 640) * tm_hud_scale:GetFloat())
+	end
 end
 
 TM.MenuScale = function(size)
-    if size > 0 then
-        return math.max(1, size / 3 * (ScrW() / 640))
-    else
-        return math.min(-1, size / 3 * (ScrW() / 640))
-    end
+	if size > 0 then
+		return math.max(1, size / 3 * (ScrW() / 640))
+	else
+		return math.min(-1, size / 3 * (ScrW() / 640))
+	end
 end
 
 include("!config.lua")

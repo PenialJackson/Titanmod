@@ -157,4 +157,4 @@ function SavePlayerData(ply)
 end
 
 function GM:PlayerDisconnected(ply) SavePlayerData(ply) end
-function GM:ShutDown() for k, v in pairs(player.GetHumans()) do SavePlayerData(v) end end
+function GM:ShutDown() for k, v in ipairs(player.GetHumans()) do SavePlayerData(v) end end

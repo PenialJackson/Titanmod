@@ -36,41 +36,52 @@ local possibleSpawnEnts = {
 
 local possibleSpawns = {}
 
-function GM:InitPostEntity()
+hook.Add("InitPostEntity", "GetSuitableSpawnpoints", function()
 	for _, ent in ipairs(ents.GetAll()) do
 		if (possibleSpawnEnts[ent:GetClass()]) then
 			possibleSpawns[#possibleSpawns + 1] = ent
 		end
 	end
-end
+end)
 
-hook.Add("IsSpawnpointSuitable", "CheckSpawnPoint", function(ply, spawnpointent, bMakeSuitable)
-	local pos = spawnpointent:GetPos()
-
-	local entities = ents.FindInBox(pos + Vector(-512, -512, -512), pos + Vector(512, 512, 512))
-	local entsBlocking = 0
-
-	for _, v in ipairs(entities) do
-		if (v:IsPlayer() and v:Alive()) then
-			entsBlocking = entsBlocking + 1
-		end
-	end
-
-	if (entsBlocking > 0) then return false end
-	return true
-end )
-
-function GM:PlayerSelectSpawn(ply)
+hook.Add("PlayerSelectSpawn", "HideoutSpawning", function(_)
 	if possibleSpawns[1] == nil then return false end
 
-	for i = 0, #possibleSpawns do
-		local randomSpawn = math.random(#possibleSpawns)
+	for i = 1, #possibleSpawns do
+		local spawn = possibleSpawns[math.random(#possibleSpawns)]
+		local entities = ents.FindInSphere(spawn:GetPos(), 512)
+		local blocked = false
 
-		if (hook.Call("IsSpawnpointSuitable", GAMEMODE, ply, possibleSpawns[randomSpawn], i == #possibleSpawns)) then
-			return possibleSpawns[randomSpawn]
+		for _, e in ipairs(entities) do
+			if !e:IsPlayer() or !e:Alive() then continue end
+			blocked = true
+			break
+		end
+
+		if !blocked then return spawn end
+	end
+
+	-- fallback
+	local plys = player.GetHumans()
+	local safestSpawn = nil
+	local maxMinDistance = -1
+
+	for i = 1, #possibleSpawns do
+		local spawn = possibleSpawns[math.random(#possibleSpawns)]
+		local minDistance = math.huge
+
+		for _, ply in ipairs(plys) do
+			if ply:Alive() then
+				local distance = spawn:GetPos():DistToSqr(ply:GetPos())
+				minDistance = math.min(minDistance, distance)
+			end
+		end
+
+		if minDistance > maxMinDistance then
+			maxMinDistance = minDistance
+			safestSpawn = spawn
 		end
 	end
 
-	local randomSpawn = math.random(#possibleSpawns)
-	return possibleSpawns[randomSpawn]
-end
+	return safestSpawn
+end)

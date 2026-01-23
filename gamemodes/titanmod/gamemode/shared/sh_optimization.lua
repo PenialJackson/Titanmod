@@ -76,25 +76,11 @@ if CLIENT then
 
 	-- removing unneccessary client hooks
 	hook.Add("InitPostEntity", "CLHookRemoval", function()
-		hook.Remove("RenderScreenspaceEffects", "RenderColorModify")
-		hook.Remove("RenderScreenspaceEffects", "RenderBloom")
-		hook.Remove("RenderScreenspaceEffects", "RenderToyTown")
-		hook.Remove("RenderScreenspaceEffects", "RenderTexturize")
-		hook.Remove("RenderScreenspaceEffects", "RenderSunbeams")
-		hook.Remove("RenderScreenspaceEffects", "RenderSobel")
-		hook.Remove("RenderScreenspaceEffects", "RenderSharpen")
-		hook.Remove("RenderScreenspaceEffects", "RenderMaterialOverlay")
-		hook.Remove("RenderScreenspaceEffects", "RenderMotionBlur")
-		hook.Remove("RenderScene", "RenderStereoscopy")
 		hook.Remove("RenderScene", "RenderSuperDoF")
 		hook.Remove("GUIMousePressed", "SuperDOFMouseDown")
 		hook.Remove("GUIMouseReleased", "SuperDOFMouseUp")
 		hook.Remove("PreventScreenClicks", "SuperDOFPreventClicks")
-		hook.Remove("PostRender", "RenderFrameBlend")
-		hook.Remove("PreRender", "PreRenderFrameBlend")
 		hook.Remove("Think", "DOFThink")
-		hook.Remove("RenderScreenspaceEffects", "RenderBokeh")
-		hook.Remove("NeedsDepthPass", "NeedsDepthPass_Bokeh")
 		hook.Remove("PostDrawEffects", "RenderWidgets")
 		hook.Remove("PostDrawEffects", "RenderHalos")
 	end)
@@ -122,33 +108,6 @@ if CLIENT then
 		end)
 	end)
 end
-
--- map optimization
-hook.Add("InitPostEntityMap", "MapOptimization", function()
-	local shadowexists = 0
-
-	for _, ent in pairs(ents.FindByClass("shadow_control")) do
-		ent:SetKeyValue("disableallshadows", 1)
-		shadowexists = 1
-	end
-
-	if shadowexists == 0 then
-		local ent = ents.Create("shadow_control")
-		if ent:IsValid() then
-			ent:SetKeyValue("disableallshadows", 1)
-			shadowexists = 1
-		end
-	end
-
-	for _, ent in pairs(ents.FindByClass("func_precipitation")) do ent:Remove() end
-	for _, ent in pairs(ents.FindByClass("func_smokevolume")) do ent:Remove() end
-end)
-
--- prevent model related crashes
-hook.Add("PlayerInitialSpawn", "CLPreventCrash", function(ply)
-	ply:SendLua("RunConsoleCommand('r_drawmodeldecals', 0)")
-	ply:SendLua("RunConsoleCommand('r_maxmodeldecal', 50)")
-end)
 
 -- optimized surface and draw functions
 if SERVER or SurfaceRewrite then return end

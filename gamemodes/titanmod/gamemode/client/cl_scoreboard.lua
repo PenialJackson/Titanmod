@@ -44,18 +44,18 @@ function GM:ScoreboardShow()
 			surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
 		end
 
-        local sbar = PlayerScrollPanel:GetVBar()
-        sbar:SetHideButtons(true)
-        function sbar:Paint(w, h)
-            draw.RoundedBox(0, 0, 0, w, h, Color(35, 35, 35, 100))
+		local sbar = PlayerScrollPanel:GetVBar()
+		sbar:SetHideButtons(true)
+		function sbar:Paint(w, h)
+			draw.RoundedBox(0, 0, 0, w, h, Color(35, 35, 35, 100))
 			surface.SetDrawColor(Color(255, 255, 255, 25))
 			surface.DrawRect(0, 0, w, TM.MenuScale(1))
 			surface.DrawRect(0, h - TM.MenuScale(1), w, TM.MenuScale(1))
 			surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
-        end
-        function sbar.btnGrip:Paint(w, h)
-            draw.RoundedBox(0, TM.MenuScale(5), TM.MenuScale(8), TM.MenuScale(5), h - TM.MenuScale(16), Color(255, 255, 255, 175))
-        end
+		end
+		function sbar.btnGrip:Paint(w, h)
+			draw.RoundedBox(0, TM.MenuScale(5), TM.MenuScale(8), TM.MenuScale(5), h - TM.MenuScale(16), Color(255, 255, 255, 175))
+		end
 
 		PlayerList = vgui.Create("DListLayout", PlayerScrollPanel)
 		PlayerList:SetSize(PlayerScrollPanel:GetWide(), PlayerScrollPanel:GetTall())
@@ -94,7 +94,7 @@ function GM:ScoreboardShow()
 		local connectedPlayers = player.GetAll()
 		if activeGamemode == "Gun Game" then table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end) else table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end) end
 
-		for k, v in pairs(connectedPlayers) do
+		for k, v in ipairs(connectedPlayers) do
 			-- constants for basic player information, much more optimized than checking every frame
 			local name = v:GetName()
 			local prestige = v:GetNWInt("playerPrestige")

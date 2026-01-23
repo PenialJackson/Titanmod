@@ -240,8 +240,8 @@ hook.Add("PreRegisterSWEP", "TFAOverride", function(swep, class)
 		self2.SwayScale = fac
 	end
 
-    -- sway
-    local function Clamp(a, b, c)
+	-- sway
+	local function Clamp(a, b, c)
 		if a < b then return b end
 		if a > c then return c end
 		return a
@@ -737,8 +737,8 @@ end )
 function TFA.Particles.Initialize() return end
 
 if CLIENT then
-    -- forcefully disable the use of the TFA crosshair
-    hook.Add("TFA_DrawCrosshair", "DisableTFACrosshair", function(ply) return true end)
+	-- forcefully disable the use of the TFA crosshair
+	hook.Add("TFA_DrawCrosshair", "DisableTFACrosshair", function(ply) return true end)
 
 	-- force users selected FOV when spectating
 	hook.Add("TFA_TranslateFOV", "DisableClientFOVChange", function(ply)

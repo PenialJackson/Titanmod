@@ -3,10 +3,9 @@ if not ATTACHMENT then
 end
 
 ATTACHMENT.Name = "Slug Ammunition"
-ATTACHMENT.ShortName = "Slug" --Abbreviation, 5 chars or less please
---ATTACHMENT.ID = "base" -- normally this is just your filename
+ATTACHMENT.ShortName = "Slug"
 ATTACHMENT.Description = { TFA.Attachments.Colors["+"], "Much lower spread", TFA.Attachments.Colors["-"], "30% less damage", "One pellet"  }
-ATTACHMENT.Icon = "entities/tfa_ammo_slug.png" --Revers to label, please give it an icon though!  This should be the path to a png, like "entities/tfa_ammo_match.png"
+ATTACHMENT.Icon = "entities/tfa_ammo_slug.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {

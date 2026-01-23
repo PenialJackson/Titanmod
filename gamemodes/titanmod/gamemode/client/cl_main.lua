@@ -7,7 +7,7 @@ end
 if GetConVar("tm_renderhands"):GetInt() == 0 then hook.Add("PreDrawPlayerHands", "DisableHandRendering", function() return true end) end
 
 cvars.AddChangeCallback("tm_renderhands", function(convar_name, value_old, value_new)
-    if value_new == "1" then
+	if value_new == "1" then
 		hook.Remove("PreDrawPlayerHands", "DisableHandRendering")
 	else
 		hook.Add("PreDrawPlayerHands", "DisableHandRendering", function() return true end)
@@ -15,22 +15,21 @@ cvars.AddChangeCallback("tm_renderhands", function(convar_name, value_old, value
 end)
 
 local blurMat = Material("pp/blurscreen")
-function BlurPanel(panel, strength)
+function BlurPanel(panel, strength, steps)
+	if panel == nil or !ispanel(panel) then return end
 
-    surface.SetMaterial(blurMat)
-    surface.SetDrawColor(255, 255, 255, 255)
+	local blurX, blurY = panel:LocalToScreen(0, 0)
+	local newStrength = strength * 0.33
 
-    local blurX, blurY = panel:LocalToScreen(0, 0)
+	surface.SetMaterial(blurMat)
+	surface.SetDrawColor(255, 255, 255, 255)
 
-    for i = 0.33, 1, 0.33 do
-
-        blurMat:SetFloat("$blur", strength * i)
-        blurMat:Recompute()
-        if (render) then render.UpdateScreenEffectTexture() end
-        surface.DrawTexturedRect(blurX * -1, blurY * -1, ScrW(), ScrH())
-
-    end
-
+	for i = 1, steps or 3 do
+		blurMat:SetFloat("$blur", i * newStrength)
+		blurMat:Recompute()
+		if render then render.UpdateScreenEffectTexture() end
+		surface.DrawTexturedRect(blurX * -1, blurY * -1, ScrW(), ScrH())
+	end
 end
 
 function UpdatePopOutPos(panel, sideH, sideV, x, y)
@@ -47,10 +46,10 @@ function UpdatePopOutPos(panel, sideH, sideV, x, y)
 	end
 end
 
-hook.Add("OnScreenSizeChanged", "ResChange", function()
-	scrW, scrH = ScrW(), ScrH()
+hook.Add("OnScreenSizeChanged", "ResChange", function(_, _, newW, newH)
+	scrW, scrH = newW, newH
 
-	center_x, center_y = ScrW() / 2, ScrH() / 2
+	center_x, center_y = newW / 2, newH / 2
 	scale = center_y * (2 / 1080)
 	UpdateFonts()
 end)
@@ -287,7 +286,7 @@ net.Receive("suppression_fire_event", function(len)
 		mask = CONTENTS_WINDOW + CONTENTS_SOLID + CONTENTS_AREAPORTAL + CONTENTS_MONSTERCLIP + CONTENTS_CURRENT_0
 	})
 
-	local distance_from_line, nearest_point, dist_along_the_line = util.DistanceToLine(tr.StartPos, tr.HitPos, LocalPlayer():GetPos())
+	local _, nearest_point, _ = util.DistanceToLine(tr.StartPos, tr.HitPos, LocalPlayer():GetPos())
 
 	if LocalPlayer():Alive() and nearest_point:Distance(LocalPlayer():GetPos()) < 100 then
 		effect_amount = math.Clamp(effect_amount + 0.08 * buildupspeed, 0, 0.5)
@@ -297,7 +296,7 @@ net.Receive("suppression_fire_event", function(len)
 end)
 
 local started_effect = false
-hook.Add("Think", "suppression_loop", function() 
+hook.Add("Think", "suppression_loop", function()
 	if effect_amount == 0 then
 		if started_effect then
 			started_effect = false
@@ -336,89 +335,89 @@ end)
 
 -- custom viewmodel inertia
 if CLIENT then
-    local lastEyeAng = Angle(0, 0, 0)
-    local lastAngDiff = Angle(0, 0, 0)
-    local currentOffset = Angle(0, 0, 0)
-    local moveOffset = Angle(0, 0, 0)
-    local overshootDecay = 0
+	local lastEyeAng = Angle(0, 0, 0)
+	local lastAngDiff = Angle(0, 0, 0)
+	local currentOffset = Angle(0, 0, 0)
+	local moveOffset = Angle(0, 0, 0)
+	local overshootDecay = 0
 
-    local function ApplyAllOffsets(ply, pos, ang)
+	local function ApplyAllOffsets(ply, pos, ang)
 		local isAiming = (IsValid(weapon) and (type(weapon.GetIronSights) == "function" and weapon:GetIronSights())) or ply:KeyDown(IN_ATTACK2)
 
-        if not IsValid(ply) or not ply:Alive() or isAiming then return pos, ang end
+		if not IsValid(ply) or not ply:Alive() or isAiming then return pos, ang end
 
-        local ft = FrameTime()
+		local ft = FrameTime()
 
-        local inertiaSpeed = 6
-        local baseTilt     = 2.5
-        local strafeTilt   = 3
-        local overshootStr = 1.2
+		local inertiaSpeed = 6
+		local baseTilt     = 2.5
+		local strafeTilt   = 3
+		local overshootStr = 1.2
 
-        local curEye = ply:EyeAngles()
-        if lastEyeAng.p == 0 and lastEyeAng.y == 0 and lastEyeAng.r == 0 then
-            lastEyeAng = curEye
-            lastAngDiff = Angle(0, 0, 0)
-        end
+		local curEye = ply:EyeAngles()
+		if lastEyeAng.p == 0 and lastEyeAng.y == 0 and lastEyeAng.r == 0 then
+			lastEyeAng = curEye
+			lastAngDiff = Angle(0, 0, 0)
+		end
 
-        local angDiff = curEye - lastEyeAng
-        angDiff:Normalize()
+		local angDiff = curEye - lastEyeAng
+		angDiff:Normalize()
 
-        local targetCamOffset = Angle(-angDiff.p * baseTilt, 0, angDiff.y * baseTilt)
+		local targetCamOffset = Angle(-angDiff.p * baseTilt, 0, angDiff.y * baseTilt)
 
-        local lastSpeed = math.max(math.abs(lastAngDiff.p), math.abs(lastAngDiff.y))
-        local curSpeed  = math.max(math.abs(angDiff.p), math.abs(angDiff.y))
-        local decel = lastSpeed - curSpeed
+		local lastSpeed = math.max(math.abs(lastAngDiff.p), math.abs(lastAngDiff.y))
+		local curSpeed  = math.max(math.abs(angDiff.p), math.abs(angDiff.y))
+		local decel = lastSpeed - curSpeed
 
-        if decel > 0.08 then
-            local overshootP = -lastAngDiff.p * (overshootStr * 0.12)
-            local overshootR =  lastAngDiff.y * (overshootStr * 0.12)
-            overshootDecay = math.min(1, overshootDecay + decel * 4)
-            targetCamOffset = targetCamOffset + Angle(overshootP * overshootDecay, 0, overshootR * overshootDecay)
-        end
+		if decel > 0.08 then
+			local overshootP = -lastAngDiff.p * (overshootStr * 0.12)
+			local overshootR =  lastAngDiff.y * (overshootStr * 0.12)
+			overshootDecay = math.min(1, overshootDecay + decel * 4)
+			targetCamOffset = targetCamOffset + Angle(overshootP * overshootDecay, 0, overshootR * overshootDecay)
+		end
 
-        if overshootDecay > 0 then
-            overshootDecay = Lerp(ft * 4, overshootDecay, 0)
-        end
+		if overshootDecay > 0 then
+			overshootDecay = Lerp(ft * 4, overshootDecay, 0)
+		end
 
-        local safeSpeed = math.Clamp(ft * inertiaSpeed, 0, 100)
-        currentOffset = LerpAngle(safeSpeed, currentOffset, targetCamOffset)
+		local safeSpeed = math.Clamp(ft * inertiaSpeed, 0, 100)
+		currentOffset = LerpAngle(safeSpeed, currentOffset, targetCamOffset)
 
-        lastEyeAng = curEye
-        lastAngDiff = angDiff
+		lastEyeAng = curEye
+		lastAngDiff = angDiff
 
-        local mvRight = ply:KeyDown(IN_MOVERIGHT)
-        local mvLeft  = ply:KeyDown(IN_MOVELEFT)
+		local mvRight = ply:KeyDown(IN_MOVERIGHT)
+		local mvLeft  = ply:KeyDown(IN_MOVELEFT)
 
-        local targetMoveRoll = 0
+		local targetMoveRoll = 0
 
-        if mvRight then
-            targetMoveRoll = strafeTilt
-        elseif mvLeft then
-            targetMoveRoll = -strafeTilt
-        else
-            targetMoveRoll = 0
-        end
+		if mvRight then
+			targetMoveRoll = strafeTilt
+		elseif mvLeft then
+			targetMoveRoll = -strafeTilt
+		else
+			targetMoveRoll = 0
+		end
 
-        local vel = ply:GetVelocity()
-        local speed2d = vel:Length2D()
-        if speed2d > 5 and (mvRight or mvLeft) then
-            local rightDir = ply:EyeAngles():Right()
-            local rightDot = vel:Dot(rightDir) / speed2d
-            targetMoveRoll = Lerp(0.5, targetMoveRoll, rightDot * strafeTilt)
-        end
+		local vel = ply:GetVelocity()
+		local speed2d = vel:Length2D()
+		if speed2d > 5 and (mvRight or mvLeft) then
+			local rightDir = ply:EyeAngles():Right()
+			local rightDot = vel:Dot(rightDir) / speed2d
+			targetMoveRoll = Lerp(0.5, targetMoveRoll, rightDot * strafeTilt)
+		end
 
-        moveOffset.r = Lerp(ft * 4, moveOffset.r, targetMoveRoll)
+		moveOffset.r = Lerp(ft * 4, moveOffset.r, targetMoveRoll)
 
-        ang:RotateAroundAxis(ang:Right(), currentOffset.p)
-        local wep = ply:GetActiveWeapon()
-        local rollOffset = currentOffset.r + moveOffset.r
-        if IsValid(wep) and wep.ViewModelFlip then
-            rollOffset = -rollOffset
-        end
-        ang:RotateAroundAxis(ang:Forward(), rollOffset)
+		ang:RotateAroundAxis(ang:Right(), currentOffset.p)
+		local wep = ply:GetActiveWeapon()
+		local rollOffset = currentOffset.r + moveOffset.r
+		if IsValid(wep) and wep.ViewModelFlip then
+			rollOffset = -rollOffset
+		end
+		ang:RotateAroundAxis(ang:Forward(), rollOffset)
 
-        return pos, ang
-    end
+		return pos, ang
+	end
 
 	hook.Add("CalcViewModelView", "ViewmodelInertia", function(weapon, vm, oldPos, oldAng, pos, ang)
 		local ply = LocalPlayer()
@@ -434,26 +433,26 @@ local shakeSpeed = 0.67
 
 if CLIENT then
 	local lastMagCapacity = 0
-    local lastWeapon = nil
+	local lastWeapon = nil
 
-    local ExtraScreenShakeTime = 0
-    local ExtraScreenShakeDuration = 0
-    local ExtraScreenShakeStrength = 0
-    local ExtraScreenShakeViewOffset = Angle(0, 0, 0)
+	local ExtraScreenShakeTime = 0
+	local ExtraScreenShakeDuration = 0
+	local ExtraScreenShakeStrength = 0
+	local ExtraScreenShakeViewOffset = Angle(0, 0, 0)
 
-    local function ApplyExtraRecoil(weapon)
-        if not IsValid(weapon) or not weapon.IsTFAWeapon then return end
+	local function ApplyExtraRecoil(weapon)
+		if not IsValid(weapon) or not weapon.IsTFAWeapon then return end
 
-        local currentTime = CurTime()
-        if currentTime - lastExtraRecoilTime < 0.05 then return end
+		local currentTime = CurTime()
+		if currentTime - lastExtraRecoilTime < 0.05 then return end
 
-        lastExtraRecoilTime = currentTime
+		lastExtraRecoilTime = currentTime
 
-        local kickUp = weapon.Primary.KickUp or 0
-        local kickDown = weapon.Primary.KickDown or 0
-        local kickHorizontal = weapon.Primary.KickHorizontal or 0
-        local staticRecoilFactor = weapon.Primary.StaticRecoilFactor or 0
-        local extraRecoilAmount = (kickUp + kickDown + kickHorizontal + staticRecoilFactor) * 2
+		local kickUp = weapon.Primary.KickUp or 0
+		local kickDown = weapon.Primary.KickDown or 0
+		local kickHorizontal = weapon.Primary.KickHorizontal or 0
+		local staticRecoilFactor = weapon.Primary.StaticRecoilFactor or 0
+		local extraRecoilAmount = (kickUp + kickDown + kickHorizontal + staticRecoilFactor) * 2
 
 		local rpm = weapon.Primary.RPM or 600
 		local RPMDuration = math.min((60 / rpm) + 0.1, 0.2)
@@ -463,52 +462,52 @@ if CLIENT then
 
 		ExtraScreenShakeTime = ExtraScreenShakeDuration
 		ExtraScreenShakeViewOffset = Angle(0, 0, 0)
-    end
+	end
 
-    local function DetectExtraRecoilFiring()
+	local function DetectExtraRecoilFiring()
 		local ply = LocalPlayer()
 		if not IsValid(ply) then return end
 
 		local weapon = ply:GetActiveWeapon()
 
-        if not IsValid(weapon) or not weapon.IsTFAWeapon then
-            lastMagCapacity = 0
-            lastWeapon = nil
-            return
-        end
+		if not IsValid(weapon) or not weapon.IsTFAWeapon then
+			lastMagCapacity = 0
+			lastWeapon = nil
+			return
+		end
 
-        local currentMagCapacity = weapon:Clip1() or 0
+		local currentMagCapacity = weapon:Clip1() or 0
 
-        if weapon ~= lastWeapon then
-            lastMagCapacity = currentMagCapacity
-            lastWeapon = weapon
-            return
-        end
+		if weapon != lastWeapon then
+			lastMagCapacity = currentMagCapacity
+			lastWeapon = weapon
+			return
+		end
 
-        if currentMagCapacity < lastMagCapacity then
-            ApplyExtraRecoil(weapon)
-            lastMagCapacity = currentMagCapacity
-        else
-            lastMagCapacity = currentMagCapacity
-        end
+		if currentMagCapacity < lastMagCapacity then
+			ApplyExtraRecoil(weapon)
+			lastMagCapacity = currentMagCapacity
+		else
+			lastMagCapacity = currentMagCapacity
+		end
 
-        if ExtraScreenShakeTime > 0 then
-            ExtraScreenShakeTime = math.max(0, ExtraScreenShakeTime - FrameTime())
+		if ExtraScreenShakeTime > 0 then
+			ExtraScreenShakeTime = math.max(0, ExtraScreenShakeTime - FrameTime())
 
-            local timeProgress = ExtraScreenShakeTime / ExtraScreenShakeDuration
-            local rollAngle = math.sin(timeProgress * math.pi * 4) * ExtraScreenShakeStrength * timeProgress
+			local timeProgress = ExtraScreenShakeTime / ExtraScreenShakeDuration
+			local rollAngle = math.sin(timeProgress * math.pi * 4) * ExtraScreenShakeStrength * timeProgress
 
-            ExtraScreenShakeViewOffset = Angle(0, 0, rollAngle)
-        else
-            ExtraScreenShakeViewOffset = Angle(0, 0, 0)
-        end
-    end
+			ExtraScreenShakeViewOffset = Angle(0, 0, rollAngle)
+		else
+			ExtraScreenShakeViewOffset = Angle(0, 0, 0)
+		end
+	end
 
-    hook.Add("CalcView", "TFA_ExtraScreenShake_View", function(ply, origin, angles, fov, znear, zfar)
-        if ExtraScreenShakeViewOffset.roll ~= 0 then
-            angles:Add(ExtraScreenShakeViewOffset)
-        end
-    end)
+	hook.Add("CalcView", "TFA_ExtraScreenShake_View", function(ply, origin, angles, fov, znear, zfar)
+		if ExtraScreenShakeViewOffset.roll ~= 0 then
+			angles:Add(ExtraScreenShakeViewOffset)
+		end
+	end)
 
-    timer.Create("ExtraRecoilFireDetectionLoop", 0.001, 0, DetectExtraRecoilFiring)
-end 
+	timer.Create("ExtraRecoilFireDetectionLoop", 0.001, 0, DetectExtraRecoilFiring)
+end
