@@ -4,7 +4,7 @@ ENT.Type = "brush"
 local activeGamemode = GetGlobal2String("ActiveGamemode", "FFA")
 if activeGamemode ~= "KOTH" then return end
 
-local KOTHCords = KOTHPos[game.GetMap()]
+local KOTHCords = KOTHPOS[game.GetMap()]
 if KOTHCords == nil then return end
 
 ENT.Origin = KOTHCords.Origin

@@ -1,4 +1,9 @@
-hook.Add("Initialize", "InitPlayerNetworking", function() sql.Query("CREATE TABLE IF NOT EXISTS PlayerData64 ( SteamID INTEGER, Key TEXT, Value TEXT, SteamName TEXT);") end )
+local table = table
+local player = player
+
+hook.Add("Initialize", "InitPlayerNetworking", function()
+	sql.Query("CREATE TABLE IF NOT EXISTS PlayerData64 (SteamID INTEGER, Key TEXT, Value TEXT, SteamName TEXT);")
+end)
 
 local modelFiles = {}
 local cardFiles = {}
@@ -6,15 +11,14 @@ local meleeFiles = {}
 local tempCMD = nil
 local tempNewCMD = nil
 
-for i = 1, #modelArray do table.insert(modelFiles, modelArray[i][1]) end
-for i = 1, #cardArray do table.insert(cardFiles, cardArray[i][1]) end
-for i = 1, #gearArray do table.insert(meleeFiles, gearArray[i][1]) end
+for i = 1, #MODELS do table.insert(modelFiles, MODELS[i][1]) end
+for i = 1, #CARDS do table.insert(cardFiles, CARDS[i][1]) end
+for i = 1, #GEAR do table.insert(meleeFiles, GEAR[i][1]) end
 
--- NETWORKING
 local function InitializeNetworkInt(ply, query, key, value)
 	if query == "new" then ply:SetNWInt(key, tonumber(value)) return end
 
-	for k, v in ipairs(query) do
+	for _, v in ipairs(query) do
 		if key == v.Key then
 			ply:SetNWInt(key, tonumber(v.Value))
 			return
@@ -27,7 +31,7 @@ end
 local function InitializeNetworkString(ply, query, key, value)
 	if query == "new" then ply:SetNWString(key, tostring(value)) return end
 
-	for k, v in ipairs(query) do
+	for _, v in ipairs(query) do
 		if key == v.Key then
 			ply:SetNWString(key, tostring(v.Value))
 			return
@@ -44,7 +48,7 @@ local function UninitializeNetworkInt(ply, query, key)
 
 	if query == "new" then tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. ", " .. SQLStr(name) .. "), " return end
 
-	for k, v in ipairs(query) do
+	for _, v in ipairs(query) do
 		if key == v.Key then
 			tempCMD = tempCMD .. "WHEN " .. SQLStr(key) .. " THEN " .. SQLStr(value) .. " "
 			return
@@ -61,7 +65,7 @@ local function UninitializeNetworkString(ply, query, key)
 
 	if query == "new" then tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. ", " .. SQLStr(name) .. "), " return end
 
-	for k, v in ipairs(query) do
+	for _, v in ipairs(query) do
 		if key == v.Key then
 			tempCMD = tempCMD .. "WHEN " .. SQLStr(key) .. " THEN " .. SQLStr(value) .. " "
 			return
@@ -97,9 +101,9 @@ function SetupPlayerData(ply)
 	InitializeNetworkInt(ply, query, "playerAccoladeOnStreak", 0)
 	InitializeNetworkInt(ply, query, "playerAccoladeBuzzkill", 0)
 	InitializeNetworkInt(ply, query, "playerAccoladeClutch", 0)
-	for i = 1, #weaponArray do InitializeNetworkInt(ply, query, "killsWith_" .. weaponArray[i][1], 0) end
+	for i = 1, #WEAPONS do InitializeNetworkInt(ply, query, "killsWith_" .. WEAPONS[i][1], 0) end
 
-	for k, v in ipairs(levelArray) do
+	for k, v in ipairs(LEVELARRAY) do
 		if ply:GetNWInt("playerLevel") == k and v != "prestige" then ply:SetNWInt("playerXPToNextLevel", v) end
 	end
 
@@ -110,7 +114,8 @@ function SetupPlayerData(ply)
 end
 
 function SavePlayerData(ply)
-	if GetConVar("tm_developermode"):GetInt() == 1 then return end
+	if DEBUG:GetBool() then return end
+
 	if tempNewCMD != nil or tempCMD != nil then return end -- shouldn't be possible but just to be safe
 	local id64 = ply:SteamID64()
 	local query = sql.Query("SELECT Key, Value FROM PlayerData64 WHERE SteamID = " .. id64 .. ";")
@@ -142,7 +147,7 @@ function SavePlayerData(ply)
 	UninitializeNetworkInt(ply, query, "playerAccoladeSmackdown")
 	UninitializeNetworkInt(ply, query, "playerAccoladeHeadshot")
 	UninitializeNetworkInt(ply, query, "playerAccoladeClutch")
-	for i = 1, #weaponArray do UninitializeNetworkInt(ply, query, "killsWith_" .. weaponArray[i][1]) end
+	for i = 1, #WEAPONS do UninitializeNetworkInt(ply, query, "killsWith_" .. WEAPONS[i][1]) end
 
 	tempNewCMD = string.sub(tempNewCMD, 1, -3) .. ";"
 	tempCMD = tempCMD .. "ELSE Value END WHERE SteamID = " .. id64 .. ";"
@@ -156,5 +161,12 @@ function SavePlayerData(ply)
 	tempNewCMD = nil
 end
 
-function GM:PlayerDisconnected(ply) SavePlayerData(ply) end
-function GM:ShutDown() for k, v in ipairs(player.GetHumans()) do SavePlayerData(v) end end
+function GM:PlayerDisconnected(ply)
+	SavePlayerData(ply)
+end
+
+function GM:ShutDown()
+	for _, v in ipairs(player.GetHumans()) do
+		SavePlayerData(v)
+	end
+end

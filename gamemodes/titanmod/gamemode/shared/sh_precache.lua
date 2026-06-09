@@ -75,15 +75,27 @@ end
 local function CacheManualSounds()
 	-- if game.SinglePlayer() and CLIENT then return end
 	local cmdl
-	if SERVER then cmdl = ents.Create("prop_dynamic") end
+
+	if SERVER then
+		cmdl = ents.Create("prop_dynamic")
+	end
 
 	GrabSoundFiles("sound/", cmdl)
 
-	if SERVER then timer.Simple(5, function() cmdl:Remove() end) end
+	if SERVER then
+		timer.Simple(5, function() cmdl:Remove() end)
+	end
 end
 
-concommand.Add("tm_precache", function() CacheAllModels() CacheManualSounds() end)
+concommand.Add("tm_precache", function()
+	CacheAllModels()
+	CacheManualSounds()
+end)
+
 timer.Simple(1, function()
-	if SERVER then CacheAllModels() end
+	if SERVER then
+		CacheAllModels()
+	end
+
 	CacheManualSounds()
 end)

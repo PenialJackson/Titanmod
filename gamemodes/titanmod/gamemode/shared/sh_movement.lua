@@ -1,8 +1,11 @@
-if customMovement == true then
+if !customMovement then return end
+
 local meta = FindMetaTable("Player")
+
 function meta:GetWJTime()
 	return self:GetDTFloat(20)
 end
+
 function meta:SetWJTime(value)
 	return self:SetDTFloat(20, value)
 end
@@ -10,6 +13,7 @@ end
 function meta:GetWRTime()
 	return self:GetDTFloat(22)
 end
+
 function meta:SetWRTime(value)
 	return self:SetDTFloat(22, value)
 end
@@ -17,6 +21,7 @@ end
 function meta:GetWRTime()
 	return self:GetDTFloat(22)
 end
+
 function meta:SetWRTime(value)
 	return self:SetDTFloat(22, value)
 end
@@ -24,78 +29,103 @@ end
 function meta:GetSlidingView()
 	return self:GetDTFloat(7)
 end
+
 function meta:SetSlidingView(value)
 	return self:SetDTFloat(7, value)
 end
+
 function meta:GetAutoSprinting()
 	return self:GetDTBool(8)
 end
+
 function meta:SetAutoSprinting(value)
 	return self:SetDTBool(8, value)
 end
+
 function meta:GetAutoSprintingDelay()
 	return self:GetDTFloat(9)
 end
+
 function meta:SetAutoSprintingDelay(value)
 	return self:SetDTFloat(9, value)
 end
+
 function meta:GetSliding()
 	return self:GetDTBool(24)
 end
+
 function meta:SetSliding(value)
 	return self:SetDTBool(24, value)
 end
+
 function meta:GetCanSlide()
 	return self:GetDTBool(25)
 end
+
 function meta:SetCanSlide(value)
 	return self:SetDTBool(25, value)
 end
+
 function meta:GetSlidingTime()
 	return self:GetDTFloat(24)
 end
+
 function meta:SetSlidingTime(value)
 	return self:SetDTFloat(24, value)
 end
+
 function meta:GetSlidingCD()
 	return self:GetDTFloat(26)
 end
+
 function meta:SetSlidingCD(value)
 	return self:SetDTFloat(26, value)
 end
+
 function meta:GetSlideFatigue()
 	return self:GetDTFloat(27)
 end
+
 function meta:SetSlideFatigue(value)
 	return self:SetDTFloat(27, value)
 end
+
 function meta:GetSlopedSpeed()
 	return self:GetDTFloat(28)
 end
+
 function meta:SetSlopedSpeed(value)
 	return self:SetDTFloat(28, value)
 end
+
 function meta:GetLandingVelocity()
 	return self:GetDTFloat(29)
 end
+
 function meta:SetLandingVelocity(value)
 	return self:SetDTFloat(29, value)
 end
+
 function meta:GetSlideLastPosZ()
 	return self:GetDTFloat(30)
 end
+
 function meta:SetSlideLastPosZ(value)
 	return self:SetDTFloat(30, value)
 end
+
 function meta:GetSlidingAngle()
 	return self:GetDTAngle(31)
 end
+
 function meta:SetSlidingAngle(value)
 	return self:SetDTAngle(31, value)
 end
+
 function meta:GetCT()
 	return self:GetDTFloat(10)
 end
+
 function meta:SetCT(value)
 	return self:SetDTFloat(10, value)
 end
@@ -142,24 +172,29 @@ local function SlideSurfaceSound(ply, pos)
 	end
 end
 
+local slideLock = 0.79
+local sp = game.SinglePlayer()
+
 hook.Add("StartCommand", "TM_MoveCommand", function(ply, cmd)
 	-- auto sprint
 	local autoSprintDelay = (ply:GetAutoSprintingDelay() - ply:GetCT())
-	if ply:GetInfoNum("tm_autosprint", 0) == 1 and (ply:GetAutoSprinting()) and not (autoSprintDelay > 0) then cmd:SetButtons(bit.bor(cmd:GetButtons(), IN_SPEED)) end
+	if ply:GetInfoNum("tm_autosprint", 0) == 1 and (ply:GetAutoSprinting()) and not (autoSprintDelay > 0) then
+		cmd:SetButtons(bit.bor(cmd:GetButtons(), IN_SPEED))
+	end
 
 	-- sliding
 	if ply:GetSliding() then
-		-- cmd:ClearMovement()
 		cmd:RemoveKey(IN_SPEED)
 		cmd:RemoveKey(IN_JUMP)
-		slideLock = 0.79
 		local trueSlideTime = (ply:GetSlidingCD() - ply:GetCT())
 		local viewTime = (ply:GetSlidingView() - ply:GetCT())
 
 		local ViewAngles = cmd:GetViewAngles()
 
 		local limit_p = Lerp(viewTime * 2.5, 50, 90)
-		if limit_p > 0 and ViewAngles.p > limit_p then ViewAngles.p = limit_p end
+		if limit_p > 0 and ViewAngles.p > limit_p then
+			ViewAngles.p = limit_p
+		end
 		cmd:SetViewAngles(ViewAngles)
 
 		if trueSlideTime < 0.79 and ply:KeyDown(IN_DUCK) == false then
@@ -209,7 +244,9 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 		ply:SetAutoSprinting(false)
 	end
 
-	if (lmb or rmb) then ply:SetAutoSprintingDelay(CT + ply:GetInfoNum("tm_autosprint_delay", 0.25)) end
+	if (lmb or rmb) then
+		ply:SetAutoSprintingDelay(CT + ply:GetInfoNum("tm_autosprint_delay", 0.25))
+	end
 
 	-- sliding and wall related movement
 	if not ply.OldDuckSpeed then
@@ -242,18 +279,17 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 		ply:SetSlidingAngle(mv:GetVelocity():Angle())
 		ply:SetSlopedSpeed(1)
 
-		if SERVER then SlideSurfaceSound(ply, pos) end
+		if SERVER then
+			SlideSurfaceSound(ply, pos)
 
-		if game.SinglePlayer() and SERVER then
-			-- ply:SendLua('if VManip then VManip:PlayAnim("vault") end')
-			ply:SendLua('if VMLegs then VMLegs:PlayAnim("slide") end')
+			if sp then
+				ply:SendLua('if VMLegs then VMLegs:PlayAnim("slide") end')
+			end
 		end
 
 		if CLIENT and VManip then
-			-- VManip:PlayAnim("vault")
 			VMLegs:PlayAnim("slide")
 		end
-
 	elseif (not ducking or not onground) and sliding then
 		ply:SetCanSlide(true)
 		ply:SetSliding(false)
@@ -268,8 +304,8 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 			ply:SetSlideLastPosZ(pos.z)
 		end
 
-		lastpos = ply:GetSlideLastPosZ()
-		stallSlideTime = math.max(ply:GetSlidingTime() + 0.01665, CT + 0.4)
+		local lastpos = ply:GetSlideLastPosZ()
+		local stallSlideTime = math.max(ply:GetSlidingTime() + 0.01665, CT + 0.4)
 
 		local slopeDiff = lastpos - pos.z
 		local slopedMulti = math.min(4, slopeDiff + 1.45)
@@ -315,7 +351,7 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 		if jumping then
 			if ply:GetWJTime() > CT then return end
 
-			tracedata = {}
+			local tracedata = {}
 			tracedata.start = eyepos + (ang:Right() * 1)
 			tracedata.endpos = eyepos + (ang:Right() * 32)
 			tracedata.filter = ply
@@ -325,7 +361,9 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 				ang.x = 0 ang.z = 0
 				ply:SetWJTime(CT + wallJumpTime)
 				ply:ViewPunch(walljumpleftpunch)
-				if SERVER then ply:EmitSound("player/footsteps/tile" .. math.random(1, 4) .. ".wav", 70, 80) end
+				if SERVER then
+					ply:EmitSound("player/footsteps/tile" .. math.random(1, 4) .. ".wav", 70, 80)
+				end
 				vel = Vector(0, 0, 280) + ((ang:Right() * -1) * 175) + (ang:Forward() * speed2d * 0.75)
 				mv:SetVelocity(vel)
 				mv:SetOrigin(pos)
@@ -337,19 +375,19 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 		if sprinting and not onground then
 			if ply:GetWRTime() > CT then return end
 
-			tracedata = {}
+			local tracedata = {}
 			tracedata.start = eyepos + (ang:Up() * -1) + (ang:Forward() * 32)
 			tracedata.endpos = eyepos + (ang:Up() * -53) + (ang:Forward() * 64)
 			tracedata.filter = ply
 			local traceWalLLow = util.TraceLine(tracedata)
 
-			tracedata = {}
+			local tracedata = {}
 			tracedata.start = eyepos + (ang:Forward() * 32)
 			tracedata.endpos = eyepos + (ang:Forward() * 64)
 			tracedata.filter = ply
 			local traceWalLHigh = util.TraceLine(tracedata)
 
-			tracedata = {}
+			local tracedata = {}
 			tracedata.start = eyepos + (ang:Right() * -1)
 			tracedata.endpos = eyepos + (ang:Right() * -32)
 			tracedata.filter = ply
@@ -359,7 +397,9 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 				ang.x = 0 ang.z = 0
 				ply:SetWRTime(CT + wallRunTime)
 				ply:ViewPunch(wallrunleftpunch)
-				if SERVER then ply:EmitSound("wallrun.wav") end
+				if SERVER then
+					ply:EmitSound("wallrun.wav")
+				end
 				vel = Vector(0, 0, 210) + (ang:Right() * -200) + (ang:Forward() * math.max(300, speed2d))
 				mv:SetVelocity(vel)
 				mv:SetOrigin(pos)
@@ -373,7 +413,7 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 		if jumping then
 			if ply:GetWJTime() > CT then return end
 
-			tracedata = {}
+			local tracedata = {}
 			tracedata.start = eyepos + (ang:Right() * -1)
 			tracedata.endpos = eyepos + (ang:Right() * -32)
 			tracedata.filter = ply
@@ -383,7 +423,9 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 				ang.x = 0 ang.z = 0
 				ply:SetWJTime(CT + wallJumpTime)
 				ply:ViewPunch(walljumprightpunch)
-				if SERVER then ply:EmitSound("player/footsteps/tile" .. math.random(1, 4) .. ".wav", 70, 80) end
+				if SERVER then
+					ply:EmitSound("player/footsteps/tile" .. math.random(1, 4) .. ".wav", 70, 80)
+				end
 				vel = Vector(0, 0, 280) + ((ang:Right() * 1) * 175) + (ang:Forward() * speed2d * 0.75)
 				mv:SetVelocity(vel)
 				mv:SetOrigin(pos)
@@ -395,19 +437,19 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 		if sprinting and not onground then
 			if ply:GetWRTime() > CT then return end
 
-			tracedata = {}
+			local tracedata = {}
 			tracedata.start = eyepos + (ang:Up() * -1) + (ang:Forward() * 32)
 			tracedata.endpos = eyepos + (ang:Up() * -53) + (ang:Forward() * 64)
 			tracedata.filter = ply
 			local traceWalRLow = util.TraceLine(tracedata)
 
-			tracedata = {}
+			local tracedata = {}
 			tracedata.start = eyepos + (ang:Forward() * 32)
 			tracedata.endpos = eyepos + (ang:Forward() * 64)
 			tracedata.filter = ply
 			local traceWalRHigh = util.TraceLine(tracedata)
 
-			tracedata = {}
+			local tracedata = {}
 			tracedata.start = eyepos + (ang:Right() * 1)
 			tracedata.endpos = eyepos + (ang:Right() * 32)
 			tracedata.filter = ply
@@ -417,7 +459,9 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 				ang.x = 0 ang.z = 0
 				ply:SetWRTime(CT + wallRunTime)
 				ply:ViewPunch(wallrunrightpunch)
-				if SERVER then ply:EmitSound("wallrun.wav") end
+				if SERVER then
+					ply:EmitSound("wallrun.wav")
+				end
 				vel = Vector(0, 0, 210) + (ang:Right() * 200) + (ang:Forward() * math.max(300, speed2d))
 				mv:SetVelocity(vel)
 				mv:SetOrigin(pos)
@@ -430,5 +474,4 @@ end)
 hook.Add("FinishMove", "TM_FinishMove", function(ply, mv)
 	ply:SetNetworkOrigin(mv:GetOrigin())
 end)
-end
 -- original Sliding portion of script created by datæ

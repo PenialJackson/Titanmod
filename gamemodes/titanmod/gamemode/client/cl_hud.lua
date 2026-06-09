@@ -694,7 +694,7 @@ end
 function CreateHUDHook()
 	if activeGamemode == "KOTH" then
 		-- KOTH rendering
-		local KOTHCords = KOTHPos[game.GetMap()]
+		local KOTHCords = KOTHPOS[game.GetMap()]
 		local origin = KOTHCords.Origin
 		local size = KOTHCords.BrushSize
 		local playerAngle
@@ -1236,14 +1236,12 @@ net.Receive("EndOfGame", function(len, ply)
 	local decidedMapName
 	local decidedMapThumb
 	local firstModeName
+	local firstModeDesc
 	local secondModeName
+	local secondModeDesc
 	local decidedModeName
 
-	for m, t in ipairs(mapArray) do
-		if game.GetMap() == t[1] then
-			mapPlayedOn = t[2]
-		end
-
+	for _, t in ipairs(MAPS) do
 		if firstMap == t[1] then
 			firstMapName = t[2]
 			firstMapThumb = t[3]
@@ -1260,7 +1258,7 @@ net.Receive("EndOfGame", function(len, ply)
 		end
 	end
 
-	for g, t in ipairs(gamemodeArray) do
+	for _, t in ipairs(GAMEMODES) do
 		if firstMode == t[1] then
 			firstModeName = tostring(t[2])
 			firstModeDesc = tostring(t[3])
@@ -1344,7 +1342,7 @@ net.Receive("EndOfGame", function(len, ply)
 	end)
 
 	function HideHudPostGame(name)
-		for k, v in pairs({"CHudHealth", "CHudBattery", "CHudAmmo", "CHudSecondaryAmmo", "CHudZoom", "CHudVoiceStatus", "CHudDamageIndicator", "CHUDQuickInfo", "CHudCrosshair"}) do
+		for _, v in pairs({"CHudHealth", "CHudBattery", "CHudAmmo", "CHudSecondaryAmmo", "CHudZoom", "CHudVoiceStatus", "CHudDamageIndicator", "CHUDQuickInfo", "CHudCrosshair"}) do
 			if name == v then return false end
 		end
 	end
@@ -1355,7 +1353,7 @@ net.Receive("EndOfGame", function(len, ply)
 	local textAnimTwo = scrH
 	local levelAnim = 0
 	local xpCountUp = 0
-	local quote = quoteArray[math.random(#quoteArray)]
+	local quote = QUOTES[math.random(#QUOTES)]
 
 	if wonMatch == true then
 		LocalPly:ScreenFade(SCREENFADE.OUT, Color(50, 50, 0, 190), 1, 7)
@@ -1638,14 +1636,14 @@ net.Receive("EndOfGame", function(len, ply)
 		end
 
 		function MapVoteCompleted()
-			for u, p in ipairs(mapArray) do
-				if decidedMap == p[1] then
-					decidedMapName = p[2]
-					decidedMapThumb = p[3]
+			for _, m in ipairs(MAPS) do
+				if decidedMap == m[1] then
+					decidedMapName = m[2]
+					decidedMapThumb = m[3]
 				end
 			end
 
-			for u, m in ipairs(gamemodeArray) do
+			for _, m in ipairs(GAMEMODES) do
 				if decidedMode == m[1] then
 					decidedModeName = m[2]
 				end
@@ -1892,8 +1890,8 @@ net.Receive("EndOfGame", function(len, ply)
 					accolades:AddOption("Point Blanks: " .. v:GetNWInt("playerAccoladePointblank"))
 					accolades:AddOption("On Streaks (Kill Streaks Started): " .. v:GetNWInt("playerAccoladeOnStreak"))
 					accolades:AddOption("Buzz Kills (Kill Streaks Ended): " .. v:GetNWInt("playerAccoladeBuzzkill"))
-					for i = 1, #weaponArray do
-						weaponKills:AddOption(weaponArray[i][2] .. ": " .. v:GetNWInt("killsWith_" .. weaponArray[i][1]))
+					for i = 1, #WEAPONS do
+						weaponKills:AddOption(WEAPONS[i][2] .. ": " .. v:GetNWInt("killsWith_" .. WEAPONS[i][1]))
 					end
 				else
 					statistics:AddOption("This player has their stats hidden.")
@@ -1947,10 +1945,10 @@ function ShowLoadoutOnSpawn(ply)
 	local primaryWeapon = ""
 	local secondaryWeapon = ""
 	local meleeWeapon = ""
-	for i = 1, #weaponArray do
-		if weaponArray[i][1] == ply:GetNWString("loadoutPrimary") and usePrimary then primaryWeapon = weaponArray[i][2] end
-		if weaponArray[i][1] == ply:GetNWString("loadoutSecondary") and useSecondary then secondaryWeapon = weaponArray[i][2] end
-		if weaponArray[i][1] == ply:GetNWString("loadoutMelee") and useMelee then meleeWeapon = weaponArray[i][2] end
+	for i = 1, #WEAPONS do
+		if WEAPONS[i][1] == ply:GetNWString("loadoutPrimary") and usePrimary then primaryWeapon = WEAPONS[i][2] end
+		if WEAPONS[i][1] == ply:GetNWString("loadoutSecondary") and useSecondary then secondaryWeapon = WEAPONS[i][2] end
+		if WEAPONS[i][1] == ply:GetNWString("loadoutMelee") and useMelee then meleeWeapon = WEAPONS[i][2] end
 	end
 	notification.AddProgress("LoadoutText", "Current Loadout:\n" .. primaryWeapon .. "\n" .. secondaryWeapon .. "\n" .. meleeWeapon)
 	timer.Simple(2.5, function()

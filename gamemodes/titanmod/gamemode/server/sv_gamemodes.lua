@@ -36,7 +36,7 @@ function ShuffleFiestaLoadout()
 end
 
 if activeGamemode == "FFA" then
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
 		elseif v[3] == "secondary" then
@@ -48,7 +48,7 @@ if activeGamemode == "FFA" then
 end
 
 if activeGamemode == "Fiesta" then
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
 		elseif v[3] == "secondary" then
@@ -68,17 +68,17 @@ end
 function CreateFiestaTimer() timer.Create("FiestaShuffle", fiestaShuffleTime, 0, ShuffleFiestaLoadout) end
 
 if activeGamemode == "Gun Game" then
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[3] == "melee" then
 			table.insert(ggRandMelee, v[1])
 		end
 	end
 
-	local ggWeaponArray = weaponArray
+	local ggWeaponArray = WEAPONS
 	local itemsAdded = 0
 	table.Shuffle(ggWeaponArray)
 
-	for k, v in ipairs(ggWeaponArray) do
+	for _, v in ipairs(ggWeaponArray) do
 		if (v[3] == "primary" or v[3] == "secondary") and v[1] != "st_stim_pistol" and v[1] != "swat_shield" and v[1] != "tfa_ins2_ak400" and v[1] != "tfa_ins2_cq300" and v[1] != "tfa_ins2_ump45" and v[1] != "tfa_ins2_eftm4a1" and v[1] != "tfa_howa_type_64" and v[1] != "rust_bow" and v[1] != "rust_crossbow" and itemsAdded < (ggLadderSize - 1) then
 			table.insert(ggLadder, {v[1], ggRandMelee[math.random(#ggRandMelee)]})
 			itemsAdded = itemsAdded + 1
@@ -88,7 +88,7 @@ if activeGamemode == "Gun Game" then
 end
 
 if activeGamemode == "Shotty Snipers" then
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[4] == "sniper" and v[1] != "rust_bow" and v[1] != "rust_crossbow" and v[1] != "tfa_ins2_saiga_spike" then
 			table.insert(randPrimary, v[1])
 		elseif v[4] == "shotgun" then
@@ -100,7 +100,7 @@ if activeGamemode == "Shotty Snipers" then
 end
 
 if activeGamemode == "Cranked" then
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
 		elseif v[3] == "secondary" then
@@ -117,7 +117,7 @@ if activeGamemode == "KOTH" then
 		kothOBJ:Spawn()
 	end )
 
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
 		elseif v[3] == "secondary" then
@@ -148,7 +148,7 @@ if activeGamemode == "KOTH" then
 end
 
 if activeGamemode == "Quickdraw" then
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[3] == "secondary" and v[1] != "rust_bow" and v[1] != "swat_shield" and v[1] != "st_stim_pistol" then
 			table.insert(randSecondary, v[1])
 		elseif v[3] == "melee" then
@@ -158,7 +158,7 @@ if activeGamemode == "Quickdraw" then
 end
 
 if activeGamemode == "VIP" then
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
 		elseif v[3] == "secondary" then
@@ -184,7 +184,7 @@ if activeGamemode == "VIP" then
 end
 
 if activeGamemode == "Overkill" then
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randOverkill, v[1])
 		elseif v[3] == "secondary" then
@@ -198,7 +198,7 @@ if activeGamemode == "Overkill" then
 end
 
 if activeGamemode == "Fisticuffs" then
-	for k, v in ipairs(weaponArray) do
+	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
 		elseif v[3] == "secondary" then

@@ -11,39 +11,43 @@
 	{
 		1
 		{
-			"name"		"tm_gamemode"
-			"text"		"Gamemode (0 = FFA, 1 = Cranked, 2 = Gun Game, 3 = Shotty Snipers, 4 = Fiesta, 5 = Quickdraw, 6 = KOTH, 7 = VIP, 8 = Overkill, 9 = Fisticuffs)"
-			"type"		"Numeric"
-			"default"	"0"
+			"name"			"tm_gamemode"
+			"text"			"Gamemode (0 = FFA, 1 = Cranked, 2 = Gun Game, 3 = Shotty Snipers, 4 = Fiesta, 5 = Quickdraw, 6 = KOTH, 7 = VIP, 8 = Overkill, 9 = Fisticuffs)"
+			"type"			"Numeric"
+			"default"		"0"
 			"singleplayer"	"true"
+			"replicate"		"true"
 		}
-		
+
 		2
 		{
-			"name"		"tm_matchlengthtimer"
-			"text"		"Match Time (in seconds)"
-			"type"		"Numeric"
-			"default"	"600"
+			"name"			"tm_matchlengthtimer"
+			"text"			"Match Time (in seconds)"
+			"type"			"Numeric"
+			"default"		"600"
 			"singleplayer"	"true"
+			"replicate"		"true"
 		}
 
 		3
 		{
-			"name"		"tm_intermissiontimer"
-			"text"		"Intermission Time (in seconds)"
-			"type"		"Numeric"
-			"default"	"30"
+			"name"			"tm_intermissiontimer"
+			"text"			"Intermission Time (in seconds)"
+			"type"			"Numeric"
+			"default"		"30"
 			"singleplayer"	"true"
-		}
-		
-		4
-		{
-			"name"		"tm_developermode"
-			"text"		"Developer Mode (enable spawn menu, disable progression)"
-			"type"		"CheckBox"
-			"default"	"0"
-			"singleplayer"	"true"
+			"replicate"		"true"
 		}
 
+		4
+		{
+			"name"			"tm_developer"
+			"text"			"Developer Mode (enable spawn menu, disable progression)"
+			"type"			"CheckBox"
+			"default"		"0"
+			"singleplayer"	"true"
+			"replicate"		"true"
+		}
 	}
+
 }

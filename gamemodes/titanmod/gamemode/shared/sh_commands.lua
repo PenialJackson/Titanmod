@@ -54,8 +54,8 @@ function PlayerAccountWipe(ply, cmd, args)
 	ply:SetNWInt("playerAccoladeBuzzkill", 0)
 	ply:SetNWInt("playerAccoladeClutch", 0)
 
-	for i = 1, #weaponArray do
-		ply:SetNWInt("killsWith_" .. weaponArray[i][1], 0)
+	for i = 1, #WEAPONS do
+		ply:SetNWInt("killsWith_" .. WEAPONS[i][1], 0)
 	end
 end
 concommand.Add("tm_wipeplayeraccount_cannotbeundone", PlayerAccountWipe)
@@ -124,6 +124,7 @@ function PlayerHUDReset(ply, cmd, args)
 	ply:ConCommand("tm_hud_dmgindicator_color_g 0")
 	ply:ConCommand("tm_hud_dmgindicator_color_b 0")
 	ply:ConCommand("tm_hud_dmgindicator_opacity 85")
+
 	net.Start("SendNotification")
 	net.WriteString("Successfully reset HUD to default settings!")
 	net.WriteString("success")
@@ -134,17 +135,22 @@ concommand.Add("tm_resethudtodefault_cannotbeundone", PlayerHUDReset)
 function ImportHUDCode(ply, cmd, args)
 	local code = args[1]
 	local var = {}
+
 	if code == nil then return end
+
 	for s in string.gmatch(code, "[^-]+") do
 		table.insert(var, s)
 	end
+
 	if table.Count(var) != 61 then
 		net.Start("SendNotification")
 		net.WriteString("Failed HUD import (" .. table.Count(var) .. " vars), code may be from older TM version.")
 		net.WriteString("warning")
 		net.Send(ply)
+
 		return
 	end
+
 	ply:ConCommand("tm_hud_scale " .. var[1])
 	ply:ConCommand("tm_hud_font " .. var[2])
 	ply:ConCommand("tm_hud_bounds_x " .. var[3])
@@ -206,6 +212,7 @@ function ImportHUDCode(ply, cmd, args)
 	ply:ConCommand("tm_hud_keypressoverlay_actuated_b " .. var[59])
 	ply:ConCommand("tm_hud_velocitycounter_x " .. var[60])
 	ply:ConCommand("tm_hud_velocitycounter_y " .. var[61])
+
 	net.Start("SendNotification")
 	net.WriteString("Successfully imported HUD!")
 	net.WriteString("success")

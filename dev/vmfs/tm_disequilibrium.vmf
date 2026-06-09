@@ -1,8 +1,8 @@
 versioninfo
 {
 	"editorversion" "400"
-	"editorbuild" "8869"
-	"mapversion" "115"
+	"editorbuild" "8870"
+	"mapversion" "116"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "115"
+	"mapversion" "116"
 	"classname" "worldspawn"
 	"comment" "Decompiled by BSPSource v1.4.0 from tm_disequilibrium"
 	"detailmaterial" "detail/detailsprites"
@@ -58592,7 +58592,6 @@ entity
 	"dmg" "1000"
 	"forceclosed" "1"
 	"gmod_allowphysgun" "1"
-	"health" "0"
 	"ignoredebris" "0"
 	"lip" "0"
 	"locked_sentence" "0"
@@ -207272,8 +207271,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[626.621 1796.09 1164.15]"
-		"look" "[363.606 1757.25 1179.01]"
+		"position" "[804.006 683.642 1477.07]"
+		"look" "[570.447 784.523 1398.47]"
 	}
 	camera
 	{

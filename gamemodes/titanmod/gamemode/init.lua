@@ -1,18 +1,28 @@
-AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include("shared.lua")
-AddCSLuaFile("!config.lua")
-include("!config.lua")
 
-for _, v in ipairs(file.Find("gamemodes/titanmod/gamemode/shared/*.lua", "GAME", "nameasc")) do
-	AddCSLuaFile("shared/" .. v)
-	include("shared/" .. v)
+TM.SERVER = TM.SERVER or {}
+
+AddCSLuaFile("config.lua")
+include("config.lua")
+AddCSLuaFile("enums.lua")
+include("enums.lua")
+
+for _, f in ipairs(file.Find("gamemodes/titanmod/gamemode/shared/*.lua", "GAME", "nameasc")) do
+	AddCSLuaFile("shared/" .. f)
+	include("shared/" .. f)
 end
 
-for _, v in ipairs(file.Find("gamemodes/titanmod/gamemode/client/*.lua", "GAME", "nameasc")) do
-	AddCSLuaFile("client/" .. v)
+for _, f in ipairs(file.Find("gamemodes/titanmod/gamemode/server/*.lua", "GAME", "nameasc")) do
+	include("server/" .. f)
 end
 
-for _, v in ipairs(file.Find("gamemodes/titanmod/gamemode/server/*.lua", "GAME", "nameasc")) do
-	include("server/" .. v)
+AddCSLuaFile("cl_init.lua")
+
+for _, f in ipairs(file.Find("gamemodes/titanmod/gamemode/client/*.lua", "GAME", "nameasc")) do
+	AddCSLuaFile("client/" .. f)
+end
+
+for _, f in ipairs(file.Find("gamemodes/titanmod/gamemode/vgui/*.lua", "GAME", "nameasc")) do
+	AddCSLuaFile("vgui/" .. f)
 end

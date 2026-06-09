@@ -1,192 +1,227 @@
-function UpdateFonts()
+local customFont = GetConVar("tm_hud_font")
+
+local function CreateFonts()
 	-- MENUS
 	surface.CreateFont("GunPrintName", {
 		font = "Arial",
-		size = TM.MenuScale(56),
+		size = math.ceil(TM.MenuScale(56)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("MainMenuLoadoutWeapons", {
 		font = "Arial",
-		size = TM.MenuScale(26),
+		size = math.ceil(TM.MenuScale(26)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("MainMenuDescription", {
 		font = "Arial",
-		size = TM.MenuScale(24),
+		size = math.ceil(TM.MenuScale(24)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("MainMenuTitle", {
 		font = "Arial",
-		size = TM.MenuScale(45),
+		size = math.ceil(TM.MenuScale(45)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("MatchEndText", {
 		font = "Arial",
-		size = TM.MenuScale(180),
+		size = math.ceil(TM.MenuScale(180)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("QuoteText", {
 		font = "Tahoma",
-		size = TM.MenuScale(22),
+		size = math.ceil(TM.MenuScale(22)),
 		weight = 200,
 		antialias = true,
-		italic = true
-	} )
+		italic = true,
+		extended = true
+	})
 
 	surface.CreateFont("AmmoCountESmall", {
 		font = "Arial",
-		size = TM.MenuScale(48),
+		size = math.ceil(TM.MenuScale(48)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("AmmoCountSmall", {
 		font = "Arial",
-		size = TM.MenuScale(96),
+		size = math.ceil(TM.MenuScale(96)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("OptionsHeader", {
 		font = "Arial",
-		size = TM.MenuScale(64),
+		size = math.ceil(TM.MenuScale(64)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("Health", {
 		font = "Tahoma",
-		size = TM.MenuScale(30),
+		size = math.ceil(TM.MenuScale(30)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("StreakText", {
 		font = "Tahoma",
-		size = TM.MenuScale(22),
+		size = math.ceil(TM.MenuScale(22)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("TitleText", {
 		font = "BenderBold",
-		size = TM.MenuScale(32),
-		weight = 500,
-		antialias = true
-	} )
+		size = math.ceil(TM.MenuScale(32)),
+		weight = 550,
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("CaliberText", {
 		font = "Tahoma",
-		size = TM.MenuScale(18),
+		size = math.ceil(TM.MenuScale(18)),
 		weight = 550,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("PlayerNotiName", {
 		font = "Arial",
-		size = TM.MenuScale(52),
+		size = math.ceil(TM.MenuScale(52)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("SettingsLabel", {
 		font = "Arial",
-		size = TM.MenuScale(38),
+		size = math.ceil(TM.MenuScale(38)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("Menu_GModNotify", {
 		font = "Bender",
-		size = TM.MenuScale(22),
+		size = math.ceil(TM.MenuScale(22)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	-- HUD
 	surface.CreateFont("HUD_GunPrintName", {
-		font = GetConVar("tm_hud_font"):GetString(),
-		size = TM.HUDScale(56),
+		font = customFont:GetString(),
+		size = math.ceil(TM.HUDScale(56)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("HUD_AmmoCount", {
-		font = GetConVar("tm_hud_font"):GetString(),
-		size = TM.HUDScale(128),
+		font = customFont:GetString(),
+		size = math.ceil(TM.HUDScale(128)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("HUD_WepNameKill", {
-		font = GetConVar("tm_hud_font"):GetString(),
-		size = TM.HUDScale(28),
+		font = customFont:GetString(),
+		size = math.ceil(TM.HUDScale(28)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("HUD_Health", {
-		font = GetConVar("tm_hud_font"):GetString(),
-		size = TM.HUDScale(30),
+		font = customFont:GetString(),
+		size = math.ceil(TM.HUDScale(30)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("HUD_StreakText", {
-		font = GetConVar("tm_hud_font"):GetString(),
-		size = TM.HUDScale(22),
+		font = customFont:GetString(),
+		size = math.ceil(TM.HUDScale(22)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("HUD_PlayerNotiName", {
-		font = GetConVar("tm_hud_font"):GetString(),
-		size = TM.HUDScale(52),
+		font = customFont:GetString(),
+		size = math.ceil(TM.HUDScale(52)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("HUD_PlayerDeathName", {
-		font = GetConVar("tm_hud_font"):GetString(),
-		size = TM.HUDScale(36),
+		font = customFont:GetString(),
+		size = math.ceil(TM.HUDScale(36)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("HUD_IntermissionText", {
-		font = GetConVar("tm_hud_font"):GetString(),
-		size = TM.HUDScale(180),
+		font = customFont:GetString(),
+		size = math.ceil(TM.HUDScale(180)),
 		weight = 600,
 		antialias = true,
-		outline = true
-	} )
+		outline = true,
+		extended = true
+	})
 
 	surface.CreateFont("HUD_AmmoCountSmall", {
 		font = "Arial",
-		size = TM.HUDScale(96),
+		size = math.ceil(TM.HUDScale(96)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 
 	surface.CreateFont("GModNotify", {
-		font = GetConVar("tm_hud_font"):GetString(),
-		size = TM.MenuScale(22),
+		font = customFont:GetString(),
+		size = math.ceil(TM.MenuScale(22)),
 		weight = 500,
-		antialias = true
-	} )
+		antialias = true,
+		extended = true
+	})
 end
-UpdateFonts()
 
-hook.Add("OnScreenSizeChanged", "ResolutionChange", function() UpdateFonts() end)
-cvars.AddChangeCallback("tm_hud_font", function(convar_name, value_old, value_new) UpdateFonts() end)
-cvars.AddChangeCallback("tm_hud_scale", function(convar_name, value_old, value_new) UpdateFonts() end)
+CreateFonts()
+
+hook.Add("OnScreenSizeChanged", "RefreshFonts", function(_, _, _, _)
+	timer.Simple(3, function()
+		CreateFonts()
+	end)
+end)
+
+cvars.AddChangeCallback("tm_hud_scale", function()
+	CreateFonts()
+end)

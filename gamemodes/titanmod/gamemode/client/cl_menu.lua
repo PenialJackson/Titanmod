@@ -69,10 +69,10 @@ net.Receive("OpenMainMenu", function(len, ply)
 
 		MainMenu:AlphaTo(255, 0.1, 0)
 
-		for i = 1, #mapArray do
-			if game.GetMap() == mapArray[i][1] then
-				mapID = mapArray[i][1]
-				mapName = mapArray[i][2]
+		for i = 1, #MAPS do
+			if game.GetMap() == MAPS[i][1] then
+				mapID = MAPS[i][1]
+				mapName = MAPS[i][2]
 			end
 		end
 
@@ -290,8 +290,8 @@ net.Receive("OpenMainMenu", function(len, ply)
 
 						local weaponstatistics = BoardSelection:AddSubMenu("Weapons")
 						weaponstatistics:SetMaxHeight(scrH / 2)
-						for i = 1, #weaponArray do
-							weaponstatistics:AddOption("Kills w/ " .. weaponArray[i][2], function() LeaderboardSelected("Kills w/ " .. weaponArray[i][2], "killsWith_" .. weaponArray[i][1]) end)
+						for i = 1, #WEAPONS do
+							weaponstatistics:AddOption("Kills w/ " .. WEAPONS[i][2], function() LeaderboardSelected("Kills w/ " .. WEAPONS[i][2], "killsWith_" .. WEAPONS[i][1]) end)
 						end
 
 						BoardSelection:Open()
@@ -653,13 +653,13 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					draw.DrawText("SPAWN", "AmmoCountSmall", TM.MenuScale(5) + TM.MenuScale(spawnTextAnim), TM.MenuScale(5), white, TEXT_ALIGN_LEFT)
-					for i = 1, #weaponArray do
+					for i = 1, #WEAPONS do
 						if activeGamemode == "Gun Game" then
 							draw.SimpleText(LocalPly:GetNWInt("ladderPosition") .. " / " .. ggLadderSize .. " kills", "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
 						else
-							if weaponArray[i][1] == LocalPly:GetNWString("loadoutPrimary") and usePrimary then draw.SimpleText(weaponArray[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT) end
-							if weaponArray[i][1] == LocalPly:GetNWString("loadoutSecondary") and useSecondary then draw.SimpleText(weaponArray[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(40) , white, TEXT_ALIGN_LEFT) end
-							if weaponArray[i][1] == LocalPly:GetNWString("loadoutMelee") and useMelee then draw.SimpleText(weaponArray[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(65), white, TEXT_ALIGN_LEFT) end
+							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutPrimary") and usePrimary then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT) end
+							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutSecondary") and useSecondary then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(40) , white, TEXT_ALIGN_LEFT) end
+							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutMelee") and useMelee then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(65), white, TEXT_ALIGN_LEFT) end
 						end
 					end
 				else
@@ -775,7 +775,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local newGearUnlockKills
 				local newGearUnlockLevel
 
-				local totalGear = table.Count(gearArray)
+				local totalGear = table.Count(GEAR)
 				local gearUnlocked = 0
 
 				local defaultGearTotal = 0
@@ -787,21 +787,21 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local playerTotalLevel = (LocalPly:GetNWInt("playerPrestige") * 60) + LocalPly:GetNWInt("playerLevel")
 
 				-- checking for the players currently equipped gear
-				for i = 1, #gearArray do
-					if gearArray[i][1] == currentGear then
-						equippedGear = gearArray[i][1]
-						equippedGearName = gearArray[i][2]
-						equippedGearModel = gearArray[i][3]
-						equippedGearUnlockType = gearArray[i][4]
-						equippedGearUnlockKills = gearArray[i][5]
-						equippedGearUnlockLevel = gearArray[i][6]
+				for i = 1, #GEAR do
+					if GEAR[i][1] == currentGear then
+						equippedGear = GEAR[i][1]
+						equippedGearName = GEAR[i][2]
+						equippedGearModel = GEAR[i][3]
+						equippedGearUnlockType = GEAR[i][4]
+						equippedGearUnlockKills = GEAR[i][5]
+						equippedGearUnlockLevel = GEAR[i][6]
 
-						newGear = gearArray[i][1]
-						newGearName = gearArray[i][2]
-						newGearModel = gearArray[i][3]
-						newGearUnlockType = gearArray[i][4]
-						newGearUnlockKills = gearArray[i][5]
-						newGearUnlockLevel = gearArray[i][6]
+						newGear = GEAR[i][1]
+						newGearName = GEAR[i][2]
+						newGearModel = GEAR[i][3]
+						newGearUnlockType = GEAR[i][4]
+						newGearUnlockKills = GEAR[i][5]
+						newGearUnlockLevel = GEAR[i][6]
 					end
 				end
 
@@ -940,15 +940,15 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 				local function FillGearListsAll()
 					local lockedGear = {}
-					for i = 1, #gearArray do
-						if gearArray[i][4] == "default" then
+					for i = 1, #GEAR do
+						if GEAR[i][4] == "default" then
 							local gear = vgui.Create("DButton", DockDefaultGear)
 							gear:SetSize(TM.MenuScale(635), TM.MenuScale(100))
 							gear:SetText("")
 							gear.Paint = function(self, w, h)
 								draw.RoundedBox(0, 0, 0, w, h, previewGreen)
 
-								draw.SimpleTextOutlined(string.upper(gearArray[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 205))
+								draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 205))
 								draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 							end
 
@@ -959,12 +959,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							defaultGearUnlocked = defaultGearUnlocked + 1
 
 							gear.OnCursorEntered = function()
-								newGear = gearArray[i][1]
-								newGearName = gearArray[i][2]
-								newGearModel = gearArray[i][3]
-								newGearUnlockType = gearArray[i][4]
-								newGearUnlockKills = gearArray[i][5]
-								newGearUnlockLevel = gearArray[i][6]
+								newGear = GEAR[i][1]
+								newGearName = GEAR[i][2]
+								newGearModel = GEAR[i][3]
+								newGearUnlockType = GEAR[i][4]
+								newGearUnlockKills = GEAR[i][5]
+								newGearUnlockLevel = GEAR[i][6]
 								TriggerSound("hover")
 								PreviewNewGear(newGearModel)
 							end
@@ -980,11 +980,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							end
 
 							gear.DoClick = function() ApplyGear() end
-						elseif gearArray[i][4] == "melee" then
+						elseif GEAR[i][4] == "melee" then
 							progressionGearTotal = progressionGearTotal + 1
 
-							if (gearArray[i][4] == "melee" and LocalPly:GetNWInt("playerAccoladeSmackdown") < gearArray[i][5] and gearArray[i][4] == "melee" and playerTotalLevel < gearArray[i][6]) and GetConVar("tm_unlockall"):GetInt() == 0 then
-								table.insert(lockedGear, gearArray[i])
+							if (GEAR[i][4] == "melee" and LocalPly:GetNWInt("playerAccoladeSmackdown") < GEAR[i][5] and GEAR[i][4] == "melee" and playerTotalLevel < GEAR[i][6]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+								table.insert(lockedGear, GEAR[i])
 							else
 								local gear = vgui.Create("DButton", DockProgressionGear)
 								gear:SetSize(TM.MenuScale(635), TM.MenuScale(100))
@@ -992,12 +992,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								gear.Paint = function(self, w, h)
 									draw.RoundedBox(0, 0, 0, w, h, previewGreen)
 
-									draw.SimpleTextOutlined(string.upper(gearArray[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 
-									draw.SimpleTextOutlined("Melee Kills: " .. LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. gearArray[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined("Melee Kills: " .. LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-									draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. gearArray[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. GEAR[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 								end
 
 								ProgressionGearList:Add(gear)
@@ -1006,12 +1006,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								progressionGearUnlocked = progressionGearUnlocked + 1
 
 								gear.OnCursorEntered = function()
-									newGear = gearArray[i][1]
-									newGearName = gearArray[i][2]
-									newGearModel = gearArray[i][3]
-									newGearUnlockType = gearArray[i][4]
-									newGearUnlockKills = gearArray[i][5]
-									newGearUnlockLevel = gearArray[i][6]
+									newGear = GEAR[i][1]
+									newGearName = GEAR[i][2]
+									newGearModel = GEAR[i][3]
+									newGearUnlockType = GEAR[i][4]
+									newGearUnlockKills = GEAR[i][5]
+									newGearUnlockLevel = GEAR[i][6]
 									TriggerSound("hover")
 									PreviewNewGear(newGearModel)
 								end
@@ -1076,15 +1076,15 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				end
 
 				local function FillGearListsUnlocked()
-					for i = 1, #gearArray do
-						if gearArray[i][4] == "default" then
+					for i = 1, #GEAR do
+						if GEAR[i][4] == "default" then
 							local gear = vgui.Create("DButton", DockDefaultGear)
 							gear:SetSize(TM.MenuScale(635), TM.MenuScale(100))
 							gear:SetText("")
 							gear.Paint = function(self, w, h)
 								draw.RoundedBox(0, 0, 0, w, h, previewGreen)
 
-								draw.SimpleTextOutlined(string.upper(gearArray[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+								draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 								draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 							end
 
@@ -1095,12 +1095,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							defaultGearUnlocked = defaultGearUnlocked + 1
 
 							gear.OnCursorEntered = function()
-								newGear = gearArray[i][1]
-								newGearName = gearArray[i][2]
-								newGearModel = gearArray[i][3]
-								newGearUnlockType = gearArray[i][4]
-								newGearUnlockKills = gearArray[i][5]
-								newGearUnlockLevel = gearArray[i][6]
+								newGear = GEAR[i][1]
+								newGearName = GEAR[i][2]
+								newGearModel = GEAR[i][3]
+								newGearUnlockType = GEAR[i][4]
+								newGearUnlockKills = GEAR[i][5]
+								newGearUnlockLevel = GEAR[i][6]
 								TriggerSound("hover")
 								PreviewNewGear(newGearModel)
 							end
@@ -1116,10 +1116,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							end
 
 							gear.DoClick = function() ApplyGear() end
-						elseif gearArray[i][4] == "melee" then
+						elseif GEAR[i][4] == "melee" then
 							progressionGearTotal = progressionGearTotal + 1
 
-							if gearArray[i][4] == "melee" and LocalPly:GetNWInt("playerAccoladeSmackdown") < gearArray[i][5] and gearArray[i][4] == "melee" and playerTotalLevel < gearArray[i][6] then
+							if GEAR[i][4] == "melee" and LocalPly:GetNWInt("playerAccoladeSmackdown") < GEAR[i][5] and GEAR[i][4] == "melee" and playerTotalLevel < GEAR[i][6] then
 								return
 							else
 								local gear = vgui.Create("DButton", DockProgressionGear)
@@ -1128,12 +1128,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								gear.Paint = function(self, w, h)
 									draw.RoundedBox(0, 0, 0, w, h, previewGreen)
 
-									draw.SimpleTextOutlined(string.upper(gearArray[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 
-									draw.SimpleTextOutlined("Melee Kills: " .. LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. gearArray[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined("Melee Kills: " .. LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-									draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. gearArray[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. GEAR[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 								end
 
 								ProgressionGearList:Add(gear)
@@ -1142,12 +1142,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								progressionGearUnlocked = progressionGearUnlocked + 1
 
 								gear.OnCursorEntered = function()
-									newGear = gearArray[i][1]
-									newGearName = gearArray[i][2]
-									newGearModel = gearArray[i][3]
-									newGearUnlockType = gearArray[i][4]
-									newGearUnlockKills = gearArray[i][5]
-									newGearUnlockLevel = gearArray[i][6]
+									newGear = GEAR[i][1]
+									newGearName = GEAR[i][2]
+									newGearModel = GEAR[i][3]
+									newGearUnlockType = GEAR[i][4]
+									newGearUnlockKills = GEAR[i][5]
+									newGearUnlockLevel = GEAR[i][6]
 									TriggerSound("hover")
 									PreviewNewGear(newGearModel)
 								end
@@ -1264,7 +1264,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local newCardUnlockType
 					local newCardUnlockValue
 
-					local totalCards = table.Count(cardArray)
+					local totalCards = table.Count(CARDS)
 					local cardsUnlocked = 0
 
 					local defaultCardsTotal = 0
@@ -1291,19 +1291,19 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local playerTotalLevel = (LocalPly:GetNWInt("playerPrestige") * 60) + LocalPly:GetNWInt("playerLevel")
 
 					-- checking for the players currently equipped card
-					for i = 1, #cardArray do
-						if cardArray[i][1] == currentCard then
-							newCard = cardArray[i][1]
-							newCardName = cardArray[i][2]
-							newCardDesc = cardArray[i][3]
-							newCardUnlockType = cardArray[i][4]
-							newCardUnlockValue = cardArray[i][5]
+					for i = 1, #CARDS do
+						if CARDS[i][1] == currentCard then
+							newCard = CARDS[i][1]
+							newCardName = CARDS[i][2]
+							newCardDesc = CARDS[i][3]
+							newCardUnlockType = CARDS[i][4]
+							newCardUnlockValue = CARDS[i][5]
 
-							equippedCard = cardArray[i][1]
-							equippedCardName = cardArray[i][2]
-							equippedCardDesc = cardArray[i][3]
-							equippedCardUnlockType = cardArray[i][4]
-							equippedCardUnlockValue = cardArray[i][5]
+							equippedCard = CARDS[i][1]
+							equippedCardName = CARDS[i][2]
+							equippedCardDesc = CARDS[i][3]
+							equippedCardUnlockType = CARDS[i][4]
+							equippedCardUnlockValue = CARDS[i][5]
 						end
 					end
 
@@ -1650,10 +1650,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local function FillCardListsAll()
 						local lockedCards = {}
-						for i = 1, #cardArray do
-							if cardArray[i][4] == "default" then
+						for i = 1, #CARDS do
+							if CARDS[i][4] == "default" then
 								local card = vgui.Create("DImageButton", DockDefaultCards)
-								card:SetImage(cardArray[i][1])
+								card:SetImage(CARDS[i][1])
 								card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 								card:SetDepressImage(false)
 								DefaultCardList:Add(card)
@@ -1663,11 +1663,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								defaultCardsUnlocked = defaultCardsUnlocked + 1
 
 								card.OnCursorEntered = function()
-									newCard = cardArray[i][1]
-									newCardName = cardArray[i][2]
-									newCardDesc = cardArray[i][3]
-									newCardUnlockType = cardArray[i][4]
-									newCardUnlockValue = cardArray[i][5]
+									newCard = CARDS[i][1]
+									newCardName = CARDS[i][2]
+									newCardDesc = CARDS[i][3]
+									newCardUnlockType = CARDS[i][4]
+									newCardUnlockValue = CARDS[i][5]
 									TriggerSound("hover")
 								end
 
@@ -1680,14 +1680,14 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 
 								card.DoClick = function() ApplyCard() end
-							elseif cardArray[i][4] == "kills" or cardArray[i][4] == "streak" or cardArray[i][4] == "matches" or cardArray[i][4] == "wins" then
+							elseif CARDS[i][4] == "kills" or CARDS[i][4] == "streak" or CARDS[i][4] == "matches" or CARDS[i][4] == "wins" then
 								statCardsTotal = statCardsTotal + 1
 
-								if (cardArray[i][4] == "kills" and LocalPly:GetNWInt("playerKills") < cardArray[i][5] or cardArray[i][4] == "streak" and LocalPly:GetNWInt("highestKillStreak") < cardArray[i][5] or cardArray[i][4] == "matches" and LocalPly:GetNWInt("matchesPlayed") < cardArray[i][5] or cardArray[i][4] == "wins" and LocalPly:GetNWInt("matchesWon") < cardArray[i][5]) and GetConVar("tm_unlockall"):GetInt() == 0 then
-									table.insert(lockedCards, cardArray[i])
+								if (CARDS[i][4] == "kills" and LocalPly:GetNWInt("playerKills") < CARDS[i][5] or CARDS[i][4] == "streak" and LocalPly:GetNWInt("highestKillStreak") < CARDS[i][5] or CARDS[i][4] == "matches" and LocalPly:GetNWInt("matchesPlayed") < CARDS[i][5] or CARDS[i][4] == "wins" and LocalPly:GetNWInt("matchesWon") < CARDS[i][5]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockStatCards)
-									card:SetImage(cardArray[i][1])
+									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 									card:SetDepressImage(false)
 									StatCardList:Add(card)
@@ -1695,11 +1695,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									statCardsUnlocked = statCardsUnlocked + 1
 
 									card.OnCursorEntered = function()
-										newCard = cardArray[i][1]
-										newCardName = cardArray[i][2]
-										newCardDesc = cardArray[i][3]
-										newCardUnlockType = cardArray[i][4]
-										newCardUnlockValue = cardArray[i][5]
+										newCard = CARDS[i][1]
+										newCardName = CARDS[i][2]
+										newCardDesc = CARDS[i][3]
+										newCardUnlockType = CARDS[i][4]
+										newCardUnlockValue = CARDS[i][5]
 										TriggerSound("hover")
 									end
 
@@ -1713,14 +1713,14 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 									card.DoClick = function() ApplyCard() end
 								end
-							elseif cardArray[i][4] == "headshot" or cardArray[i][4] == "smackdown" or cardArray[i][4] == "clutch" or cardArray[i][4] == "longshot" or cardArray[i][4] == "pointblank" or cardArray[i][4] == "killstreaks" or cardArray[i][4] == "buzzkills" then
+							elseif CARDS[i][4] == "headshot" or CARDS[i][4] == "smackdown" or CARDS[i][4] == "clutch" or CARDS[i][4] == "longshot" or CARDS[i][4] == "pointblank" or CARDS[i][4] == "killstreaks" or CARDS[i][4] == "buzzkills" then
 								accoladeCardsTotal = accoladeCardsTotal + 1
 
-								if (cardArray[i][4] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < cardArray[i][5] or cardArray[i][4] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < cardArray[i][5] or cardArray[i][4] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < cardArray[i][5] or cardArray[i][4] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < cardArray[i][5] or cardArray[i][4] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < cardArray[i][5] or cardArray[i][4] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < cardArray[i][5] or cardArray[i][4] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < cardArray[i][5]) and GetConVar("tm_unlockall"):GetInt() == 0 then
-									table.insert(lockedCards, cardArray[i])
+								if (CARDS[i][4] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < CARDS[i][5] or CARDS[i][4] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < CARDS[i][5] or CARDS[i][4] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < CARDS[i][5] or CARDS[i][4] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < CARDS[i][5] or CARDS[i][4] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < CARDS[i][5] or CARDS[i][4] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < CARDS[i][5] or CARDS[i][4] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < CARDS[i][5]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockAccoladeCards)
-									card:SetImage(cardArray[i][1])
+									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 									card:SetDepressImage(false)
 									AccoladeCardList:Add(card)
@@ -1728,11 +1728,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									accoladeCardsUnlocked = accoladeCardsUnlocked + 1
 
 									card.OnCursorEntered = function()
-										newCard = cardArray[i][1]
-										newCardName = cardArray[i][2]
-										newCardDesc = cardArray[i][3]
-										newCardUnlockType = cardArray[i][4]
-										newCardUnlockValue = cardArray[i][5]
+										newCard = CARDS[i][1]
+										newCardName = CARDS[i][2]
+										newCardDesc = CARDS[i][3]
+										newCardUnlockType = CARDS[i][4]
+										newCardUnlockValue = CARDS[i][5]
 										TriggerSound("hover")
 									end
 
@@ -1746,9 +1746,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 									card.DoClick = function() ApplyCard() end
 								end
-							elseif cardArray[i][4] == "color" then
+							elseif CARDS[i][4] == "color" then
 								local card = vgui.Create("DImageButton", DockColorCards)
-								card:SetImage(cardArray[i][1])
+								card:SetImage(CARDS[i][1])
 								card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 								card:SetDepressImage(false)
 								ColorCardList:Add(card)
@@ -1758,11 +1758,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								colorCardsUnlocked = colorCardsUnlocked + 1
 
 								card.OnCursorEntered = function()
-									newCard = cardArray[i][1]
-									newCardName = cardArray[i][2]
-									newCardDesc = cardArray[i][3]
-									newCardUnlockType = cardArray[i][4]
-									newCardUnlockValue = cardArray[i][5]
+									newCard = CARDS[i][1]
+									newCardName = CARDS[i][2]
+									newCardDesc = CARDS[i][3]
+									newCardUnlockType = CARDS[i][4]
+									newCardUnlockValue = CARDS[i][5]
 									TriggerSound("hover")
 								end
 
@@ -1775,9 +1775,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 
 								card.DoClick = function() ApplyCard() end
-							elseif cardArray[i][4] == "pride" then
+							elseif CARDS[i][4] == "pride" then
 								local card = vgui.Create("DImageButton", DockPrideCards)
-								card:SetImage(cardArray[i][1])
+								card:SetImage(CARDS[i][1])
 								card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 								card:SetDepressImage(false)
 								PrideCardList:Add(card)
@@ -1787,11 +1787,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								prideCardsUnlocked = prideCardsUnlocked + 1
 
 								card.OnCursorEntered = function()
-									newCard = cardArray[i][1]
-									newCardName = cardArray[i][2]
-									newCardDesc = cardArray[i][3]
-									newCardUnlockType = cardArray[i][4]
-									newCardUnlockValue = cardArray[i][5]
+									newCard = CARDS[i][1]
+									newCardName = CARDS[i][2]
+									newCardDesc = CARDS[i][3]
+									newCardUnlockType = CARDS[i][4]
+									newCardUnlockValue = CARDS[i][5]
 									TriggerSound("hover")
 								end
 
@@ -1804,14 +1804,14 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 
 								card.DoClick = function() ApplyCard() end
-							elseif cardArray[i][4] == "level" then
+							elseif CARDS[i][4] == "level" then
 								levelCardsTotal = levelCardsTotal + 1
 
-								if (cardArray[i][4] == "level" and playerTotalLevel < cardArray[i][5]) and GetConVar("tm_unlockall"):GetInt() == 0 then
-									table.insert(lockedCards, cardArray[i])
+								if (CARDS[i][4] == "level" and playerTotalLevel < CARDS[i][5]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockLevelCards)
-									card:SetImage(cardArray[i][1])
+									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 									card:SetDepressImage(false)
 									LevelCardList:Add(card)
@@ -1819,11 +1819,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									levelCardsUnlocked = levelCardsUnlocked + 1
 
 									card.OnCursorEntered = function()
-										newCard = cardArray[i][1]
-										newCardName = cardArray[i][2]
-										newCardDesc = cardArray[i][3]
-										newCardUnlockType = cardArray[i][4]
-										newCardUnlockValue = cardArray[i][5]
+										newCard = CARDS[i][1]
+										newCardName = CARDS[i][2]
+										newCardDesc = CARDS[i][3]
+										newCardUnlockType = CARDS[i][4]
+										newCardUnlockValue = CARDS[i][5]
 										TriggerSound("hover")
 									end
 
@@ -1837,14 +1837,14 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 									card.DoClick = function() ApplyCard() end
 								end
-							elseif cardArray[i][4] == "mastery" then
+							elseif CARDS[i][4] == "mastery" then
 								masteryCardsTotal = masteryCardsTotal + 1
 
-								if (cardArray[i][4] == "mastery" and LocalPly:GetNWInt("killsWith_" .. cardArray[i][5]) < 50) and GetConVar("tm_unlockall"):GetInt() == 0 then
-									table.insert(lockedCards, cardArray[i])
+								if (CARDS[i][4] == "mastery" and LocalPly:GetNWInt("killsWith_" .. CARDS[i][5]) < 50) and GetConVar("tm_unlockall"):GetInt() == 0 then
+									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockMasteryCards)
-									card:SetImage(cardArray[i][1])
+									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 									card:SetDepressImage(false)
 									MasteryCardList:Add(card)
@@ -1852,11 +1852,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									masteryCardsUnlocked = masteryCardsUnlocked + 1
 
 									card.OnCursorEntered = function()
-										newCard = cardArray[i][1]
-										newCardName = cardArray[i][2]
-										newCardDesc = cardArray[i][3]
-										newCardUnlockType = cardArray[i][4]
-										newCardUnlockValue = cardArray[i][5]
+										newCard = CARDS[i][1]
+										newCardName = CARDS[i][2]
+										newCardDesc = CARDS[i][3]
+										newCardUnlockType = CARDS[i][4]
+										newCardUnlockValue = CARDS[i][5]
 										TriggerSound("hover")
 									end
 
@@ -2027,10 +2027,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local function FillCardListsUnlocked()
-						for i = 1, #cardArray do
-							if cardArray[i][4] == "default" then
+						for i = 1, #CARDS do
+							if CARDS[i][4] == "default" then
 								local card = vgui.Create("DImageButton", DockDefaultCards)
-								card:SetImage(cardArray[i][1])
+								card:SetImage(CARDS[i][1])
 								card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 								card:SetDepressImage(false)
 								DefaultCardList:Add(card)
@@ -2040,11 +2040,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								defaultCardsUnlocked = defaultCardsUnlocked + 1
 
 								card.OnCursorEntered = function()
-									newCard = cardArray[i][1]
-									newCardName = cardArray[i][2]
-									newCardDesc = cardArray[i][3]
-									newCardUnlockType = cardArray[i][4]
-									newCardUnlockValue = cardArray[i][5]
+									newCard = CARDS[i][1]
+									newCardName = CARDS[i][2]
+									newCardDesc = CARDS[i][3]
+									newCardUnlockType = CARDS[i][4]
+									newCardUnlockValue = CARDS[i][5]
 									TriggerSound("hover")
 								end
 
@@ -2057,11 +2057,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 
 								card.DoClick = function() ApplyCard() end
-							elseif cardArray[i][4] == "kills" or cardArray[i][4] == "streak" or cardArray[i][4] == "matches" or cardArray[i][4] == "wins" then
+							elseif CARDS[i][4] == "kills" or CARDS[i][4] == "streak" or CARDS[i][4] == "matches" or CARDS[i][4] == "wins" then
 								statCardsTotal = statCardsTotal + 1
-								if cardArray[i][4] == "kills" and LocalPly:GetNWInt("playerKills") >= cardArray[i][5] or cardArray[i][4] == "streak" and LocalPly:GetNWInt("highestKillStreak") >= cardArray[i][5] or cardArray[i][4] == "matches" and LocalPly:GetNWInt("matchesPlayed") >= cardArray[i][5] or cardArray[i][4] == "wins" and LocalPly:GetNWInt("matchesWon") >= cardArray[i][5] then
+								if CARDS[i][4] == "kills" and LocalPly:GetNWInt("playerKills") >= CARDS[i][5] or CARDS[i][4] == "streak" and LocalPly:GetNWInt("highestKillStreak") >= CARDS[i][5] or CARDS[i][4] == "matches" and LocalPly:GetNWInt("matchesPlayed") >= CARDS[i][5] or CARDS[i][4] == "wins" and LocalPly:GetNWInt("matchesWon") >= CARDS[i][5] then
 									local card = vgui.Create("DImageButton", DockStatCards)
-									card:SetImage(cardArray[i][1])
+									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 									card:SetDepressImage(false)
 									StatCardList:Add(card)
@@ -2070,11 +2070,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									statCardsUnlocked = statCardsUnlocked + 1
 
 									card.OnCursorEntered = function()
-										newCard = cardArray[i][1]
-										newCardName = cardArray[i][2]
-										newCardDesc = cardArray[i][3]
-										newCardUnlockType = cardArray[i][4]
-										newCardUnlockValue = cardArray[i][5]
+										newCard = CARDS[i][1]
+										newCardName = CARDS[i][2]
+										newCardDesc = CARDS[i][3]
+										newCardUnlockType = CARDS[i][4]
+										newCardUnlockValue = CARDS[i][5]
 										TriggerSound("hover")
 									end
 
@@ -2088,11 +2088,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 									card.DoClick = function() ApplyCard() end
 								end
-							elseif cardArray[i][4] == "headshot" or cardArray[i][4] == "smackdown" or cardArray[i][4] == "clutch" or cardArray[i][4] == "longshot" or cardArray[i][4] == "pointblank" or cardArray[i][4] == "killstreaks" or cardArray[i][4] == "buzzkills" then
+							elseif CARDS[i][4] == "headshot" or CARDS[i][4] == "smackdown" or CARDS[i][4] == "clutch" or CARDS[i][4] == "longshot" or CARDS[i][4] == "pointblank" or CARDS[i][4] == "killstreaks" or CARDS[i][4] == "buzzkills" then
 								accoladeCardsTotal = accoladeCardsTotal + 1
-								if cardArray[i][4] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") >= cardArray[i][5] or cardArray[i][4] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") >= cardArray[i][5] or cardArray[i][4] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") >= cardArray[i][5] or cardArray[i][4] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") >= cardArray[i][5] or cardArray[i][4] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") >= cardArray[i][5] or cardArray[i][4] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") >= cardArray[i][5] or cardArray[i][4] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") >= cardArray[i][5] then
+								if CARDS[i][4] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") >= CARDS[i][5] or CARDS[i][4] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") >= CARDS[i][5] or CARDS[i][4] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") >= CARDS[i][5] or CARDS[i][4] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") >= CARDS[i][5] or CARDS[i][4] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") >= CARDS[i][5] or CARDS[i][4] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") >= CARDS[i][5] or CARDS[i][4] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") >= CARDS[i][5] then
 									local card = vgui.Create("DImageButton", DockAccoladeCards)
-									card:SetImage(cardArray[i][1])
+									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 									card:SetDepressImage(false)
 									AccoladeCardList:Add(card)
@@ -2101,11 +2101,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									accoladeCardsUnlocked = accoladeCardsUnlocked + 1
 
 									card.OnCursorEntered = function()
-										newCard = cardArray[i][1]
-										newCardName = cardArray[i][2]
-										newCardDesc = cardArray[i][3]
-										newCardUnlockType = cardArray[i][4]
-										newCardUnlockValue = cardArray[i][5]
+										newCard = CARDS[i][1]
+										newCardName = CARDS[i][2]
+										newCardDesc = CARDS[i][3]
+										newCardUnlockType = CARDS[i][4]
+										newCardUnlockValue = CARDS[i][5]
 										TriggerSound("hover")
 									end
 
@@ -2119,9 +2119,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 									card.DoClick = function() ApplyCard() end
 								end
-							elseif cardArray[i][4] == "color" then
+							elseif CARDS[i][4] == "color" then
 								local card = vgui.Create("DImageButton", DockColorCards)
-								card:SetImage(cardArray[i][1])
+								card:SetImage(CARDS[i][1])
 								card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 								card:SetDepressImage(false)
 								ColorCardList:Add(card)
@@ -2131,11 +2131,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								colorCardsUnlocked = colorCardsUnlocked + 1
 
 								card.OnCursorEntered = function()
-									newCard = cardArray[i][1]
-									newCardName = cardArray[i][2]
-									newCardDesc = cardArray[i][3]
-									newCardUnlockType = cardArray[i][4]
-									newCardUnlockValue = cardArray[i][5]
+									newCard = CARDS[i][1]
+									newCardName = CARDS[i][2]
+									newCardDesc = CARDS[i][3]
+									newCardUnlockType = CARDS[i][4]
+									newCardUnlockValue = CARDS[i][5]
 									TriggerSound("hover")
 								end
 
@@ -2148,9 +2148,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 
 								card.DoClick = function() ApplyCard() end
-							elseif cardArray[i][4] == "pride" then
+							elseif CARDS[i][4] == "pride" then
 								local card = vgui.Create("DImageButton", DockPrideCards)
-								card:SetImage(cardArray[i][1])
+								card:SetImage(CARDS[i][1])
 								card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 								card:SetDepressImage(false)
 								PrideCardList:Add(card)
@@ -2160,11 +2160,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								prideCardsUnlocked = prideCardsUnlocked + 1
 
 								card.OnCursorEntered = function()
-									newCard = cardArray[i][1]
-									newCardName = cardArray[i][2]
-									newCardDesc = cardArray[i][3]
-									newCardUnlockType = cardArray[i][4]
-									newCardUnlockValue = cardArray[i][5]
+									newCard = CARDS[i][1]
+									newCardName = CARDS[i][2]
+									newCardDesc = CARDS[i][3]
+									newCardUnlockType = CARDS[i][4]
+									newCardUnlockValue = CARDS[i][5]
 									TriggerSound("hover")
 								end
 
@@ -2177,11 +2177,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 
 								card.DoClick = function() ApplyCard() end
-							elseif cardArray[i][4] == "level" then
+							elseif CARDS[i][4] == "level" then
 								levelCardsTotal = levelCardsTotal + 1
-								if cardArray[i][4] == "level" and playerTotalLevel >= cardArray[i][5] then
+								if CARDS[i][4] == "level" and playerTotalLevel >= CARDS[i][5] then
 									local card = vgui.Create("DImageButton", DockLevelCards)
-									card:SetImage(cardArray[i][1])
+									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 									card:SetDepressImage(false)
 									LevelCardList:Add(card)
@@ -2190,11 +2190,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									levelCardsUnlocked = levelCardsUnlocked + 1
 
 									card.OnCursorEntered = function()
-										newCard = cardArray[i][1]
-										newCardName = cardArray[i][2]
-										newCardDesc = cardArray[i][3]
-										newCardUnlockType = cardArray[i][4]
-										newCardUnlockValue = cardArray[i][5]
+										newCard = CARDS[i][1]
+										newCardName = CARDS[i][2]
+										newCardDesc = CARDS[i][3]
+										newCardUnlockType = CARDS[i][4]
+										newCardUnlockValue = CARDS[i][5]
 										TriggerSound("hover")
 									end
 
@@ -2208,11 +2208,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 									card.DoClick = function() ApplyCard() end
 								end
-							elseif cardArray[i][4] == "mastery" then
+							elseif CARDS[i][4] == "mastery" then
 								masteryCardsTotal = masteryCardsTotal + 1
-								if cardArray[i][4] == "mastery" and LocalPly:GetNWInt("killsWith_" .. cardArray[i][5]) >= 50 then
+								if CARDS[i][4] == "mastery" and LocalPly:GetNWInt("killsWith_" .. CARDS[i][5]) >= 50 then
 									local card = vgui.Create("DImageButton", DockMasteryCards)
-									card:SetImage(cardArray[i][1])
+									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 									card:SetDepressImage(false)
 									MasteryCardList:Add(card)
@@ -2221,11 +2221,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									masteryCardsUnlocked = masteryCardsUnlocked + 1
 
 									card.OnCursorEntered = function()
-										newCard = cardArray[i][1]
-										newCardName = cardArray[i][2]
-										newCardDesc = cardArray[i][3]
-										newCardUnlockType = cardArray[i][4]
-										newCardUnlockValue = cardArray[i][5]
+										newCard = CARDS[i][1]
+										newCardName = CARDS[i][2]
+										newCardDesc = CARDS[i][3]
+										newCardUnlockType = CARDS[i][4]
+										newCardUnlockValue = CARDS[i][5]
 										TriggerSound("hover")
 									end
 
@@ -2526,7 +2526,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local newModelUnlockType
 					local newModelUnlockValue
 
-					local totalModels = table.Count(modelArray)
+					local totalModels = table.Count(MODELS)
 					local modelsUnlocked = 0
 
 					local defaultModelsTotal = 0
@@ -2542,17 +2542,17 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local previewGreen = Color(0, 255, 0, 5)
 
 					-- checking for the players currently equipped model
-					for i = 1, #modelArray do
-						if modelArray[i][1] == currentModel then
-							equippedModel = modelArray[i][1]
-							equippedModelName = modelArray[i][2]
-							equippedModelUnlockType = modelArray[i][3]
-							equippedModelUnlockValue = modelArray[i][4]
+					for i = 1, #MODELS do
+						if MODELS[i][1] == currentModel then
+							equippedModel = MODELS[i][1]
+							equippedModelName = MODELS[i][2]
+							equippedModelUnlockType = MODELS[i][3]
+							equippedModelUnlockValue = MODELS[i][4]
 
-							newModel = modelArray[i][1]
-							newModelName = modelArray[i][2]
-							newModelUnlockType = modelArray[i][3]
-							newModelUnlockValue = modelArray[i][4]
+							newModel = MODELS[i][1]
+							newModelName = MODELS[i][2]
+							newModelUnlockType = MODELS[i][3]
+							newModelUnlockValue = MODELS[i][4]
 						end
 					end
 
@@ -2709,10 +2709,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local function FillModelListsAll()
 						local lockedModels = {}
-						for i = 1, #modelArray do
-							if modelArray[i][3] == "default" then
+						for i = 1, #MODELS do
+							if MODELS[i][3] == "default" then
 								local icon = vgui.Create("SpawnIcon", DockModels)
-								icon:SetModel(modelArray[i][1])
+								icon:SetModel(MODELS[i][1])
 								icon:SetSize(TM.MenuScale(150), TM.MenuScale(150))
 								icon:SetTooltip(nil)
 								DefaultModelList:Add(icon)
@@ -2724,10 +2724,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								icon.OnCursorEntered = function()
 									TriggerSound("hover")
 
-									newModel = modelArray[i][1]
-									newModelName = modelArray[i][2]
-									newModelUnlockType = modelArray[i][3]
-									newModelUnlockValue = modelArray[i][4]
+									newModel = MODELS[i][1]
+									newModelName = MODELS[i][2]
+									newModelUnlockType = MODELS[i][3]
+									newModelUnlockValue = MODELS[i][4]
 									PreviewNewModel(newModel)
 
 									if mouseX <= (ScrW() / 2) then sideH = true else sideH = false end
@@ -2782,14 +2782,14 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 
 								icon.DoClick = function() ApplyModel() end
-							elseif modelArray[i][3] == "kills" or modelArray[i][3] == "streak" or modelArray[i][3] == "matches" or modelArray[i][3] == "wins" then
+							elseif MODELS[i][3] == "kills" or MODELS[i][3] == "streak" or MODELS[i][3] == "matches" or MODELS[i][3] == "wins" then
 								statModelsTotal = statModelsTotal + 1
 
-								if (modelArray[i][3] == "kills" and LocalPly:GetNWInt("playerKills") < modelArray[i][4] or modelArray[i][3] == "streak" and LocalPly:GetNWInt("highestKillStreak") < modelArray[i][4] or modelArray[i][3] == "matches" and LocalPly:GetNWInt("matchesPlayed") < modelArray[i][4] or modelArray[i][3] == "wins" and LocalPly:GetNWInt("matchesWon") < modelArray[i][4]) and GetConVar("tm_unlockall"):GetInt() == 0 then
-									table.insert(lockedModels, modelArray[i])
+								if (MODELS[i][3] == "kills" and LocalPly:GetNWInt("playerKills") < MODELS[i][4] or MODELS[i][3] == "streak" and LocalPly:GetNWInt("highestKillStreak") < MODELS[i][4] or MODELS[i][3] == "matches" and LocalPly:GetNWInt("matchesPlayed") < MODELS[i][4] or MODELS[i][3] == "wins" and LocalPly:GetNWInt("matchesWon") < MODELS[i][4]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+									table.insert(lockedModels, MODELS[i])
 								else
 									local icon = vgui.Create("SpawnIcon", DockModelsStats)
-									icon:SetModel(modelArray[i][1])
+									icon:SetModel(MODELS[i][1])
 									icon:SetSize(TM.MenuScale(150), TM.MenuScale(150))
 									icon:SetTooltip(nil)
 									StatModelList:Add(icon)
@@ -2799,10 +2799,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									icon.OnCursorEntered = function()
 										TriggerSound("hover")
 
-										newModel = modelArray[i][1]
-										newModelName = modelArray[i][2]
-										newModelUnlockType = modelArray[i][3]
-										newModelUnlockValue = modelArray[i][4]
+										newModel = MODELS[i][1]
+										newModelName = MODELS[i][2]
+										newModelUnlockType = MODELS[i][3]
+										newModelUnlockValue = MODELS[i][4]
 										PreviewNewModel(newModel)
 
 										if mouseX <= (ScrW() / 2) then sideH = true else sideH = false end
@@ -2872,14 +2872,14 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 									icon.DoClick = function() ApplyModel() end
 								end
-							elseif modelArray[i][3] == "headshot" or modelArray[i][3] == "smackdown" or modelArray[i][3] == "clutch" or modelArray[i][3] == "longshot" or modelArray[i][3] == "pointblank" or modelArray[i][3] == "killstreaks" or modelArray[i][3] == "buzzkills" then
+							elseif MODELS[i][3] == "headshot" or MODELS[i][3] == "smackdown" or MODELS[i][3] == "clutch" or MODELS[i][3] == "longshot" or MODELS[i][3] == "pointblank" or MODELS[i][3] == "killstreaks" or MODELS[i][3] == "buzzkills" then
 								accoladeModelsTotal = accoladeModelsTotal + 1
 
-								if (modelArray[i][3] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < modelArray[i][4] or modelArray[i][3] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < modelArray[i][4] or modelArray[i][3] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < modelArray[i][4] or modelArray[i][3] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < modelArray[i][4] or modelArray[i][3] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < modelArray[i][4] or modelArray[i][3] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < modelArray[i][4] or modelArray[i][3] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < modelArray[i][4]) and GetConVar("tm_unlockall"):GetInt() == 0 then
-									table.insert(lockedModels, modelArray[i])
+								if (MODELS[i][3] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < MODELS[i][4] or MODELS[i][3] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < MODELS[i][4] or MODELS[i][3] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < MODELS[i][4] or MODELS[i][3] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < MODELS[i][4] or MODELS[i][3] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < MODELS[i][4] or MODELS[i][3] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < MODELS[i][4] or MODELS[i][3] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < MODELS[i][4]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+									table.insert(lockedModels, MODELS[i])
 								else
 									local icon = vgui.Create("SpawnIcon", DockModelsAccolade)
-									icon:SetModel(modelArray[i][1])
+									icon:SetModel(MODELS[i][1])
 									icon:SetSize(TM.MenuScale(150), TM.MenuScale(150))
 									icon:SetTooltip(nil)
 									AccoladeModelList:Add(icon)
@@ -2889,10 +2889,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									icon.OnCursorEntered = function()
 										TriggerSound("hover")
 
-										newModel = modelArray[i][1]
-										newModelName = modelArray[i][2]
-										newModelUnlockType = modelArray[i][3]
-										newModelUnlockValue = modelArray[i][4]
+										newModel = MODELS[i][1]
+										newModelName = MODELS[i][2]
+										newModelUnlockType = MODELS[i][3]
+										newModelUnlockValue = MODELS[i][4]
 										PreviewNewModel(newModel)
 
 										if mouseX <= (ScrW() / 2) then sideH = true else sideH = false end
@@ -3156,10 +3156,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local function FillModelListsUnlocked()
-						for i = 1, #modelArray do
-							if modelArray[i][3] == "default" then
+						for i = 1, #MODELS do
+							if MODELS[i][3] == "default" then
 								local icon = vgui.Create("SpawnIcon", DockModels)
-								icon:SetModel(modelArray[i][1])
+								icon:SetModel(MODELS[i][1])
 								icon:SetSize(TM.MenuScale(150), TM.MenuScale(150))
 								icon:SetTooltip(nil)
 								DefaultModelList:Add(icon)
@@ -3171,10 +3171,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								icon.OnCursorEntered = function()
 									TriggerSound("hover")
 
-									newModel = modelArray[i][1]
-									newModelName = modelArray[i][2]
-									newModelUnlockType = modelArray[i][3]
-									newModelUnlockValue = modelArray[i][4]
+									newModel = MODELS[i][1]
+									newModelName = MODELS[i][2]
+									newModelUnlockType = MODELS[i][3]
+									newModelUnlockValue = MODELS[i][4]
 									PreviewNewModel(newModel)
 
 									if mouseX <= (ScrW() / 2) then sideH = true else sideH = false end
@@ -3229,11 +3229,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 
 								icon.DoClick = function() ApplyModel() end
-							elseif modelArray[i][3] == "kills" or modelArray[i][3] == "streak" or modelArray[i][3] == "matches" or modelArray[i][3] == "wins" then
+							elseif MODELS[i][3] == "kills" or MODELS[i][3] == "streak" or MODELS[i][3] == "matches" or MODELS[i][3] == "wins" then
 								statModelsTotal = statModelsTotal + 1
-								if modelArray[i][3] == "kills" and LocalPly:GetNWInt("playerKills") >= modelArray[i][4] or modelArray[i][3] == "streak" and LocalPly:GetNWInt("highestKillStreak") >= modelArray[i][4] or modelArray[i][3] == "matches" and LocalPly:GetNWInt("matchesPlayed") >= modelArray[i][4] or modelArray[i][3] == "wins" and LocalPly:GetNWInt("matchesWon") >= modelArray[i][4] then
+								if MODELS[i][3] == "kills" and LocalPly:GetNWInt("playerKills") >= MODELS[i][4] or MODELS[i][3] == "streak" and LocalPly:GetNWInt("highestKillStreak") >= MODELS[i][4] or MODELS[i][3] == "matches" and LocalPly:GetNWInt("matchesPlayed") >= MODELS[i][4] or MODELS[i][3] == "wins" and LocalPly:GetNWInt("matchesWon") >= MODELS[i][4] then
 									local icon = vgui.Create("SpawnIcon", DockModelsStats)
-									icon:SetModel(modelArray[i][1])
+									icon:SetModel(MODELS[i][1])
 									icon:SetSize(TM.MenuScale(150), TM.MenuScale(150))
 									icon:SetTooltip(nil)
 									StatModelList:Add(icon)
@@ -3244,10 +3244,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									icon.OnCursorEntered = function()
 										TriggerSound("hover")
 
-										newModel = modelArray[i][1]
-										newModelName = modelArray[i][2]
-										newModelUnlockType = modelArray[i][3]
-										newModelUnlockValue = modelArray[i][4]
+										newModel = MODELS[i][1]
+										newModelName = MODELS[i][2]
+										newModelUnlockType = MODELS[i][3]
+										newModelUnlockValue = MODELS[i][4]
 										PreviewNewModel(newModel)
 
 										if mouseX <= (ScrW() / 2) then sideH = true else sideH = false end
@@ -3307,12 +3307,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 									icon.DoClick = function() ApplyModel() end
 								end
-							elseif modelArray[i][3] == "headshot" or modelArray[i][3] == "smackdown" or modelArray[i][3] == "clutch" or modelArray[i][3] == "longshot" or modelArray[i][3] == "pointblank" or modelArray[i][3] == "killstreaks" or modelArray[i][3] == "buzzkills" then
+							elseif MODELS[i][3] == "headshot" or MODELS[i][3] == "smackdown" or MODELS[i][3] == "clutch" or MODELS[i][3] == "longshot" or MODELS[i][3] == "pointblank" or MODELS[i][3] == "killstreaks" or MODELS[i][3] == "buzzkills" then
 								accoladeModelsTotal = accoladeModelsTotal + 1
 
-								if modelArray[i][3] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") >= modelArray[i][4] or modelArray[i][3] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") >= modelArray[i][4] or modelArray[i][3] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") >= modelArray[i][4] or modelArray[i][3] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") >= modelArray[i][4] or modelArray[i][3] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") >= modelArray[i][4] or modelArray[i][3] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") >= modelArray[i][4] or modelArray[i][3] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") >= modelArray[i][4] then
+								if MODELS[i][3] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") >= MODELS[i][4] or MODELS[i][3] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") >= MODELS[i][4] or MODELS[i][3] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") >= MODELS[i][4] or MODELS[i][3] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") >= MODELS[i][4] or MODELS[i][3] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") >= MODELS[i][4] or MODELS[i][3] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") >= MODELS[i][4] or MODELS[i][3] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") >= MODELS[i][4] then
 									local icon = vgui.Create("SpawnIcon", DockModelsAccolade)
-									icon:SetModel(modelArray[i][1])
+									icon:SetModel(MODELS[i][1])
 									icon:SetSize(TM.MenuScale(150), TM.MenuScale(150))
 									icon:SetTooltip(nil)
 									AccoladeModelList:Add(icon)
@@ -3323,10 +3323,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									icon.OnCursorEntered = function()
 										TriggerSound("hover")
 
-										newModel = modelArray[i][1]
-										newModelName = modelArray[i][2]
-										newModelUnlockType = modelArray[i][3]
-										newModelUnlockValue = modelArray[i][4]
+										newModel = MODELS[i][1]
+										newModelName = MODELS[i][2]
+										newModelUnlockType = MODELS[i][3]
+										newModelUnlockValue = MODELS[i][4]
 										PreviewNewModel(newModel)
 
 										if mouseX <= (ScrW() / 2) then sideH = true else sideH = false end

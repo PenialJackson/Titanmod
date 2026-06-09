@@ -260,7 +260,7 @@ hook.Add("PreRegisterSWEP", "TFAOverride", function(swep, class)
 		if not self:OwnerIsValid() then return pos, ang end
 		fac = GetClampedCVarFloat(gunswaycvar) * 3 * ((1 - ((self2.IronSightsProgressUnpredicted or self:GetIronSightsProgress()) or 0)) * 0.85 + 0.012)
 		if gunswayinvertcvar:GetBool() then fac = -fac end
-		flipFactor = (self2.ViewModelFlip and -1 or 1)
+		local flipFactor = (self2.ViewModelFlip and -1 or 1)
 		delta = delta or Angle()
 		motion = motion or Angle()
 		counterMotion = counterMotion or Angle()
@@ -287,7 +287,7 @@ hook.Add("PreRegisterSWEP", "TFAOverride", function(swep, class)
 		end
 
 		-- modify position/angle
-		positionCompensation = 0.2 + 0.2 * ((self2.IronSightsProgressUnpredicted or self:GetIronSightsProgress()) or 0)
+		local positionCompensation = 0.2 + 0.2 * ((self2.IronSightsProgressUnpredicted or self:GetIronSightsProgress()) or 0)
 		pos:Add(-motion.y * positionCompensation * 0.66 * fac * ang:Right() * flipFactor)
 		pos:Add(-motion.p * positionCompensation * fac * ang:Up())
 		ang:RotateAroundAxis(ang:Right(), motion.p * fac)
@@ -731,7 +731,7 @@ hook.Add("PreRegisterSWEP", "TFAOverride", function(swep, class)
 	function SWEP:ResetRecoil()
 
 	end
-end )
+end)
 
 -- fuck particle precaching ong
 function TFA.Particles.Initialize() return end

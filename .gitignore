@@ -1,6 +1,8 @@
-
 /maps
 *.vmx
 *.bsp
 *.log
 *.prt
+addon.json
+*.gma
+.luarc.json

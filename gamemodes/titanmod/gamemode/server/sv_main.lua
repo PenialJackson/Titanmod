@@ -364,7 +364,7 @@ function CheckForPlayerLevel(ply)
 		ply:SetNWInt("playerLevel", curLvl + 1)
 		ply:SetNWInt("playerXP", curExp)
 
-		for k, v in ipairs(levelArray) do
+		for k, v in ipairs(LEVELARRAY) do
 			if (curLvl + 1) == k then ply:SetNWInt("playerXPToNextLevel", v) end
 		end
 
@@ -390,12 +390,12 @@ end
 
 net.Receive("PlayerGearChange", function(len, ply)
 	local selecterGear = net.ReadString()
-	for i = 1, #gearArray do
-		if selecterGear == gearArray[i][1] then
-			local gearID = gearArray[i][1]
-			local gearUnlock = gearArray[i][4]
-			local gearKills = gearArray[i][5]
-			local gearLevel = gearArray[i][6]
+	for i = 1, #GEAR do
+		if selecterGear == GEAR[i][1] then
+			local gearID = GEAR[i][1]
+			local gearUnlock = GEAR[i][4]
+			local gearKills = GEAR[i][5]
+			local gearLevel = GEAR[i][6]
 			local playerTotalLevel = (ply:GetNWInt("playerPrestige") * 60) + ply:GetNWInt("playerLevel")
 
 			if GetConVar("tm_unlockall"):GetInt() == 1 then
@@ -431,11 +431,11 @@ end )
 
 net.Receive("PlayerModelChange", function(len, ply)
 	local selectedModel = net.ReadString()
-	for i = 1, #modelArray do
-		if selectedModel == modelArray[i][1] then
-			local modelID = modelArray[i][1]
-			local modelUnlock = modelArray[i][3]
-			local modelValue = modelArray[i][4]
+	for i = 1, #MODELS do
+		if selectedModel == MODELS[i][1] then
+			local modelID = MODELS[i][1]
+			local modelUnlock = MODELS[i][3]
+			local modelValue = MODELS[i][4]
 
 			if GetConVar("tm_unlockall"):GetInt() == 1 then ply:SetNWString("chosenPlayermodel", modelID) end
 
@@ -471,11 +471,11 @@ end )
 net.Receive("PlayerCardChange", function(len, ply)
 	local selectedCard = net.ReadString()
 	local masteryUnlockReq = 50
-	for i = 1, #cardArray do
-		if selectedCard == cardArray[i][1] then
-			local cardID = cardArray[i][1]
-			local cardUnlock = cardArray[i][4]
-			local cardValue = cardArray[i][5]
+	for i = 1, #CARDS do
+		if selectedCard == CARDS[i][1] then
+			local cardID = CARDS[i][1]
+			local cardUnlock = CARDS[i][4]
+			local cardValue = CARDS[i][5]
 			local playerTotalLevel = (ply:GetNWInt("playerPrestige") * 60) + ply:GetNWInt("playerLevel")
 
 			if GetConVar("tm_unlockall"):GetInt() == 1 then ply:SetNWString("chosenPlayercard", cardID) end
@@ -517,13 +517,13 @@ net.Receive("PlayerPrestige", function(len, ply)
 	if ply:GetNWInt("playerLevel") >= 60 then
 		local pres = ply:GetNWInt("playerPrestige", 0)
 		local nextPres = pres + 1
+
 		ply:SetNWInt("playerLevel", 1)
 		ply:SetNWInt("playerPrestige", nextPres)
 		ply:SetNWInt("playerXP", 0)
 		ply:SetNWInt("playerXPToNextLevel", 750)
 
-		-- force save to the file early
-		if GetConVar("tm_developermode"):GetInt() == 0 then SavePlayerData(ply) end
+		SavePlayerData(ply)
 	end
 end )
 
@@ -550,7 +550,7 @@ if healthRegeneration == true then
 	hook.Add("Think", "HealthRegen", Regeneration)
 end
 
-if table.HasValue(availableMaps, game.GetMap()) then
+if table.HasValue(AVAILABLEMAPS, game.GetMap()) then
 	local mapVoteOpen = false
 	local mapVotes = {}
 	local modeVotes = {}
@@ -558,6 +558,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 	local playersVotedMode = {}
 	local firstMap
 	local secondMap
+	local thirdMap
 	local firstMode
 	local secondMode
 
@@ -595,11 +596,11 @@ if table.HasValue(availableMaps, game.GetMap()) then
 		modeVotes = {}
 		playersVotedMode = {}
 
-		for k, v in RandomPairs(availableMaps) do
+		for k, v in RandomPairs(AVAILABLEMAPS) do
 			table.insert(mapVotes, 0)
 		end
 
-		for k, v in RandomPairs(gamemodeArray) do
+		for k, v in RandomPairs(GAMEMODES) do
 			table.insert(modeVotes, 0)
 		end
 
@@ -617,25 +618,25 @@ if table.HasValue(availableMaps, game.GetMap()) then
 		-- secondary mode pool will only contain modes with complicated elements (objectives, weird modifiers, etc)
 
 		-- makes sure that the map currently being played is not added to the map pool, and check if maps are allowed to be added to the map pool
-		for m, v in RandomPairs(availableMaps) do
+		for _, v in RandomPairs(AVAILABLEMAPS) do
 			if game.GetMap() != v then table.insert(mapPool, v) end
 		end
 
-		for m, v in RandomPairs(availableMaps) do
+		for _, v in RandomPairs(AVAILABLEMAPS) do
 			if game.GetMap() != v then table.insert(mapPoolSecondary, v) end
 		end
 
 		-- remove maps from primary map pool if they are not fit for current player count
-		for p, v in ipairs(mapArray) do
+		for _, v in ipairs(MAPS) do
 			if player.GetCount() > 5 and v[5] != 0 then table.RemoveByValue(mapPool, v[1]) end
 			if player.GetCount() <= 5 and v[5] == 0 then table.RemoveByValue(mapPool, v[1]) end
 		end
 
-		for g, v in RandomPairs(gamemodeArray) do
+		for _, v in RandomPairs(GAMEMODES) do
 			if activeGamemode != v and v[4] == true then table.insert(modePool, v[1]) end
 		end
 
-		for g, v in RandomPairs(gamemodeArray) do
+		for _, v in RandomPairs(GAMEMODES) do
 			if activeGamemode != v and v[4] == false then table.insert(modePoolSecondary, v[1]) end
 		end
 
@@ -657,7 +658,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 		-- failsafe for empty servers, will skip to a new map if there are no players connected to the server
 		if player.GetCount() == 0 then RunConsoleCommand("changelevel", firstMap) return end
 
-		for k, v in ipairs(player.GetAll()) do
+		for _, v in ipairs(player.GetAll()) do
 			v:SetLaggedMovementValue(0.2)
 			v:SetNWBool("PostGameMute", false)
 		end
@@ -676,7 +677,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 		net.Broadcast()
 
 		timer.Create("killAfterDelay", 8, 1, function()
-			for k, v in ipairs(player.GetAll()) do
+			for _, v in ipairs(player.GetAll()) do
 				v:KillSilent()
 			end
 		end)
@@ -712,7 +713,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 					end
 				end
 
-				for k, v in ipairs(availableMaps) do
+				for k, v in ipairs(AVAILABLEMAPS) do
 					if mapVotes[k] == maxMapVotes then
 						table.insert(newMapTable, v)
 					end
@@ -724,7 +725,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 					end
 				end
 
-				for k, v in ipairs(gamemodeArray) do
+				for k, v in ipairs(GAMEMODES) do
 					if modeVotes[k] == maxModeVotes then
 						table.insert(newModeTable, v[1])
 					end
@@ -793,7 +794,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 		end
 
 		if revote == false then
-			for k, v in ipairs(availableMaps) do
+			for k, v in ipairs(AVAILABLEMAPS) do
 				if v == votedMap then
 					mapVotes[k] = mapVotes[k] + 1
 					table.insert(playersVoted, ply)
@@ -802,7 +803,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 			end
 		else
 			if unvotedMapIndex == 1 then unvotedMapInt = "VotesOnMapOne" elseif unvotedMapIndex == 2 then unvotedMapInt = "VotesOnMapTwo" elseif unvotedMapIndex == 3 then unvotedMapInt = "VotesOnMapThree" end
-			for k, v in ipairs(availableMaps) do
+			for k, v in ipairs(AVAILABLEMAPS) do
 				if v == votedMap then
 					mapVotes[k] = mapVotes[k] + 1
 					if mapIndex	== 1 then
@@ -837,7 +838,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 		end
 
 		if revote == false then
-			for k, v in ipairs(gamemodeArray) do
+			for k, v in ipairs(GAMEMODES) do
 				if v[1] == votedMode then
 					modeVotes[k] = modeVotes[k] + 1
 					table.insert(playersVotedMode, ply)
@@ -845,7 +846,7 @@ if table.HasValue(availableMaps, game.GetMap()) then
 				end
 			end
 		else
-			for k, v in ipairs(gamemodeArray) do
+			for k, v in ipairs(GAMEMODES) do
 				if v[1] == votedMode then
 					modeVotes[k] = modeVotes[k] + 1
 					if modeIndex == 1 then

@@ -1,4 +1,27 @@
-# January 23rd, 2025 (01/23/26)
+# June 8th, 2026 (03/22/26)
+**>MAPS**
+*All Maps*
+- Every map has been given better overall lighting quality
+- Every map has had a small optimization pass
+- Every map has been properly compiled to improve FPS in-game
+
+*Arctic*
+- Fixed window player clipping
+
+*Bridge*
+- Reduced the length of all car kill triggers
+- Fixed out of bounds player clipping
+
+*Initial*
+- Fixed incorrect lighting on doors
+
+**>QOL & BUG FIXES**
+- Drastically reduced the file size of the addon containing all maps (from 1.3gb down to 500mb~)
+
+- Fixed Coonan .357 not being able to fire underwater
+
+
+# January 23rd, 2026 (01/23/26)
 **>QOL & BUG FIXES**
 - Various optimizations back ported from my newer gamemode
 

@@ -1,13 +1,14 @@
 -- removing unneccessary server hook
 if SERVER then
-	hook.Add("Initialize", "SVHookRemoval", function() if timer.Exists("CheckHookTimes") then timer.Remove("CheckHookTimes") end end)
+	hook.Add("Initialize", "SVHookRemoval", function()
+		if timer.Exists("CheckHookTimes") then timer.Remove("CheckHookTimes") end
+	end)
 end
 
 if CLIENT then
 	-- optimized indexs
 	local function RWEnt()
 		local M_Entity = FindMetaTable("Entity")
-
 		local E_GetTable = M_Entity.GetTable
 
 		local val
@@ -26,7 +27,6 @@ if CLIENT then
 	local function RWPly()
 		local M_Player = FindMetaTable("Player")
 		local M_Entity = FindMetaTable("Entity")
-
 		local E_GetTable = M_Entity.GetTable
 
 		local val
@@ -48,7 +48,6 @@ if CLIENT then
 	local function RWWep()
 		local M_Weapon = FindMetaTable("Weapon")
 		local M_Entity = FindMetaTable("Entity")
-
 		local E_GetTable = M_Entity.GetTable
 		local E_GetOwner = M_Entity.GetOwner
 
@@ -82,7 +81,6 @@ if CLIENT then
 		hook.Remove("PreventScreenClicks", "SuperDOFPreventClicks")
 		hook.Remove("Think", "DOFThink")
 		hook.Remove("PostDrawEffects", "RenderWidgets")
-		hook.Remove("PostDrawEffects", "RenderHalos")
 	end)
 
 	-- remove widget code every tick
@@ -95,25 +93,9 @@ if CLIENT then
 	hook.Add("OnEntityCreated", "WidgetCreated", CLTickRemoval)
 end
 
--- force multicore for clients
-if CLIENT then
-	hook.Add("InitPostEntity", "CLMulticore", function()
-		timer.Simple(3, function() -- just in case
-			RunConsoleCommand("gmod_mcore_test", "1")
-			RunConsoleCommand("mat_queue_mode", "-1")
-			RunConsoleCommand("cl_threaded_bone_setup", "1")
-			RunConsoleCommand("r_threaded_particles", "1")
-			RunConsoleCommand("r_queued_ropes", "1")
-			RunConsoleCommand("studio_queue_mode", "1")
-		end)
-	end)
-end
-
 -- optimized surface and draw functions
 if SERVER or SurfaceRewrite then return end
 SurfaceRewrite = true
-
-local function empty() end
 
 local surface = surface
 local Color = Color
@@ -141,7 +123,6 @@ local math_ceil = math.ceil
 
 local Tex_Corner8 = surface_GetTextureID("gui/corner8")
 local Tex_Corner16 = surface_GetTextureID("gui/corner16")
-local Tex_white = surface_GetTextureID("vgui/white")
 
 local CachedFontHeights = {}
 local function draw_GetFontHeight(font)
@@ -206,20 +187,6 @@ local function draw_DrawText(text, font, x, y, colour, xalign )
 	if #curString > 0 then draw_SimpleText(curString, font, curX, curY, colour, xalign) end
 end
 
-local function draw_RoundedBox(bordersize, x, y, w, h, color)
-	surface_SetDrawColor(color)
-
-	surface_DrawRect(x + bordersize, y, w - bordersize * 2, h)
-	surface_DrawRect(x, y + bordersize, bordersize, h - bordersize * 2)
-	surface_DrawRect(x + w - bordersize, y + bordersize, bordersize, h - bordersize * 2)
-
-	surface_SetTexture(bordersize > 8 and Tex_Corner16 or Tex_Corner8)
-	surface_DrawTexturedRectRotated(x + bordersize / 2 , y + bordersize / 2, bordersize, bordersize, 0)
-	surface_DrawTexturedRectRotated(x + w - bordersize / 2 , y + bordersize / 2, bordersize, bordersize, 270)
-	surface_DrawTexturedRectRotated(x + bordersize / 2 , y + h -bordersize / 2, bordersize, bordersize, 90)
-	surface_DrawTexturedRectRotated(x + w - bordersize / 2 , y + h - bordersize / 2, bordersize, bordersize, 180)
-end
-
 local function draw_Text(tab)
 	local text = tab.text
 	local font = tab.font or "DermaDefault"
@@ -249,17 +216,6 @@ local function draw_Text(tab)
 	surface_DrawText(text)
 end
 
-function draw.WordBox(bordersize, x, y, text, font, color, fontcolor)
-	surface_SetFont(font)
-	local w, h = surface_GetTextSize(text)
-
-	draw_RoundedBox(bordersize, x, y, w + bordersize * 2, h + bordersize * 2, color)
-
-	surface_SetTextColor(fontcolor.r, fontcolor.g, fontcolor.b, fontcolor.a)
-	surface_SetTextPos(x + bordersize, y + bordersize)
-	surface_DrawText(text)
-end
-
 function draw.TextShadow(tab, distance, alpha)
 
 	alpha = alpha or 200
@@ -283,51 +239,12 @@ function draw.TexturedQuad(tab)
 	surface_DrawTexturedRect(tab.x, tab.y, tab.w, tab.h)
 end
 
-function draw.NoTexture()
-	surface_SetTexture(Tex_white)
-end
-
-function draw.RoundedBoxEx(bordersize, x, y, w, h, color, a, b, c, d)
-	surface_SetDrawColor(color)
-
-	-- Draw as much of the rect as we can without textures
-	surface_DrawRect(x + bordersize, y, w - bordersize * 2, h)
-	surface_DrawRect(x, y + bordersize, bordersize, h - bordersize * 2)
-	surface_DrawRect(x + w - bordersize, y + bordersize, bordersize, h - bordersize * 2)
-
-	surface_SetTexture(bordersize > 8 and Tex_Corner16 or Tex_Corner8)
-
-	if a then
-		surface_DrawTexturedRectRotated(x + bordersize / 2 , y + bordersize / 2, bordersize, bordersize, 0)
-	else
-		surface_DrawRect(x, y, bordersize, bordersize)
-	end
-
-	if b then
-		surface_DrawTexturedRectRotated(x + w - bordersize / 2 , y + bordersize / 2, bordersize, bordersize, 270)
-	else
-		surface_DrawRect(x + w - bordersize, y, bordersize, bordersize)
-	end
-
-	if c then
-		surface_DrawTexturedRectRotated(x + bordersize / 2 , y + h -bordersize / 2, bordersize, bordersize, 90)
-	else
-		surface_DrawRect(x, y + h - bordersize, bordersize, bordersize)
-	end
-
-	if d then
-		surface_DrawTexturedRectRotated(x + w - bordersize / 2 , y + h - bordersize / 2, bordersize, bordersize, 180)
-	else
-		surface_DrawRect(x + w - bordersize, y + h - bordersize, bordersize, bordersize)
-	end
-end
-
 function draw.SimpleTextOutlined(text, font, x, y, colour, xalign, yalign, outlinewidth, outlinecolour)
 	local steps = (outlinewidth * 2) / 3
 	if steps < 1 then steps = 1 end
 
-	for _x=-outlinewidth, outlinewidth, steps do
-		for _y=-outlinewidth, outlinewidth, steps do
+	for _x = -outlinewidth, outlinewidth, steps do
+		for _y = -outlinewidth, outlinewidth, steps do
 			draw_SimpleText(text, font, x + _x, y + _y, outlinecolour, xalign, yalign)
 		end
 	end
@@ -338,63 +255,4 @@ end
 draw.GetFontHeight = draw_GetFontHeight
 draw.SimpleText = draw_SimpleText
 draw.DrawText = draw_DrawText
-draw.RoundedBox = draw_RoundedBox
 draw.Text = draw_Text
-
-local SpeakFlexes = {
-	["jaw_drop"] = true,
-	["right_part"] = true,
-	["left_part"] = true,
-	["right_mouth_drop"] = true,
-	["left_mouth_drop"] = true
-}
-local GESTURE_SLOT_VCD = GESTURE_SLOT_VCD
-local ACT_GMOD_IN_CHAT = ACT_GMOD_IN_CHAT
-hook.Add("Initialize", "InstallFunctions", function()
-	function GAMEMODE:MouthMoveAnimation(pl)
-		if pl:IsSpeaking() then
-			pl.m_bWasSpeaking = true
-
-			local FlexNum = pl:GetFlexNum() - 1
-			if FlexNum <= 0 then return end
-			local weight = math.Clamp(pl:VoiceVolume() * 2, 0, 2)
-			for i = 0, FlexNum - 1 do
-				if SpeakFlexes[pl:GetFlexName(i)] then
-					pl:SetFlexWeight(i, weight)
-				end
-			end
-		elseif pl.m_bWasSpeaking then
-			pl.m_bWasSpeaking = false
-
-			local FlexNum = pl:GetFlexNum() - 1
-			if FlexNum <= 0 then return end
-			for i = 0, FlexNum - 1 do
-				if SpeakFlexes[pl:GetFlexName(i)] then
-					pl:SetFlexWeight(i, 0)
-				end
-			end
-		end
-	end
-
-	function GAMEMODE:GrabEarAnimation(pl)
-		if pl:IsTyping() then
-			pl.ChatGestureWeight = math.Approach(pl.ChatGestureWeight or 0, 1, FrameTime() * 5)
-		elseif pl.ChatGestureWeight and pl.ChatGestureWeight > 0 then
-			pl.ChatGestureWeight = math.Approach(pl.ChatGestureWeight, 0, FrameTime() * 5)
-			if pl.ChatGestureWeight == 0 then
-				pl.ChatGestureWeight = nil
-			end
-		end
-
-		if pl.ChatGestureWeight then
-			if pl:IsPlayingTaunt() then return end
-
-			pl:AnimRestartGesture(GESTURE_SLOT_VCD, ACT_GMOD_IN_CHAT, true)
-			pl:AnimSetGestureWeight(GESTURE_SLOT_VCD, pl.ChatGestureWeight)
-		end
-	end
-end)
-
-drive.Move = empty
-drive.FinishMove = empty
-drive.StartMove = empty

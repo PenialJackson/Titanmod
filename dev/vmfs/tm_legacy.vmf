@@ -1,8 +1,8 @@
 versioninfo
 {
 	"editorversion" "400"
-	"editorbuild" "8869"
-	"mapversion" "40"
+	"editorbuild" "8870"
+	"mapversion" "42"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "40"
+	"mapversion" "42"
 	"classname" "worldspawn"
 	"comment" "Decompiled by BSPSource v1.4.0 from tm_legacy"
 	"detailmaterial" "detail/detailsprites"
@@ -200,7 +200,7 @@ world
 				"v" "-448 -832 -4"
 				"v" "-448 -1664 -4"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/GM_CONSTRUCT/WATER_-768_-1248_64"
+			"material" "DEV/DEV_WATER3"
 			"uaxis" "[1 0 0 0] 0.25"
 			"vaxis" "[0 -1 0 0] 0.25"
 			"rotation" "0"
@@ -1544,7 +1544,7 @@ world
 				"v" "-832 -512 320"
 				"v" "-800 -512 320"
 			}
-			"material" "BRICK/BRICKWALL053A"
+			"material" "TOOLS/TOOLSNODRAW"
 			"uaxis" "[1 0 0 0] 0.25"
 			"vaxis" "[0 -1 0 0] 0.25"
 			"rotation" "0"
@@ -1662,9 +1662,9 @@ world
 				"v" "-1088 -1664 -64"
 				"v" "-1088 -1664 0"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-832_-544_64"
+			"material" "DE_DUST/TILEFLOOR02"
 			"uaxis" "[0 0 -1 0] 0.25"
-			"vaxis" "[0 -1 0 0] 0.25"
+			"vaxis" "[0 -1 0 256] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -1798,9 +1798,9 @@ world
 				"v" "-1088 -832 -64"
 				"v" "-1088 -832 0"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-64_-960_64"
+			"material" "DE_DUST/TILEFLOOR02"
 			"uaxis" "[1 0 0 0] 0.25"
-			"vaxis" "[0 0 -1 0] 0.25"
+			"vaxis" "[0 0 -1 256] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -1998,9 +1998,9 @@ world
 				"v" "-448 -832 -64"
 				"v" "-448 -832 0"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-768_-1248_64"
+			"material" "DE_DUST/TILEFLOOR02"
 			"uaxis" "[0 0 1 0] 0.25"
-			"vaxis" "[0 -1 0 0] 0.25"
+			"vaxis" "[0 -1 0 256] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -2624,9 +2624,9 @@ world
 				"v" "-1088 -832 -448"
 				"v" "-1088 -832 -64"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-768_-1248_64"
+			"material" "DE_DUST/TILEFLOOR02"
 			"uaxis" "[1 0 0 0] 0.25"
-			"vaxis" "[0 0 -1 0] 0.25"
+			"vaxis" "[0 0 -1 256] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -2742,7 +2742,7 @@ world
 				"v" "-448 -1664 -64"
 				"v" "-1088 -1664 -64"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-768_-1248_64"
+			"material" "DE_DUST/TILEFLOOR02"
 			"uaxis" "[1 0 0 0] 0.25"
 			"vaxis" "[0 0 1 256] 0.25"
 			"rotation" "0"
@@ -2842,9 +2842,9 @@ world
 				"v" "-1088 -1664 -448"
 				"v" "-1088 -1664 -64"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-768_-1248_64"
+			"material" "DE_DUST/TILEFLOOR02"
 			"uaxis" "[0 0 -1 0] 0.25"
-			"vaxis" "[0 -1 0 0] 0.25"
+			"vaxis" "[0 -1 0 256] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -2960,9 +2960,9 @@ world
 				"v" "-448 -1664 -64"
 				"v" "-448 -1664 -448"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-768_-1248_64"
+			"material" "DE_DUST/TILEFLOOR02"
 			"uaxis" "[0 0 1 0] 0.25"
-			"vaxis" "[0 -1 0 0] 0.25"
+			"vaxis" "[0 -1 0 256] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -6238,7 +6238,7 @@ world
 				"v" "-384 -1664 0"
 				"v" "-1856 -1664 0"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-1312_-1248_64"
+			"material" "DE_DUST/TILEFLOOR02"
 			"uaxis" "[1 0 0 0] 0.25"
 			"vaxis" "[0 0 1 256] 0.25"
 			"rotation" "0"
@@ -6656,7 +6656,7 @@ world
 				"v" "576 -832 -64"
 				"v" "576 -832 0"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-832_-544_64"
+			"material" "TOOLS/TOOLSNODRAW"
 			"uaxis" "[1 0 0 0] 0.25"
 			"vaxis" "[0 0 -1 0] 0.25"
 			"rotation" "0"
@@ -16635,9 +16635,9 @@ world
 				"v" "-448 -832 -64"
 				"v" "-448 -1664 -384"
 			}
-			"material" "MAPS/GM_ROOFTOPS_EXP_A2/TILE/TILEFLOOR020A_-768_-1248_64"
+			"material" "DE_DUST/TILEFLOOR02"
 			"uaxis" "[1 0 0 0] 0.25"
-			"vaxis" "[0 -1 0 0] 0.25"
+			"vaxis" "[0 -1 0 256] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -19662,8 +19662,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[-437.363 -161.832 1538.84]"
-		"look" "[-371.114 88.9086 1599.66]"
+		"position" "[-1152.87 183.636 583.121]"
+		"look" "[-1364.32 302.35 472.892]"
 	}
 	camera
 	{
