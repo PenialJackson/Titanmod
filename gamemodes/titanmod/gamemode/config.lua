@@ -1,9 +1,3 @@
---[[
-	Titanmod Config File
-	This is primarily for server owners that are trying to fine tune their experience.
-	If you do not understand what a certain setting does, I would recommend not changing it.
-]]--
-
 DEBUG = CreateConVar("sv_tm_developer", "0", FCVAR_ARCHIVE + FCVAR_REPLICATED + FCVAR_NOTIFY, "Enables Sandbox features on server start and enables certain debugging tools, having this enabled will disable progression for all players", 0, 1)
 
 if DEBUG:GetBool() then
@@ -12,11 +6,6 @@ end
 
 -- convars
 if SERVER then
-	RunConsoleCommand("sbox_noclip", "0")
-
-	RunConsoleCommand("sv_accelerate", "16")
-	RunConsoleCommand("sv_airaccelerate", "1000")
-
 	RunConsoleCommand("sv_tfa_damage_multiplier", "1.00")
 	RunConsoleCommand("sv_tfa_recoil_mul_p", "0.8")
 	RunConsoleCommand("sv_tfa_recoil_mul_p_npc", "0.8")
@@ -85,11 +74,6 @@ if SERVER then
 	RunConsoleCommand("sv_tfa_weapon_strip", "0")
 	RunConsoleCommand("sv_tfa_weapon_weight", "1")
 	RunConsoleCommand("sv_tfa_worldmodel_culldistance", "20")
-
-	RunConsoleCommand("tpf_sv_light_forward_offset", "-20")
-	RunConsoleCommand("tpf_sv_max_bright", "255")
-	RunConsoleCommand("tpf_sv_max_farz", "750")
-	RunConsoleCommand("tpf_sv_max_fov", "75")
 
 	timer.Simple(5, function() -- delaying by 5 seconds because it literally just doesn't work unless I delay the ConVar, thanks Source engine lmao
 		RunConsoleCommand("sk_fraggrenade_radius", "400")
@@ -167,21 +151,4 @@ if CLIENT then
 	RunConsoleCommand("cl_tfa_viewmodel_vp_vertical_is", "1")
 	RunConsoleCommand("cl_tfa_viewmodel_vp_yaw", "1")
 	RunConsoleCommand("cl_tfa_viewmodel_vp_yaw_is", "1")
-
-	RunConsoleCommand("cl_vmanip_voicechat", "0")
-
-	RunConsoleCommand("tpf_sv_light_forward_offset", "-20")
-	RunConsoleCommand("tpf_sv_max_bright", "255")
-	RunConsoleCommand("tpf_sv_max_farz", "750")
-	RunConsoleCommand("tpf_sv_max_fov", "75")
-	RunConsoleCommand("tpf_should_load_defaults", "0")
-	RunConsoleCommand("tpf_cl_bright", "255")
-	RunConsoleCommand("tpf_cl_farz", "750")
-	RunConsoleCommand("tpf_cl_fov", "75")
-	RunConsoleCommand("tpf_cl_shadows", "0")
-
-	RunConsoleCommand("cl_tfa_rms_muzzleflash_dynlight", "1")
-	if game.GetMap() == "tm_initial" or game.GetMap() == "tm_rust" or game.GetMap() == "tm_shipment" then
-		RunConsoleCommand("cl_tfa_rms_muzzleflash_dynlight", "0")
-	end
 end

@@ -1,6 +1,15 @@
 local activeGamemode
 SetGlobal2Bool("tm_matchended", false)
 
+hook.Add("Initialize", "TMInitialized", function()
+	print("Titanmod initialized, playing on " .. game.GetMap() .. " (" .. activeGamemode .. ") at Unix time " .. os.time())
+
+	RunConsoleCommand("sv_accelerate", "16")
+	RunConsoleCommand("sv_airaccelerate", "1000")
+	RunConsoleCommand("mp_show_voice_icons", "0")
+	RunConsoleCommand("decalfrequency", "1")
+end)
+
 local matchLength = GetConVar("sv_tm_match_length")
 local intermissionLength = GetConVar("sv_tm_intermission_length")
 local voiceRange = GetConVar("sv_tm_voice_range")
@@ -11,7 +20,6 @@ function GM:InitPostEntity()
 	activeGamemode = GetGlobal2String("ActiveGamemode", "FFA")
 	SetGlobal2Bool("tm_intermission", true)
 	SetGlobal2Int("tm_matchtime", matchLength:GetInt() + intermissionLength:GetInt())
-	print("Titanmod Initialized on " .. game.GetMap() .. " on the " .. activeGamemode .. " gamemode")
 
 	hook.Add("Think", "IntermissionFreeze", function()
 		local time = GetGlobal2Int("tm_matchtime", 0)
