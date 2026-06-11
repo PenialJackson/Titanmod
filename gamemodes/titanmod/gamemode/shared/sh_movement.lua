@@ -1,4 +1,4 @@
-if !customMovement then return end
+if !GetConVar("sv_tm_player_custom_movement"):GetBool() then return end
 
 local meta = FindMetaTable("Player")
 
@@ -154,8 +154,8 @@ local trace_tbl = {}
 
 local wallJumpTime = 1
 local wallRunTime = 1.25
-local slideTime = playerSlideDuration
-local slideSpeed = playerSlideSpeedMulti
+local slideTime = GetConVar("sv_tm_player_slide_duration")
+local slideSpeed = GetConVar("sv_tm_player_speed_slide_mult")
 
 local function SlideSurfaceSound(ply, pos)
 	trace_tbl.start = pos
@@ -266,11 +266,11 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 	if ducking and sprinting and onground and (not jumping or jumpSliding) and not sliding and speed > runspeed * 0.5 then
 		if not ply:GetCanSlide() then return end
 		ply:SetSliding(true)
-		ply:SetSlideFatigue(math.min(1, (CT + slideTime) - (ply:GetSlidingCD())))
+		ply:SetSlideFatigue(math.min(1, (CT + slideTime:GetFloat()) - (ply:GetSlidingCD())))
 		ply:SetCanSlide(false)
-		ply:SetSlidingCD(CT + slideTime)
+		ply:SetSlidingCD(CT + slideTime:GetFloat())
 		ply:SetSlidingView(CT + 0.4)
-		ply:SetSlidingTime(CT + (slideTime * ply:GetSlideFatigue()))
+		ply:SetSlidingTime(CT + (slideTime:GetFloat() * ply:GetSlideFatigue()))
 		ply:ViewPunch(slidepunch)
 		ply:SetDuckSpeed(0.2)
 		ply:SetUnDuckSpeed(0.2)
@@ -320,7 +320,7 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 			ply:SetSlopedSpeed(math.min(math.max(ply:GetSlopedSpeed() - 0.001, 1), 2))
 		end
 
-		speed = math.max(200, (math.max(276, ply:GetLandingVelocity() / 1.5 * slideTime) * math.min(0.85, (ply:GetSlidingTime() - CT + 0.5) / slideTime)) * (1 / engine.TickInterval()) * engine.TickInterval() * slideSpeed * ply:GetSlideFatigue()) * ply:GetSlopedSpeed()
+		speed = math.max(200, (math.max(276, ply:GetLandingVelocity() / 1.5 * slideTime:GetFloat()) * math.min(0.85, (ply:GetSlidingTime() - CT + 0.5) / slideTime:GetFloat())) * (1 / engine.TickInterval()) * engine.TickInterval() * slideSpeed:GetFloat() * ply:GetSlideFatigue()) * ply:GetSlopedSpeed()
 
 		vel = ply:GetSlidingAngle():Forward() * speed
 		mv:SetVelocity(vel)

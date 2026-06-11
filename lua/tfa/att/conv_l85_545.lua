@@ -1,3 +1,5 @@
+if engine.ActiveGamemode() != "titanmod" then return end
+
 if not ATTACHMENT then
 	ATTACHMENT = {}
 end

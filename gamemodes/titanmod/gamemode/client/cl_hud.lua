@@ -212,8 +212,13 @@ local LocalPly = LocalPlayer()
 local timeUntilSelfDestruct = 0
 local timeText = " ∞"
 
+local intermissionLength = GetConVar("sv_tm_intermission_length")
+local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
+local crankedTime = GetConVar("sv_tm_mode_cranked_state_length")
+local voting = GetConVar("sv_tm_voting")
+
 local function MatchStartPopup(ply)
-	if GetGlobal2Int("tm_matchtime", 0) - CurTime() > (GetGlobal2Int("tm_matchtime", 0) - GetConVar("tm_intermissiontimer"):GetInt()) then return end
+	if GetGlobal2Int("tm_matchtime", 0) - CurTime() > (GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt()) then return end
 	if convars["hud_enable"] == 0 then return end
 	if !IsValid(ply) then return end
 	if activeGamemode == nil then return end
@@ -318,13 +323,13 @@ net.Receive("PlayerSpawn", function(len, pl)
 end )
 
 hook.Add("RenderScreenspaceEffects", "IntermissionPostProcess", function()
-	if GetGlobal2Int("tm_matchtime", 0) - CurTime() < (GetGlobal2Int("tm_matchtime", 0) - GetConVar("tm_intermissiontimer"):GetInt()) then
+	if GetGlobal2Int("tm_matchtime", 0) - CurTime() < (GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt()) then
 		hook.Remove("RenderScreenspaceEffects", "IntermissionPostProcess")
 		if LocalPlayer():Alive() then MatchStartPopup(LocalPlayer()) end
 	end
 
-	local intTime = (GetGlobal2Int("tm_matchtime", 0) - CurTime()) - (GetGlobal2Int("tm_matchtime", 0) - GetConVar("tm_intermissiontimer"):GetInt())
-	local pp = (-intTime / GetConVar("tm_intermissiontimer"):GetInt()) + 1
+	local intTime = (GetGlobal2Int("tm_matchtime", 0) - CurTime()) - (GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt())
+	local pp = (-intTime / intermissionLength:GetInt()) + 1
 
 	local intermissionpp = {
 		["$pp_colour_contrast"] = math.max(0.5, pp),
@@ -338,7 +343,7 @@ end )
 
 function HUDIntermission(client)
 	draw.SimpleText("Match begins in", "HUD_WepNameKill", scrW / 2, scrH / 2 - TM.HUDScale(110), white, TEXT_ALIGN_CENTER)
-	draw.SimpleText(math.Round(GetGlobal2Int("tm_matchtime", 0) - CurTime()) - (GetGlobal2Int("tm_matchtime", 0) - GetConVar("tm_intermissiontimer"):GetInt()), "HUD_IntermissionText", scrW / 2, scrH / 2 - TM.HUDScale(100), white, TEXT_ALIGN_CENTER)
+	draw.SimpleText(math.Round(GetGlobal2Int("tm_matchtime", 0) - CurTime()) - (GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt()), "HUD_IntermissionText", scrW / 2, scrH / 2 - TM.HUDScale(100), white, TEXT_ALIGN_CENTER)
 	draw.SimpleText("Press [" .. string.upper(input.GetKeyName(convars["menu_bind"])) .. "] to open menu", "HUD_WepNameKill", scrW / 2, scrH - TM.HUDScale(200), white, TEXT_ALIGN_CENTER)
 end
 
@@ -366,15 +371,15 @@ function HUDAlways(client)
 	timeText = string.FormattedTime(GetGlobal2Int("tm_matchtime", 0) - CurTime() + 1, "%2i:%02i")
 	draw.SimpleText(activeGamemode .. " |" .. timeText, "HUD_Health", scrW / 2, TM.HUDScale(-5) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 
-	if activeGamemode == "Gun Game" then draw.SimpleText(ggLadderSize - client:GetNWInt("ladderPosition") .. " kills left", "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) elseif activeGamemode == "Fiesta" and (GetGlobal2Int("FiestaTime", 0) - CurTime()) > 0 then draw.SimpleText(string.FormattedTime(math.Round(GetGlobal2Int("FiestaTime", 0) - CurTime() + 0.5), "%2i:%02i"), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) elseif activeGamemode == "Cranked" and timeUntilSelfDestruct != 0 then draw.SimpleText(timeUntilSelfDestruct, "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) elseif activeGamemode == "KOTH" then
+	if activeGamemode == "Gun Game" then draw.SimpleText(gunGameSize:GetInt() - client:GetNWInt("ladderPosition") .. " kills left", "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) elseif activeGamemode == "Fiesta" and (GetGlobal2Int("FiestaTime", 0) - CurTime()) > 0 then draw.SimpleText(string.FormattedTime(math.Round(GetGlobal2Int("FiestaTime", 0) - CurTime() + 0.5), "%2i:%02i"), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) elseif activeGamemode == "Cranked" and timeUntilSelfDestruct != 0 then draw.SimpleText(timeUntilSelfDestruct, "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) elseif activeGamemode == "KOTH" then
 		if GetGlobal2String("tm_hillstatus") == "Occupied" then
-			draw.SimpleText(GetGlobal2Entity("tm_entonhill"):GetName(), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			draw.SimpleText(GetGlobal2Entity("tm_entonhill"):Nick(), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 		else
 			draw.SimpleText(GetGlobal2String("tm_hillstatus"), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 		end
 	elseif activeGamemode == "VIP" then
 		if GetGlobal2Entity("tm_vip") != NULL then
-			draw.SimpleText(GetGlobal2Entity("tm_vip"):GetName(), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			draw.SimpleText(GetGlobal2Entity("tm_vip"):Nick(), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 			if GetGlobal2Entity("tm_vip") != client then draw.SimpleText(math.Round(client:GetPos():Distance(GetGlobal2Entity("tm_vip"):GetPos()) * 0.01905) .. "m", "HUD_Health", scrW / 2, TM.HUDScale(105) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) end
 		else
 			draw.SimpleText("No VIP", "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
@@ -531,8 +536,8 @@ function HUDAlive(client)
 	surface.SetDrawColor(50, 50, 50, 80)
 	surface.DrawRect(healthHUD["x"], scrH - TM.HUDScale(30) - healthHUD["y"], healthHUD["size"], TM.HUDScale(30))
 
-	if health <= (playerHealth / 1.5) then
-		if health <= (playerHealth / 3) then
+	if health <= (client:GetMaxHealth() / 1.5) then
+		if health <= (client:GetMaxHealth() / 3) then
 			surface.SetDrawColor(healthHUD["barlow_r"], healthHUD["barlow_g"], healthHUD["barlow_b"], 120)
 		else
 			surface.SetDrawColor(healthHUD["barmid_r"], healthHUD["barmid_g"], healthHUD["barmid_b"], 120)
@@ -686,7 +691,7 @@ function HUDAlive(client)
 		surface.DrawRect(scrW / 2 - TM.HUDScale(75), TM.HUDScale(60) + matchHUD["y"], TM.HUDScale(150), TM.HUDScale(10))
 
 		surface.SetDrawColor(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 80)
-		surface.DrawRect(scrW / 2 - TM.HUDScale(75), TM.HUDScale(60) + matchHUD["y"], TM.HUDScale(150) * (timeUntilSelfDestruct / crankedSelfDestructTime), TM.HUDScale(10))
+		surface.DrawRect(scrW / 2 - TM.HUDScale(75), TM.HUDScale(60) + matchHUD["y"], TM.HUDScale(150) * (timeUntilSelfDestruct / crankedTime:GetInt()), TM.HUDScale(10))
 	end
 end
 
@@ -1073,7 +1078,7 @@ net.Receive("NotifyKill", function(len, ply)
 		rainbowColor = HSVToColor((CurTime() * rainbowSpeed) % 360, 1, 1)
 
 		if killStreak > 1 then draw.SimpleText(killStreak .. " Kills", "HUD_StreakText", w / 2, TM.HUDScale(25), streakColor, TEXT_ALIGN_CENTER) end
-		draw.SimpleText(killedPlayer:GetName(), "HUD_PlayerNotiName", w / 2, TM.HUDScale(100), white, TEXT_ALIGN_CENTER)
+		draw.SimpleText(killedPlayer:Nick(), "HUD_PlayerNotiName", w / 2, TM.HUDScale(100), white, TEXT_ALIGN_CENTER)
 		draw.SimpleText(string.sub(accoladeList, 1, -4), "HUD_StreakText", w / 2, TM.HUDScale(160), white, TEXT_ALIGN_CENTER)
 	end
 
@@ -1152,7 +1157,7 @@ net.Receive("NotifyDeath", function(len, ply)
 		draw.SimpleText("Killed by", "HUD_StreakText", w / 2, TM.HUDScale(-3), white, TEXT_ALIGN_CENTER)
 		draw.SimpleText("|", "HUD_PlayerDeathName", w / 2, TM.HUDScale(117.5), white, TEXT_ALIGN_CENTER)
 		draw.SimpleText("|", "HUD_PlayerDeathName", w / 2, TM.HUDScale(142), white, TEXT_ALIGN_CENTER)
-		draw.SimpleText(killedBy:GetName(), "HUD_PlayerDeathName", w / 2 - TM.HUDScale(10), TM.HUDScale(117.5), white, TEXT_ALIGN_RIGHT)
+		draw.SimpleText(killedBy:Nick(), "HUD_PlayerDeathName", w / 2 - TM.HUDScale(10), TM.HUDScale(117.5), white, TEXT_ALIGN_RIGHT)
 		draw.SimpleText(killedWith, "HUD_PlayerDeathName", w / 2 + TM.HUDScale(10), TM.HUDScale(117.5), white, TEXT_ALIGN_LEFT)
 
 		if killedBy:Health() <= 0 then
@@ -1545,13 +1550,15 @@ net.Receive("EndOfGame", function(len, ply)
 		MapChoice:SetDepressImage(false)
 		MapChoice.DoClick = function()
 			net.Start("ReceiveMapVote")
-			net.WriteString(firstMap)
-			net.WriteString(mapPickedName)
-			net.WriteUInt(1, 3)
-			net.WriteUInt(mapPicked, 3)
+				net.WriteString(firstMap)
+				net.WriteString(mapPickedName)
+				net.WriteUInt(1, 3)
+				net.WriteUInt(mapPicked, 3)
 			net.SendToServer()
+
 			mapPicked = 1
 			mapPickedName = firstMap
+
 			surface.PlaySound("buttons/button15.wav")
 
 			MapChoice:SetEnabled(false)
@@ -1566,13 +1573,15 @@ net.Receive("EndOfGame", function(len, ply)
 		MapChoiceTwo:SetDepressImage(false)
 		MapChoiceTwo.DoClick = function()
 			net.Start("ReceiveMapVote")
-			net.WriteString(secondMap)
-			net.WriteString(mapPickedName)
-			net.WriteUInt(2, 3)
-			net.WriteUInt(mapPicked, 3)
+				net.WriteString(secondMap)
+				net.WriteString(mapPickedName)
+				net.WriteUInt(2, 3)
+				net.WriteUInt(mapPicked, 3)
 			net.SendToServer()
+
 			mapPicked = 2
 			mapPickedName = secondMap
+
 			surface.PlaySound("buttons/button15.wav")
 
 			MapChoice:SetEnabled(true)
@@ -1587,13 +1596,15 @@ net.Receive("EndOfGame", function(len, ply)
 		MapChoiceThree:SetDepressImage(false)
 		MapChoiceThree.DoClick = function()
 			net.Start("ReceiveMapVote")
-			net.WriteString(thirdMap)
-			net.WriteString(mapPickedName)
-			net.WriteUInt(3, 3)
-			net.WriteUInt(mapPicked, 3)
+				net.WriteString(thirdMap)
+				net.WriteString(mapPickedName)
+				net.WriteUInt(3, 3)
+				net.WriteUInt(mapPicked, 3)
 			net.SendToServer()
+
 			mapPicked = 3
 			mapPickedName = thirdMap
+
 			surface.PlaySound("buttons/button15.wav")
 
 			MapChoice:SetEnabled(true)
@@ -1607,11 +1618,13 @@ net.Receive("EndOfGame", function(len, ply)
 		ModeChoice:SetTooltip(firstModeDesc)
 		ModeChoice.DoClick = function()
 			net.Start("ReceiveModeVote")
-			net.WriteInt(firstMode, 5)
-			net.WriteInt(secondMode, 5)
-			net.WriteUInt(1, 2)
+				net.WriteInt(firstMode, 5)
+				net.WriteInt(secondMode, 5)
+				net.WriteUInt(1, 2)
 			net.SendToServer()
+
 			gamemodePicked = 1
+
 			surface.PlaySound("buttons/button15.wav")
 
 			ModeChoice:SetEnabled(false)
@@ -1624,11 +1637,13 @@ net.Receive("EndOfGame", function(len, ply)
 		ModeChoiceTwo:SetTooltip(secondModeDesc)
 		ModeChoiceTwo.DoClick = function()
 			net.Start("ReceiveModeVote")
-			net.WriteInt(secondMode, 5)
-			net.WriteInt(firstMode, 5)
-			net.WriteUInt(2, 2)
+				net.WriteInt(secondMode, 5)
+				net.WriteInt(firstMode, 5)
+				net.WriteUInt(2, 2)
 			net.SendToServer()
+
 			gamemodePicked = 2
+
 			surface.PlaySound("buttons/button15.wav")
 
 			ModeChoice:SetEnabled(true)
@@ -1663,7 +1678,9 @@ net.Receive("EndOfGame", function(len, ply)
 			DecidedMapThumb:SetImage(decidedMapThumb)
 		end
 
-		if matchVoting == false then MapVoteCompleted() end
+		if !voting:GetBool() then
+			MapVoteCompleted()
+		end
 
 		net.Receive("MapVoteCompleted", function(len, ply)
 			decidedMap = net.ReadString()
@@ -1721,14 +1738,16 @@ net.Receive("EndOfGame", function(len, ply)
 			if (MuteActive == false) then
 				MuteActive = true
 				MuteButton:SetImage("icons/mutedmuteicon.png")
+
 				net.Start("ReceivePostGameMute")
-				net.WriteBool(true)
+					net.WriteBool(true)
 				net.SendToServer()
 			else
 				MuteActive = false
 				MuteButton:SetImage("icons/muteicon.png")
+
 				net.Start("ReceivePostGameMute")
-				net.WriteBool(false)
+					net.WriteBool(false)
 				net.SendToServer()
 			end
 		end
@@ -1764,7 +1783,7 @@ net.Receive("EndOfGame", function(len, ply)
 		for k, v in ipairs(connectedPlayers) do
 			-- constants for basic player information, much more optimized than checking every frame
 			if !IsValid(v) then return end
-			local name = v:GetName()
+			local name = v:Nick()
 			local prestige = v:GetNWInt("playerPrestige")
 			local level = v:GetNWInt("playerLevel")
 			local frags = v:Frags()
@@ -1902,7 +1921,7 @@ net.Receive("EndOfGame", function(len, ply)
 				Menu:AddSpacer()
 
 				local copyMenu = Menu:AddSubMenu("Copy...")
-				copyMenu:AddOption("Copy Name", function() SetClipboardText(v:GetName()) end):SetIcon("icon16/cut.png")
+				copyMenu:AddOption("Copy Name", function() SetClipboardText(v:Nick()) end):SetIcon("icon16/cut.png")
 				copyMenu:AddOption("Copy SteamID64", function() SetClipboardText(v:SteamID64()) end):SetIcon("icon16/cut.png")
 
 				if v != LocalPly then
@@ -1929,13 +1948,16 @@ end)
 
 -- updates the players time until self destruct on Cranked
 net.Receive("NotifyCranked", function(len, ply)
-	timeUntilSelfDestruct = crankedSelfDestructTime
-	timer.Create("CrankedTimeUntilDeath", crankedSelfDestructTime, 1, function()
+	timeUntilSelfDestruct = crankedTime:GetInt()
+
+	timer.Create("CrankedTimeUntilDeath", crankedTime:GetInt(), 1, function()
 		hook.Remove("Think", "CrankedTimeLeft")
 	end)
 
 	hook.Add("Think", "CrankedTimeLeft", function()
-		if timer.Exists("CrankedTimeUntilDeath") then timeUntilSelfDestruct = math.Round(timer.TimeLeft("CrankedTimeUntilDeath")) end
+		if timer.Exists("CrankedTimeUntilDeath") then
+			timeUntilSelfDestruct = math.Round(timer.TimeLeft("CrankedTimeUntilDeath"))
+		end
 	end)
 end)
 
@@ -1946,9 +1968,9 @@ function ShowLoadoutOnSpawn(ply)
 	local secondaryWeapon = ""
 	local meleeWeapon = ""
 	for i = 1, #WEAPONS do
-		if WEAPONS[i][1] == ply:GetNWString("loadoutPrimary") and usePrimary then primaryWeapon = WEAPONS[i][2] end
-		if WEAPONS[i][1] == ply:GetNWString("loadoutSecondary") and useSecondary then secondaryWeapon = WEAPONS[i][2] end
-		if WEAPONS[i][1] == ply:GetNWString("loadoutMelee") and useMelee then meleeWeapon = WEAPONS[i][2] end
+		if WEAPONS[i][1] == ply:GetNWString("loadoutPrimary") then primaryWeapon = WEAPONS[i][2] end
+		if WEAPONS[i][1] == ply:GetNWString("loadoutSecondary") then secondaryWeapon = WEAPONS[i][2] end
+		if WEAPONS[i][1] == ply:GetNWString("loadoutMelee") then meleeWeapon = WEAPONS[i][2] end
 	end
 	notification.AddProgress("LoadoutText", "Current Loadout:\n" .. primaryWeapon .. "\n" .. secondaryWeapon .. "\n" .. meleeWeapon)
 	timer.Simple(2.5, function()

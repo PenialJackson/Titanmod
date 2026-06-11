@@ -4,100 +4,10 @@
 	If you do not understand what a certain setting does, I would recommend not changing it.
 ]]--
 
-DEBUG = CreateConVar("tm_developer", "0", FCVAR_ARCHIVE + FCVAR_REPLICATED + FCVAR_NOTIFY, "Enables Sandbox features on server start and enables certain debugging tools, having this enabled will disable progression for all players", 0, 1)
+DEBUG = CreateConVar("sv_tm_developer", "0", FCVAR_ARCHIVE + FCVAR_REPLICATED + FCVAR_NOTIFY, "Enables Sandbox features on server start and enables certain debugging tools, having this enabled will disable progression for all players", 0, 1)
 
 if DEBUG:GetBool() then
 	DeriveGamemode("sandbox")
-end
-
-local UseConfigConvars = true   -- Disables the legacy Config, and allows sv_ ConVars to adjust the Titanmod Config.
-
-if UseConfigConvars then
-	playerHealth = GetConVar("sv_tm_player_health"):GetInt()
-	playerSpeedMulti = GetConVar("sv_tm_player_speed_multi"):GetFloat()
-	playerGravityMulti = GetConVar("sv_tm_player_gravity_multi"):GetFloat()
-	playerJumpMulti = GetConVar("sv_tm_player_jump_multi"):GetFloat()
-	playerDuckStateMulti = GetConVar("sv_tm_player_duckstate_multi"):GetFloat()
-	playerCrouchWalkSpeedMulti = GetConVar("sv_tm_player_crouchwalkspeed_multi"):GetFloat()
-	playerSlideSpeedMulti = GetConVar("sv_tm_player_slide_speed_multi"):GetFloat()
-	playerSlideDuration = GetConVar("sv_tm_player_slide_duration"):GetFloat()
-	healthRegeneration = GetConVar("sv_tm_player_healthregen_enable"):GetBool()
-	healthRegenSpeed = GetConVar("sv_tm_player_healthregen_speed"):GetFloat()
-	healthRegenDamageDelay = GetConVar("sv_tm_player_healthregen_damagedelay"):GetFloat()
-	forceDisableProgression = GetConVar("sv_tm_progression_forcedisable"):GetBool()
-	xpMultiplier = GetConVar("sv_tm_progression_xp_multi"):GetFloat()
-	usePrimary = GetConVar("sv_tm_ffa_use_primary"):GetBool()
-	useSecondary = GetConVar("sv_tm_ffa_use_secondary"):GetBool()
-	useMelee = GetConVar("sv_tm_ffa_use_melee"):GetBool()
-	fiestaShuffleTime = GetConVar("sv_tm_fiesta_shuffle_time"):GetInt()
-	ggLadderSize = GetConVar("sv_tm_gungame_ladder_size"):GetInt()
-	crankedSelfDestructTime = GetConVar("sv_tm_cranked_selfdestruct_time"):GetInt()
-	crankedBuffMultiplier = GetConVar("sv_tm_cranked_buff_multi"):GetFloat()
-	kothScoringInterval = GetConVar("sv_tm_koth_scoring_interval"):GetInt()
-	kothScore = GetConVar("sv_tm_koth_score"):GetFloat()
-	vipScoringInterval = GetConVar("sv_tm_vip_scoring_interval"):GetInt()
-	vipScore = GetConVar("sv_tm_vip_score"):GetFloat()
-	grappleCooldown = GetConVar("sv_tm_grapple_cooldown"):GetInt()
-	grappleKillReset = GetConVar("sv_tm_grapple_killreset"):GetBool()
-	grappleRange = GetConVar("sv_tm_grapple_range"):GetInt()
-	proxChatRange = GetConVar("sv_tm_voip_range"):GetInt()
-	matchVoting = GetConVar("sv_tm_matchvoting"):GetBool()
-	customMovement = GetConVar("sv_tm_player_custommovement"):GetBool()
-	jumpSliding = GetConVar("sv_tm_player_jumpsliding"):GetBool()
-	deathCamera = GetConVar("sv_tm_deathcam"):GetBool()
-	matchLengthTime = GetConVar("tm_matchlengthtimer"):GetInt()
-else
-	-- player settings
-	playerHealth = 100              -- The max health of the player
-	playerSpeedMulti = 1            -- The multiplier for the speed of the player (affects walking, sprinting, crouching, sliding, and ladder climbing speeds)
-	playerGravityMulti = 1          -- The multiplier for the strength of gravity affecting the player
-	playerJumpMulti = 1             -- The multiplier for the strength of the players jump
-	playerDuckStateMulti = 1        -- The multiplier of the speed at which the player enters/exits a crocuh after the key is pressed/released
-	playerCrouchWalkSpeedMulti = 1  -- The multiplier of the players wakling speed while crouched
-	playerSlideSpeedMulti = 1.55    -- The multiplier of the players speed while sliding
-	playerSlideDuration = 1         -- The time (in seconds) that a players slide lasts
-	healthRegeneration = true       -- Enable or disable health regeneration on players after not taking damage for a set amount of time
-	healthRegenSpeed = 0.12         -- The speed of the players health regeneration
-	healthRegenDamageDelay = 3.5    -- The time (in seconds) from when the player was last hit to begin health regeneration
-
-	-- progression settings
-	forceDisableProgression = false -- Any progress or unlocks made during a play session will be reset upon leaving
-	xpMultiplier = 1                -- Multiplies all sources of XP (kills, accolades, and more)
-
-	-- universal settings
-	usePrimary = true               -- Enable primary weapons for the players loadout
-	useSecondary = true             -- Enable secondary weapons for the players loadout
-	useMelee = true                 -- Enable melee weapons for the players loadout
-	grappleCooldown = 15            -- The cooldown (in sceonds) of the grappling hook after being used
-
-	-- fiesta settings
-	fiestaShuffleTime = 30          -- Sets the amount of weapons a player needs to get kills with to win a match
-
-	-- gun game settings
-	ggLadderSize = 26               -- Sets the amount of weapons a player needs to get kills with to win a match
-
-	-- cranked settings
-	crankedSelfDestructTime = 25    -- Sets the amount of weapons a player needs to get kills with to win a match
-	crankedBuffMultiplier = 1.33    -- The multiplier for the buffs that being Cranked gives to a player
-
-	-- king of the hill settings
-	kothScoringInterval = 1         -- The time (in seconds) that a hill check is done, this is repeating (obviously)
-	kothScore = 15                  -- Sets the amount of score that is given to a player standing on the hill
-
-	-- VIP settings
-	vipScoringInterval = 1          -- The time (in seconds) that a VIP check is done, this is repeating (obviously)
-	vipScore = 15                   -- Sets the amount of score that is given to the VIP
-
-	-- mechanic settings
-	grappleKillReset = true         -- Enable or disable the grapple cooldown reset on a player kill
-	grappleRange = 850              -- The length (in units) that the grappling hook can travel too before despawning
-	proxChatRange = 1000            -- The thresehold in distance where players can hear other players over proximity voice chat
-	matchVoting = true              -- Enable or disable the end of match map and gamemode vote (disabling this will select a map and gamemode at random after a match ends)
-	customMovement = true           -- Enable or disable Titanmod's custom movement mechanics (wall running/jumping, sliding, vaulting)
-	jumpSliding = false             -- Removes the jump sliding patch, making movement more in line with older Titanmod versions
-	deathCamera = true              -- Enable or disable Titanmod's custom death camera on a players death (showing the killers POV after a death), this can still be disabled by players client-side
-
-	matchLengthTime = GetConVar("tm_matchlengthtimer"):GetInt()    -- The time in seconds until a map vote starts, can be replaced with a whole number to override the ConVar
 end
 
 -- convars
@@ -180,14 +90,6 @@ if SERVER then
 	RunConsoleCommand("tpf_sv_max_bright", "255")
 	RunConsoleCommand("tpf_sv_max_farz", "750")
 	RunConsoleCommand("tpf_sv_max_fov", "75")
-
-	if DEBUG:GetBool() then
-		RunConsoleCommand("fingrap_Cooldowng", "0")
-	else
-		RunConsoleCommand("fingrap_Cooldowng", grappleCooldown)
-	end
-
-	RunConsoleCommand("fingrap_range", grappleRange)
 
 	timer.Simple(5, function() -- delaying by 5 seconds because it literally just doesn't work unless I delay the ConVar, thanks Source engine lmao
 		RunConsoleCommand("sk_fraggrenade_radius", "400")

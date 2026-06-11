@@ -1,41 +1,206 @@
 if engine.ActiveGamemode() != "titanmod" then return end
 
-if !ConVarExists("tm_matchlengthtimer") then CreateConVar("tm_matchlengthtimer", "600", FCVAR_REPLICATED + FCVAR_NOTIFY, "Changes the matches length to the selected value in seconds", 0, 3600) end
-if !ConVarExists("tm_intermissiontimer") then CreateConVar("tm_intermissiontimer", "30", FCVAR_REPLICATED + FCVAR_NOTIFY, "Changes the intermission length to the selected value in seconds", 0, 600) end
-if !ConVarExists("tm_unlockall") then CreateConVar("tm_unlockall", "0", FCVAR_REPLICATED + FCVAR_NOTIFY, "Allows all players to equip any cosmetic item, even while not meeting the unlock requirments", 0, 1) end
+local cvars = {}
 
-if !ConVarExists("sv_tm_player_health") then CreateConVar("sv_tm_player_health", "100", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The max health of the player (100 by default)") end
-if !ConVarExists("sv_tm_player_speed_multi") then CreateConVar("sv_tm_player_speed_multi", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The multiplier for the speed of the player (affects walking, sprinting, crouching, sliding, and ladder climbing speeds) (1 by default)") end
-if !ConVarExists("sv_tm_player_gravity_multi") then CreateConVar("sv_tm_player_gravity_multi", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The multiplier for the strength of gravity affecting the player (1 by default)") end
-if !ConVarExists("sv_tm_player_jump_multi") then CreateConVar("sv_tm_player_jump_multi", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The multiplier for the strength of the players jump (1 by default)") end
-if !ConVarExists("sv_tm_player_duckstate_multi") then CreateConVar("sv_tm_player_duckstate_multi", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The multiplier of the speed at which the player enters/exits a crocuh after the key is pressed/released (1 by default)") end
-if !ConVarExists("sv_tm_player_crouchwalkspeed_multi") then CreateConVar("sv_tm_player_crouchwalkspeed_multi", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The multiplier of the players wakling speed while crouched (1 by default)") end
-if !ConVarExists("sv_tm_player_slide_speed_multi") then CreateConVar("sv_tm_player_slide_speed_multi", "1.55", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The multiplier of the players speed while sliding (1.55 by default)") end
-if !ConVarExists("sv_tm_player_slide_duration") then CreateConVar("sv_tm_player_slide_duration", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The time (in seconds) that a players slide lasts (1 by default)") end
-if !ConVarExists("sv_tm_player_healthregen") then CreateConVar("sv_tm_player_healthregen_enable", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Enable or disable health regeneration on players (1 by default)", 0, 1) end
-if !ConVarExists("sv_tm_player_healthregen_speed") then CreateConVar("sv_tm_player_healthregen_speed", "0.12", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The speed of the players health regeneration (0.12 by default)") end
-if !ConVarExists("sv_tm_player_healthregen_damagedelay") then CreateConVar("sv_tm_player_healthregen_damagedelay", "3.5", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The time (in seconds) from when the player was last hit to begin health regeneration (3.5 by default)") end
-if !ConVarExists("sv_tm_progression_forcedisable") then CreateConVar("sv_tm_progression_forcedisable", "0", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Any progress or unlocks made during a play session will be reset upon leaving (0 by default)", 0, 1) end
-if !ConVarExists("sv_tm_progression_xp_multi") then CreateConVar("sv_tm_progression_xp_multi", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Multiplies all sources of XP (kills, accolades, and more) (1 by default)") end
-if !ConVarExists("sv_tm_ffa_use_primary") then CreateConVar("sv_tm_ffa_use_primary", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Enable primary weapons for the players loadout (1 by default)", 0, 1) end
-if !ConVarExists("sv_tm_ffa_use_secondary") then CreateConVar("sv_tm_ffa_use_secondary", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Enable secondary weapons for the players loadout (1 by default)", 0, 1) end
-if !ConVarExists("sv_tm_ffa_use_melee") then CreateConVar("sv_tm_ffa_use_melee", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Enable melee weapons/gadgets for the players loadout (1 by default)", 0, 1) end
-if !ConVarExists("sv_tm_fiesta_shuffle_time") then CreateConVar("sv_tm_fiesta_shuffle_time", "30", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The time (in seconds) between each loadout swap (30 by default)") end
-if !ConVarExists("sv_tm_gungame_ladder_size") then CreateConVar("sv_tm_gungame_ladder_size", "26", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The amount of weapons a player needs to get kills with to win a match (26 by default)", 2) end
-if !ConVarExists("sv_tm_cranked_selfdestruct_time") then CreateConVar("sv_tm_cranked_selfdestruct_time", "25", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The time (in seconds) that it takes for a player to explode after being Cranked (25 by default)", 10) end
-if !ConVarExists("sv_tm_cranked_buff_multi") then CreateConVar("sv_tm_cranked_buff_multi", "1.33", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The multiplier for the buffs that being Cranked gives to a player (1.33 by default)", 1) end
-if !ConVarExists("sv_tm_koth_scoring_interval") then CreateConVar("sv_tm_koth_scoring_interval", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The time (in seconds) that a hill check is done, this is repeating (obviously) (1 by default)", 0.5, 5) end
-if !ConVarExists("sv_tm_koth_score") then CreateConVar("sv_tm_koth_score", "15", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Sets the amount of score that is given to a player standing on the hill (15 by default)", 1) end
-if !ConVarExists("sv_tm_vip_scoring_interval") then CreateConVar("sv_tm_vip_scoring_interval", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The time (in seconds) that a VIP check is done, this is repeating (obviously) (1 by default)", 0.5, 5) end
-if !ConVarExists("sv_tm_vip_score") then CreateConVar("sv_tm_vip_score", "10", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Sets the amount of score that is given to the VIP (10 by default)", 1) end
-if !ConVarExists("sv_tm_grapple_cooldown") then CreateConVar("sv_tm_grapple_cooldown", "15", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The cooldown (in sceonds) of the grappling hook after being used (15 by default)") end
-if !ConVarExists("sv_tm_grapple_killreset") then CreateConVar("sv_tm_grapple_killreset", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Enable or disable the grapple cooldown reset on a player kill (1 by default)", 0, 1) end
-if !ConVarExists("sv_tm_grapple_range") then CreateConVar("sv_tm_grapple_range", "850", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The length (in units) that the grappling hook can travel too before despawning (850 by default)") end
-if !ConVarExists("sv_tm_voip_range") then CreateConVar("sv_tm_voip_range", "1000", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "The thresehold in distance where players can hear other players over proximity voice chat (1000 by default)") end
-if !ConVarExists("sv_tm_matchvoting") then CreateConVar("sv_tm_matchvoting", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Enable or disable the end of match map and gamemode vote (disabling this will select a map and gamemode at random after a match ends) (1 by default)") end
-if !ConVarExists("sv_tm_player_custommovement") then CreateConVar("sv_tm_player_custommovement", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Enable or disable Titanmod's custom movement mechanics (wall running/jumping, sliding, vaulting) (1 by default)") end
-if !ConVarExists("sv_tm_player_jumpsliding") then CreateConVar("sv_tm_player_jumpsliding", "0", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Removes the jump sliding patch, making movement more in line with older Titanmod versions (0 by default)") end
-if !ConVarExists("sv_tm_deathcam") then CreateConVar("sv_tm_deathcam", "1", FCVAR_REPLICATED + FCVAR_NOTIFY + FCVAR_ARCHIVE, "Enable or disable Titanmod's custom death camera on a players death (showing the killers POV after a death), this can still be disabled by players client-side (1 by default)") end
+-- server
+cvars["match_length"] = {
+	default = 600,
+	replicated = true
+}
+
+cvars["intermission_length"] = {
+	default = 30,
+	replicated = true
+}
+
+cvars["xp_mult"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["unlock_all"] = {
+	default = 0,
+	replicated = true,
+	min = 0,
+	max = 1
+}
+
+cvars["player_hp_max"] = {
+	default = 100,
+	replicated = true
+}
+
+cvars["player_hp_regen"] = {
+	default = 1,
+	replicated = true,
+	min = 0,
+	max = 1
+}
+
+cvars["player_hp_regen_interval"] = {
+	default = 0.1,
+	replicated = true
+}
+
+cvars["player_hp_regen_amount"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["player_hp_regen_cooldown"] = {
+	default = 3.5,
+	replicated = true
+}
+
+cvars["player_gravity"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["player_speed_walk"] = {
+	default = 165,
+	replicated = true
+}
+
+cvars["player_speed_run"] = {
+	default = 275,
+	replicated = true
+}
+
+cvars["player_speed_crouch_mult"] = {
+	default = 0.6,
+	replicated = true
+}
+
+cvars["player_speed_climb"] = {
+	default = 155,
+	replicated = true
+}
+
+cvars["player_speed_slide_mult"] = {
+	default = 1.55,
+	replicated = true
+}
+
+cvars["player_slide_duration"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["player_jump_mult"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["player_crouch_time_enter_mult"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["player_crouch_time_exit_mult"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["player_crouch_time_exit_mult"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["player_jump_sliding"] = {
+	default = 0,
+	replicated = true,
+	min = 0,
+	max = 1
+}
+
+cvars["player_custom_movement"] = {
+	default = 1,
+	replicated = true,
+	min = 0,
+	max = 1
+}
+
+cvars["mode_fiesta_shuffle_length"] = {
+	default = 30,
+	replicated = true
+}
+
+cvars["mode_gungame_ladder_size"] = {
+	default = 26,
+	replicated = true
+}
+
+cvars["mode_cranked_state_length"] = {
+	default = 25,
+	replicated = true
+}
+
+cvars["mode_cranked_state_buff_mult"] = {
+	default = 1.33,
+	replicated = true
+}
+
+cvars["mode_koth_score"] = {
+	default = 15,
+	replicated = true
+}
+
+cvars["mode_koth_score_interval"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["mode_vip_score"] = {
+	default = 10,
+	replicated = true
+}
+
+cvars["mode_vip_score_interval"] = {
+	default = 1,
+	replicated = true
+}
+
+cvars["grapple_cooldown"] = {
+	default = 15,
+	replicated = true
+}
+
+cvars["grapple_cooldown_kill_reduction"] = {
+	default = 1,
+	replicated = true,
+	min = 0,
+	max = 1
+}
+
+cvars["grapple_cooldown_kill_reduction_amount"] = {
+	default = 10,
+	replicated = true
+}
+
+cvars["grapple_range"] = {
+	default = 850,
+	replicated = true
+}
+
+cvars["voice_range"] = {
+	default = 1000,
+	replicated = true
+}
+
+cvars["voting"] = {
+	default = 1,
+	replicated = true,
+	min = 0,
+	max = 1
+}
+
+cvars["death_camera"] = {
+	default = 1,
+	replicated = true,
+	min = 0,
+	max = 1
+}
 
 if CLIENT then
 	CreateClientConVar("tm_menusounds", 1, true, false, "Enable/disable the menu sounds", 0, 1)
@@ -46,6 +211,7 @@ if CLIENT then
 	CreateClientConVar("tm_killsoundtype", 0, true, false, "Switch between the multiple styles of kill sounds", 0, 5)
 	CreateClientConVar("tm_headshotkillsoundtype", 0, true, false, "Switch between the multiple styles of kill sounds when getting a headshot kill", 0, 5)
 	CreateClientConVar("tm_nadebind", KEY_4, true, true, "Determines the keybind that will begin cocking a grenade")
+	CreateClientConVar("tm_grapplebind", KEY_G, true, true, "")
 	CreateClientConVar("tm_mainmenubind", KEY_M, true, true, "Determines the keybind that will open the main menu")
 	CreateClientConVar("tm_quickswitching", 1, true, true, "Enable/disable quick weapon switching via keybinds", 0, 1)
 	CreateClientConVar("tm_primarybind", KEY_1, true, true, "Determines the keybind that will quick switch to your primary weapon")
@@ -172,3 +338,43 @@ if CLIENT then
 	CreateClientConVar("tm_hud_notifications", 1, true, false, "Enable/disable HUD notifications", 0, 1)
 	CreateClientConVar("tm_hud_voiceindicator", 1, true, false, "Enable/disable the voice indicator", 0, 1)
 end
+
+local prefixClient = "tm_"
+local prefixServer = "sv_tm_"
+
+local cvarsClient = {}
+local cvarsServer = {}
+
+for cvar, data in pairs(cvars) do
+	if data.client and CLIENT then
+		local name = prefixClient .. cvar
+		table.insert(cvarsClient, name)
+		CreateClientConVar(name, data.default, data.save != false, data.userinfo, data.helptext, data.min, data.max)
+	else
+		local name = prefixServer .. cvar
+		local flags = FCVAR_NONE
+
+		if data.save != false then flags = flags + FCVAR_ARCHIVE end
+		if data.replicated then flags = flags + FCVAR_REPLICATED end
+		if data.userinfo then flags = flags + FCVAR_USERINFO end
+
+		table.insert(cvarsServer, name)
+		CreateConVar(name, data.default, flags, data.helptext, data.min, data.max)
+	end
+end
+
+if CLIENT then
+	local function ResetSettingsClient()
+		for _, cvar in pairs(cvarsClient) do
+			RunConsoleCommand(cvar, GetConVar(cvar):GetDefault())
+		end
+	end
+	concommand.Add("tm_settings_reset", function() ResetSettingsClient() end)
+end
+
+local function ResetSettingsServer()
+	for _, cvar in pairs(cvarsServer) do
+		GetConVar(cvar):Revert()
+	end
+end
+concommand.Add("sv_tm_settings_reset", function() ResetSettingsServer() end)

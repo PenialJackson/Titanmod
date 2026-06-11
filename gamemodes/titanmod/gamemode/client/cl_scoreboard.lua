@@ -96,7 +96,7 @@ function GM:ScoreboardShow()
 
 		for k, v in ipairs(connectedPlayers) do
 			-- constants for basic player information, much more optimized than checking every frame
-			local name = v:GetName()
+			local name = v:Nick()
 			local prestige = v:GetNWInt("playerPrestige")
 			local level = v:GetNWInt("playerLevel")
 			local ping = v:Ping()
@@ -224,7 +224,7 @@ function GM:ScoreboardShow()
 				Menu:AddSpacer()
 
 				local copyMenu = Menu:AddSubMenu("Copy...")
-				copyMenu:AddOption("Copy Name", function() SetClipboardText(v:GetName()) end):SetIcon("icon16/cut.png")
+				copyMenu:AddOption("Copy Name", function() SetClipboardText(v:Nick()) end):SetIcon("icon16/cut.png")
 				copyMenu:AddOption("Copy SteamID64", function() SetClipboardText(v:SteamID64()) end):SetIcon("icon16/cut.png")
 
 				if v != LocalPlayer then
@@ -243,4 +243,10 @@ function GM:ScoreboardShow()
 	end
 end
 
-function GM:ScoreboardHide() if IsValid(ScoreboardDerma) then ScoreboardDerma:AlphaTo(0, 0.05, 0, function() ScoreboardDerma:Remove() end) end end
+function GM:ScoreboardHide()
+	if IsValid(ScoreboardDerma) then
+		ScoreboardDerma:AlphaTo(0, 0.05, 0, function()
+			ScoreboardDerma:Remove()
+		end)
+	end
+end

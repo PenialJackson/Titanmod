@@ -1,19 +1,29 @@
+local intermissionLength = GetConVar("sv_tm_intermission_length")
+
 if !game.SinglePlayer() then
 	if GetGlobal2String("ActiveGamemode", "FFA") != "Gun Game" then
 		hook.Add("PlayerButtonDown", "TitanmodKeybindings", function(ply, button)
 			if SERVER then
 				-- menu
 				if button == ply:GetInfoNum("tm_mainmenubind", KEY_M) then
-					if GetGlobal2Int("tm_matchtime", 0) - CurTime() > GetGlobal2Int("tm_matchtime", 0) - GetConVar("tm_intermissiontimer"):GetInt() then
+					if GetGlobal2Int("tm_matchtime", 0) - CurTime() > GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt() then
 						ply:KillSilent()
+
 						net.Start("OpenMainMenu")
-						net.WriteFloat(0)
+							net.WriteFloat(0)
 						net.Send(ply)
 					end
+
 					if ply:Alive() then return end
+
 					net.Start("OpenMainMenu")
-					if timer.Exists(ply:SteamID() .. "respawnTime") then net.WriteFloat(timer.TimeLeft(ply:SteamID() .. "respawnTime")) else net.WriteFloat(0) end
+						if timer.Exists(ply:SteamID() .. "respawnTime") then
+							net.WriteFloat(timer.TimeLeft(ply:SteamID() .. "respawnTime"))
+						else
+							net.WriteFloat(0)
+						end
 					net.Send(ply)
+
 					ply:SetNWBool("mainmenu", true)
 				end
 			end
@@ -44,6 +54,8 @@ if !game.SinglePlayer() then
 			end
 		end)
 	else
+		local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
+
 		hook.Add("PlayerButtonDown", "TitanmodKeybindings", function(ply, button)
 			if SERVER then
 				-- weapon quick switching
@@ -53,7 +65,7 @@ if !game.SinglePlayer() then
 						if weapon != NULL then input.SelectWeapon(weapon) end
 					end
 
-					if (ply:GetNWInt("ladderPosition") == (ggLadderSize - 1)) == false then
+					if (ply:GetNWInt("ladderPosition") == (gunGameSize:GetInt() - 1)) == false then
 						if button == ply:GetInfoNum("tm_secondarybind", KEY_2) then
 							local weapon = ply:GetWeapon(ggLadder[ply:GetNWInt("ladderPosition") + 1][2])
 							if weapon != NULL then input.SelectWeapon(weapon) end
@@ -67,19 +79,28 @@ if !game.SinglePlayer() then
 
 				-- menu
 				if button == ply:GetInfoNum("tm_mainmenubind", KEY_M) then
-					if GetGlobal2Int("tm_matchtime", 0) - CurTime() > GetGlobal2Int("tm_matchtime", 0) - GetConVar("tm_intermissiontimer"):GetInt() then
+					if GetGlobal2Int("tm_matchtime", 0) - CurTime() > GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt() then
 						ply:KillSilent()
+
 						net.Start("OpenMainMenu")
-						net.WriteFloat(0)
+							net.WriteFloat(0)
 						net.Send(ply)
 					end
+
 					if ply:Alive() then return end
+
 					net.Start("OpenMainMenu")
-					if timer.Exists(ply:SteamID() .. "respawnTime") then net.WriteFloat(timer.TimeLeft(ply:SteamID() .. "respawnTime")) else net.WriteFloat(0) end
+						if timer.Exists(ply:SteamID() .. "respawnTime") then
+							net.WriteFloat(timer.TimeLeft(ply:SteamID() .. "respawnTime"))
+						else
+							net.WriteFloat(0)
+						end
 					net.Send(ply)
+
 					ply:SetNWBool("mainmenu", true)
 				end
 			end
+
 			if CLIENT and IsFirstTimePredicted() then
 				if GetGlobal2Bool("tm_intermission") then return end
 				-- grenade
@@ -110,16 +131,24 @@ else
 
 				-- menu
 				if button == ply:GetInfoNum("tm_mainmenubind", KEY_M) then
-					if GetGlobal2Int("tm_matchtime", 0) - CurTime() > GetGlobal2Int("tm_matchtime", 0) - GetConVar("tm_intermissiontimer"):GetInt() then
+					if GetGlobal2Int("tm_matchtime", 0) - CurTime() > GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt() then
 						ply:KillSilent()
+
 						net.Start("OpenMainMenu")
-						net.WriteFloat(0)
+							net.WriteFloat(0)
 						net.Send(ply)
 					end
+
 					if ply:Alive() then return end
+
 					net.Start("OpenMainMenu")
-					if timer.Exists(ply:SteamID() .. "respawnTime") then net.WriteFloat(timer.TimeLeft(ply:SteamID() .. "respawnTime")) else net.WriteFloat(0) end
+						if timer.Exists(ply:SteamID() .. "respawnTime") then
+							net.WriteFloat(timer.TimeLeft(ply:SteamID() .. "respawnTime"))
+						else
+							net.WriteFloat(0)
+						end
 					net.Send(ply)
+
 					ply:SetNWBool("mainmenu", true)
 				end
 				if GetGlobal2Bool("tm_intermission") then return end
@@ -132,6 +161,8 @@ else
 			end
 		end)
 	else
+		local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
+
 		hook.Add("PlayerButtonDown", "TitanmodKeybindings", function(ply, button)
 			if SERVER then
 				-- weapon quick switching
@@ -139,7 +170,7 @@ else
 					if button == ply:GetInfoNum("tm_primarybind", KEY_1) then
 						ply:SelectWeapon(ggLadder[ply:GetNWInt("ladderPosition") + 1][1])
 					end
-					if (ply:GetNWInt("ladderPosition") == (ggLadderSize - 1)) == false then
+					if (ply:GetNWInt("ladderPosition") == (gunGameSize:GetInt() - 1)) == false then
 						if button == ply:GetInfoNum("tm_secondarybind", KEY_2) then
 							ply:SelectWeapon(ggLadder[ply:GetNWInt("ladderPosition") + 1][2])
 						end
@@ -151,16 +182,24 @@ else
 
 				-- menu
 				if button == ply:GetInfoNum("tm_mainmenubind", KEY_M) then
-					if GetGlobal2Int("tm_matchtime", 0) - CurTime() > GetGlobal2Int("tm_matchtime", 0) - GetConVar("tm_intermissiontimer"):GetInt() then
+					if GetGlobal2Int("tm_matchtime", 0) - CurTime() > GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt() then
 						ply:KillSilent()
+
 						net.Start("OpenMainMenu")
-						net.WriteFloat(0)
+							net.WriteFloat(0)
 						net.Send(ply)
 					end
+
 					if ply:Alive() then return end
+
 					net.Start("OpenMainMenu")
-					if timer.Exists(ply:SteamID() .. "respawnTime") then net.WriteFloat(timer.TimeLeft(ply:SteamID() .. "respawnTime")) else net.WriteFloat(0) end
+						if timer.Exists(ply:SteamID() .. "respawnTime") then
+							net.WriteFloat(timer.TimeLeft(ply:SteamID() .. "respawnTime"))
+						else
+							net.WriteFloat(0)
+						end
 					net.Send(ply)
+
 					ply:SetNWBool("mainmenu", true)
 				end
 				if GetGlobal2Bool("tm_intermission") then return end

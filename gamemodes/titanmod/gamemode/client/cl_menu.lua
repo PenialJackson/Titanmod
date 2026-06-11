@@ -27,7 +27,8 @@ local function TriggerSound(type)
 	if type == "hover" then surface.PlaySound("tmui/hover.wav") end
 end
 
-local playedIntro = false
+local unlockAllCVar = GetConVar("sv_tm_unlock_all")
+local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 
 local MainMenu
 
@@ -97,11 +98,6 @@ net.Receive("OpenMainMenu", function(len, ply)
 			end
 		end
 
-		if !playedIntro then
-			-- surface.PlaySound("tmui/intro.wav")
-			playedIntro = true
-		end
-
 		gui.EnableScreenClicker(true)
 
 		local MainPanel = MainMenu:Add("MainPanel")
@@ -164,8 +160,10 @@ net.Receive("OpenMainMenu", function(len, ply)
 						prestigeConfirm = 1
 					else
 						surface.PlaySound("tmui/prestige.wav")
+
 						net.Start("PlayerPrestige")
 						net.SendToServer()
+
 						PrestigeButton:Hide()
 					end
 
@@ -247,15 +245,19 @@ net.Receive("OpenMainMenu", function(len, ply)
 					local firstSelection = true
 					function LeaderboardSelected(text, data)
 						if SelectedBoardName == text then return end
+
 						if !firstSelection then
 							LeaderboardPickerButton:Hide()
 							timer.Create("SendBoardDataRequestCooldown", 3, 1, function() if !LocalPly:Alive() and IsValid(LeaderboardPickerButton) then LeaderboardPickerButton:Show() end end)
 						end
+
 						TriggerSound("click")
+
 						net.Start("GrabLeaderboardData")
-						net.WriteString(data)
-						net.WriteBool(true)
+							net.WriteString(data)
+							net.WriteBool(true)
 						net.SendToServer()
+
 						SelectedBoardName = text
 					end
 
@@ -324,7 +326,7 @@ net.Receive("OpenMainMenu", function(len, ply)
 						if SelectedBoard == nil then return end
 						for p, t in pairs(SelectedBoard) do
 							if t.Value == "NULL" then return end
-							if t.SteamName != LocalPly:GetName() then
+							if t.SteamName != LocalPly:Nick() then
 								draw.SimpleText(p, "SettingsLabel", TM.MenuScale(20), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT)
 								if t.SteamName != "NULL" then draw.SimpleText(string.sub(t.SteamName, 1, 21), "SettingsLabel", TM.MenuScale(85), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT) else draw.SimpleText(t.SteamID, "SettingsLabel", TM.MenuScale(85), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT) end
 							else
@@ -333,19 +335,19 @@ net.Receive("OpenMainMenu", function(len, ply)
 							end
 
 							if SelectedBoardName == "W/L Ratio" then
-								if t.SteamName != LocalPly:GetName() then
+								if t.SteamName != LocalPly:Nick() then
 									draw.SimpleText(math.Round(t.Value) .. "%", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
 								else
 									draw.SimpleText(math.Round(t.Value) .. "%", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
 								end
 							elseif SelectedBoardName == "Farthest Kill" then
-								if t.SteamName != LocalPly:GetName() then
+								if t.SteamName != LocalPly:Nick() then
 									draw.SimpleText(math.Round(t.Value, 2) .. "m", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
 								else
 									draw.SimpleText(math.Round(t.Value, 2) .. "m", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
 								end
 							else
-								if t.SteamName != LocalPly:GetName() then
+								if t.SteamName != LocalPly:Nick() then
 									draw.SimpleText(math.Round(t.Value, 2), "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
 								else
 									draw.SimpleText(math.Round(t.Value, 2), "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
@@ -362,12 +364,13 @@ net.Receive("OpenMainMenu", function(len, ply)
 
 					ProfilesHolder = vgui.Create("DIconLayout", LeaderboardProfiles)
 					ProfilesHolder:Dock(TOP)
-					ProfilesHolder:SetSpaceY(TM.MenuScale(1.25))
+					ProfilesHolder:SetSpaceY(TM.MenuScale(1))
 
 					net.Start("GrabLeaderboardData")
-					net.WriteString("playerKills")
-					net.WriteBool(false)
+						net.WriteString("playerKills")
+						net.WriteBool(false)
 					net.SendToServer()
+
 					SelectedBoardName = "Kills"
 					firstSelection = false
 				end
@@ -415,11 +418,14 @@ net.Receive("OpenMainMenu", function(len, ply)
 			SpectateButton:SetTooltip("Spectate")
 			SpectateButton.DoClick = function()
 				TriggerSound("click")
+
 				if timer.Exists("respawnTimeLeft") then return end
 				if GetGlobal2Bool("tm_intermission") then return end
+
 				net.Start("BeginSpectate")
 				net.SendToServer()
-				MainMenu:Remove(false)
+
+				MainMenu:Remove()
 				gui.EnableScreenClicker(false)
 			end
 
@@ -655,11 +661,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					draw.DrawText("SPAWN", "AmmoCountSmall", TM.MenuScale(5) + TM.MenuScale(spawnTextAnim), TM.MenuScale(5), white, TEXT_ALIGN_LEFT)
 					for i = 1, #WEAPONS do
 						if activeGamemode == "Gun Game" then
-							draw.SimpleText(LocalPly:GetNWInt("ladderPosition") .. " / " .. ggLadderSize .. " kills", "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
+							draw.SimpleText(LocalPly:GetNWInt("ladderPosition") .. " / " .. gunGameSize:GetInt() .. " kills", "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
 						else
-							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutPrimary") and usePrimary then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT) end
-							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutSecondary") and useSecondary then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(40) , white, TEXT_ALIGN_LEFT) end
-							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutMelee") and useMelee then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(65), white, TEXT_ALIGN_LEFT) end
+							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutPrimary") then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT) end
+							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutSecondary") then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(40) , white, TEXT_ALIGN_LEFT) end
+							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutMelee") then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(65), white, TEXT_ALIGN_LEFT) end
 						end
 					end
 				else
@@ -669,16 +675,18 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 			end
 			SpawnButton.DoClick = function()
 				if timer.Exists("respawnTimeLeft") then return end
+
 				TriggerSound("click")
 				CreateHUDHook()
-				MainMenu:AlphaTo(0, 0.05, 0, function()
 
+				MainMenu:AlphaTo(0, 0.05, 0, function()
 					MainMenu:Remove()
+
 					gui.EnableScreenClicker(false)
 					hook.Remove("Think", "RenderBehindPauseMenu")
+
 					net.Start("CloseMainMenu")
 					net.SendToServer()
-
 				end)
 			end
 
@@ -925,9 +933,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 				local function ApplyGear()
 					surface.PlaySound("tmui/uisuccess.wav")
+
 					net.Start("PlayerGearChange")
-					net.WriteString(newGear)
+						net.WriteString(newGear)
 					net.SendToServer()
+
 					GearPanel:AlphaTo(0, 0.05, 0, function() GearPanel:Hide() end)
 					GearPreviewPanel:AlphaTo(0, 0.05, 0, function() GearPreviewPanel:Hide() end)
 					GearSlideoutPanel:AlphaTo(0, 0.05, 0, function() GearSlideoutPanel:Hide() end)
@@ -983,7 +993,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						elseif GEAR[i][4] == "melee" then
 							progressionGearTotal = progressionGearTotal + 1
 
-							if (GEAR[i][4] == "melee" and LocalPly:GetNWInt("playerAccoladeSmackdown") < GEAR[i][5] and GEAR[i][4] == "melee" and playerTotalLevel < GEAR[i][6]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+							if (GEAR[i][4] == "melee" and LocalPly:GetNWInt("playerAccoladeSmackdown") < GEAR[i][5] and GEAR[i][4] == "melee" and playerTotalLevel < GEAR[i][6]) and !unlockAllCVar:GetBool() then
 								table.insert(lockedGear, GEAR[i])
 							else
 								local gear = vgui.Create("DButton", DockProgressionGear)
@@ -1490,9 +1500,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local function ApplyCard()
 						surface.PlaySound("tmui/uisuccess.wav")
+
 						net.Start("PlayerCardChange")
-						net.WriteString(newCard)
+							net.WriteString(newCard)
 						net.SendToServer()
+
 						plyCallingCard:SetImage(newCard)
 						CardPanel:AlphaTo(0, 0.05, 0, function() CardPanel:Hide() end)
 						CardPreviewPanel:AlphaTo(0, 0.05, 0, function() CardPreviewPanel:Hide() end)
@@ -1683,7 +1695,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif CARDS[i][4] == "kills" or CARDS[i][4] == "streak" or CARDS[i][4] == "matches" or CARDS[i][4] == "wins" then
 								statCardsTotal = statCardsTotal + 1
 
-								if (CARDS[i][4] == "kills" and LocalPly:GetNWInt("playerKills") < CARDS[i][5] or CARDS[i][4] == "streak" and LocalPly:GetNWInt("highestKillStreak") < CARDS[i][5] or CARDS[i][4] == "matches" and LocalPly:GetNWInt("matchesPlayed") < CARDS[i][5] or CARDS[i][4] == "wins" and LocalPly:GetNWInt("matchesWon") < CARDS[i][5]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+								if (CARDS[i][4] == "kills" and LocalPly:GetNWInt("playerKills") < CARDS[i][5] or CARDS[i][4] == "streak" and LocalPly:GetNWInt("highestKillStreak") < CARDS[i][5] or CARDS[i][4] == "matches" and LocalPly:GetNWInt("matchesPlayed") < CARDS[i][5] or CARDS[i][4] == "wins" and LocalPly:GetNWInt("matchesWon") < CARDS[i][5]) and !unlockAllCVar:GetBool() then
 									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockStatCards)
@@ -1716,7 +1728,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif CARDS[i][4] == "headshot" or CARDS[i][4] == "smackdown" or CARDS[i][4] == "clutch" or CARDS[i][4] == "longshot" or CARDS[i][4] == "pointblank" or CARDS[i][4] == "killstreaks" or CARDS[i][4] == "buzzkills" then
 								accoladeCardsTotal = accoladeCardsTotal + 1
 
-								if (CARDS[i][4] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < CARDS[i][5] or CARDS[i][4] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < CARDS[i][5] or CARDS[i][4] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < CARDS[i][5] or CARDS[i][4] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < CARDS[i][5] or CARDS[i][4] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < CARDS[i][5] or CARDS[i][4] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < CARDS[i][5] or CARDS[i][4] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < CARDS[i][5]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+								if (CARDS[i][4] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < CARDS[i][5] or CARDS[i][4] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < CARDS[i][5] or CARDS[i][4] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < CARDS[i][5] or CARDS[i][4] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < CARDS[i][5] or CARDS[i][4] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < CARDS[i][5] or CARDS[i][4] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < CARDS[i][5] or CARDS[i][4] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < CARDS[i][5]) and !unlockAllCVar:GetBool() then
 									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockAccoladeCards)
@@ -1807,7 +1819,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif CARDS[i][4] == "level" then
 								levelCardsTotal = levelCardsTotal + 1
 
-								if (CARDS[i][4] == "level" and playerTotalLevel < CARDS[i][5]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+								if (CARDS[i][4] == "level" and playerTotalLevel < CARDS[i][5]) and !unlockAllCVar:GetBool() then
 									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockLevelCards)
@@ -1840,7 +1852,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif CARDS[i][4] == "mastery" then
 								masteryCardsTotal = masteryCardsTotal + 1
 
-								if (CARDS[i][4] == "mastery" and LocalPly:GetNWInt("killsWith_" .. CARDS[i][5]) < 50) and GetConVar("tm_unlockall"):GetInt() == 0 then
+								if (CARDS[i][4] == "mastery" and LocalPly:GetNWInt("killsWith_" .. CARDS[i][5]) < 50) and !unlockAllCVar:GetBool() then
 									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockMasteryCards)
@@ -2695,9 +2707,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local function ApplyModel()
 						surface.PlaySound("tmui/uisuccess.wav")
+
 						net.Start("PlayerModelChange")
-						net.WriteString(newModel)
+							net.WriteString(newModel)
 						net.SendToServer()
+
 						ModelPanel:AlphaTo(0, 0.05, 0, function() ModelPanel:Hide() end)
 						ModelPreviewPanel:AlphaTo(0, 0.05, 0, function() ModelPreviewPanel:Hide() end)
 						ModelSlideoutPanel:AlphaTo(0, 0.05, 0, function() ModelSlideoutPanel:Hide() end)
@@ -2785,7 +2799,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif MODELS[i][3] == "kills" or MODELS[i][3] == "streak" or MODELS[i][3] == "matches" or MODELS[i][3] == "wins" then
 								statModelsTotal = statModelsTotal + 1
 
-								if (MODELS[i][3] == "kills" and LocalPly:GetNWInt("playerKills") < MODELS[i][4] or MODELS[i][3] == "streak" and LocalPly:GetNWInt("highestKillStreak") < MODELS[i][4] or MODELS[i][3] == "matches" and LocalPly:GetNWInt("matchesPlayed") < MODELS[i][4] or MODELS[i][3] == "wins" and LocalPly:GetNWInt("matchesWon") < MODELS[i][4]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+								if (MODELS[i][3] == "kills" and LocalPly:GetNWInt("playerKills") < MODELS[i][4] or MODELS[i][3] == "streak" and LocalPly:GetNWInt("highestKillStreak") < MODELS[i][4] or MODELS[i][3] == "matches" and LocalPly:GetNWInt("matchesPlayed") < MODELS[i][4] or MODELS[i][3] == "wins" and LocalPly:GetNWInt("matchesWon") < MODELS[i][4]) and !unlockAllCVar:GetBool() then
 									table.insert(lockedModels, MODELS[i])
 								else
 									local icon = vgui.Create("SpawnIcon", DockModelsStats)
@@ -2875,7 +2889,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif MODELS[i][3] == "headshot" or MODELS[i][3] == "smackdown" or MODELS[i][3] == "clutch" or MODELS[i][3] == "longshot" or MODELS[i][3] == "pointblank" or MODELS[i][3] == "killstreaks" or MODELS[i][3] == "buzzkills" then
 								accoladeModelsTotal = accoladeModelsTotal + 1
 
-								if (MODELS[i][3] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < MODELS[i][4] or MODELS[i][3] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < MODELS[i][4] or MODELS[i][3] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < MODELS[i][4] or MODELS[i][3] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < MODELS[i][4] or MODELS[i][3] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < MODELS[i][4] or MODELS[i][3] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < MODELS[i][4] or MODELS[i][3] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < MODELS[i][4]) and GetConVar("tm_unlockall"):GetInt() == 0 then
+								if (MODELS[i][3] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < MODELS[i][4] or MODELS[i][3] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < MODELS[i][4] or MODELS[i][3] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < MODELS[i][4] or MODELS[i][3] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < MODELS[i][4] or MODELS[i][3] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < MODELS[i][4] or MODELS[i][3] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < MODELS[i][4] or MODELS[i][3] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < MODELS[i][4]) and !unlockAllCVar:GetBool() then
 									table.insert(lockedModels, MODELS[i])
 								else
 									local icon = vgui.Create("SpawnIcon", DockModelsAccolade)
@@ -4583,7 +4597,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local mode = "FFA"
 				local modeTime = "45"
 				local modeTimeText = "0:45"
-				local ggGuns = ggLadderSize
+				local ggGuns = gunGameSize:GetInt()
 				local health = 100
 				local ammo = 30
 				local velocity = 350
@@ -4598,7 +4612,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					mode = modePool[math.random(#modePool)]
 					modeTime = math.random(1, 45)
 					modeTimeText = "0:" .. modeTime
-					ggGuns = math.random(1, ggLadderSize)
+					ggGuns = math.random(1, ggGuns)
 					health = math.random(1, 100)
 					ammo = math.random(1, 30)
 					velocity = math.random(0, 400)
@@ -4720,7 +4734,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						surface.SetDrawColor(GetConVar("tm_hud_obj_color_contested_r"):GetInt(), GetConVar("tm_hud_obj_color_contested_g"):GetInt(), GetConVar("tm_hud_obj_color_contested_b"):GetInt(), 175)
 						surface.DrawTexturedRect(0, 0, scrW, scrH)
 					elseif mode == "VIP" then
-						draw.SimpleText(LocalPly:GetName(), "HUD_Health", scrW / 2, TM.HUDScale(25) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+						draw.SimpleText(LocalPly:Nick(), "HUD_Health", scrW / 2, TM.HUDScale(25) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 						surface.SetDrawColor(GetConVar("tm_hud_obj_color_occupied_r"):GetInt(), GetConVar("tm_hud_obj_color_occupied_g"):GetInt(), GetConVar("tm_hud_obj_color_occupied_b"):GetInt(), 225)
 						surface.SetMaterial(hillEmptyMat)
 						surface.DrawTexturedRect(scrW / 2 - TM.HUDScale(24), TM.HUDScale(57) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(48), TM.HUDScale(48))
@@ -5028,7 +5042,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				end
 				AddFeedEntryButton.DoClick = function()
 					if GetConVar("tm_hud_enablekillfeed"):GetInt() == 0 then return end
-					local playersInAction = LocalPly:Name() .. " killed " .. math.random(1, 1000)
+					local playersInAction = LocalPly:Nick() .. " killed " .. math.random(1, 1000)
 					local victimLastHitIn = math.random(0, 1)
 
 					table.insert(fakeFeedArray, {playersInAction, victimLastHitIn})

@@ -1,29 +1,29 @@
 -- allows the player to test the look and feel of their customized kill/death/level up UI's
 function HUDTestKill(ply, cmd, args)
 	net.Start("NotifyKill")
-	net.WriteEntity(ply)
-	net.WriteString("KRISS Vector")
-	net.WriteFloat(math.random(20, 60))
-	net.WriteInt(math.random(1, 2), 5)
-	net.WriteInt(math.random(1, 10), 10)
+		net.WriteEntity(ply)
+		net.WriteString("KRISS Vector")
+		net.WriteFloat(math.random(20, 60))
+		net.WriteInt(math.random(1, 2), 5)
+		net.WriteInt(math.random(1, 10), 10)
 	net.Send(ply)
 end
 concommand.Add("tm_hud_testkill", HUDTestKill)
 
 function HUDTestDeath(ply, cmd, args)
 	net.Start("NotifyDeath")
-	net.WriteEntity(ply)
-	net.WriteString("KRISS Vector")
-	net.WriteFloat(math.random(20, 60))
-	net.WriteInt(math.random(1, 2), 5)
+		net.WriteEntity(ply)
+		net.WriteString("KRISS Vector")
+		net.WriteFloat(math.random(20, 60))
+		net.WriteInt(math.random(1, 2), 5)
 	net.Send(ply)
 end
 concommand.Add("tm_hud_testdeath", HUDTestDeath)
 
 function HUDTestLevelUp(ply, cmd, args)
 	net.Start("SendNotification")
-	net.WriteString("You are now level " .. math.random(1, 60) .. "!")
-	net.WriteString("level")
+		net.WriteString("You are now level " .. math.random(1, 60) .. "!")
+		net.WriteString("level")
 	net.Send(ply)
 end
 concommand.Add("tm_hud_testlevelup", HUDTestLevelUp)
@@ -31,6 +31,7 @@ concommand.Add("tm_hud_testlevelup", HUDTestLevelUp)
 -- allows the player to wipe their account and start fresh
 function PlayerAccountWipe(ply, cmd, args)
 	if ply:GetNWBool("mainmenu") == false then return end
+
 	ply:SetNWInt("playerKills", 0)
 	ply:SetNWInt("playerDeaths", 0)
 	ply:SetNWInt("playerScore", 0)
@@ -126,8 +127,8 @@ function PlayerHUDReset(ply, cmd, args)
 	ply:ConCommand("tm_hud_dmgindicator_opacity 85")
 
 	net.Start("SendNotification")
-	net.WriteString("Successfully reset HUD to default settings!")
-	net.WriteString("success")
+		net.WriteString("Successfully reset HUD to default settings!")
+		net.WriteString("success")
 	net.Send(ply)
 end
 concommand.Add("tm_resethudtodefault_cannotbeundone", PlayerHUDReset)
@@ -144,8 +145,8 @@ function ImportHUDCode(ply, cmd, args)
 
 	if table.Count(var) != 61 then
 		net.Start("SendNotification")
-		net.WriteString("Failed HUD import (" .. table.Count(var) .. " vars), code may be from older TM version.")
-		net.WriteString("warning")
+			net.WriteString("Failed HUD import (" .. table.Count(var) .. " vars), code may be from older TM version.")
+			net.WriteString("warning")
 		net.Send(ply)
 
 		return
@@ -214,8 +215,8 @@ function ImportHUDCode(ply, cmd, args)
 	ply:ConCommand("tm_hud_velocitycounter_y " .. var[61])
 
 	net.Start("SendNotification")
-	net.WriteString("Successfully imported HUD!")
-	net.WriteString("success")
+		net.WriteString("Successfully imported HUD!")
+		net.WriteString("success")
 	net.Send(ply)
 end
 concommand.Add("tm_importhudcode_cannotbeundone", ImportHUDCode)

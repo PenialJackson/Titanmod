@@ -1,13 +1,18 @@
 function GM:InitPostEntity()
 	activeGamemode = GetGlobal2String("ActiveGamemode", "FFA")
+
 	net.Start("PlayerInitialSpawn")
 	net.SendToServer()
 end
 
-if GetConVar("tm_renderhands"):GetInt() == 0 then hook.Add("PreDrawPlayerHands", "DisableHandRendering", function() return true end) end
+if GetConVar("tm_renderhands"):GetInt() == 0 then
+	hook.Add("PreDrawPlayerHands", "DisableHandRendering", function()
+		return true
+	end)
+end
 
-cvars.AddChangeCallback("tm_renderhands", function(convar_name, value_old, value_new)
-	if value_new == "1" then
+cvars.AddChangeCallback("tm_renderhands", function(_, _, new)
+	if new == "1" then
 		hook.Remove("PreDrawPlayerHands", "DisableHandRendering")
 	else
 		hook.Add("PreDrawPlayerHands", "DisableHandRendering", function() return true end)
@@ -15,6 +20,7 @@ cvars.AddChangeCallback("tm_renderhands", function(convar_name, value_old, value
 end)
 
 local blurMat = Material("pp/blurscreen")
+
 function BlurPanel(panel, strength, steps)
 	if panel == nil or !ispanel(panel) then return end
 

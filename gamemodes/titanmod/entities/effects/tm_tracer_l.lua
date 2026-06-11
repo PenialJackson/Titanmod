@@ -1,5 +1,3 @@
-if engine.ActiveGamemode() != "titanmod" then return end
-
 local tracer  = Material("trails/tm_tracer_large")
 local smoke = Material("trails/smoke")
 local width = 15

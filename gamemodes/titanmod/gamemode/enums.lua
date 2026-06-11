@@ -1,9 +1,9 @@
 GAMEMODES = {
 	[1] = {0, "FFA", "Kill others with randomly generated loadouts.", true},
 	[2] = {1, "Cranked", "FFA with kills granting the player increased movement capabilities.", false},
-	[3] = {2, "Gun Game", "FFA with players progressing throguh a ladder of " .. ggLadderSize .. " weapons.", false},
+	[3] = {2, "Gun Game", "FFA with players progressing throguh a ladder of numerous weapons.", false},
 	[4] = {3, "Shotty Snipers", "FFA with loadouts always consisting of a sniper and a shotgun.", true},
-	[5] = {4, "Fiesta", "FFA with every player sharing the same loadout, with a new loadout being generated every " .. fiestaShuffleTime .. " seconds.", true},
+	[5] = {4, "Fiesta", "FFA with every player sharing the same loadout, with a new loadout being generated periodically.", true},
 	[6] = {5, "Quickdraw", "FFA with secondaries only.", true},
 	[7] = {6, "KOTH", "FFA with a specific part of the map giving score if inside of said area.", false},
 	[8] = {7, "VIP", "FFA with players fighting over VIP status, said status giving them score.", false},
