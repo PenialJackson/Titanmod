@@ -11,8 +11,8 @@ if SERVER then
 	RunConsoleCommand("sv_tfa_recoil_mul_p_npc", "0.8")
 	RunConsoleCommand("sv_tfa_recoil_mul_y", "0.8")
 	RunConsoleCommand("sv_tfa_recoil_mul_y_npc", "0.8")
-	RunConsoleCommand("sv_tfa_recoil_viewpunch_mul", "0.8")
-	RunConsoleCommand("sv_tfa_spread_multiplier", "0.65")
+	RunConsoleCommand("sv_tfa_recoil_viewpunch_mul", "1")
+	RunConsoleCommand("sv_tfa_spread_multiplier", "0.6")
 
 	RunConsoleCommand("sv_tfa_allow_dryfire", "1")
 	RunConsoleCommand("sv_tfa_ammo_detonation", "0")

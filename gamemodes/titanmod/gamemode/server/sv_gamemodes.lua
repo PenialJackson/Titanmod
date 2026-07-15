@@ -1,5 +1,3 @@
-local activeGamemode = GetGlobal2String("ActiveGamemode", "FFA")
-
 local randPrimary = {}
 local randSecondary = {}
 local randMelee = {}
@@ -17,7 +15,7 @@ local intermissionLength = GetConVar("sv_tm_intermission_length")
 
 util.AddNetworkString("NotifyCranked")
 
-if activeGamemode == "FFA" then
+if TM.GAMEMODE == GAMEMODES.IDS.FFA then
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
@@ -29,7 +27,7 @@ if activeGamemode == "FFA" then
 	end
 end
 
-if activeGamemode == "Fiesta" then
+if TM.GAMEMODE == GAMEMODES.IDS.FIESTA then
 	local fiestaTime = GetConVar("sv_tm_mode_fiesta_shuffle_length")
 
 	for _, v in ipairs(WEAPONS) do
@@ -46,10 +44,10 @@ if activeGamemode == "Fiesta" then
 	fiestaSecondary = randSecondary[math.random(#randSecondary)]
 	fiestaMelee = randMelee[math.random(#randMelee)]
 
-	SetGlobal2Int("FiestaTime", fiestaTime:GetInt() + intermissionLength:GetInt())
+	SetGlobalInt("FiestaTime", fiestaTime:GetInt() + intermissionLength:GetInt())
 
 	function ShuffleFiestaLoadout()
-		SetGlobal2Int("FiestaTime", fiestaTime:GetInt() + GetGlobal2Int("FiestaTime"))
+		SetGlobalInt("FiestaTime", fiestaTime:GetInt() + GetGlobalInt("FiestaTime"))
 		fiestaPrimary = randPrimary[math.random(#randPrimary)]
 		fiestaSecondary = randSecondary[math.random(#randSecondary)]
 		fiestaMelee = randMelee[math.random(#randMelee)]
@@ -73,7 +71,7 @@ if activeGamemode == "Fiesta" then
 	end
 end
 
-if activeGamemode == "Gun Game" then
+if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
 	local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 
 	for _, v in ipairs(WEAPONS) do
@@ -95,7 +93,7 @@ if activeGamemode == "Gun Game" then
 	table.insert(ggLadder, {ggRandMelee[math.random(#ggRandMelee)]})
 end
 
-if activeGamemode == "Shotty Snipers" then
+if TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPERS then
 	for _, v in ipairs(WEAPONS) do
 		if v[4] == "sniper" and v[1] != "rust_bow" and v[1] != "rust_crossbow" and v[1] != "tfa_ins2_saiga_spike" then
 			table.insert(randPrimary, v[1])
@@ -107,7 +105,7 @@ if activeGamemode == "Shotty Snipers" then
 	end
 end
 
-if activeGamemode == "Cranked" then
+if TM.GAMEMODE == GAMEMODES.IDS.CRANKED then
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
@@ -119,7 +117,7 @@ if activeGamemode == "Cranked" then
 	end
 end
 
-if activeGamemode == "KOTH" then
+if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
 	local kothScore = GetConVar("sv_tm_mode_koth_score")
 	local kothInterval = GetConVar("sv_tm_mode_koth_score_interval")
 
@@ -138,11 +136,11 @@ if activeGamemode == "KOTH" then
 		end
 	end
 
-	SetGlobal2Bool("tm_hillstatus", "Empty")
+	SetGlobalBool("tm_hillstatus", "Empty")
 	hillOccupants = {}
 
 	timer.Create("HillScoring", kothInterval:GetFloat(), 0, function()
-		if table.IsEmpty(hillOccupants) or table.Count(hillOccupants) > 1 or GetGlobal2Bool("tm_matchended") or GetGlobal2Bool("tm_intermission") then return end
+		if table.IsEmpty(hillOccupants) or table.Count(hillOccupants) > 1 or GetGlobalBool("tm_matchended") or GetGlobalBool("tm_intermission") then return end
 
 		hillOccupants[1]:SetNWInt("playerScore", hillOccupants[1]:GetNWInt("playerScore") + kothScore:GetInt())
 		hillOccupants[1]:SetNWInt("playerScoreMatch", hillOccupants[1]:GetNWInt("playerScoreMatch") + kothScore:GetInt())
@@ -150,17 +148,17 @@ if activeGamemode == "KOTH" then
 
 	function HillStatusCheck()
 		if table.Count(hillOccupants) == 1 then
-			SetGlobal2String("tm_hillstatus", "Occupied")
-			SetGlobal2Entity("tm_entonhill", hillOccupants[1])
+			SetGlobalString("tm_hillstatus", "Occupied")
+			SetGlobalEntity("tm_entonhill", hillOccupants[1])
 		elseif table.Count(hillOccupants) > 1 then
-			SetGlobal2String("tm_hillstatus", "Contested")
+			SetGlobalString("tm_hillstatus", "Contested")
 		else
-			SetGlobal2String("tm_hillstatus", "Empty")
+			SetGlobalString("tm_hillstatus", "Empty")
 		end
 	end
 end
 
-if activeGamemode == "Quickdraw" then
+if TM.GAMEMODE == GAMEMODES.IDS.QUICKDRAW then
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "secondary" and v[1] != "rust_bow" and v[1] != "swat_shield" and v[1] != "st_stim_pistol" then
 			table.insert(randSecondary, v[1])
@@ -170,7 +168,7 @@ if activeGamemode == "Quickdraw" then
 	end
 end
 
-if activeGamemode == "VIP" then
+if TM.GAMEMODE == GAMEMODES.IDS.VIP then
 	local vipScore = GetConVar("sv_tm_mode_koth_score")
 	local vipInterval = GetConVar("sv_tm_mode_koth_score_interval")
 
@@ -186,9 +184,10 @@ if activeGamemode == "VIP" then
 
 	local vip
 	timer.Create("VIPScoring", vipInterval:GetFloat(), 0, function()
-		vip = GetGlobal2Entity("tm_vip", NULL)
+		vip = GetGlobalEntity("tm_vip", NULL)
+
 		if vip == NULL then
-			if GetGlobal2Bool("tm_intermission") then return end
+			if GetGlobalBool("tm_intermission") then return end
 
 			local connectedPlayers = {}
 			for k, v in RandomPairs(player.GetAll()) do
@@ -197,7 +196,7 @@ if activeGamemode == "VIP" then
 				end
 			end
 
-			SetGlobal2Entity("tm_vip", connectedPlayers[1])
+			SetGlobalEntity("tm_vip", connectedPlayers[1])
 
 			return
 		end
@@ -207,7 +206,7 @@ if activeGamemode == "VIP" then
 	end)
 end
 
-if activeGamemode == "Overkill" then
+if TM.GAMEMODE == GAMEMODES.IDS.OVERKILL then
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randOverkill, v[1])
@@ -221,7 +220,7 @@ if activeGamemode == "Overkill" then
 	table.Shuffle(randOverkill)
 end
 
-if activeGamemode == "Fisticuffs" then
+if TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
@@ -235,7 +234,7 @@ end
 
 -- setting up functions depeneding on the gamemode being played, this does not look pretty, but it will stop us from running a shit ton of if statements to check which gamemode is being played
 -- FFA, Shotty Snipers & KOTH
-if activeGamemode == "FFA" or activeGamemode == "Shotty Snipers" or activeGamemode == "KOTH" then
+if TM.GAMEMODE == GAMEMODES.IDS.FFA or TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPERS or TM.GAMEMODE == GAMEMODES.IDS.KOTH then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutPrimary", randPrimary[math.random(#randPrimary)])
 		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
@@ -262,7 +261,7 @@ if activeGamemode == "FFA" or activeGamemode == "Shotty Snipers" or activeGamemo
 end
 
 -- Fiesta
-if activeGamemode == "Fiesta" then
+if TM.GAMEMODE == GAMEMODES.IDS.FIESTA then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutPrimary", fiestaPrimary)
 		ply:SetNWString("loadoutSecondary", fiestaSecondary)
@@ -284,7 +283,7 @@ if activeGamemode == "Fiesta" then
 end
 
 -- Gun Game
-if activeGamemode == "Gun Game" then
+if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
 	local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 
 	function HandlePlayerInitialSpawn(ply)
@@ -339,7 +338,7 @@ if activeGamemode == "Gun Game" then
 end
 
 -- Cranked
-if activeGamemode == "Cranked" then
+if TM.GAMEMODE == GAMEMODES.IDS.CRANKED then
 	local runSpeedCVar = GetConVar("sv_tm_player_speed_run")
 	local crankedTime = GetConVar("sv_tm_mode_cranked_state_length")
 	local crankedMult = GetConVar("sv_tm_mode_cranked_state_buff_mult")
@@ -375,7 +374,7 @@ if activeGamemode == "Cranked" then
 		net.Send(ply)
 
 		timer.Create(ply:SteamID() .. "CrankedTimer", crankedTime:GetInt(), 1, function()
-			if GetGlobal2Bool("tm_matchended") == true then return end
+			if GetGlobalBool("tm_matchended") == true then return end
 
 			local crankedExplosion = ents.Create("env_explosion")
 			crankedExplosion:SetPos(ply:GetPos())
@@ -402,7 +401,7 @@ if activeGamemode == "Cranked" then
 end
 
 -- Quickdraw
-if activeGamemode == "Quickdraw" then
+if TM.GAMEMODE == GAMEMODES.IDS.QUICKDRAW then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
@@ -426,7 +425,7 @@ if activeGamemode == "Quickdraw" then
 end
 
 -- VIP
-if activeGamemode == "VIP" then
+if TM.GAMEMODE == GAMEMODES.IDS.VIP then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutPrimary", randPrimary[math.random(#randPrimary)])
 		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
@@ -442,8 +441,8 @@ if activeGamemode == "VIP" then
 	end
 
 	function HandlePlayerKill(ply, victim)
-		if victim == GetGlobal2Entity("tm_vip", NULL) then
-			SetGlobal2Entity("tm_vip", ply)
+		if victim == GetGlobalEntity("tm_vip", NULL) then
+			SetGlobalEntity("tm_vip", ply)
 		end
 	end
 
@@ -457,7 +456,7 @@ if activeGamemode == "VIP" then
 				end
 			end
 
-			SetGlobal2Entity("tm_vip", connectedPlayers[1])
+			SetGlobalEntity("tm_vip", connectedPlayers[1])
 		end
 
 		ply:SetNWString("loadoutPrimary", randPrimary[math.random(#randPrimary)])
@@ -467,7 +466,7 @@ if activeGamemode == "VIP" then
 end
 
 -- Overkill
-if activeGamemode == "Overkill" then
+if TM.GAMEMODE == GAMEMODES.IDS.OVERKILL then
 	function HandlePlayerInitialSpawn(ply)
 		table.Shuffle(randOverkill)
 
@@ -497,7 +496,7 @@ if activeGamemode == "Overkill" then
 	end
 end
 
-if activeGamemode == "Fisticuffs" then
+if TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 	end

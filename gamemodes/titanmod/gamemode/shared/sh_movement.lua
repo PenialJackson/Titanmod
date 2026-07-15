@@ -320,7 +320,7 @@ hook.Add("Move", "TM_Move", function(ply, mv)
 			ply:SetSlopedSpeed(math.min(math.max(ply:GetSlopedSpeed() - 0.001, 1), 2))
 		end
 
-		speed = math.max(200, (math.max(276, ply:GetLandingVelocity() / 1.5 * slideTime:GetFloat()) * math.min(0.85, (ply:GetSlidingTime() - CT + 0.5) / slideTime:GetFloat())) * (1 / engine.TickInterval()) * engine.TickInterval() * slideSpeed:GetFloat() * ply:GetSlideFatigue()) * ply:GetSlopedSpeed()
+		speed = math.max(200, (math.max(276, ply:GetLandingVelocity() / 1.5 * slideTime:GetFloat()) * math.min(0.85, (ply:GetSlidingTime() - CT + 0.5) / slideTime:GetFloat())) * (1 / engine.TickInterval()) * engine.TickInterval() * (1.55 * slideSpeed:GetFloat()) * ply:GetSlideFatigue()) * ply:GetSlopedSpeed()
 
 		vel = ply:GetSlidingAngle():Forward() * speed
 		mv:SetVelocity(vel)

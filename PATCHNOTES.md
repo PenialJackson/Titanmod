@@ -1,4 +1,4 @@
-# June 8th, 2026 (03/22/26)
+# --- (03/22/26)
 **>GAMEPLAY**
 *NEW CONVAR SETTINGS*
 - Individual speed values for each state instead of one global multiplier
@@ -36,6 +36,8 @@
 - Cleaned up numerous unnecessary files and parts of code
 
 - Removed various broken or unnecessary server convars
+
+- New end of match quotes from community members and friends
 
 
 

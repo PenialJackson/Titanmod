@@ -12,9 +12,9 @@
 		1
 		{
 			"name"			"tm_gamemode"
-			"text"			"Gamemode (0 = FFA, 1 = Cranked, 2 = Gun Game, 3 = Shotty Snipers, 4 = Fiesta, 5 = Quickdraw, 6 = KOTH, 7 = VIP, 8 = Overkill, 9 = Fisticuffs)"
+			"text"			"Gamemode (1 = FFA, 2 = Cranked, 3 = Gun Game, 4 = Shotty Snipers, 5 = Fiesta, 6 = Quickdraw, 7 = KOTH, 8 = VIP, 9 = Overkill, 10 = Fisticuffs)"
 			"type"			"Numeric"
-			"default"		"0"
+			"default"		"1"
 			"singleplayer"	"true"
 			"replicate"		"true"
 		}

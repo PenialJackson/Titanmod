@@ -48,6 +48,8 @@ net.Receive("OpenMainMenu", function(len, ply)
 	local mapID
 	local mapName
 
+	local modeName = GAMEMODES.MODES[TM.GAMEMODE].name
+
 	local canPrestige
 	if LocalPly:GetNWInt("playerLevel") != 60 then canPrestige = false else canPrestige = true end
 
@@ -92,7 +94,7 @@ net.Receive("OpenMainMenu", function(len, ply)
 
 			mouseX, mouseY = MainMenu:LocalCursorPos()
 
-			if GetGlobal2Bool("tm_matchended") == true then
+			if GetGlobalBool("tm_matchended") == true then
 				MainMenu:Remove()
 				return
 			end
@@ -128,7 +130,11 @@ net.Receive("OpenMainMenu", function(len, ply)
 					draw.SimpleText("+ " .. math.Round(LocalPly:GetNWInt("playerXP"), 0) .. "XP", "StreakText", TM.MenuScale(535), TM.MenuScale(55), white, TEXT_ALIGN_LEFT)
 				end
 
-				if mapID == nil then draw.SimpleText(string.FormattedTime(math.Round(GetGlobal2Int("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. activeGamemode .. ", " .. game.GetMap()), "StreakText", TM.MenuScale(5 + spawnTextAnim), scrH / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT) else draw.SimpleText(string.FormattedTime(math.Round(GetGlobal2Int("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. activeGamemode .. ", " .. mapName), "StreakText", TM.MenuScale(10 + spawnTextAnim), scrH / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT) end
+				if mapID == nil then
+					draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. game.GetMap()), "StreakText", TM.MenuScale(5 + spawnTextAnim), scrH / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
+				else
+					draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. mapName), "StreakText", TM.MenuScale(10 + spawnTextAnim), scrH / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
+				end
 			end
 
 			if canPrestige == true then
@@ -417,10 +423,10 @@ net.Receive("OpenMainMenu", function(len, ply)
 			SpectateButton:SetSize(TM.MenuScale(80), TM.MenuScale(80))
 			SpectateButton:SetTooltip("Spectate")
 			SpectateButton.DoClick = function()
-				TriggerSound("click")
-
 				if timer.Exists("respawnTimeLeft") then return end
-				if GetGlobal2Bool("tm_intermission") then return end
+				if GetGlobalBool("tm_intermission") then return end
+
+				TriggerSound("click")
 
 				net.Start("BeginSpectate")
 				net.SendToServer()
@@ -660,7 +666,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					draw.DrawText("SPAWN", "AmmoCountSmall", TM.MenuScale(5) + TM.MenuScale(spawnTextAnim), TM.MenuScale(5), white, TEXT_ALIGN_LEFT)
 					for i = 1, #WEAPONS do
-						if activeGamemode == "Gun Game" then
+						if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
 							draw.SimpleText(LocalPly:GetNWInt("ladderPosition") .. " / " .. gunGameSize:GetInt() .. " kills", "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
 						else
 							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutPrimary") then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT) end
@@ -3627,7 +3633,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local DockInputs = vgui.Create("DPanel", OptionsScroller)
 					DockInputs:Dock(TOP)
-					DockInputs:SetSize(0, TM.MenuScale(760))
+					DockInputs:SetSize(0, TM.MenuScale(720))
 
 					local DockGameplay = vgui.Create("DPanel", OptionsScroller)
 					DockGameplay:Dock(TOP)
@@ -3871,21 +3877,15 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local grappleBind = DockInputs:Add("DBinder")
 					grappleBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(470))
 					grappleBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					grappleBind:SetSelectedNumber(GetConVar("frest_bindg"):GetInt())
+					grappleBind:SetSelectedNumber(GetConVar("tm_grapplebind"):GetInt())
 					function grappleBind:OnChange(num)
 						TriggerSound("forward")
 						selectedGrappleBind = grappleBind:GetSelectedNumber()
-						RunConsoleCommand("frest_bindg", selectedGrappleBind)
+						RunConsoleCommand("tm_grapplebind", selectedGrappleBind)
 					end
 
-					local quickWeaponSwitching = DockInputs:Add("DCheckBox")
-					quickWeaponSwitching:SetPos(TM.MenuScale(20), TM.MenuScale(510))
-					quickWeaponSwitching:SetConVar("tm_quickswitching")
-					quickWeaponSwitching:SetSize(TM.MenuScale(30), TM.MenuScale(30))
-					function quickWeaponSwitching:OnChange() TriggerSound("click") end
-
 					local primaryBind = DockInputs:Add("DBinder")
-					primaryBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(550))
+					primaryBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(510))
 					primaryBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
 					primaryBind:SetSelectedNumber(GetConVar("tm_primarybind"):GetInt())
 					function primaryBind:OnChange(num)
@@ -3895,7 +3895,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local secondaryBind = DockInputs:Add("DBinder")
-					secondaryBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(590))
+					secondaryBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(550))
 					secondaryBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
 					secondaryBind:SetSelectedNumber(GetConVar("tm_secondarybind"):GetInt())
 					function secondaryBind:OnChange(num)
@@ -3905,7 +3905,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local meleeBind = DockInputs:Add("DBinder")
-					meleeBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(630))
+					meleeBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(590))
 					meleeBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
 					meleeBind:SetSelectedNumber(GetConVar("tm_meleebind"):GetInt())
 					function meleeBind:OnChange(num)
@@ -3915,7 +3915,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local inspectBind = DockInputs:Add("DBinder")
-					inspectBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(670))
+					inspectBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(630))
 					inspectBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
 					inspectBind:SetSelectedNumber(GetConVar("cl_tfa_keys_inspect"):GetInt())
 					function inspectBind:OnChange(num)
@@ -3925,7 +3925,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local customizeBind = DockInputs:Add("DBinder")
-					customizeBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(710))
+					customizeBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(670))
 					customizeBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
 					customizeBind:SetSelectedNumber(GetConVar("cl_tfa_keys_customize"):GetInt())
 					function customizeBind:OnChange(num)
@@ -4672,7 +4672,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					surface.SetMaterial(grappleMat)
 					surface.SetDrawColor(255,255,255,255)
 					surface.DrawTexturedRect(TM.HUDScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.HUDScale(45), scrH - TM.HUDScale(40) - TM.HUDScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(35), TM.HUDScale(40))
-					draw.SimpleText("[" .. string.upper(input.GetKeyName(GetConVar("frest_bindg"):GetInt())) .. "]", "HUD_StreakText", TM.HUDScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.HUDScale(27.5), scrH - TM.HUDScale(65) - TM.HUDScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+					draw.SimpleText("[" .. string.upper(input.GetKeyName(GetConVar("tm_grapplebind"):GetInt())) .. "]", "HUD_StreakText", TM.HUDScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.HUDScale(27.5), scrH - TM.HUDScale(65) - TM.HUDScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 					surface.SetMaterial(nadeMat)
 					surface.SetDrawColor(255,255,255,255)
 					surface.DrawTexturedRect(TM.HUDScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) + TM.HUDScale(10), scrH - TM.HUDScale(40) - TM.HUDScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(35), TM.HUDScale(40))
@@ -4712,7 +4712,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					if GetConVar("tm_hud_velocitycounter"):GetInt() == 1 then
 						draw.SimpleText(velocity .. " u/s", "HUD_Health", TM.HUDScale(GetConVar("tm_hud_velocitycounter_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), TM.HUDScale(GetConVar("tm_hud_velocitycounter_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 					end
-					timeText = string.FormattedTime(math.Round(GetGlobal2Int("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i")
+					timeText = string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i")
 					draw.SimpleText(mode .. " |" .. timeText, "HUD_Health", scrW / 2, TM.HUDScale(-5) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 
 					if mode == "Gun Game" then

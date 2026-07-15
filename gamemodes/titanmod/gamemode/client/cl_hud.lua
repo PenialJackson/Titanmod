@@ -160,12 +160,11 @@ function UpdateHUD()
 		["ammo_style"] = GetConVar("tm_hud_ammo_style"):GetInt(),
 		["kill_tracker"] = GetConVar("tm_hud_killtracker"):GetInt(),
 		["reload_hints"] = GetConVar("tm_hud_reloadhint"):GetInt(),
-		["grapple_bind"] = GetConVar("frest_bindg"):GetInt(),
+		["grapple_bind"] = GetConVar("tm_grapplebind"):GetInt(),
 		["nade_bind"] = GetConVar("tm_nadebind"):GetInt(),
 		["menu_bind"] = GetConVar("tm_mainmenubind"):GetInt(),
 		["keypress_overlay"] = GetConVar("tm_hud_keypressoverlay"):GetInt(),
 		["velocity_counter"] = GetConVar("tm_hud_velocitycounter"):GetInt(),
-		["quick_switching"] = GetConVar("tm_quickswitching"):GetInt(),
 		["killfeed_enable"] = GetConVar("tm_hud_enablekillfeed"):GetInt(),
 		["killfeed_limit"] = GetConVar("tm_hud_killfeed_limit"):GetInt(),
 		["screen_flashes"] = GetConVar("tm_screenflashes"):GetInt(),
@@ -218,11 +217,11 @@ local crankedTime = GetConVar("sv_tm_mode_cranked_state_length")
 local voting = GetConVar("sv_tm_voting")
 
 local function MatchStartPopup(ply)
-	if GetGlobal2Int("tm_matchtime", 0) - CurTime() > (GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt()) then return end
+	if GetGlobalInt("tm_matchtime", 0) - CurTime() > (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()) then return end
 	if convars["hud_enable"] == 0 then return end
 	if !IsValid(ply) then return end
-	if activeGamemode == nil then return end
-	local gm = string.upper(activeGamemode)
+
+	local gm = string.upper(GAMEMODES.MODES[TM.GAMEMODE].name)
 	local desc
 	local winCondition
 	matchStartPopupSeen = true
@@ -318,17 +317,24 @@ end
 net.Receive("PlayerSpawn", function(len, pl)
 	RunConsoleCommand("r_cleardecals")
 	if convars["hud_enable"] == 0 then return end
-	if activeGamemode != "Gun Game" and activeGamemode != "Fisticuffs" then ShowLoadoutOnSpawn(LocalPly) end
-	if matchStartPopupSeen == false then MatchStartPopup(LocalPly) end
-end )
+
+	if TM.GAMEMODE != GAMEMODES.IDS.GUNGAME and TM.GAMEMODE != GAMEMODES.IDS.FISTICUFFS then
+		ShowLoadoutOnSpawn(LocalPly)
+	end
+
+	if matchStartPopupSeen == false then
+		MatchStartPopup(LocalPly)
+	end
+end)
 
 hook.Add("RenderScreenspaceEffects", "IntermissionPostProcess", function()
-	if GetGlobal2Int("tm_matchtime", 0) - CurTime() < (GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt()) then
+	if GetGlobalInt("tm_matchtime", 0) - CurTime() < (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()) then
 		hook.Remove("RenderScreenspaceEffects", "IntermissionPostProcess")
+
 		if LocalPlayer():Alive() then MatchStartPopup(LocalPlayer()) end
 	end
 
-	local intTime = (GetGlobal2Int("tm_matchtime", 0) - CurTime()) - (GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt())
+	local intTime = (GetGlobalInt("tm_matchtime", 0) - CurTime()) - (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt())
 	local pp = (-intTime / intermissionLength:GetInt()) + 1
 
 	local intermissionpp = {
@@ -343,7 +349,7 @@ end )
 
 function HUDIntermission(client)
 	draw.SimpleText("Match begins in", "HUD_WepNameKill", scrW / 2, scrH / 2 - TM.HUDScale(110), white, TEXT_ALIGN_CENTER)
-	draw.SimpleText(math.Round(GetGlobal2Int("tm_matchtime", 0) - CurTime()) - (GetGlobal2Int("tm_matchtime", 0) - intermissionLength:GetInt()), "HUD_IntermissionText", scrW / 2, scrH / 2 - TM.HUDScale(100), white, TEXT_ALIGN_CENTER)
+	draw.SimpleText(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime()) - (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()), "HUD_IntermissionText", scrW / 2, scrH / 2 - TM.HUDScale(100), white, TEXT_ALIGN_CENTER)
 	draw.SimpleText("Press [" .. string.upper(input.GetKeyName(convars["menu_bind"])) .. "] to open menu", "HUD_WepNameKill", scrW / 2, scrH - TM.HUDScale(200), white, TEXT_ALIGN_CENTER)
 end
 
@@ -366,27 +372,33 @@ local function CrosshairStateUpdate(client, wep)
 	return math.Clamp(math.Round(gap), 0, 100)
 end
 
-function HUDAlways(client)
-	-- remaining match time
-	timeText = string.FormattedTime(GetGlobal2Int("tm_matchtime", 0) - CurTime() + 1, "%2i:%02i")
-	draw.SimpleText(activeGamemode .. " |" .. timeText, "HUD_Health", scrW / 2, TM.HUDScale(-5) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+local modeName = GAMEMODES.MODES[TM.GAMEMODE].name
 
-	if activeGamemode == "Gun Game" then draw.SimpleText(gunGameSize:GetInt() - client:GetNWInt("ladderPosition") .. " kills left", "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) elseif activeGamemode == "Fiesta" and (GetGlobal2Int("FiestaTime", 0) - CurTime()) > 0 then draw.SimpleText(string.FormattedTime(math.Round(GetGlobal2Int("FiestaTime", 0) - CurTime() + 0.5), "%2i:%02i"), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) elseif activeGamemode == "Cranked" and timeUntilSelfDestruct != 0 then draw.SimpleText(timeUntilSelfDestruct, "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) elseif activeGamemode == "KOTH" then
-		if GetGlobal2String("tm_hillstatus") == "Occupied" then
-			draw.SimpleText(GetGlobal2Entity("tm_entonhill"):Nick(), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+function HUDAlways(client)
+	timeText = string.FormattedTime(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1, "%2i:%02i")
+	draw.SimpleText(modeName .. " |" .. timeText, "HUD_Health", scrW / 2, TM.HUDScale(-5) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+
+	if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
+		draw.SimpleText(gunGameSize:GetInt() - client:GetNWInt("ladderPosition") .. " kills left", "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+	elseif TM.GAMEMODE == GAMEMODES.IDS.FIESTA and (GetGlobalInt("FiestaTime", 0) - CurTime()) > 0 then
+		draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("FiestaTime", 0) - CurTime() + 0.5), "%2i:%02i"), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+	elseif TM.GAMEMODE == GAMEMODES.IDS.CRANKED and timeUntilSelfDestruct != 0 then
+		draw.SimpleText(timeUntilSelfDestruct, "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+	elseif TM.GAMEMODE == GAMEMODES.IDS.KOTH then
+		if GetGlobalString("tm_hillstatus") == "Occupied" then
+			draw.SimpleText(GetGlobalEntity("tm_entonhill"):Nick(), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 		else
-			draw.SimpleText(GetGlobal2String("tm_hillstatus"), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			draw.SimpleText(GetGlobalString("tm_hillstatus"), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 		end
-	elseif activeGamemode == "VIP" then
-		if GetGlobal2Entity("tm_vip") != NULL then
-			draw.SimpleText(GetGlobal2Entity("tm_vip"):Nick(), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
-			if GetGlobal2Entity("tm_vip") != client then draw.SimpleText(math.Round(client:GetPos():Distance(GetGlobal2Entity("tm_vip"):GetPos()) * 0.01905) .. "m", "HUD_Health", scrW / 2, TM.HUDScale(105) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) end
+	elseif TM.GAMEMODE == GAMEMODES.IDS.VIP then
+		if GetGlobalEntity("tm_vip") != NULL then
+			draw.SimpleText(GetGlobalEntity("tm_vip"):Nick(), "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			if GetGlobalEntity("tm_vip") != client then draw.SimpleText(math.Round(client:GetPos():Distance(GetGlobalEntity("tm_vip"):GetPos()) * 0.01905) .. "m", "HUD_Health", scrW / 2, TM.HUDScale(105) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) end
 		else
 			draw.SimpleText("No VIP", "HUD_Health", scrW / 2, TM.HUDScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 		end
 	end
 
-	-- kill feed
 	surface.SetFont("HUD_StreakText")
 	for k, v in pairs(feedArray) do
 		if v[2] == 1 and v[2] != nil then surface.SetDrawColor(150, 50, 50, feedHUD["opacity"]) else surface.SetDrawColor(50, 50, 50, feedHUD["opacity"]) end
@@ -396,42 +408,43 @@ function HUDAlways(client)
 		draw.SimpleText(v[1], "HUD_StreakText", TM.HUDScale(2.5) + feedHUD["x"], scrH - TM.HUDScale(22) + ((k - 1) * feedEntryPadding) - feedHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
 	end
 
-	-- objective indicator
-	if activeGamemode == "KOTH" then
-		if GetGlobal2String("tm_hillstatus") == "Empty" then
+	if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
+		if GetGlobalString("tm_hillstatus") == "Empty" then
 			hillColor = Color(objHUD["obj_empty_r"], objHUD["obj_empty_g"], objHUD["obj_empty_b"], 3)
 			objIndicatorColor = Color(objHUD["obj_empty_r"], objHUD["obj_empty_g"], objHUD["obj_empty_b"], 175)
-		elseif GetGlobal2String("tm_hillstatus") == "Occupied" then
+
+			surface.SetDrawColor(255, 255, 255, 100)
+			surface.SetMaterial(hillEmptyMat)
+		elseif GetGlobalString("tm_hillstatus") == "Occupied" then
 			hillColor = Color(objHUD["obj_occupied_r"], objHUD["obj_occupied_g"], objHUD["obj_occupied_b"], 3)
 			objIndicatorColor = Color(objHUD["obj_occupied_r"], objHUD["obj_occupied_g"], objHUD["obj_occupied_b"], 175)
+
+			surface.SetDrawColor(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 100)
+			surface.SetMaterial(hillEmptyMat)
 		else
 			hillColor = Color(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 3)
 			objIndicatorColor = Color(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 175)
-		end
 
-		surface.SetMaterial(border)
-		surface.SetDrawColor(objIndicatorColor)
-		if client:GetNWBool("onOBJ") then surface.DrawTexturedRect(0, 0, scrW, scrH) end
-	elseif activeGamemode == "VIP" then
-		surface.SetMaterial(border)
-		surface.SetDrawColor(objHUD["obj_occupied_r"], objHUD["obj_occupied_g"], objHUD["obj_occupied_b"], 175)
-		if GetGlobal2Entity("tm_vip", NULL) == client then surface.DrawTexturedRect(0, 0, scrW, scrH) end
-	end
-
-	-- KOTH status icons
-	if activeGamemode == "KOTH" then
-		if GetGlobal2String("tm_hillstatus") == "Empty" then
-			surface.SetDrawColor(255, 255, 255, 100)
-			surface.SetMaterial(hillEmptyMat)
-		else
 			surface.SetDrawColor(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 100)
 			surface.SetMaterial(hillEmptyMat)
 		end
-		surface.DrawTexturedRect(scrW / 2 - TM.HUDScale(21), TM.HUDScale(60) + matchHUD["y"], TM.HUDScale(42), TM.HUDScale(42))
-	end
 
-	-- VIP status icons
-	if activeGamemode == "VIP" then
+		surface.DrawTexturedRect(scrW / 2 - TM.HUDScale(21), TM.HUDScale(60) + matchHUD["y"], TM.HUDScale(42), TM.HUDScale(42))
+
+		surface.SetMaterial(border)
+		surface.SetDrawColor(objIndicatorColor)
+
+		if client:GetNWBool("onOBJ") then
+			surface.DrawTexturedRect(0, 0, scrW, scrH)
+		end
+	elseif TM.GAMEMODE == GAMEMODES.IDS.VIP then
+		surface.SetMaterial(border)
+		surface.SetDrawColor(objHUD["obj_occupied_r"], objHUD["obj_occupied_g"], objHUD["obj_occupied_b"], 175)
+
+		if GetGlobalEntity("tm_vip", NULL) == client then
+			surface.DrawTexturedRect(0, 0, scrW, scrH)
+		end
+
 		surface.SetDrawColor(objHUD["obj_occupied_r"], objHUD["obj_occupied_g"], objHUD["obj_occupied_b"], 225)
 		surface.SetMaterial(hillEmptyMat)
 		surface.DrawTexturedRect(scrW / 2 - TM.HUDScale(24), TM.HUDScale(57) + matchHUD["y"], TM.HUDScale(48), TM.HUDScale(48))
@@ -565,7 +578,7 @@ function HUDAlive(client)
 			end
 			ammoColor = Color(convars["text_r"], convars["text_g"], convars["text_b"])
 			ammoText = weapon:Clip1()
-		elseif weapon:GetPrintName() == "M134 Minigun" or weapon:GetPrintName() == "Fists" or weapon:GetPrintName() == "Riot Shield" or weapon:GetPrintName() == "Flamethrower" or activeGamemode == "Gun Game" or activeGamemode == "Fisticuffs" then
+		elseif weapon:GetPrintName() == "M134 Minigun" or weapon:GetPrintName() == "Fists" or weapon:GetPrintName() == "Riot Shield" or weapon:GetPrintName() == "Flamethrower" or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
 			ammoColor = Color(convars["text_r"], convars["text_g"], convars["text_b"])
 			ammoText = "∞"
 		else
@@ -593,7 +606,7 @@ function HUDAlive(client)
 			LerpAmmo()
 			surface.DrawRect(scrW - TM.HUDScale(400) - weaponHUD["x"], scrH - TM.HUDScale(30) - weaponHUD["y"], TM.HUDScale(400) * (math.Clamp(math.max(0, smoothAmmo) / weapon:GetMaxClip1(), 0, 1)), TM.HUDScale(30))
 			draw.SimpleText(weapon:Clip1(), "HUD_Health", scrW - TM.HUDScale(390) - weaponHUD["x"], scrH - TM.HUDScale(30) - weaponHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
-		elseif weapon:GetPrintName() == "M134 Minigun" or weapon:GetPrintName() == "Fists" or weapon:GetPrintName() == "Riot Shield" or weapon:GetPrintName() == "Flamethrower" or activeGamemode == "Gun Game" or activeGamemode == "Fisticuffs" then
+		elseif weapon:GetPrintName() == "M134 Minigun" or weapon:GetPrintName() == "Fists" or weapon:GetPrintName() == "Riot Shield" or weapon:GetPrintName() == "Flamethrower" or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
 			surface.DrawRect(scrW - TM.HUDScale(400) - weaponHUD["x"], scrH - TM.HUDScale(30) - weaponHUD["y"], TM.HUDScale(400), TM.HUDScale(30))
 			draw.SimpleText("∞", "HUD_Health", scrW - TM.HUDScale(390) - weaponHUD["x"], scrH - TM.HUDScale(32) - weaponHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
 		else
@@ -676,32 +689,35 @@ function HUDAlive(client)
 		draw.SimpleText("DUCK", "HUD_StreakText", TM.HUDScale(105) + kpoHUD["x"], TM.HUDScale(154) + kpoHUD["y"], cColor, TEXT_ALIGN_CENTER)
 	end
 
-	-- velocity counter
-	if convars["velocity_counter"] == 1 then draw.SimpleText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityHUD["x"], velocityHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP) end
-
-	-- disclaimer for players connecting during an active gamemode and map vote
-	if GetGlobal2Bool("tm_matchended") == true then
-		draw.SimpleText("Match has ended", "HUD_GunPrintName", scrW / 2, scrH / 2 - TM.HUDScale(104), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
-		draw.SimpleText("Sit tight, another match is about to begin!", "HUD_Health", scrW / 2, scrH / 2 - TM.HUDScale(18), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
-	end
-
 	-- cranked Bar
-	if activeGamemode == "Cranked" and timeUntilSelfDestruct != 0 then
+	if TM.GAMEMODE == GAMEMODES.IDS.CRANKED and timeUntilSelfDestruct != 0 then
 		surface.SetDrawColor(50, 50, 50, 80)
 		surface.DrawRect(scrW / 2 - TM.HUDScale(75), TM.HUDScale(60) + matchHUD["y"], TM.HUDScale(150), TM.HUDScale(10))
 
 		surface.SetDrawColor(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 80)
 		surface.DrawRect(scrW / 2 - TM.HUDScale(75), TM.HUDScale(60) + matchHUD["y"], TM.HUDScale(150) * (timeUntilSelfDestruct / crankedTime:GetInt()), TM.HUDScale(10))
 	end
+
+	-- velocity counter
+	if convars["velocity_counter"] == 1 then
+		draw.SimpleText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityHUD["x"], velocityHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	end
+
+	-- disclaimer for players connecting during an active gamemode and map vote
+	if GetGlobalBool("tm_matchended") == true then
+		draw.SimpleText("Match has ended", "HUD_GunPrintName", scrW / 2, scrH / 2 - TM.HUDScale(104), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+		draw.SimpleText("Sit tight, another match is about to begin!", "HUD_Health", scrW / 2, scrH / 2 - TM.HUDScale(18), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+	end
 end
 
 -- create the HUD hook depending on the gamemode being played
 function CreateHUDHook()
-	if activeGamemode == "KOTH" then
+	if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
 		-- KOTH rendering
-		local KOTHCords = KOTHPOS[game.GetMap()]
-		local origin = KOTHCords.Origin
-		local size = KOTHCords.BrushSize
+		local kothInfo = KOTHPOS[game.GetMap()]
+		local origin = kothInfo.origin
+		local size = kothInfo.size
+
 		local playerAngle
 		local indiFade = 1
 
@@ -737,25 +753,25 @@ function CreateHUDHook()
 
 		function UpdateKOTHPFP(client)
 			if convars["hud_enable"] == 0 or !client:Alive() then KOTHPFP:Hide() return end
-			if GetGlobal2String("tm_hillstatus") == "Empty" or GetGlobal2String("tm_hillstatus") == "Contested" then
+			if GetGlobalString("tm_hillstatus") == "Empty" or GetGlobalString("tm_hillstatus") == "Contested" then
 				KOTHPFP:Hide()
 				pfpUpdated = false
 			else
 				KOTHPFP:Show()
-				if !pfpUpdated then KOTHPFP:SetPlayer(GetGlobal2Entity("tm_entonhill"), 184) end
+				if !pfpUpdated then KOTHPFP:SetPlayer(GetGlobalEntity("tm_entonhill"), 184) end
 				pfpUpdated = true
 			end
 		end
 
 		hook.Add("HUDPaint", "DrawTMHUD", function()
 			LocalPly = LocalPlayer()
-			if GetGlobal2Bool("tm_intermission") then HUDIntermission(LocalPly) return end
+			if GetGlobalBool("tm_intermission") then HUDIntermission(LocalPly) return end
 			if convars["hud_enable"] == 0 then return end
 			HUDAlways(LocalPly)
 			UpdateKOTHPFP(LocalPly)
 			if LocalPly:Alive() then HUDAlive(LocalPly) end
 		end )
-	elseif activeGamemode == "VIP" then
+	elseif TM.GAMEMODE == GAMEMODES.IDS.VIP then
 		-- VIP rendering
 		if IsValid(VIPPFP) then VIPPFP:Remove() end
 		VIPPFP = vgui.Create("AvatarImage", HUD)
@@ -763,11 +779,11 @@ function CreateHUDHook()
 		VIPPFP:SetSize(TM.HUDScale(42), TM.HUDScale(42))
 		VIPPFP:Hide()
 
-		local vip = GetGlobal2Entity("tm_vip", NULL)
+		local vip = GetGlobalEntity("tm_vip", NULL)
 		local setPly
 		function UpdateVIPPFP(client)
 			if convars["hud_enable"] == 0 or !client:Alive() then VIPPFP:Hide() return end
-			vip = GetGlobal2Entity("tm_vip", NULL)
+			vip = GetGlobalEntity("tm_vip", NULL)
 			if vip == NULL then
 				VIPPFP:Hide()
 				setPly = NULL
@@ -782,7 +798,7 @@ function CreateHUDHook()
 
 		hook.Add("HUDPaint", "DrawTMHUD", function()
 			LocalPly = LocalPlayer()
-			if GetGlobal2Bool("tm_intermission") then HUDIntermission(LocalPly) return end
+			if GetGlobalBool("tm_intermission") then HUDIntermission(LocalPly) return end
 			if convars["hud_enable"] == 0 then return end
 			HUDAlways(LocalPly)
 			UpdateVIPPFP(LocalPly)
@@ -791,7 +807,7 @@ function CreateHUDHook()
 	else
 		hook.Add("HUDPaint", "DrawTMHUD", function()
 			LocalPly = LocalPlayer()
-			if GetGlobal2Bool("tm_intermission") then HUDIntermission(LocalPly) return end
+			if GetGlobalBool("tm_intermission") then HUDIntermission(LocalPly) return end
 			if convars["hud_enable"] == 0 then return end
 			HUDAlways(LocalPly)
 			if LocalPly:Alive() then HUDAlive(LocalPly) end
@@ -1192,7 +1208,9 @@ end )
 net.Receive("EndOfGame", function(len, ply)
 	LocalPly = LocalPlayer()
 	gameEnded = true
+
 	DeleteHUDHook()
+
 	local winningPlayer
 	local wonMatch = false
 	local mapPicked = 0
@@ -1216,6 +1234,7 @@ net.Receive("EndOfGame", function(len, ply)
 	if IsValid(EndOfGameUI) then EndOfGameUI:Remove() end
 	if IsValid(KOTHPFP) then KOTHPFP:Remove() end
 	if IsValid(VIPPFP) then VIPPFP:Remove() end
+
 	hook.Remove("Think", "UpdateKOTHPFP")
 	hook.Remove("Think", "UpdateVIPPFP")
 	hook.Remove("PlayerStartVoice", "ImageOnVoice")
@@ -1223,7 +1242,12 @@ net.Receive("EndOfGame", function(len, ply)
 
 	hook.Add("Think", "RenderEORBehindPauseMenu", function()
 		if !IsValid(EndOfGameUI) then return end
-		if !gui.IsGameUIVisible() then EndOfGameUI:Show() else EndOfGameUI:Hide() end
+
+		if !gui.IsGameUIVisible() then
+			EndOfGameUI:Show()
+		else
+			EndOfGameUI:Hide()
+		end
 	end)
 
 	local firstMap = net.ReadString()
@@ -1263,15 +1287,15 @@ net.Receive("EndOfGame", function(len, ply)
 		end
 	end
 
-	for _, t in ipairs(GAMEMODES) do
-		if firstMode == t[1] then
-			firstModeName = tostring(t[2])
-			firstModeDesc = tostring(t[3])
+	for id, info in ipairs(GAMEMODES.MODES) do
+		if firstMode == id then
+			firstModeName = info.name
+			firstModeDesc = info.desc
 		end
 
-		if secondMode == t[1] then
-			secondModeName = tostring(t[2])
-			secondModeDesc = tostring(t[3])
+		if secondMode == id then
+			secondModeName = info.name
+			secondModeDesc = info.desc
 		end
 	end
 
@@ -1279,13 +1303,19 @@ net.Receive("EndOfGame", function(len, ply)
 	local VotingActive = false
 
 	local connectedPlayers = player.GetHumans()
-	if activeGamemode == "Gun Game" then table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end) else table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end) end
+
+	if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
+		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end)
+	else
+		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end)
+	end
 
 	local gradientL = Material("overlay/gradient_c.png", "noclamp smooth")
 	local gradientR = Material("overlay/gradient_c2.png", "noclamp smooth")
 
 	local gradLColor
 	local gradRColor
+
 	if math.random(0, 1) == 0 then
 		gradLColor = Color(100, 0, 255, 6)
 		gradRColor = Color(100, 255, 255, 12)
@@ -1497,10 +1527,10 @@ net.Receive("EndOfGame", function(len, ply)
 		VotingPanel.Paint = function(self, w, h)
 			draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 100))
 			if mapDecided == false then
-				if GetGlobal2Int("VotesOnMapOne", 0) != 0 or GetGlobal2Int("VotesOnMapTwo", 0) != 0 or GetGlobal2Int("VotesOnMapThree", 0) != 0 then
-					mapOneVotes = math.Round(GetGlobal2Int("VotesOnMapOne", 0) / (GetGlobal2Int("VotesOnMapOne", 0) + GetGlobal2Int("VotesOnMapTwo", 0) + GetGlobal2Int("VotesOnMapThree", 0)) * 100)
-					mapTwoVotes = math.Round(GetGlobal2Int("VotesOnMapTwo") / (GetGlobal2Int("VotesOnMapTwo", 0) + GetGlobal2Int("VotesOnMapOne", 0) + GetGlobal2Int("VotesOnMapThree", 0)) * 100)
-					mapThreeVotes = math.Round(GetGlobal2Int("VotesOnMapThree") / (GetGlobal2Int("VotesOnMapThree", 0) + GetGlobal2Int("VotesOnMapOne", 0) + GetGlobal2Int("VotesOnMapTwo", 0)) * 100)
+				if GetGlobalInt("VotesOnMapOne", 0) != 0 or GetGlobalInt("VotesOnMapTwo", 0) != 0 or GetGlobalInt("VotesOnMapThree", 0) != 0 then
+					mapOneVotes = math.Round(GetGlobalInt("VotesOnMapOne", 0) / (GetGlobalInt("VotesOnMapOne", 0) + GetGlobalInt("VotesOnMapTwo", 0) + GetGlobalInt("VotesOnMapThree", 0)) * 100)
+					mapTwoVotes = math.Round(GetGlobalInt("VotesOnMapTwo") / (GetGlobalInt("VotesOnMapTwo", 0) + GetGlobalInt("VotesOnMapOne", 0) + GetGlobalInt("VotesOnMapThree", 0)) * 100)
+					mapThreeVotes = math.Round(GetGlobalInt("VotesOnMapThree") / (GetGlobalInt("VotesOnMapThree", 0) + GetGlobalInt("VotesOnMapOne", 0) + GetGlobalInt("VotesOnMapTwo", 0)) * 100)
 				end
 				if mapPicked == 1 then draw.RoundedBox(0, TM.MenuScale(10), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5), Color(50, 125, 50, 75)) end
 				if mapPicked == 2 then draw.RoundedBox(0, TM.MenuScale(165), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5), Color(50, 125, 50, 75)) end
@@ -1523,9 +1553,9 @@ net.Receive("EndOfGame", function(len, ply)
 		GamemodePanel.Paint = function(self, w, h)
 			draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 100))
 			if gamemodeDecided == false then
-				if GetGlobal2Int("VotesOnModeOne", 0) != 0 or GetGlobal2Int("VotesOnModeTwo", 0) != 0 then
-					modeOneVotes = math.Round(GetGlobal2Int("VotesOnModeOne", 0) / (GetGlobal2Int("VotesOnModeOne", 0) + GetGlobal2Int("VotesOnModeTwo", 0)) * 100)
-					modeTwoVotes = math.Round(GetGlobal2Int("VotesOnModeTwo") / (GetGlobal2Int("VotesOnModeTwo", 0) + GetGlobal2Int("VotesOnModeOne", 0)) * 100)
+				if GetGlobalInt("VotesOnModeOne", 0) != 0 or GetGlobalInt("VotesOnModeTwo", 0) != 0 then
+					modeOneVotes = math.Round(GetGlobalInt("VotesOnModeOne", 0) / (GetGlobalInt("VotesOnModeOne", 0) + GetGlobalInt("VotesOnModeTwo", 0)) * 100)
+					modeTwoVotes = math.Round(GetGlobalInt("VotesOnModeTwo") / (GetGlobalInt("VotesOnModeTwo", 0) + GetGlobalInt("VotesOnModeOne", 0)) * 100)
 				end
 				if gamemodePicked == 1 then draw.RoundedBox(0, TM.MenuScale(10), TM.MenuScale(62.5), TM.MenuScale(175), TM.MenuScale(9), Color(50, 125, 50, 75)) end
 				if gamemodePicked == 2 then draw.RoundedBox(0, TM.MenuScale(290), TM.MenuScale(62.5), TM.MenuScale(175), TM.MenuScale(9), Color(50, 125, 50, 75)) end
@@ -1658,9 +1688,9 @@ net.Receive("EndOfGame", function(len, ply)
 				end
 			end
 
-			for _, m in ipairs(GAMEMODES) do
-				if decidedMode == m[1] then
-					decidedModeName = m[2]
+			for id, info in ipairs(GAMEMODES.MODES) do
+				if decidedMode == id then
+					decidedModeName = info.name
 				end
 			end
 
@@ -2168,7 +2198,7 @@ end)
 cvars.AddChangeCallback("tm_hud_reloadhint", function(convar_name, value_old, value_new)
 	UpdateHUD()
 end)
-cvars.AddChangeCallback("frest_bindg", function(convar_name, value_old, value_new)
+cvars.AddChangeCallback("tm_grapplebind", function(convar_name, value_old, value_new)
 	UpdateHUD()
 end)
 cvars.AddChangeCallback("tm_nadebind", function(convar_name, value_old, value_new)
@@ -2181,9 +2211,6 @@ cvars.AddChangeCallback("tm_hud_keypressoverlay", function(convar_name, value_ol
 	UpdateHUD()
 end)
 cvars.AddChangeCallback("tm_hud_velocitycounter", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_quickswitching", function(convar_name, value_old, value_new)
 	UpdateHUD()
 end)
 cvars.AddChangeCallback("tm_hud_enablekillfeed", function(convar_name, value_old, value_new)

@@ -92,9 +92,14 @@ function GM:ScoreboardShow()
 		PlayerList:Clear()
 
 		local connectedPlayers = player.GetAll()
-		if activeGamemode == "Gun Game" then table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end) else table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end) end
 
-		for k, v in ipairs(connectedPlayers) do
+		if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
+			table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end)
+		else
+			table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end)
+		end
+
+		for _, v in ipairs(connectedPlayers) do
 			-- constants for basic player information, much more optimized than checking every frame
 			local name = v:Nick()
 			local prestige = v:GetNWInt("playerPrestige")

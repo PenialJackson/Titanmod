@@ -1,14 +1,78 @@
-GAMEMODES = {
-	[1] = {0, "FFA", "Kill others with randomly generated loadouts.", true},
-	[2] = {1, "Cranked", "FFA with kills granting the player increased movement capabilities.", false},
-	[3] = {2, "Gun Game", "FFA with players progressing throguh a ladder of numerous weapons.", false},
-	[4] = {3, "Shotty Snipers", "FFA with loadouts always consisting of a sniper and a shotgun.", true},
-	[5] = {4, "Fiesta", "FFA with every player sharing the same loadout, with a new loadout being generated periodically.", true},
-	[6] = {5, "Quickdraw", "FFA with secondaries only.", true},
-	[7] = {6, "KOTH", "FFA with a specific part of the map giving score if inside of said area.", false},
-	[8] = {7, "VIP", "FFA with players fighting over VIP status, said status giving them score.", false},
-	[9] = {8, "Overkill", "FFA with no weapon restrictions.", true},
-	[10] = {9, "Fisticuffs", "FFA with only melee weapons.", false}
+GAMEMODES = {}
+
+GAMEMODES.MODES = {
+	[1] = {
+		name = "FFA",
+		desc = "Kill others with randomly generated loadouts.",
+		special = false
+	},
+
+	[2] = {
+		name = "Cranked",
+		desc = "Kills grant increased movement capabilities.",
+		special = true
+	},
+
+	[3] = {
+		name = "Gun Game",
+		desc = "Progress throguh a ladder of weapons.",
+		special = false
+	},
+
+	[4] = {
+		name = "Shotty Snipers",
+		desc = "Loadouts always consisting of a sniper and a shotgun.",
+		special = true
+	},
+
+	[5] = {
+		name = "Fiesta",
+		desc = "Everyone shares the same loadout, with a new loadout being given periodically.",
+		special = false
+	},
+
+	[6] = {
+		name = "Quickdraw",
+		desc = "Secondary weapons only.",
+		special = false
+	},
+
+	[7] = {
+		name = "KOTH",
+		desc = "Stand on the hill to periodically earn extra score.",
+		special = true
+	},
+
+	[8] = {
+		name = "VIP",
+		desc = "Fight over the VIP status, earning extra score.",
+		special = true
+	},
+
+	[9] = {
+		name = "Overkill",
+		desc = "No traditional loadout restrictions.",
+		special = false
+	},
+
+	[10] = {
+		name = "Fisticuffs",
+		desc = "Melee weapons only.",
+		special = true
+	}
+}
+
+GAMEMODES.IDS = {
+	FFA = 1,
+	CRANKED = 2,
+	GUNGAME = 3,
+	SHOTTYSNIPERS = 4,
+	FIESTA = 5,
+	QUICKDRAW = 6,
+	KOTH = 7,
+	VIP = 8,
+	OVERKILL = 9,
+	FISTICUFFS = 10
 }
 
 MAPS = {
@@ -40,26 +104,105 @@ for _, v in ipairs(MAPS) do
 end
 
 KOTHPOS = {
-	["tm_arctic"] = {Origin = Vector(504, 384, 320), BrushSize = Vector(120, 112, 64)},
-	["tm_bridge"] = {Origin = Vector(-3552, 96, 484), BrushSize = Vector(224, 288, 64)},
-	["tm_corrugated"] = {Origin = Vector(192, 516, 188), BrushSize = Vector(64, 252, 60)},
-	["tm_disequilibrium"] = {Origin = Vector(-280, 1940, 1064), BrushSize = Vector(96, 100, 72)},
-	["tm_grid"] = {Origin = Vector(0, -1408, -560), BrushSize = Vector(128, 256, 112)},
-	["tm_initial"] = {Origin = Vector(-136, 0, 68), BrushSize = Vector(104, 128, 68)},
-	["tm_legacy"] = {Origin = Vector(-352, -416, 512), BrushSize = Vector(148, 148, 64)},
-	["tm_liminal_pool"] = {Origin = Vector(0, 1184, 144), BrushSize = Vector(128, 176, 80)},
-	["tm_mall"] = {Origin = Vector(2180, 1536, 72), BrushSize = Vector(108, 216, 64)},
-	["tm_mephitic"] = {Origin = Vector(960, -320, 2748), BrushSize = Vector(96, 96, 60)},
-	["tm_nuketown"] = {Origin = Vector(-89, 238, 128), BrushSize = Vector(108, 120, 64)},
-	["tm_oxide"] = {Origin = Vector(550, 1800, -176), BrushSize = Vector(192, 144, 64)},
-	["tm_rig"] = {Origin = Vector(-1024, -1024, -584), BrushSize = Vector(256, 256, 128)},
-	["tm_rust"] = {Origin = Vector(608, 1252, -196), BrushSize = Vector(164, 144, 128)},
-	["tm_sanctuary"] = {Origin = Vector(-472, 888, 10), BrushSize = Vector(152, 168, 90)},
-	["tm_shipment"] = {Origin = Vector(0, 0, 64), BrushSize = Vector(64, 64, 64)},
-	["tm_shoot_house"] = {Origin = Vector(-168, -437, 192), BrushSize = Vector(168, 116.5, 63.5)},
-	["tm_station"] = {Origin = Vector(-300, 496, 468), BrushSize = Vector(108, 264, 62)},
-	["tm_villa"] = {Origin = Vector(128, -880, -64), BrushSize = Vector(128, 112, 64)},
-	["tm_wreck"] = {Origin = Vector(244, -192, 8), BrushSize = Vector(140, 112, 80)}
+	["tm_arctic"] = {
+		origin = Vector(504, 384, 320),
+		size = Vector(120, 112, 64)
+	},
+
+	["tm_bridge"] = {
+		origin = Vector(-3552, 96, 484),
+		size = Vector(224, 288, 64)
+	},
+
+	["tm_corrugated"] = {
+		origin = Vector(192, 516, 188),
+		size = Vector(64, 252, 60)
+	},
+
+	["tm_disequilibrium"] = {
+		origin = Vector(-280, 1940, 1064),
+		size = Vector(96, 100, 72)
+	},
+
+	["tm_grid"] = {
+		origin = Vector(0, -1408, -560),
+		size = Vector(128, 256, 112)
+	},
+
+	["tm_initial"] = {
+		origin = Vector(-136, 0, 68),
+		size = Vector(104, 128, 68)
+	},
+
+	["tm_legacy"] = {
+		origin = Vector(-352, -416, 512),
+		size = Vector(148, 148, 64)
+	},
+
+	["tm_liminal_pool"] = {
+		origin = Vector(0, 1184, 144),
+		size = Vector(128, 176, 80)
+	},
+
+	["tm_mall"] = {
+		origin = Vector(2180, 1536, 72),
+		size = Vector(108, 216, 64)
+	},
+
+	["tm_mephitic"] = {
+		origin = Vector(960, -320, 2748),
+		size = Vector(96, 96, 60)
+	},
+
+	["tm_nuketown"] = {
+		origin = Vector(-89, 238, 128),
+		size = Vector(108, 120, 64)
+	},
+
+	["tm_oxide"] = {
+		origin = Vector(550, 1800, -176),
+		size = Vector(192, 144, 64)
+	},
+
+	["tm_rig"] = {
+		origin = Vector(-1024, -1024, -584),
+		size = Vector(256, 256, 128)
+	},
+
+	["tm_rust"] = {
+		origin = Vector(608, 1252, -196),
+		size = Vector(164, 144, 128)
+	},
+
+	["tm_sanctuary"] = {
+		origin = Vector(-472, 888, 10),
+		size = Vector(152, 168, 90)
+	},
+
+	["tm_shipment"] = {
+		origin = Vector(0, 0, 64),
+		size = Vector(64, 64, 64)
+	},
+
+	["tm_shoot_house"] = {
+		origin = Vector(-168, -437, 192),
+		size = Vector(168, 116.5, 63.5)
+	},
+
+	["tm_station"] = {
+		origin = Vector(-300, 496, 468),
+		size = Vector(108, 264, 62)
+	},
+
+	["tm_villa"] = {
+		origin = Vector(128, -880, -64),
+		size = Vector(128, 112, 64)
+	},
+
+	["tm_wreck"] = {
+		origin = Vector(244, -192, 8),
+		size = Vector(140, 112, 80)
+	}
 }
 
 WEAPONS = {}
@@ -730,4 +873,48 @@ CARDS[354] = {"cards/flags/venezuela.png", "Venezuela", "", "pride", "pride"}
 CARDS[355] = {"cards/flags/vietnam.png", "Vietnam", "", "pride", "pride"}
 CARDS[356] = {"cards/flags/wales.png", "Wales", "", "pride", "pride"}
 
-QUOTES = {'"thank you for playing my gamemode <3" -Penial', '"a jeep wrangler is less aerodynamic than a lobster" -P0w', '"meow" -Megu', '"my grandma drowned, drowned in drip" -RandomSZ', '"skill issue" -Strike Force Lightning', '"told my wife im going to the bank, didnt tell her which one" -stiel', '"go lick a gas pump" -Bomca', '"justice for cradle, we the people demand" -RandomSZ', '"women fear me, fish want me" -Tomato', '"gang where are you, blud where are you" -White Guy', '"any kief slayers" -Cream', '"if i was a tree, i would have no reason to love a human" -suomij', '"i wish someone wanted me like plankton wanted the formula" -Seven', '"but your honor, babies kick pregnant women all the time" -MegaSlayer', '"by the nine im tweakin" -MegaSlayer', '"ball torture is $4 usd on steam" -Portanator', '"your walls are never safe from the drywall muncher" -Vertex', '"im obviously not racist, ive kissed a black man" -Mattimeo', '"my balls are made of one thing..." -RubberBalls', '"im like that" -Homeless', '"i need about tree fiddy" -Random Films', '"bring out the whole ocean" -Robo', '"can we ban this guy" -Poopy', '"root beer" -Plat', '"never forget 9/11" -afiais', '"praise o monolith" -Medinator', '"shut it mate yer da sells avon" -zee!', '"holy fishpaste" -Zenthic', '"titanmod servers are as stable as a girl with blue hair" -TheBean', '"titanmod is my favorite tactical shooter" -Computery', '"all bark no bite" -Tana', '"a gay man is shooting me" -emaad', '"getting a rainbow wont bring your father back" -SenorDragon', '"wobbler, its on sight" -blackchromatic', '"Hi" -sean', '"aim trainers dont work" -rA warden'}
+QUOTES = {
+	'"thank you for playing my gamemode <3" -Penial',
+	'"a jeep wrangler is less aerodynamic than a lobster" -P0w',
+	'"meow" -Megu',
+	'"my grandma drowned, drowned in drip" -RandomSZ',
+	'"skill issue" -Strike Force Lightning',
+	'"told my wife im going to the bank, didnt tell her which one" -stiel',
+	'"go lick a gas pump" -Bomca',
+	'"justice for cradle, we the people demand" -RandomSZ',
+	'"women fear me, fish want me" -Tomato',
+	'"gang where are you, blud where are you" -White Guy',
+	'"any kief slayers" -Cream',
+	'"if i was a tree, i would have no reason to love a human" -suomij',
+	'"i wish someone wanted me like plankton wanted the formula" -Seven',
+	'"but your honor, babies kick pregnant women all the time" -MegaSlayer',
+	'"by the nine im tweakin" -MegaSlayer',
+	'"ball torture is $4 usd on steam" -Portanator',
+	'"your walls are never safe from the drywall muncher" -Vertex',
+	'"im obviously not racist, ive kissed a black man" -Mattimeo',
+	'"my balls are made of one thing..." -trishnnn',
+	'"im like that" -Homeless',
+	'"i need about tree fiddy" -Random Films',
+	'"can we ban this guy" -Poopy',
+	'"root beer" -Plat',
+	'"never forget 9/11" -afiais',
+	'"praise o monolith" -Medinator',
+	'"shut it mate yer da sells avon" -zee!',
+	'"holy fishpaste" -Zenthic',
+	'"titanmod servers are as stable as a girl with blue hair" -TheBean',
+	'"titanmod is my favorite tactical shooter" -Computery',
+	'"all bark no bite" -Tana',
+	'"a gay man is shooting me" -emaad',
+	'"getting a rainbow wont bring your father back" -SenorDragon',
+	'"wobbler, its on sight" -blackchromatic',
+	'"aim trainers dont work" -rA warden',
+	'"six mustard seven mango" -forrest',
+	'"she bad on my business" -ballsconsumer77',
+	'"thinking is op" -Satire',
+	'"send me fart pics" -imjoshinit',
+	'"im gonna send you to nagasaki and nuke you again" -oreagano',
+	'"my dad broke up with you on tomodachi life" -Oade',
+	'"never forget 9/11 because that is when borderlands 4 came out" -Braven',
+	'"joy and prosperity" -Dual Rotor Helicopter',
+	'"im like the punch of titanmod" -czalta'
+}

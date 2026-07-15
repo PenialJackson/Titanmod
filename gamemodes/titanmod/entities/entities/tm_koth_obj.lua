@@ -1,14 +1,11 @@
 ENT.Base = "base_brush"
 ENT.Type = "brush"
 
-local activeGamemode = GetGlobal2String("ActiveGamemode", "FFA")
-if activeGamemode ~= "KOTH" then return end
+local kothInfo = KOTHPOS[game.GetMap()]
+if kothInfo == nil then return end
 
-local KOTHCords = KOTHPOS[game.GetMap()]
-if KOTHCords == nil then return end
-
-ENT.Origin = KOTHCords.Origin
-ENT.Size = KOTHCords.BrushSize
+ENT.Origin = kothInfo.origin
+ENT.Size = kothInfo.size
 
 if SERVER then
     function ENT:Initialize()
@@ -18,14 +15,17 @@ if SERVER then
 
     function ENT:StartTouch(ply)
         if !ply:IsPlayer() then return end
+
         table.insert(hillOccupants, ply)
         ply:SetNWBool("onOBJ", true)
         ply:SendLua("surface.PlaySound('tmui/objsuccess.wav')")
+
         HillStatusCheck()
     end
 
     function ENT:EndTouch(ply)
         if !ply:IsPlayer() then return end
+
         table.RemoveByValue(hillOccupants, ply)
         ply:SetNWBool("onOBJ", false)
         HillStatusCheck()
