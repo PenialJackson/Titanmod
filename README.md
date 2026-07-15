@@ -1,17 +1,15 @@
-
 # Titanmod | PvP Movement Shooter
 ![Titanmod Banner](https://i.imgur.com/1LCOfVQ.png)
 
-Titanmod is a [Garry's Mod](https://store.steampowered.com/app/4000/Garrys_Mod/) gamemode centered around tense FFA PvP fights consisting of snappy gunplay and fluid movement.  
+Titanmod is a [Garry's Mod](https://store.steampowered.com/app/4000/Garrys_Mod/) gamemode centered around chaotic and tense FFA PvP fights with snappy gunplay and fluid movement!  
+
 With over 10 gamemodes, 150+ unique weapons, and 20+ maps, Titanmod is one of the most ambitious Garry's Mod PvP gamemodes.
 
 > Join the official [Titanmod Discord Server](https://discord.gg/GRfvt27uGF)  
 > Check out [Titanmod on the Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3002938569)  
-> Play on the Titanmod dedicated server:    
-> US: **connect na.titanmod.xyz:270155**    
+> Play on the Titanmod game server: **connect na.titanmod.xyz:270155**       
 
-Here are a few of Titanmods features:
---
+# Features:
 - Responsive and skill-based gunplay w/ an assortment of attachments
 - Simple and complex movement mechanics to master  
 - Map and Gamemode voting (FFA, Cranked, Gun Game, Shotty Snipers, Fiesta, Quickdraw, King of the Hill, VIP, Overkill and Fisticuffs)  
@@ -26,9 +24,7 @@ Here are a few of Titanmods features:
 - Deep optimization (stable and high framerates)  
 - Config File (for server operators)
 
-Players fight it out across multiple gamemodes and maps using a vast array of fun and unique weapons. Movement is key, with Titanmod allowing players to wall run, wall jump, slide, rocket jump, and more. With the skill-based gunplay and movement mechanics, players are rewarded for their individual skill.  
-  
-Almost every aspect of Titanmod is configurable. Not only does it boast a wide array of settings for players to change at will, but Titanmod also comes with a config file, allowing server operators to change the experience to their liking.
+Players fight it out across multiple gamemodes and maps using a vast array of fun and unique weapons. Movement is key, with Titanmod allowing players to wall run, wall jump, slide, rocket jump, and more. With the skill-based gunplay and movement mechanics, players are rewarded for their individual skill, while still harboring chaotic and fun moments that every group of players will enjoy.  
 
 # Credits:
 > Maps
@@ -65,6 +61,10 @@ Almost every aspect of Titanmod is configurable. Not only does it boast a wide a
 [VManip Contextual Animations](https://steamcommunity.com/sharedfiles/filedetails/?id=2155841271) by datæ  
 [VManip Quick Nades](https://steamcommunity.com/sharedfiles/filedetails/?id=2157021399) by datæ  
 [VManip Vaulting](https://steamcommunity.com/sharedfiles/filedetails/?id=2364206712) by datæ  
+
+> Assets & Art
+
+[Tired Swiss](https://x.com/TiredSwiss)
 
 > Playtesters
 
