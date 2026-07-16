@@ -916,5 +916,6 @@ QUOTES = {
 	'"my dad broke up with you on tomodachi life" -Oade',
 	'"never forget 9/11 because that is when borderlands 4 came out" -Braven',
 	'"joy and prosperity" -Dual Rotor Helicopter',
-	'"im like the punch of titanmod" -czalta'
+	'"im like the punch of titanmod" -czalta',
+	'"i need my payday too" -Tired Swiss'
 }

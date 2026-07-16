@@ -37,6 +37,8 @@
 
 - Removed various broken or unnecessary server convars
 
+- New set of rendered gamemode backgrounds thanks to Tired Swiss
+
 - New end of match quotes from community members and friends
 
 
