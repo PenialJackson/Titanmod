@@ -1,4 +1,4 @@
-# --- (03/22/26)
+# --- (##/##/##)
 **>GAMEPLAY**
 *NEW CONVAR SETTINGS*
 - Individual speed values for each state instead of one global multiplier
@@ -23,19 +23,23 @@
 **>QOL & BUG FIXES**
 - Drastically reduced the file size of the addon containing all maps (from 1.3gb down to 500mb~)
 
+- Drastically reduced the amount of lua files that are loaded
+
 - Added "tm_settings_reset" and "sv_tm_settings_reset" commands, allowing for the convars to be reset to their default values for both server settings and client settings
 
 - Reworked how convars and config values are loaded and handled
 
 - Heavy optimization across the entire gamemodes code
 
-- Fixed Coonan .357 not being able to fire underwater
+- Fixed Coonan .357 and various melee weapons not being able to fire underwater
 
 - Fixed usages of deprecated classes and hooks
 
 - Cleaned up numerous unnecessary files and parts of code
 
 - Removed various broken or unnecessary server convars
+
+- Removed post processing when underwater
 
 - New set of rendered gamemode backgrounds thanks to Tired Swiss
 
