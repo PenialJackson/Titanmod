@@ -917,5 +917,6 @@ QUOTES = {
 	'"never forget 9/11 because that is when borderlands 4 came out" -Braven',
 	'"joy and prosperity" -Dual Rotor Helicopter',
 	'"im like the punch of titanmod" -czalta',
-	'"i need my payday too" -Tired Swiss'
+	'"i need my payday too" -Tired Swiss',
+	'"i went to the butcher and they didnt have any wobblemeat" -goldie'
 }

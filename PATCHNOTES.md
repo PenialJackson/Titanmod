@@ -11,14 +11,35 @@
 - Every map has been properly compiled to improve FPS in-game
 
 *Arctic*
-- Fixed window player clipping
+- Improved player clipping
 
 *Bridge*
 - Reduced the length of all car kill triggers
 - Fixed out of bounds player clipping
 
+*Disequilibrium*
+- Improved player clipping
+- Improved kill trigger
+
+*Grid*
+- Opened up additional locations on the map that we're previously blocked
+
 *Initial*
 - Fixed incorrect lighting on doors
+
+*legacy*
+- Improved brushwork and textures
+- Improved player clipping
+
+*Rig*
+- Re-added rain
+
+*Villa*
+- Improved player clipping
+
+*Wreck*
+- Improved brushwork and textures
+- Improved player clipping
 
 **>QOL & BUG FIXES**
 - Drastically reduced the file size of the addon containing all maps (from 1.3gb down to 500mb~)

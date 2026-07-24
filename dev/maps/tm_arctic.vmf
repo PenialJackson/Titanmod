@@ -1,8 +1,8 @@
 versioninfo
 {
 	"editorversion" "400"
-	"editorbuild" "8870"
-	"mapversion" "200"
+	"editorbuild" "8871"
+	"mapversion" "204"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,10 +89,9 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "200"
+	"mapversion" "204"
 	"classname" "worldspawn"
 	"coldworld" "1"
-	"comment" "Decompiled by BSPSource v1.4.0 from tm_arctic"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
 	"maxpropscreenwidth" "-1"
@@ -135138,13 +135137,31 @@ entity
 		"logicalpos" "[0 10500]"
 	}
 }
+entity
+{
+	"id" "42198"
+	"classname" "shadow_control"
+	"angles" "-25 340 0"
+	"color" "172 196 204"
+	"disableallshadows" "0"
+	"distance" "75"
+	"enableshadowsfromlocallights" "1"
+	"origin" "48 -192 80"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[1000 -13768]"
+	}
+}
 cameras
 {
 	"activecamera" "0"
 	camera
 	{
-		"position" "[-827.973 663.431 502.589]"
-		"look" "[-875.147 925.157 517.011]"
+		"position" "[72.9029 -225.615 85.7841]"
+		"look" "[87.6731 30.7039 14.954]"
 	}
 	camera
 	{
