@@ -9,6 +9,8 @@
 - Every map has been given better overall lighting quality
 - Every map has had a small optimization pass
 - Every map has been properly compiled to improve FPS in-game
+- Drastically improved cubemap resolution
+- All map props no longer fade in/out depending on their distance from the player
 
 *Arctic*
 - Improved player clipping
@@ -47,6 +49,8 @@
 - Drastically reduced the amount of lua files that are loaded
 
 - Added "tm_settings_reset" and "sv_tm_settings_reset" commands, allowing for the convars to be reset to their default values for both server settings and client settings
+
+- Reduced the unlock requirment for most playermodels
 
 - Reworked how convars and config values are loaded and handled
 

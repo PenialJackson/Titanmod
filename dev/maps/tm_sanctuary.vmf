@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "81"
+	"mapversion" "83"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "81"
+	"mapversion" "83"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -342338,7 +342338,6 @@ entity
 	"disableallshadows" "0"
 	"distance" "75"
 	"enableshadowsfromlocallights" "1"
-	"targetname" "Global_Shadow_Controller"
 	"origin" "-1592 1416 392"
 	editor
 	{
@@ -342984,7 +342983,7 @@ entity
 	"classname" "prop_static"
 	"angles" "0 0 0"
 	"disableselfshadowing" "0"
-	"disableshadows" "0"
+	"disableshadows" "1"
 	"disablevertexlighting" "0"
 	"fademaxdist" "0"
 	"fademindist" "-1"
@@ -343026,7 +343025,7 @@ entity
 	"model" "models/eck/de_santorini/pi_shrub.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "-1044 52 -152"
 	editor
 	{
@@ -343042,7 +343041,7 @@ entity
 	"classname" "prop_static"
 	"angles" "0 0 0"
 	"disableselfshadowing" "0"
-	"disableshadows" "0"
+	"disableshadows" "1"
 	"disablevertexlighting" "0"
 	"fademaxdist" "0"
 	"fademindist" "-1"
@@ -343084,7 +343083,7 @@ entity
 	"model" "models/eck/de_santorini/pi_twig.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "-1040 80 -152"
 	editor
 	{
@@ -343142,7 +343141,7 @@ entity
 	"model" "models/eck/de_santorini/shelter/grass_set.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "-1640 527 -160"
 	editor
 	{
@@ -343171,7 +343170,7 @@ entity
 	"model" "models/eck/de_santorini/shelter/grass_set.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "-1793 604 -160"
 	editor
 	{
@@ -343287,7 +343286,7 @@ entity
 	"model" "models/eck/de_santorini/shelter/grass_set.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "-1773 495 -160"
 	editor
 	{
@@ -343345,7 +343344,7 @@ entity
 	"model" "models/eck/de_santorini/pi_shrub.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "-1044 108 -152"
 	editor
 	{
@@ -343419,7 +343418,7 @@ entity
 	"classname" "prop_static"
 	"angles" "0 0 0"
 	"disableselfshadowing" "0"
-	"disableshadows" "0"
+	"disableshadows" "1"
 	"disablevertexlighting" "0"
 	"fademaxdist" "0"
 	"fademindist" "-1"
@@ -343448,7 +343447,7 @@ entity
 	"classname" "prop_static"
 	"angles" "0 0 0"
 	"disableselfshadowing" "0"
-	"disableshadows" "0"
+	"disableshadows" "1"
 	"disablevertexlighting" "0"
 	"fademaxdist" "0"
 	"fademindist" "-1"
@@ -343519,7 +343518,7 @@ entity
 	"model" "models/eck/de_santorini/shelter/grass_set.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "-1672 628 -160"
 	editor
 	{
@@ -343622,7 +343621,7 @@ entity
 	"classname" "prop_static"
 	"angles" "0 0 0"
 	"disableselfshadowing" "0"
-	"disableshadows" "0"
+	"disableshadows" "1"
 	"disablevertexlighting" "0"
 	"fademaxdist" "0"
 	"fademindist" "-1"
@@ -343651,7 +343650,7 @@ entity
 	"classname" "prop_static"
 	"angles" "0 0 0"
 	"disableselfshadowing" "0"
-	"disableshadows" "0"
+	"disableshadows" "1"
 	"disablevertexlighting" "0"
 	"fademaxdist" "0"
 	"fademindist" "-1"
@@ -343709,7 +343708,7 @@ entity
 	"classname" "prop_static"
 	"angles" "0 0 0"
 	"disableselfshadowing" "0"
-	"disableshadows" "0"
+	"disableshadows" "1"
 	"disablevertexlighting" "0"
 	"fademaxdist" "0"
 	"fademindist" "-1"
@@ -343738,7 +343737,7 @@ entity
 	"classname" "prop_static"
 	"angles" "0 0 0"
 	"disableselfshadowing" "0"
-	"disableshadows" "0"
+	"disableshadows" "1"
 	"disablevertexlighting" "0"
 	"fademaxdist" "0"
 	"fademindist" "-1"
@@ -343867,7 +343866,7 @@ entity
 	"model" "models/eck/de_santorini/pi_twig.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "288 -272 -80"
 	editor
 	{
@@ -343896,7 +343895,7 @@ entity
 	"model" "models/eck/de_santorini/pi_shrub.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "288 -392 -80"
 	editor
 	{
@@ -343925,7 +343924,7 @@ entity
 	"model" "models/eck/de_santorini/pi_twig.mdl"
 	"screenspacefade" "0"
 	"skin" "0"
-	"solid" "6"
+	"solid" "0"
 	"origin" "292 -328 -80"
 	editor
 	{
@@ -360879,8 +360878,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[-1734.66 481.463 -118.785]"
-		"look" "[-1581.37 682.356 -202.993]"
+		"position" "[-1528 1316 392]"
+		"look" "[-1528 1582.36 392]"
 	}
 	camera
 	{
