@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "204"
+	"mapversion" "205"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "204"
+	"mapversion" "205"
 	"classname" "worldspawn"
 	"coldworld" "1"
 	"detailmaterial" "detail/detailsprites"
@@ -120918,6 +120918,7 @@ entity
 {
 	"id" "7068"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -120940,6 +120941,7 @@ entity
 {
 	"id" "7083"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -120962,6 +120964,7 @@ entity
 {
 	"id" "7088"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -120984,6 +120987,7 @@ entity
 {
 	"id" "7093"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121006,6 +121010,7 @@ entity
 {
 	"id" "7098"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121028,6 +121033,7 @@ entity
 {
 	"id" "7103"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121050,6 +121056,7 @@ entity
 {
 	"id" "7108"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121072,6 +121079,7 @@ entity
 {
 	"id" "7113"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121094,6 +121102,7 @@ entity
 {
 	"id" "7118"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121116,6 +121125,7 @@ entity
 {
 	"id" "7123"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121138,6 +121148,7 @@ entity
 {
 	"id" "7128"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121160,6 +121171,7 @@ entity
 {
 	"id" "7133"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121182,6 +121194,7 @@ entity
 {
 	"id" "7138"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121204,6 +121217,7 @@ entity
 {
 	"id" "7375"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121221,6 +121235,7 @@ entity
 {
 	"id" "7410"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121238,6 +121253,7 @@ entity
 {
 	"id" "7415"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121255,6 +121271,7 @@ entity
 {
 	"id" "7420"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121272,6 +121289,7 @@ entity
 {
 	"id" "7425"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121289,6 +121307,7 @@ entity
 {
 	"id" "7430"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121306,6 +121325,7 @@ entity
 {
 	"id" "7435"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121323,6 +121343,7 @@ entity
 {
 	"id" "7440"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121340,6 +121361,7 @@ entity
 {
 	"id" "7445"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121357,6 +121379,7 @@ entity
 {
 	"id" "7450"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121374,6 +121397,7 @@ entity
 {
 	"id" "7455"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121391,6 +121415,7 @@ entity
 {
 	"id" "7460"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121408,6 +121433,7 @@ entity
 {
 	"id" "7465"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "255 255 255 30"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121425,6 +121451,7 @@ entity
 {
 	"id" "7494"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -121447,6 +121474,7 @@ entity
 {
 	"id" "7883"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121464,6 +121492,7 @@ entity
 {
 	"id" "7898"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121481,6 +121510,7 @@ entity
 {
 	"id" "7903"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121498,6 +121528,7 @@ entity
 {
 	"id" "7908"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121515,6 +121546,7 @@ entity
 {
 	"id" "7913"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121532,6 +121564,7 @@ entity
 {
 	"id" "7918"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121549,6 +121582,7 @@ entity
 {
 	"id" "7923"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121566,6 +121600,7 @@ entity
 {
 	"id" "7928"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121583,6 +121618,7 @@ entity
 {
 	"id" "7933"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121600,6 +121636,7 @@ entity
 {
 	"id" "7938"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121617,6 +121654,7 @@ entity
 {
 	"id" "7948"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121634,6 +121672,7 @@ entity
 {
 	"id" "7953"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121651,6 +121690,7 @@ entity
 {
 	"id" "7958"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "106 253 64 200"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121924,6 +121964,7 @@ entity
 {
 	"id" "17128"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "97 232 94 50"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121941,6 +121982,7 @@ entity
 {
 	"id" "17158"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "97 232 94 50"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121958,6 +122000,7 @@ entity
 {
 	"id" "17163"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "97 232 94 50"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -121975,6 +122018,7 @@ entity
 {
 	"id" "17168"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "97 232 94 50"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -123628,6 +123672,7 @@ entity
 {
 	"id" "18804"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "107 237 140 20"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -123645,6 +123690,7 @@ entity
 {
 	"id" "18834"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "107 237 140 20"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -123662,6 +123708,7 @@ entity
 {
 	"id" "18916"
 	"classname" "light_spot"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_exponent" "1"
 	"_inner_cone" "30"
@@ -123684,6 +123731,7 @@ entity
 {
 	"id" "18926"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "152 222 214 20"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -123701,6 +123749,7 @@ entity
 {
 	"id" "18946"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "152 222 214 20"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -125154,6 +125203,7 @@ entity
 {
 	"id" "30371"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "97 232 94 50"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -125171,6 +125221,7 @@ entity
 {
 	"id" "30376"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "97 232 94 50"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -125188,6 +125239,7 @@ entity
 {
 	"id" "30381"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "97 232 94 50"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -125205,6 +125257,7 @@ entity
 {
 	"id" "30386"
 	"classname" "light"
+	"_castentityshadow" "1"
 	"_light" "97 232 94 50"
 	"_lightHDR" "-1 -1 -1 1"
 	"_lightscaleHDR" "1"
@@ -132686,8 +132739,8 @@ entity
 {
 	"id" "36806"
 	"classname" "water_lod_control"
-	"cheapwaterenddistance" "20000"
-	"cheapwaterstartdistance" "10000"
+	"cheapwaterenddistance" "2048"
+	"cheapwaterstartdistance" "1024"
 	"origin" "72 -192 80"
 	editor
 	{
@@ -133029,8 +133082,7 @@ entity
 {
 	"id" "38478"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-768 -64 64"
 	editor
 	{
@@ -133044,8 +133096,7 @@ entity
 {
 	"id" "38499"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "0 0 64"
 	editor
 	{
@@ -133059,8 +133110,7 @@ entity
 {
 	"id" "38507"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "80 384 64"
 	editor
 	{
@@ -133074,8 +133124,7 @@ entity
 {
 	"id" "38516"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-192 464 192"
 	editor
 	{
@@ -133089,8 +133138,7 @@ entity
 {
 	"id" "38524"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-672 928 128"
 	editor
 	{
@@ -133104,8 +133152,7 @@ entity
 {
 	"id" "38530"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-256 838.485 192"
 	editor
 	{
@@ -133119,8 +133166,7 @@ entity
 {
 	"id" "38538"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "192 848 192"
 	editor
 	{
@@ -133134,8 +133180,7 @@ entity
 {
 	"id" "38547"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-640 1644.01 256"
 	editor
 	{
@@ -133149,8 +133194,7 @@ entity
 {
 	"id" "38555"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "0 1271.05 256"
 	editor
 	{
@@ -133164,8 +133208,7 @@ entity
 {
 	"id" "38559"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "672 1612.54 256"
 	editor
 	{
@@ -133179,8 +133222,7 @@ entity
 {
 	"id" "38564"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1456 1576.92 256"
 	editor
 	{
@@ -133194,8 +133236,7 @@ entity
 {
 	"id" "38569"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1920 1562.76 256"
 	editor
 	{
@@ -133209,8 +133250,7 @@ entity
 {
 	"id" "38573"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "912 742.334 192"
 	editor
 	{
@@ -133224,8 +133264,7 @@ entity
 {
 	"id" "38577"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "760.857 292.386 72"
 	editor
 	{
@@ -133239,8 +133278,7 @@ entity
 {
 	"id" "38586"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "880 -176 192"
 	editor
 	{
@@ -133254,8 +133292,7 @@ entity
 {
 	"id" "38591"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "448 71.1022 320"
 	editor
 	{
@@ -133269,8 +133306,7 @@ entity
 {
 	"id" "38596"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "480 380.593 320"
 	editor
 	{
@@ -133284,8 +133320,7 @@ entity
 {
 	"id" "38600"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "576 833.56 192"
 	editor
 	{
@@ -133299,8 +133334,7 @@ entity
 {
 	"id" "38605"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "384 -191.185 128"
 	editor
 	{
@@ -133314,8 +133348,7 @@ entity
 {
 	"id" "38609"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1408 -147.286 192"
 	editor
 	{
@@ -133329,8 +133362,7 @@ entity
 {
 	"id" "38617"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1344 678.952 192"
 	editor
 	{
@@ -133344,8 +133376,7 @@ entity
 {
 	"id" "38621"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1312 223.744 208"
 	editor
 	{
@@ -133359,8 +133390,7 @@ entity
 {
 	"id" "38626"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1616 116.026 192"
 	editor
 	{
@@ -133374,8 +133404,7 @@ entity
 {
 	"id" "38631"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1504 580.356 192"
 	editor
 	{
@@ -133389,8 +133418,7 @@ entity
 {
 	"id" "38635"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1680 854.533 192"
 	editor
 	{
@@ -133404,8 +133432,7 @@ entity
 {
 	"id" "38639"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1792 434.856 192"
 	editor
 	{
@@ -133419,8 +133446,7 @@ entity
 {
 	"id" "38643"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1504 248.09 320"
 	editor
 	{
@@ -133449,8 +133475,7 @@ entity
 {
 	"id" "38663"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1952 1573.28 512"
 	editor
 	{
@@ -133464,8 +133489,7 @@ entity
 {
 	"id" "38671"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1664 833.15 464"
 	editor
 	{
@@ -133479,8 +133503,7 @@ entity
 {
 	"id" "38675"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1280 328.15 464"
 	editor
 	{
@@ -133494,8 +133517,7 @@ entity
 {
 	"id" "38679"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1216 -392.043 368"
 	editor
 	{
@@ -133509,8 +133531,7 @@ entity
 {
 	"id" "38683"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1792 372.033 480"
 	editor
 	{
@@ -133524,8 +133545,7 @@ entity
 {
 	"id" "38694"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "560 382.104 464"
 	editor
 	{
@@ -133539,8 +133559,7 @@ entity
 {
 	"id" "38699"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "320 46.335 576"
 	editor
 	{
@@ -133554,8 +133573,7 @@ entity
 {
 	"id" "38707"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "6.33755 528.57 448"
 	editor
 	{
@@ -133569,8 +133587,7 @@ entity
 {
 	"id" "38715"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-416 97.9946 336"
 	editor
 	{
@@ -133584,8 +133601,7 @@ entity
 {
 	"id" "38719"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-672 760.828 464"
 	editor
 	{
@@ -133599,8 +133615,7 @@ entity
 {
 	"id" "38723"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "496 1154.58 576"
 	editor
 	{
@@ -135160,8 +135175,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[72.9029 -225.615 85.7841]"
-		"look" "[87.6731 30.7039 14.954]"
+		"position" "[-848 -108 168]"
+		"look" "[-778.982 148.949 155.83]"
 	}
 	camera
 	{

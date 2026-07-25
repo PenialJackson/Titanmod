@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "30"
+	"mapversion" "32"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "30"
+	"mapversion" "32"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -38351,8 +38351,8 @@ entity
 {
 	"id" "3206"
 	"classname" "water_lod_control"
-	"cheapwaterenddistance" "40000"
-	"cheapwaterstartdistance" "20000"
+	"cheapwaterenddistance" "2048"
+	"cheapwaterstartdistance" "1024"
 	"origin" "928 896 512"
 	editor
 	{
@@ -49890,7 +49890,7 @@ entity
 {
 	"id" "4123"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-1185 -344 472"
 	editor
 	{
@@ -49904,7 +49904,7 @@ entity
 {
 	"id" "4124"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"sides" "245"
 	"origin" "-1881 -342 470"
 	editor
@@ -49919,7 +49919,7 @@ entity
 {
 	"id" "4125"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "2568 -246 484"
 	editor
 	{
@@ -49933,7 +49933,7 @@ entity
 {
 	"id" "4126"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "1544 -246 484"
 	editor
 	{
@@ -49947,7 +49947,7 @@ entity
 {
 	"id" "4127"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "520 -246 484"
 	editor
 	{
@@ -49961,7 +49961,7 @@ entity
 {
 	"id" "4128"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-504 -246 484"
 	editor
 	{
@@ -49975,7 +49975,7 @@ entity
 {
 	"id" "4129"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-1528 -246 484"
 	editor
 	{
@@ -49989,7 +49989,7 @@ entity
 {
 	"id" "4130"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-2552 -246 484"
 	editor
 	{
@@ -50003,7 +50003,7 @@ entity
 {
 	"id" "4131"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-3576 -246 484"
 	editor
 	{
@@ -50017,7 +50017,7 @@ entity
 {
 	"id" "4132"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-4600 -246 484"
 	editor
 	{
@@ -50031,7 +50031,7 @@ entity
 {
 	"id" "4133"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-5624 -246 484"
 	editor
 	{
@@ -50045,7 +50045,7 @@ entity
 {
 	"id" "4134"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-6648 -246 484"
 	editor
 	{
@@ -50059,7 +50059,7 @@ entity
 {
 	"id" "4135"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-7672 -246 484"
 	editor
 	{
@@ -50073,7 +50073,7 @@ entity
 {
 	"id" "4136"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-8696 -246 484"
 	editor
 	{
@@ -50087,7 +50087,7 @@ entity
 {
 	"id" "4137"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "2568 246 484"
 	editor
 	{
@@ -50101,7 +50101,7 @@ entity
 {
 	"id" "4138"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "1544 246 484"
 	editor
 	{
@@ -50115,7 +50115,7 @@ entity
 {
 	"id" "4139"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "520 246 484"
 	editor
 	{
@@ -50129,7 +50129,7 @@ entity
 {
 	"id" "4140"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-504 246 484"
 	editor
 	{
@@ -50143,7 +50143,7 @@ entity
 {
 	"id" "4141"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-1528 246 484"
 	editor
 	{
@@ -50157,7 +50157,7 @@ entity
 {
 	"id" "4142"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-2552 246 484"
 	editor
 	{
@@ -50171,7 +50171,7 @@ entity
 {
 	"id" "4143"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-3576 246 484"
 	editor
 	{
@@ -50185,7 +50185,7 @@ entity
 {
 	"id" "4144"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-4600 246 484"
 	editor
 	{
@@ -50199,7 +50199,7 @@ entity
 {
 	"id" "4145"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-5624 246 484"
 	editor
 	{
@@ -50213,7 +50213,7 @@ entity
 {
 	"id" "4146"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-6648 246 484"
 	editor
 	{
@@ -50227,7 +50227,7 @@ entity
 {
 	"id" "4147"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-7672 246 484"
 	editor
 	{
@@ -50241,7 +50241,7 @@ entity
 {
 	"id" "4148"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-8696 246 484"
 	editor
 	{
@@ -50255,7 +50255,7 @@ entity
 {
 	"id" "4149"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "640 0 -2560"
 	editor
 	{
@@ -50269,7 +50269,7 @@ entity
 {
 	"id" "4150"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "1088 0 -2560"
 	editor
 	{
@@ -50283,7 +50283,7 @@ entity
 {
 	"id" "4151"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "256 0 -2560"
 	editor
 	{
@@ -50297,7 +50297,7 @@ entity
 {
 	"id" "4152"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "256 -320 -2560"
 	editor
 	{
@@ -50311,7 +50311,7 @@ entity
 {
 	"id" "4153"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "640 -320 -2560"
 	editor
 	{
@@ -50325,7 +50325,7 @@ entity
 {
 	"id" "4154"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "1024 -320 -2560"
 	editor
 	{
@@ -50339,7 +50339,7 @@ entity
 {
 	"id" "4155"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "1024 320 -2560"
 	editor
 	{
@@ -50353,7 +50353,7 @@ entity
 {
 	"id" "4156"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "704 320 -2560"
 	editor
 	{
@@ -50367,7 +50367,7 @@ entity
 {
 	"id" "4157"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "256 320 -2560"
 	editor
 	{
@@ -73861,8 +73861,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[914.433 865.522 509.756]"
-		"look" "[907.226 1131.51 497.585]"
+		"position" "[940.331 833.496 510.307]"
+		"look" "[862.241 1087.77 496.334]"
 	}
 	camera
 	{

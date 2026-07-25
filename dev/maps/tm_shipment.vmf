@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "43"
+	"mapversion" "44"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "43"
+	"mapversion" "44"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -32997,7 +32997,7 @@ entity
 {
 	"id" "2442"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "550 -25 76"
 	editor
 	{
@@ -33163,7 +33163,7 @@ entity
 {
 	"id" "2433"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-136 290 85"
 	editor
 	{
@@ -33177,7 +33177,7 @@ entity
 {
 	"id" "2434"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "6 12 76"
 	editor
 	{
@@ -33191,7 +33191,7 @@ entity
 {
 	"id" "2432"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "897 16 83"
 	editor
 	{
@@ -33205,7 +33205,7 @@ entity
 {
 	"id" "2431"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "595 -631 129"
 	editor
 	{
@@ -33219,7 +33219,7 @@ entity
 {
 	"id" "2430"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-98 -948 81"
 	editor
 	{
@@ -33276,7 +33276,7 @@ entity
 {
 	"id" "2435"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "609 721 77"
 	editor
 	{
@@ -33290,7 +33290,7 @@ entity
 {
 	"id" "2441"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-75 -603 77"
 	editor
 	{
@@ -36021,7 +36021,7 @@ entity
 {
 	"id" "2443"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-12 605 77"
 	editor
 	{
@@ -36135,7 +36135,7 @@ entity
 {
 	"id" "2436"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-685 664 77"
 	editor
 	{
@@ -36149,7 +36149,7 @@ entity
 {
 	"id" "2437"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-880 50 83"
 	editor
 	{
@@ -36163,7 +36163,7 @@ entity
 {
 	"id" "2439"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-743 -641 77"
 	editor
 	{
@@ -36177,7 +36177,7 @@ entity
 {
 	"id" "2438"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-962 897 77"
 	editor
 	{
@@ -36642,8 +36642,8 @@ entity
 {
 	"id" "1600"
 	"classname" "water_lod_control"
-	"cheapwaterenddistance" "40000"
-	"cheapwaterstartdistance" "20000"
+	"cheapwaterenddistance" "2048"
+	"cheapwaterstartdistance" "1024"
 	"origin" "0 0 0"
 	editor
 	{
@@ -37294,7 +37294,7 @@ entity
 {
 	"id" "63776"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -37553,7 +37553,7 @@ entity
 {
 	"id" "66371"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "0"
@@ -37610,7 +37610,7 @@ entity
 {
 	"id" "66587"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "0"
@@ -44060,7 +44060,7 @@ entity
 {
 	"id" "2440"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-473 -137 76"
 	editor
 	{

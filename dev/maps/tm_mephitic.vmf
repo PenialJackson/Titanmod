@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "182"
+	"mapversion" "183"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "182"
+	"mapversion" "183"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -68784,7 +68784,7 @@ entity
 {
 	"id" "7417"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -68809,7 +68809,7 @@ entity
 {
 	"id" "7496"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -68884,7 +68884,7 @@ entity
 {
 	"id" "8334"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -68909,7 +68909,7 @@ entity
 {
 	"id" "8343"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -69240,7 +69240,7 @@ entity
 {
 	"id" "10707"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "2048"
@@ -69270,7 +69270,7 @@ entity
 {
 	"id" "10772"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "2048"
@@ -69300,7 +69300,7 @@ entity
 {
 	"id" "10799"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "2048"
@@ -69330,7 +69330,7 @@ entity
 {
 	"id" "10826"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "2048"
@@ -69360,7 +69360,7 @@ entity
 {
 	"id" "10844"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "2048"
@@ -69390,7 +69390,7 @@ entity
 {
 	"id" "10862"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "2048"
@@ -69420,7 +69420,7 @@ entity
 {
 	"id" "10880"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "2048"
@@ -69450,7 +69450,7 @@ entity
 {
 	"id" "10907"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "2048"
@@ -71172,7 +71172,7 @@ entity
 {
 	"id" "14121"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71197,7 +71197,7 @@ entity
 {
 	"id" "14131"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71222,7 +71222,7 @@ entity
 {
 	"id" "14146"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71247,7 +71247,7 @@ entity
 {
 	"id" "14155"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71362,7 +71362,7 @@ entity
 {
 	"id" "16206"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71387,7 +71387,7 @@ entity
 {
 	"id" "16287"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71412,7 +71412,7 @@ entity
 {
 	"id" "16368"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71437,7 +71437,7 @@ entity
 {
 	"id" "16476"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71462,7 +71462,7 @@ entity
 {
 	"id" "40900"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71487,7 +71487,7 @@ entity
 {
 	"id" "40948"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -71512,7 +71512,7 @@ entity
 {
 	"id" "40975"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -74663,7 +74663,7 @@ entity
 {
 	"id" "56984"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -76447,7 +76447,7 @@ entity
 {
 	"id" "59074"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -76472,7 +76472,7 @@ entity
 {
 	"id" "59138"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -76497,7 +76497,7 @@ entity
 {
 	"id" "59161"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -77177,7 +77177,7 @@ entity
 {
 	"id" "70677"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -77202,7 +77202,7 @@ entity
 {
 	"id" "70804"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -77227,7 +77227,7 @@ entity
 {
 	"id" "70909"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -77252,7 +77252,7 @@ entity
 {
 	"id" "71161"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -78667,7 +78667,7 @@ entity
 {
 	"id" "89729"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -78692,7 +78692,7 @@ entity
 {
 	"id" "89781"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -78717,7 +78717,7 @@ entity
 {
 	"id" "89848"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -79846,7 +79846,7 @@ entity
 {
 	"id" "90804"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -79871,7 +79871,7 @@ entity
 {
 	"id" "90822"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -80047,7 +80047,7 @@ entity
 {
 	"id" "91317"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -80072,7 +80072,7 @@ entity
 {
 	"id" "91359"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -80163,7 +80163,7 @@ entity
 {
 	"id" "92767"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -80188,7 +80188,7 @@ entity
 {
 	"id" "92776"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -80366,7 +80366,7 @@ entity
 {
 	"id" "93493"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -80391,7 +80391,7 @@ entity
 {
 	"id" "93547"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -80416,7 +80416,7 @@ entity
 {
 	"id" "94792"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -80594,7 +80594,7 @@ entity
 {
 	"id" "95591"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -80872,7 +80872,7 @@ entity
 {
 	"id" "98086"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -81389,7 +81389,7 @@ entity
 {
 	"id" "101335"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -81414,7 +81414,7 @@ entity
 {
 	"id" "102807"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -81439,7 +81439,7 @@ entity
 {
 	"id" "103364"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -81464,7 +81464,7 @@ entity
 {
 	"id" "103418"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -81489,7 +81489,7 @@ entity
 {
 	"id" "103496"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -81514,7 +81514,7 @@ entity
 {
 	"id" "103505"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -83232,7 +83232,7 @@ entity
 {
 	"id" "108425"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83262,7 +83262,7 @@ entity
 {
 	"id" "108517"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83292,7 +83292,7 @@ entity
 {
 	"id" "108589"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "250"
@@ -83322,7 +83322,7 @@ entity
 {
 	"id" "108661"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "250"
@@ -83352,7 +83352,7 @@ entity
 {
 	"id" "108715"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83382,7 +83382,7 @@ entity
 {
 	"id" "108760"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83412,7 +83412,7 @@ entity
 {
 	"id" "108836"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "250"
@@ -83442,7 +83442,7 @@ entity
 {
 	"id" "108881"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83472,7 +83472,7 @@ entity
 {
 	"id" "108982"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83502,7 +83502,7 @@ entity
 {
 	"id" "109027"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83532,7 +83532,7 @@ entity
 {
 	"id" "109090"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83562,7 +83562,7 @@ entity
 {
 	"id" "109144"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83592,7 +83592,7 @@ entity
 {
 	"id" "109180"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83622,7 +83622,7 @@ entity
 {
 	"id" "109225"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83652,7 +83652,7 @@ entity
 {
 	"id" "109605"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83682,7 +83682,7 @@ entity
 {
 	"id" "109659"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83712,7 +83712,7 @@ entity
 {
 	"id" "109704"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83742,7 +83742,7 @@ entity
 {
 	"id" "109758"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83772,7 +83772,7 @@ entity
 {
 	"id" "109785"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83802,7 +83802,7 @@ entity
 {
 	"id" "109839"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83832,7 +83832,7 @@ entity
 {
 	"id" "109875"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83862,7 +83862,7 @@ entity
 {
 	"id" "109920"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83892,7 +83892,7 @@ entity
 {
 	"id" "109992"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -83922,7 +83922,7 @@ entity
 {
 	"id" "110267"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -83947,7 +83947,7 @@ entity
 {
 	"id" "110302"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -84510,7 +84510,7 @@ entity
 {
 	"id" "17497"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-480 -15 2304"
 	editor
 	{
@@ -86165,7 +86165,7 @@ entity
 {
 	"id" "111315"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -86737,7 +86737,7 @@ entity
 {
 	"id" "111772"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -86767,7 +86767,7 @@ entity
 {
 	"id" "111846"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -86792,7 +86792,7 @@ entity
 {
 	"id" "111866"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -87132,7 +87132,7 @@ entity
 {
 	"id" "112238"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -87157,7 +87157,7 @@ entity
 {
 	"id" "112243"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -87182,7 +87182,7 @@ entity
 {
 	"id" "112340"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "250"
@@ -87212,7 +87212,7 @@ entity
 {
 	"id" "112385"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "250"
@@ -87242,7 +87242,7 @@ entity
 {
 	"id" "112439"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "250"
@@ -87272,7 +87272,7 @@ entity
 {
 	"id" "112629"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "250"
@@ -87302,7 +87302,7 @@ entity
 {
 	"id" "112734"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -87327,7 +87327,7 @@ entity
 {
 	"id" "112774"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -87352,7 +87352,7 @@ entity
 {
 	"id" "112794"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -87939,7 +87939,7 @@ entity
 {
 	"id" "114332"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88090,7 +88090,7 @@ entity
 {
 	"id" "114460"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88115,7 +88115,7 @@ entity
 {
 	"id" "114515"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88400,7 +88400,7 @@ entity
 {
 	"id" "114570"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88495,7 +88495,7 @@ entity
 {
 	"id" "114706"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88520,7 +88520,7 @@ entity
 {
 	"id" "114716"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88545,7 +88545,7 @@ entity
 {
 	"id" "114731"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88570,7 +88570,7 @@ entity
 {
 	"id" "114761"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88595,7 +88595,7 @@ entity
 {
 	"id" "114791"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88620,7 +88620,7 @@ entity
 {
 	"id" "114831"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88645,7 +88645,7 @@ entity
 {
 	"id" "114962"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88698,7 +88698,7 @@ entity
 {
 	"id" "115140"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88723,7 +88723,7 @@ entity
 {
 	"id" "115180"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -88985,7 +88985,7 @@ entity
 {
 	"id" "115409"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89010,7 +89010,7 @@ entity
 {
 	"id" "120676"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89035,7 +89035,7 @@ entity
 {
 	"id" "89839"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89204,7 +89204,7 @@ entity
 {
 	"id" "130047"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89243,7 +89243,7 @@ entity
 {
 	"id" "149455"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89268,7 +89268,7 @@ entity
 {
 	"id" "153086"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89293,7 +89293,7 @@ entity
 {
 	"id" "153104"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89318,7 +89318,7 @@ entity
 {
 	"id" "153140"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89343,7 +89343,7 @@ entity
 {
 	"id" "153167"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89368,7 +89368,7 @@ entity
 {
 	"id" "153194"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89393,7 +89393,7 @@ entity
 {
 	"id" "153230"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89418,7 +89418,7 @@ entity
 {
 	"id" "153248"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89443,7 +89443,7 @@ entity
 {
 	"id" "153293"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89468,7 +89468,7 @@ entity
 {
 	"id" "153311"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -89493,7 +89493,7 @@ entity
 {
 	"id" "153329"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -90329,7 +90329,7 @@ entity
 {
 	"id" "157135"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -90354,7 +90354,7 @@ entity
 {
 	"id" "157205"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -90379,7 +90379,7 @@ entity
 {
 	"id" "157240"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -90404,7 +90404,7 @@ entity
 {
 	"id" "157255"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -90429,7 +90429,7 @@ entity
 {
 	"id" "157275"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -90454,7 +90454,7 @@ entity
 {
 	"id" "157305"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91005,7 +91005,7 @@ entity
 {
 	"id" "157694"
 	"classname" "light_spot"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_cone" "45"
 	"_constant_attn" "0"
 	"_distance" "400"
@@ -91035,7 +91035,7 @@ entity
 {
 	"id" "157755"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91060,7 +91060,7 @@ entity
 {
 	"id" "157765"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91214,7 +91214,7 @@ entity
 {
 	"id" "160355"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91239,7 +91239,7 @@ entity
 {
 	"id" "160409"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91264,7 +91264,7 @@ entity
 {
 	"id" "160436"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91289,7 +91289,7 @@ entity
 {
 	"id" "160748"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91314,7 +91314,7 @@ entity
 {
 	"id" "160761"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91339,7 +91339,7 @@ entity
 {
 	"id" "160770"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91364,7 +91364,7 @@ entity
 {
 	"id" "160969"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91389,7 +91389,7 @@ entity
 {
 	"id" "160974"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91414,7 +91414,7 @@ entity
 {
 	"id" "160979"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91439,7 +91439,7 @@ entity
 {
 	"id" "160996"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91464,7 +91464,7 @@ entity
 {
 	"id" "161009"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91489,7 +91489,7 @@ entity
 {
 	"id" "161018"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91514,7 +91514,7 @@ entity
 {
 	"id" "161203"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91539,7 +91539,7 @@ entity
 {
 	"id" "161216"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91564,7 +91564,7 @@ entity
 {
 	"id" "161318"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -91589,7 +91589,7 @@ entity
 {
 	"id" "161455"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -92131,7 +92131,7 @@ entity
 {
 	"id" "163237"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -92309,7 +92309,7 @@ entity
 {
 	"id" "165180"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -92701,7 +92701,7 @@ entity
 {
 	"id" "168433"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -113045,7 +113045,7 @@ entity
 {
 	"id" "180867"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -113070,7 +113070,7 @@ entity
 {
 	"id" "180877"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -113095,7 +113095,7 @@ entity
 {
 	"id" "180897"
 	"classname" "light"
-	"_castentityshadow" "0"
+	"_castentityshadow" "1"
 	"_constant_attn" "0"
 	"_distance" "0"
 	"_fifty_percent_distance" "0"
@@ -113687,8 +113687,8 @@ entity
 {
 	"id" "8377"
 	"classname" "water_lod_control"
-	"cheapwaterenddistance" "40000"
-	"cheapwaterstartdistance" "20000"
+	"cheapwaterenddistance" "2048"
+	"cheapwaterstartdistance" "1024"
 	"origin" "0 0 1728"
 	editor
 	{
@@ -272916,7 +272916,7 @@ entity
 {
 	"id" "201280"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
+	"cubemapsize" "8"
 	"origin" "-256 -1345.46 2624"
 	editor
 	{
@@ -272930,8 +272930,7 @@ entity
 {
 	"id" "201291"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-128 -1295.38 2496"
 	editor
 	{
@@ -272945,8 +272944,7 @@ entity
 {
 	"id" "201295"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-384 -1275.04 2496"
 	editor
 	{
@@ -272960,8 +272958,7 @@ entity
 {
 	"id" "201299"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "0 -1075.16 2496"
 	editor
 	{
@@ -272975,8 +272972,7 @@ entity
 {
 	"id" "201303"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-512 -1068.99 2496"
 	editor
 	{
@@ -272990,8 +272986,7 @@ entity
 {
 	"id" "201307"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-256 -1022.2 2304"
 	editor
 	{
@@ -273005,8 +273000,7 @@ entity
 {
 	"id" "201311"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-896 -1359.32 2304"
 	editor
 	{
@@ -273020,8 +273014,7 @@ entity
 {
 	"id" "201315"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-256 -1402.97 2752"
 	editor
 	{
@@ -273035,8 +273028,7 @@ entity
 {
 	"id" "201319"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1408 -1438.64 2368"
 	editor
 	{
@@ -273050,8 +273042,7 @@ entity
 {
 	"id" "201326"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1472 -1028.39 2624"
 	editor
 	{
@@ -273065,8 +273056,7 @@ entity
 {
 	"id" "201330"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1472 -598.726 2496"
 	editor
 	{
@@ -273080,8 +273070,7 @@ entity
 {
 	"id" "201334"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1024 -898.072 2560"
 	editor
 	{
@@ -273095,8 +273084,7 @@ entity
 {
 	"id" "201338"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1344 -819.628 2368"
 	editor
 	{
@@ -273110,8 +273098,7 @@ entity
 {
 	"id" "201342"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1472 -2.03235 2368"
 	editor
 	{
@@ -273125,8 +273112,7 @@ entity
 {
 	"id" "201346"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1152 -0.942871 2496"
 	editor
 	{
@@ -273140,8 +273126,7 @@ entity
 {
 	"id" "201350"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "0 -49.3538 2368"
 	editor
 	{
@@ -273155,8 +273140,7 @@ entity
 {
 	"id" "201354"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-832 -328.358 2368"
 	editor
 	{
@@ -273170,8 +273154,7 @@ entity
 {
 	"id" "201358"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1472 316.501 2368"
 	editor
 	{
@@ -273185,8 +273168,7 @@ entity
 {
 	"id" "201362"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1472 703.085 2368"
 	editor
 	{
@@ -273200,8 +273182,7 @@ entity
 {
 	"id" "201366"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1472 1209.97 2368"
 	editor
 	{
@@ -273215,8 +273196,7 @@ entity
 {
 	"id" "201370"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1344 591.044 2624"
 	editor
 	{
@@ -273230,8 +273210,7 @@ entity
 {
 	"id" "201374"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1280 1150.1 2880"
 	editor
 	{
@@ -273245,8 +273224,7 @@ entity
 {
 	"id" "201378"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1472 1164.52 2624"
 	editor
 	{
@@ -273260,8 +273238,7 @@ entity
 {
 	"id" "201382"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1280 1019.41 2624"
 	editor
 	{
@@ -273275,8 +273252,7 @@ entity
 {
 	"id" "201386"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1216 1217.16 2624"
 	editor
 	{
@@ -273290,8 +273266,7 @@ entity
 {
 	"id" "201390"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1216 1409.67 2624"
 	editor
 	{
@@ -273305,8 +273280,7 @@ entity
 {
 	"id" "201394"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1376 1376 2624"
 	editor
 	{
@@ -273320,8 +273294,7 @@ entity
 {
 	"id" "201400"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1280 1363.24 2752"
 	editor
 	{
@@ -273335,8 +273308,7 @@ entity
 {
 	"id" "201404"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1280 1024.67 2752"
 	editor
 	{
@@ -273350,8 +273322,7 @@ entity
 {
 	"id" "201408"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-1088 874.688 2752"
 	editor
 	{
@@ -273365,8 +273336,7 @@ entity
 {
 	"id" "201412"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-896 1217.74 2368"
 	editor
 	{
@@ -273380,8 +273350,7 @@ entity
 {
 	"id" "201416"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-448 1333.79 2368"
 	editor
 	{
@@ -273395,8 +273364,7 @@ entity
 {
 	"id" "201420"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-256 1021.48 2432"
 	editor
 	{
@@ -273410,8 +273378,7 @@ entity
 {
 	"id" "201424"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-576 1406.29 2624"
 	editor
 	{
@@ -273425,8 +273392,7 @@ entity
 {
 	"id" "201428"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-512 1003.47 2624"
 	editor
 	{
@@ -273440,8 +273406,7 @@ entity
 {
 	"id" "201432"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "0 1002.53 2624"
 	editor
 	{
@@ -273455,8 +273420,7 @@ entity
 {
 	"id" "201436"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "64 1465.55 2624"
 	editor
 	{
@@ -273470,8 +273434,7 @@ entity
 {
 	"id" "201440"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-384 1355.48 2624"
 	editor
 	{
@@ -273485,8 +273448,7 @@ entity
 {
 	"id" "201444"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-128 1306.59 2624"
 	editor
 	{
@@ -273500,8 +273462,7 @@ entity
 {
 	"id" "201448"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-256 1377.78 2752"
 	editor
 	{
@@ -273515,8 +273476,7 @@ entity
 {
 	"id" "201452"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-256 1381.87 2880"
 	editor
 	{
@@ -273530,8 +273490,7 @@ entity
 {
 	"id" "201456"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "192 763.002 2496"
 	editor
 	{
@@ -273545,8 +273504,7 @@ entity
 {
 	"id" "201460"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-192 1116.34 2304"
 	editor
 	{
@@ -273560,8 +273518,7 @@ entity
 {
 	"id" "201464"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "-64 835.947 2304"
 	editor
 	{
@@ -273575,8 +273532,7 @@ entity
 {
 	"id" "201468"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "384 600.496 2304"
 	editor
 	{
@@ -273729,8 +273685,7 @@ entity
 {
 	"id" "201497"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "832 479.374 2368"
 	editor
 	{
@@ -273744,8 +273699,7 @@ entity
 {
 	"id" "201504"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "832 744.761 2496"
 	editor
 	{
@@ -273759,8 +273713,7 @@ entity
 {
 	"id" "201508"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "448 1177.55 2368"
 	editor
 	{
@@ -273774,8 +273727,7 @@ entity
 {
 	"id" "201512"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "576 1334.55 2368"
 	editor
 	{
@@ -273789,8 +273741,7 @@ entity
 {
 	"id" "201516"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "704 1202.26 2368"
 	editor
 	{
@@ -273804,8 +273755,7 @@ entity
 {
 	"id" "201520"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "832 962.573 2368"
 	editor
 	{
@@ -273819,8 +273769,7 @@ entity
 {
 	"id" "201524"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "448 1080.62 2624"
 	editor
 	{
@@ -273834,8 +273783,7 @@ entity
 {
 	"id" "201528"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "448 1087.06 2752"
 	editor
 	{
@@ -273849,8 +273797,7 @@ entity
 {
 	"id" "201532"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "576 1479.42 2624"
 	editor
 	{
@@ -273864,8 +273811,7 @@ entity
 {
 	"id" "201536"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "704 1498.88 2496"
 	editor
 	{
@@ -273879,8 +273825,7 @@ entity
 {
 	"id" "201541"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1216 972.742 2368"
 	editor
 	{
@@ -273894,8 +273839,7 @@ entity
 {
 	"id" "201545"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1408 478.118 2368"
 	editor
 	{
@@ -273909,8 +273853,7 @@ entity
 {
 	"id" "201549"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1408 1475.87 2496"
 	editor
 	{
@@ -273924,8 +273867,7 @@ entity
 {
 	"id" "201553"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1280 122.393 2304"
 	editor
 	{
@@ -273939,8 +273881,7 @@ entity
 {
 	"id" "201557"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1216 -319.607 2368"
 	editor
 	{
@@ -273954,8 +273895,7 @@ entity
 {
 	"id" "201561"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1216 -576.987 2368"
 	editor
 	{
@@ -273969,8 +273909,7 @@ entity
 {
 	"id" "201565"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1216 -1024.3 2368"
 	editor
 	{
@@ -273984,8 +273923,7 @@ entity
 {
 	"id" "201569"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1408 126.733 2624"
 	editor
 	{
@@ -273999,8 +273937,7 @@ entity
 {
 	"id" "201573"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1472 -319.314 2624"
 	editor
 	{
@@ -274014,8 +273951,7 @@ entity
 {
 	"id" "201577"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1024 -333.805 2624"
 	editor
 	{
@@ -274029,8 +273965,7 @@ entity
 {
 	"id" "201581"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "960 -324.683 2752"
 	editor
 	{
@@ -274044,8 +273979,7 @@ entity
 {
 	"id" "201585"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "960 -335.031 2880"
 	editor
 	{
@@ -274059,8 +273993,7 @@ entity
 {
 	"id" "201589"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1472 -889.027 2752"
 	editor
 	{
@@ -274074,8 +274007,7 @@ entity
 {
 	"id" "201593"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1024 -873.559 2944"
 	editor
 	{
@@ -274089,8 +274021,7 @@ entity
 {
 	"id" "201597"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1024 -901.853 2752"
 	editor
 	{
@@ -274104,8 +274035,7 @@ entity
 {
 	"id" "201601"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1280 -634.044 2496"
 	editor
 	{
@@ -274119,8 +274049,7 @@ entity
 {
 	"id" "201605"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "704 -315.625 2496"
 	editor
 	{
@@ -274134,8 +274063,7 @@ entity
 {
 	"id" "201609"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "832 -1075.17 2496"
 	editor
 	{
@@ -274149,8 +274077,7 @@ entity
 {
 	"id" "201613"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1408 -1430.47 2624"
 	editor
 	{
@@ -274164,8 +274091,7 @@ entity
 {
 	"id" "201617"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1152 -1214.45 2624"
 	editor
 	{
@@ -274179,8 +274105,7 @@ entity
 {
 	"id" "201621"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1152 -1435.17 2496"
 	editor
 	{
@@ -274194,8 +274119,7 @@ entity
 {
 	"id" "201625"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "1088 -1175.27 2496"
 	editor
 	{
@@ -274209,8 +274133,7 @@ entity
 {
 	"id" "201629"
 	"classname" "env_cubemap"
-	"cubemapsize" "0"
-	"sides" ""
+	"cubemapsize" "8"
 	"origin" "896 -900.112 2496"
 	editor
 	{
