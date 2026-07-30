@@ -134,7 +134,7 @@ local function CreateFonts()
 	-- HUD
 	surface.CreateFont("HUD_GunPrintName", {
 		font = customFont:GetString(),
-		size = math.ceil(TM.HUDScale(56)),
+		size = math.ceil(TM.ScreenScale(56)),
 		weight = 500,
 		antialias = true,
 		extended = true
@@ -142,7 +142,7 @@ local function CreateFonts()
 
 	surface.CreateFont("HUD_AmmoCount", {
 		font = customFont:GetString(),
-		size = math.ceil(TM.HUDScale(128)),
+		size = math.ceil(TM.ScreenScale(128)),
 		weight = 500,
 		antialias = true,
 		extended = true
@@ -150,7 +150,7 @@ local function CreateFonts()
 
 	surface.CreateFont("HUD_WepNameKill", {
 		font = customFont:GetString(),
-		size = math.ceil(TM.HUDScale(28)),
+		size = math.ceil(TM.ScreenScale(28)),
 		weight = 500,
 		antialias = true,
 		extended = true
@@ -158,7 +158,7 @@ local function CreateFonts()
 
 	surface.CreateFont("HUD_Health", {
 		font = customFont:GetString(),
-		size = math.ceil(TM.HUDScale(30)),
+		size = math.ceil(TM.ScreenScale(30)),
 		weight = 500,
 		antialias = true,
 		extended = true
@@ -166,7 +166,7 @@ local function CreateFonts()
 
 	surface.CreateFont("HUD_StreakText", {
 		font = customFont:GetString(),
-		size = math.ceil(TM.HUDScale(22)),
+		size = math.ceil(TM.ScreenScale(22)),
 		weight = 500,
 		antialias = true,
 		extended = true
@@ -174,7 +174,7 @@ local function CreateFonts()
 
 	surface.CreateFont("HUD_PlayerNotiName", {
 		font = customFont:GetString(),
-		size = math.ceil(TM.HUDScale(52)),
+		size = math.ceil(TM.ScreenScale(52)),
 		weight = 500,
 		antialias = true,
 		extended = true
@@ -182,7 +182,7 @@ local function CreateFonts()
 
 	surface.CreateFont("HUD_PlayerDeathName", {
 		font = customFont:GetString(),
-		size = math.ceil(TM.HUDScale(36)),
+		size = math.ceil(TM.ScreenScale(36)),
 		weight = 500,
 		antialias = true,
 		extended = true
@@ -190,7 +190,7 @@ local function CreateFonts()
 
 	surface.CreateFont("HUD_IntermissionText", {
 		font = customFont:GetString(),
-		size = math.ceil(TM.HUDScale(180)),
+		size = math.ceil(TM.ScreenScale(180)),
 		weight = 600,
 		antialias = true,
 		outline = true,
@@ -199,7 +199,7 @@ local function CreateFonts()
 
 	surface.CreateFont("HUD_AmmoCountSmall", {
 		font = "Arial",
-		size = math.ceil(TM.HUDScale(96)),
+		size = math.ceil(TM.ScreenScale(96)),
 		weight = 500,
 		antialias = true,
 		extended = true
@@ -216,12 +216,12 @@ end
 
 CreateFonts()
 
+cvars.AddChangeCallback("tm_hud_scale", function()
+	CreateFonts()
+end)
+
 hook.Add("OnScreenSizeChanged", "RefreshFonts", function(_, _, _, _)
 	timer.Simple(3, function()
 		CreateFonts()
 	end)
-end)
-
-cvars.AddChangeCallback("tm_hud_scale", function()
-	CreateFonts()
 end)

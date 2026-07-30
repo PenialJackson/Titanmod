@@ -60,6 +60,14 @@
 
 - Fixed usages of deprecated classes and hooks
 
+- Fixed console errors caused by the flamethrowers attack FX
+
+- Fixed console errors caused by the grappling hook when it hit a surface
+
+- Fixed console errors caused by materials
+
+- Fixed console errors caused by the use of obselete ladder setup on various maps
+
 - Cleaned up numerous unnecessary files and parts of code
 
 - Removed various broken or unnecessary server convars

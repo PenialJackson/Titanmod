@@ -33,14 +33,18 @@ local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 local MainMenu
 
 net.Receive("OpenMainMenu", function(len, ply)
-	local LocalPly = LocalPlayer()
 	local respawnTimeLeft = net.ReadFloat()
-	if respawnTimeLeft != 0 then timer.Create("respawnTimeLeft", respawnTimeLeft, 1, function()
-	end) end
+	if respawnTimeLeft != 0 then
+		timer.Create("respawnTimeLeft", respawnTimeLeft, 1, function() end)
+	end
 
 	hook.Add("Think", "RenderBehindPauseMenu", function()
 		if !IsValid(MainMenu) then return end
-		if !gui.IsGameUIVisible() then MainMenu:Show() else MainMenu:Hide() end
+		if !gui.IsGameUIVisible() then
+			MainMenu:Show()
+		else
+			MainMenu:Hide()
+		end
 	end)
 
 	DeleteHUDHook()
@@ -51,7 +55,7 @@ net.Receive("OpenMainMenu", function(len, ply)
 	local modeName = GAMEMODES.MODES[TM.GAMEMODE].name
 
 	local canPrestige
-	if LocalPly:GetNWInt("playerLevel") != 60 then canPrestige = false else canPrestige = true end
+	if LocalPlayer():GetNWInt("playerLevel") != 60 then canPrestige = false else canPrestige = true end
 
 	local mouseX = 0
 	local mouseY = 0
@@ -61,7 +65,7 @@ net.Receive("OpenMainMenu", function(len, ply)
 
 	if !IsValid(MainMenu) then
 		MainMenu = vgui.Create("DFrame")
-		MainMenu:SetSize(scrW, scrH)
+		MainMenu:SetSize(ScrW(), ScrH())
 		MainMenu:Center()
 		MainMenu:SetTitle("")
 		MainMenu:SetDraggable(false)
@@ -86,11 +90,11 @@ net.Receive("OpenMainMenu", function(len, ply)
 
 			surface.SetMaterial(gradientL)
 			surface.SetDrawColor(gradLColor)
-			surface.DrawTexturedRect(0, 0, scrW, scrH)
+			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 
 			surface.SetMaterial(gradientR)
 			surface.SetDrawColor(gradRColor)
-			surface.DrawTexturedRect(0, 0, scrW, scrH)
+			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 
 			mouseX, mouseY = MainMenu:LocalCursorPos()
 
@@ -106,34 +110,33 @@ net.Receive("OpenMainMenu", function(len, ply)
 			local pushSpawnItems = 100
 			local pushExitItems = -100
 			local spawnTextAnim = 0
-			local hintTextAnim = 0
 
 			MainPanel.Paint = function()
-				draw.SimpleText(LocalPly:GetNWInt("playerLevel"), "AmmoCountSmall", TM.MenuScale(440), TM.MenuScale(-5), white, TEXT_ALIGN_LEFT)
+				draw.SimpleText(LocalPlayer():GetNWInt("playerLevel"), "AmmoCountSmall", TM.MenuScale(440), TM.MenuScale(-5), white, TEXT_ALIGN_LEFT)
 
-				if LocalPly:GetNWInt("playerPrestige") != 0 and LocalPly:GetNWInt("playerLevel") != 60 then
-					draw.SimpleText("PRESTIGE " .. LocalPly:GetNWInt("playerPrestige"), "StreakText", TM.MenuScale(660), TM.MenuScale(37.5), white, TEXT_ALIGN_RIGHT)
-				elseif LocalPly:GetNWInt("playerPrestige") != 0 and LocalPly:GetNWInt("playerLevel") == 60 then
-					draw.SimpleText("PRESTIGE " .. LocalPly:GetNWInt("playerPrestige"), "StreakText", TM.MenuScale(535), TM.MenuScale(37.5), white, TEXT_ALIGN_LEFT)
+				if LocalPlayer():GetNWInt("playerPrestige") != 0 and LocalPlayer():GetNWInt("playerLevel") != 60 then
+					draw.SimpleText("PRESTIGE " .. LocalPlayer():GetNWInt("playerPrestige"), "StreakText", TM.MenuScale(660), TM.MenuScale(37.5), white, TEXT_ALIGN_RIGHT)
+				elseif LocalPlayer():GetNWInt("playerPrestige") != 0 and LocalPlayer():GetNWInt("playerLevel") == 60 then
+					draw.SimpleText("PRESTIGE " .. LocalPlayer():GetNWInt("playerPrestige"), "StreakText", TM.MenuScale(535), TM.MenuScale(37.5), white, TEXT_ALIGN_LEFT)
 				end
 
-				if LocalPly:GetNWInt("playerLevel") != 60 then
-					draw.SimpleText(math.Round(LocalPly:GetNWInt("playerXP"), 0) .. " / " .. math.Round(LocalPly:GetNWInt("playerXPToNextLevel"), 0) .. "XP", "StreakText", TM.MenuScale(660), TM.MenuScale(57.5), white, TEXT_ALIGN_RIGHT)
-					draw.SimpleText(LocalPly:GetNWInt("playerLevel") + 1, "StreakText", TM.MenuScale(665), TM.MenuScale(72.5), white, TEXT_ALIGN_LEFT)
+				if LocalPlayer():GetNWInt("playerLevel") != 60 then
+					draw.SimpleText(math.Round(LocalPlayer():GetNWInt("playerXP"), 0) .. " / " .. math.Round(LocalPlayer():GetNWInt("playerXPToNextLevel"), 0) .. "XP", "StreakText", TM.MenuScale(660), TM.MenuScale(57.5), white, TEXT_ALIGN_RIGHT)
+					draw.SimpleText(LocalPlayer():GetNWInt("playerLevel") + 1, "StreakText", TM.MenuScale(665), TM.MenuScale(72.5), white, TEXT_ALIGN_LEFT)
 
 					surface.SetDrawColor(30, 30, 30, 125)
 					surface.DrawRect(TM.MenuScale(440), TM.MenuScale(80), TM.MenuScale(220), TM.MenuScale(10))
 
 					surface.SetDrawColor(200, 200, 0, 130)
-					surface.DrawRect(TM.MenuScale(440), TM.MenuScale(80), (LocalPly:GetNWInt("playerXP") / LocalPly:GetNWInt("playerXPToNextLevel")) * TM.MenuScale(220), TM.MenuScale(10))
+					surface.DrawRect(TM.MenuScale(440), TM.MenuScale(80), (LocalPlayer():GetNWInt("playerXP") / LocalPlayer():GetNWInt("playerXPToNextLevel")) * TM.MenuScale(220), TM.MenuScale(10))
 				else
-					draw.SimpleText("+ " .. math.Round(LocalPly:GetNWInt("playerXP"), 0) .. "XP", "StreakText", TM.MenuScale(535), TM.MenuScale(55), white, TEXT_ALIGN_LEFT)
+					draw.SimpleText("+ " .. math.Round(LocalPlayer():GetNWInt("playerXP"), 0) .. "XP", "StreakText", TM.MenuScale(535), TM.MenuScale(55), white, TEXT_ALIGN_LEFT)
 				end
 
 				if mapID == nil then
-					draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. game.GetMap()), "StreakText", TM.MenuScale(5 + spawnTextAnim), scrH / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
+					draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. game.GetMap()), "StreakText", TM.MenuScale(5 + spawnTextAnim), ScrH() / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
 				else
-					draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. mapName), "StreakText", TM.MenuScale(10 + spawnTextAnim), scrH / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
+					draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. mapName), "StreakText", TM.MenuScale(10 + spawnTextAnim), ScrH() / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
 				end
 			end
 
@@ -155,7 +158,7 @@ net.Receive("OpenMainMenu", function(len, ply)
 					end
 
 					if prestigeConfirm == 0 then
-						draw.DrawText("PRESTIGE TO P" .. LocalPly:GetNWInt("playerPrestige") + 1, "StreakText", TM.MenuScale(5) + TM.MenuScale(textAnim), TM.MenuScale(5), rainbowColor, TEXT_ALIGN_LEFT)
+						draw.DrawText("PRESTIGE TO P" .. LocalPlayer():GetNWInt("playerPrestige") + 1, "StreakText", TM.MenuScale(5) + TM.MenuScale(textAnim), TM.MenuScale(5), rainbowColor, TEXT_ALIGN_LEFT)
 					else
 						draw.DrawText("ARE YOU SURE?", "StreakText", TM.MenuScale(5) + TM.MenuScale(textAnim), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
 					end
@@ -180,12 +183,12 @@ net.Receive("OpenMainMenu", function(len, ply)
 			plyCallingCard = vgui.Create("DImage", MainPanel)
 			plyCallingCard:SetPos(TM.MenuScale(190), TM.MenuScale(10))
 			plyCallingCard:SetSize(TM.MenuScale(240), TM.MenuScale(80))
-			plyCallingCard:SetImage(LocalPly:GetNWString("chosenPlayercard"), "cards/color/black.png")
+			plyCallingCard:SetImage(LocalPlayer():GetNWString("chosenPlayercard"), "cards/color/black.png")
 
 			playerProfilePicture = vgui.Create("AvatarImage", MainPanel)
 			playerProfilePicture:SetPos(TM.MenuScale(195), TM.MenuScale(15))
 			playerProfilePicture:SetSize(TM.MenuScale(70), TM.MenuScale(70))
-			playerProfilePicture:SetPlayer(LocalPly, 184)
+			playerProfilePicture:SetPlayer(LocalPlayer(), 184)
 
 			local SelectedBoard
 			local SelectedBoardName
@@ -211,11 +214,11 @@ net.Receive("OpenMainMenu", function(len, ply)
 
 					local LeaderboardQuickjumpHolder = vgui.Create("DPanel", LeaderboardSlideoutPanel)
 					LeaderboardQuickjumpHolder:Dock(TOP)
-					LeaderboardQuickjumpHolder:SetSize(0, scrH)
+					LeaderboardQuickjumpHolder:SetSize(0, ScrH())
 
 					LeaderboardQuickjumpHolder.Paint = function(self, w, h)
 						draw.RoundedBox(0, 0, 0, w, h, lightGray)
-						draw.RoundedBox(0, TM.MenuScale(4), scrH - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
+						draw.RoundedBox(0, TM.MenuScale(4), ScrH() - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
 					end
 
 					local LeaderboardScroller = vgui.Create("DScrollPanel", LeaderboardPanel)
@@ -254,7 +257,11 @@ net.Receive("OpenMainMenu", function(len, ply)
 
 						if !firstSelection then
 							LeaderboardPickerButton:Hide()
-							timer.Create("SendBoardDataRequestCooldown", 3, 1, function() if !LocalPly:Alive() and IsValid(LeaderboardPickerButton) then LeaderboardPickerButton:Show() end end)
+							timer.Create("SendBoardDataRequestCooldown", 3, 1, function()
+								if !LocalPlayer():Alive() and IsValid(LeaderboardPickerButton) then
+									LeaderboardPickerButton:Show()
+								end
+							end)
 						end
 
 						TriggerSound("click")
@@ -297,7 +304,7 @@ net.Receive("OpenMainMenu", function(len, ply)
 						accolades:AddOption("Kill Streaks Ended", function() LeaderboardSelected("Kill Streaks Ended", "playerAccoladeBuzzkill") end)
 
 						local weaponstatistics = BoardSelection:AddSubMenu("Weapons")
-						weaponstatistics:SetMaxHeight(scrH / 2)
+						weaponstatistics:SetMaxHeight(ScrH() / 2)
 						for i = 1, #WEAPONS do
 							weaponstatistics:AddOption("Kills w/ " .. WEAPONS[i][2], function() LeaderboardSelected("Kills w/ " .. WEAPONS[i][2], "killsWith_" .. WEAPONS[i][1]) end)
 						end
@@ -311,7 +318,7 @@ net.Receive("OpenMainMenu", function(len, ply)
 					StatsIcon:SetImage("icons/leaderboardslideouticon.png")
 
 					local BackButtonSlideout = vgui.Create("DImageButton", LeaderboardQuickjumpHolder)
-					BackButtonSlideout:SetPos(TM.MenuScale(12), scrH - TM.MenuScale(44))
+					BackButtonSlideout:SetPos(TM.MenuScale(12), ScrH() - TM.MenuScale(44))
 					BackButtonSlideout:SetSize(TM.MenuScale(32), TM.MenuScale(32))
 					BackButtonSlideout:SetTooltip("Return to Main Menu")
 					BackButtonSlideout:SetImage("icons/exiticon.png")
@@ -332,7 +339,7 @@ net.Receive("OpenMainMenu", function(len, ply)
 						if SelectedBoard == nil then return end
 						for p, t in pairs(SelectedBoard) do
 							if t.Value == "NULL" then return end
-							if t.SteamName != LocalPly:Nick() then
+							if t.SteamName != LocalPlayer():Nick() then
 								draw.SimpleText(p, "SettingsLabel", TM.MenuScale(20), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT)
 								if t.SteamName != "NULL" then draw.SimpleText(string.sub(t.SteamName, 1, 21), "SettingsLabel", TM.MenuScale(85), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT) else draw.SimpleText(t.SteamID, "SettingsLabel", TM.MenuScale(85), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT) end
 							else
@@ -341,19 +348,19 @@ net.Receive("OpenMainMenu", function(len, ply)
 							end
 
 							if SelectedBoardName == "W/L Ratio" then
-								if t.SteamName != LocalPly:Nick() then
+								if t.SteamName != LocalPlayer():Nick() then
 									draw.SimpleText(math.Round(t.Value) .. "%", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
 								else
 									draw.SimpleText(math.Round(t.Value) .. "%", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
 								end
 							elseif SelectedBoardName == "Farthest Kill" then
-								if t.SteamName != LocalPly:Nick() then
+								if t.SteamName != LocalPlayer():Nick() then
 									draw.SimpleText(math.Round(t.Value, 2) .. "m", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
 								else
 									draw.SimpleText(math.Round(t.Value, 2) .. "m", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
 								end
 							else
-								if t.SteamName != LocalPly:Nick() then
+								if t.SteamName != LocalPlayer():Nick() then
 									draw.SimpleText(math.Round(t.Value, 2), "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
 								else
 									draw.SimpleText(math.Round(t.Value, 2), "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
@@ -588,10 +595,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				end
 			end
 
-			if LocalPly:GetNWInt("playerDeaths") == 0 then ShowTutorial() end -- force shows the Tutorial is a player joins for the first time
+			if LocalPlayer():GetNWInt("playerDeaths") == 0 then
+				ShowTutorial()
+			end
 
 			local TutorialButton = vgui.Create("DImageButton", MainPanel)
-			TutorialButton:SetPos(TM.MenuScale(8), scrH - TM.MenuScale(74))
+			TutorialButton:SetPos(TM.MenuScale(8), ScrH() - TM.MenuScale(74))
 			TutorialButton:SetImage("icons/tutorialicon.png")
 			TutorialButton:SetSize(TM.MenuScale(64), TM.MenuScale(64))
 			TutorialButton:SetTooltip("Tutorial")
@@ -601,7 +610,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 			end
 
 			local DiscordButton = vgui.Create("DImageButton", MainPanel)
-			DiscordButton:SetPos(TM.MenuScale(108), scrH - TM.MenuScale(74))
+			DiscordButton:SetPos(TM.MenuScale(108), ScrH() - TM.MenuScale(74))
 			DiscordButton:SetImage("icons/discordicon.png")
 			DiscordButton:SetSize(TM.MenuScale(64), TM.MenuScale(64))
 			DiscordButton:SetTooltip("Discord")
@@ -618,7 +627,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 			end
 
 			local WorkshopButton = vgui.Create("DImageButton", MainPanel)
-			WorkshopButton:SetPos(TM.MenuScale(180), scrH - TM.MenuScale(74))
+			WorkshopButton:SetPos(TM.MenuScale(180), ScrH() - TM.MenuScale(74))
 			WorkshopButton:SetImage("icons/workshopicon.png")
 			WorkshopButton:SetSize(TM.MenuScale(64), TM.MenuScale(64))
 			WorkshopButton:SetTooltip("Steam Workshop")
@@ -635,7 +644,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 			end
 
 			local GithubButton = vgui.Create("DImageButton", MainPanel)
-			GithubButton:SetPos(TM.MenuScale(252), scrH - TM.MenuScale(74))
+			GithubButton:SetPos(TM.MenuScale(252), ScrH() - TM.MenuScale(74))
 			GithubButton:SetImage("icons/githubicon.png")
 			GithubButton:SetSize(TM.MenuScale(64), TM.MenuScale(64))
 			GithubButton:SetTooltip("GitHub")
@@ -652,11 +661,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 			end
 
 			local SpawnButton = vgui.Create("DButton", MainPanel)
-			SpawnButton:SetPos(0, scrH / 2 - TM.MenuScale(50) - TM.MenuScale(pushSpawnItems))
+			SpawnButton:SetPos(0, ScrH() / 2 - TM.MenuScale(50) - TM.MenuScale(pushSpawnItems))
 			SpawnButton:SetText("")
 			SpawnButton:SetSize(TM.MenuScale(535), TM.MenuScale(100))
 			SpawnButton.Paint = function()
-				SpawnButton:SetPos(0, scrH / 2 - TM.MenuScale(50) - TM.MenuScale(pushSpawnItems))
+				SpawnButton:SetPos(0, ScrH() / 2 - TM.MenuScale(50) - TM.MenuScale(pushSpawnItems))
+
 				if !timer.Exists("respawnTimeLeft") then
 					if SpawnButton:IsHovered() then
 						spawnTextAnim = math.Clamp(spawnTextAnim + 200 * RealFrameTime(), 0, 20)
@@ -665,13 +675,22 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					draw.DrawText("SPAWN", "AmmoCountSmall", TM.MenuScale(5) + TM.MenuScale(spawnTextAnim), TM.MenuScale(5), white, TEXT_ALIGN_LEFT)
+
 					for i = 1, #WEAPONS do
 						if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
-							draw.SimpleText(LocalPly:GetNWInt("ladderPosition") .. " / " .. gunGameSize:GetInt() .. " kills", "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
+							draw.SimpleText(LocalPlayer():GetNWInt("ladderPosition") .. " / " .. gunGameSize:GetInt() .. " kills", "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
 						else
-							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutPrimary") then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT) end
-							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutSecondary") then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(40) , white, TEXT_ALIGN_LEFT) end
-							if WEAPONS[i][1] == LocalPly:GetNWString("loadoutMelee") then draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(65), white, TEXT_ALIGN_LEFT) end
+							if WEAPONS[i][1] == LocalPlayer():GetNWString("loadoutPrimary") then
+								draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
+							end
+
+							if WEAPONS[i][1] == LocalPlayer():GetNWString("loadoutSecondary") then
+								draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(40) , white, TEXT_ALIGN_LEFT)
+							end
+
+							if WEAPONS[i][1] == LocalPlayer():GetNWString("loadoutMelee") then
+								draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(65), white, TEXT_ALIGN_LEFT)
+							end
 						end
 					end
 				else
@@ -700,7 +719,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 			local CustomizeLoadoutButton = vgui.Create("DButton", CustomizeButton)
 			local CustomizeModelButton = vgui.Create("DButton", CustomizeButton)
 			local CustomizeCardButton = vgui.Create("DButton", CustomizeButton)
-			CustomizeButton:SetPos(0, scrH / 2 + TM.MenuScale(50))
+			CustomizeButton:SetPos(0, ScrH() / 2 + TM.MenuScale(50))
 			CustomizeButton:SetText("")
 			CustomizeButton:SetSize(TM.MenuScale(530), TM.MenuScale(100))
 			local textAnim = 0
@@ -708,12 +727,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				if CustomizeButton:IsHovered() or CustomizeLoadoutButton:IsHovered() or CustomizeModelButton:IsHovered() or CustomizeCardButton:IsHovered() then
 					textAnim = math.Clamp(textAnim + 200 * RealFrameTime(), 0, 20)
 					pushSpawnItems = math.Clamp(pushSpawnItems + 600 * RealFrameTime(), 100, 150)
-					CustomizeButton:SetPos(0, scrH / 2 + TM.MenuScale(50) - TM.MenuScale(pushSpawnItems))
+					CustomizeButton:SetPos(0, ScrH() / 2 + TM.MenuScale(50) - TM.MenuScale(pushSpawnItems))
 					CustomizeButton:SizeTo(TM.MenuScale(530), TM.MenuScale(200), 0, 0, 1)
 				else
 					textAnim = math.Clamp(textAnim - 200 * RealFrameTime(), 0, 20)
 					pushSpawnItems = math.Clamp(pushSpawnItems - 600 * RealFrameTime(), 100, 150)
-					CustomizeButton:SetPos(0, scrH / 2 + TM.MenuScale(50) - TM.MenuScale(pushSpawnItems))
+					CustomizeButton:SetPos(0, ScrH() / 2 + TM.MenuScale(50) - TM.MenuScale(pushSpawnItems))
 					CustomizeButton:SizeTo(TM.MenuScale(530), TM.MenuScale(100), 0, 0, 1)
 				end
 				draw.DrawText("CUSTOMIZE", "AmmoCountSmall", TM.MenuScale(5) + TM.MenuScale(textAnim), TM.MenuScale(5), white, TEXT_ALIGN_LEFT)
@@ -744,10 +763,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				if IsValid(GearPanel) then return end
 				TriggerSound("click")
 				MainPanel:AlphaTo(0, 0.05, 0, function() MainPanel:Hide() end)
-				local currentGear = LocalPly:GetNWString("chosenMelee")
+				local currentGear = LocalPlayer():GetNWString("chosenMelee")
 
 				local GearPanel = vgui.Create("DPanel", MainMenu)
-				GearPanel:SetSize(TM.MenuScale(645), scrH)
+				GearPanel:SetSize(TM.MenuScale(645), ScrH())
 				GearPanel:SetPos(TM.MenuScale(56), 0)
 				GearPanel:SetAlpha(0)
 				GearPanel.Paint = function(self, w, h)
@@ -755,7 +774,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				end
 
 				local GearSlideoutPanel = vgui.Create("DPanel", MainMenu)
-				GearSlideoutPanel:SetSize(TM.MenuScale(56), scrH)
+				GearSlideoutPanel:SetSize(TM.MenuScale(56), ScrH())
 				GearSlideoutPanel:SetPos(0, 0)
 				GearSlideoutPanel:SetAlpha(0)
 				GearSlideoutPanel.Paint = function(self, w, h)
@@ -764,11 +783,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 				local GearQuickjumpHolder = vgui.Create("DPanel", GearSlideoutPanel)
 				GearQuickjumpHolder:Dock(TOP)
-				GearQuickjumpHolder:SetSize(0, scrH)
+				GearQuickjumpHolder:SetSize(0, ScrH())
 				GearQuickjumpHolder:SetAlpha(0)
 				GearQuickjumpHolder.Paint = function(self, w, h)
 					draw.RoundedBox(0, 0, 0, w, h, lightGray)
-					draw.RoundedBox(0, TM.MenuScale(4), scrH - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
+					draw.RoundedBox(0, TM.MenuScale(4), ScrH() - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
 				end
 
 				GearPanel:AlphaTo(255, 0.05, 0.025)
@@ -798,7 +817,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local progressionGearTotal = 0
 				local progressionGearUnlocked = 0
 
-				local playerTotalLevel = (LocalPly:GetNWInt("playerPrestige") * 60) + LocalPly:GetNWInt("playerLevel")
+				local playerTotalLevel = (LocalPlayer():GetNWInt("playerPrestige") * 60) + LocalPlayer():GetNWInt("playerLevel")
 
 				-- checking for the players currently equipped gear
 				for i = 1, #GEAR do
@@ -902,7 +921,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				end
 
 				local GearPreviewPanel = vgui.Create("DPanel", MainMenu)
-				GearPreviewPanel:SetSize(TM.MenuScale(1450), scrH)
+				GearPreviewPanel:SetSize(TM.MenuScale(1450), ScrH())
 				GearPreviewPanel:SetPos(TM.MenuScale(700), 0)
 				GearPreviewPanel:SetAlpha(0)
 				GearPreviewPanel.Paint = function(self, w, h)
@@ -922,7 +941,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					if IsValid(SelectedGearDisplay) then SelectedGearDisplay:Remove() end
 					SelectedGearDisplay = vgui.Create("DModelPanel", SelectedGearHolder)
 					SelectedGearDisplay:SetAlpha(0)
-					SelectedGearDisplay:SetSize(TM.MenuScale(1450), scrH)
+					SelectedGearDisplay:SetSize(TM.MenuScale(1450), ScrH())
 					SelectedGearDisplay:SetPos(TM.MenuScale(-525), 0)
 					SelectedGearDisplay:SetMouseInputEnabled(true)
 					SelectedGearDisplay:SetDirectionalLight(BOX_RIGHT, Color(255, 160, 80, 255))
@@ -999,7 +1018,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						elseif GEAR[i][4] == "melee" then
 							progressionGearTotal = progressionGearTotal + 1
 
-							if (GEAR[i][4] == "melee" and LocalPly:GetNWInt("playerAccoladeSmackdown") < GEAR[i][5] and GEAR[i][4] == "melee" and playerTotalLevel < GEAR[i][6]) and !unlockAllCVar:GetBool() then
+							if (GEAR[i][4] == "melee" and LocalPlayer():GetNWInt("playerAccoladeSmackdown") < GEAR[i][5] and GEAR[i][4] == "melee" and playerTotalLevel < GEAR[i][6]) and !unlockAllCVar:GetBool() then
 								table.insert(lockedGear, GEAR[i])
 							else
 								local gear = vgui.Create("DButton", DockProgressionGear)
@@ -1011,7 +1030,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 
-									draw.SimpleTextOutlined("Melee Kills: " .. LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. GEAR[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 								end
@@ -1058,7 +1077,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								draw.SimpleTextOutlined(string.upper(lockedGear[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 								draw.SimpleTextOutlined("Locked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidRed, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 
-								draw.SimpleTextOutlined("Melee Kills: " .. LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. lockedGear[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidRed, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+								draw.SimpleTextOutlined("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. lockedGear[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidRed, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 								draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 								draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. lockedGear[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidRed, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 							end
@@ -1135,7 +1154,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						elseif GEAR[i][4] == "melee" then
 							progressionGearTotal = progressionGearTotal + 1
 
-							if GEAR[i][4] == "melee" and LocalPly:GetNWInt("playerAccoladeSmackdown") < GEAR[i][5] and GEAR[i][4] == "melee" and playerTotalLevel < GEAR[i][6] then
+							if GEAR[i][4] == "melee" and LocalPlayer():GetNWInt("playerAccoladeSmackdown") < GEAR[i][5] and GEAR[i][4] == "melee" and playerTotalLevel < GEAR[i][6] then
 								return
 							else
 								local gear = vgui.Create("DButton", DockProgressionGear)
@@ -1147,7 +1166,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 
-									draw.SimpleTextOutlined("Melee Kills: " .. LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 									draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. GEAR[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
 								end
@@ -1218,7 +1237,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				GearIcon:SetImage("icons/gearicon.png")
 
 				local BackButtonSlideout = vgui.Create("DImageButton", GearQuickjumpHolder)
-				BackButtonSlideout:SetPos(TM.MenuScale(12), scrH - TM.MenuScale(44))
+				BackButtonSlideout:SetPos(TM.MenuScale(12), ScrH() - TM.MenuScale(44))
 				BackButtonSlideout:SetSize(TM.MenuScale(32), TM.MenuScale(32))
 				BackButtonSlideout:SetImage("icons/exiticon.png")
 				BackButtonSlideout:SetTooltip("Return to Main Menu")
@@ -1236,11 +1255,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				if IsValid(CardPanel) then return end
 				TriggerSound("click")
 				MainPanel:AlphaTo(0, 0.05, 0, function() MainPanel:Hide() end)
-				local currentCard = LocalPly:GetNWString("chosenPlayercard")
+				local currentCard = LocalPlayer():GetNWString("chosenPlayercard")
 
 				if !IsValid(CardPanel) then
 					local CardPanel = vgui.Create("DPanel", MainMenu)
-					CardPanel:SetSize(TM.MenuScale(745), scrH)
+					CardPanel:SetSize(TM.MenuScale(745), ScrH())
 					CardPanel:SetPos(TM.MenuScale(56), 0)
 					CardPanel:SetAlpha(0)
 					CardPanel.Paint = function(self, w, h)
@@ -1248,7 +1267,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local CardSlideoutPanel = vgui.Create("DPanel", MainMenu)
-					CardSlideoutPanel:SetSize(TM.MenuScale(56), scrH)
+					CardSlideoutPanel:SetSize(TM.MenuScale(56), ScrH())
 					CardSlideoutPanel:SetPos(0, 0)
 					CardSlideoutPanel:SetAlpha(0)
 					CardSlideoutPanel.Paint = function(self, w, h)
@@ -1257,11 +1276,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local CardQuickjumpHolder = vgui.Create("DPanel", CardSlideoutPanel)
 					CardQuickjumpHolder:Dock(TOP)
-					CardQuickjumpHolder:SetSize(0, scrH)
+					CardQuickjumpHolder:SetSize(0, ScrH())
 					CardQuickjumpHolder:SetAlpha(0)
 					CardQuickjumpHolder.Paint = function(self, w, h)
 						draw.RoundedBox(0, 0, 0, w, h, lightGray)
-						draw.RoundedBox(0, TM.MenuScale(4), scrH - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
+						draw.RoundedBox(0, TM.MenuScale(4), ScrH() - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
 					end
 
 					CardPanel:AlphaTo(255, 0.05, 0.025)
@@ -1304,7 +1323,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local prideCardsTotal = 0
 					local prideCardsUnlocked = 0
 
-					local playerTotalLevel = (LocalPly:GetNWInt("playerPrestige") * 60) + LocalPly:GetNWInt("playerLevel")
+					local playerTotalLevel = (LocalPlayer():GetNWInt("playerPrestige") * 60) + LocalPlayer():GetNWInt("playerLevel")
 
 					-- checking for the players currently equipped card
 					for i = 1, #CARDS do
@@ -1498,7 +1517,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					ProfilePicture = vgui.Create("AvatarImage", CallingCard)
 					ProfilePicture:SetPos(TM.MenuScale(5), TM.MenuScale(5))
 					ProfilePicture:SetSize(TM.MenuScale(70), TM.MenuScale(70))
-					ProfilePicture:SetPlayer(LocalPly, 184)
+					ProfilePicture:SetPlayer(LocalPlayer(), 184)
 
 					local previewRed = Color(255, 0, 0, 5)
 					local previewGreen = Color(0, 255, 0, 5)
@@ -1532,113 +1551,113 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
 							previewColor = previewGreen
 						elseif newCardUnlockType == "kills" then
-							if LocalPly:GetNWInt("playerKills") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("playerKills") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Kills: " .. LocalPly:GetNWInt("playerKills") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Kills: " .. LocalPlayer():GetNWInt("playerKills") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Kills: " .. LocalPly:GetNWInt("playerKills") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Kills: " .. LocalPlayer():GetNWInt("playerKills") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "streak" then
-							if LocalPly:GetNWInt("highestKillStreak") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("highestKillStreak") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Highest Streak: " .. LocalPly:GetNWInt("highestKillStreak") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Highest Streak: " .. LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Highest Streak: " .. LocalPly:GetNWInt("highestKillStreak") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Highest Streak: " .. LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "matches" then
-							if LocalPly:GetNWInt("matchesPlayed") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("matchesPlayed") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Matches Played: " .. LocalPly:GetNWInt("matchesPlayed") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Matches Played: " .. LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Matches Played: " .. LocalPly:GetNWInt("matchesPlayed") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Matches Played: " .. LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "wins" then
-							if LocalPly:GetNWInt("matchesWon") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("matchesWon") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Matches Won: " .. LocalPly:GetNWInt("matchesWon") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Matches Won: " .. LocalPlayer():GetNWInt("matchesWon") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Matches Won: " .. LocalPly:GetNWInt("matchesWon") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Matches Won: " .. LocalPlayer():GetNWInt("matchesWon") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "headshot" then
-							if LocalPly:GetNWInt("playerAccoladeHeadshot") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("playerAccoladeHeadshot") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Headshots: " .. LocalPly:GetNWInt("playerAccoladeHeadshot") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Headshots: " .. LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Headshots: " .. LocalPly:GetNWInt("playerAccoladeHeadshot") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Headshots: " .. LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "smackdown" then
-							if LocalPly:GetNWInt("playerAccoladeSmackdown") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("playerAccoladeSmackdown") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Melee Kills: " .. LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Melee Kills: " .. LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "clutch" then
-							if LocalPly:GetNWInt("playerAccoladeClutch") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("playerAccoladeClutch") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Clutches: " .. LocalPly:GetNWInt("playerAccoladeClutch") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Clutches: " .. LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Clutches: " .. LocalPly:GetNWInt("playerAccoladeClutch") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Clutches: " .. LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "longshot" then
-							if LocalPly:GetNWInt("playerAccoladeLongshot") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("playerAccoladeLongshot") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Longshots: " .. LocalPly:GetNWInt("playerAccoladeLongshot") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Longshots: " .. LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Longshots: " .. LocalPly:GetNWInt("playerAccoladeLongshot") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Longshots: " .. LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "pointblank" then
-							if LocalPly:GetNWInt("playerAccoladePointblank") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("playerAccoladePointblank") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Point Blanks: " .. LocalPly:GetNWInt("playerAccoladePointblank") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Point Blanks: " .. LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Point Blanks: " .. LocalPly:GetNWInt("playerAccoladePointblank") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Point Blanks: " .. LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "killstreaks" then
-							if LocalPly:GetNWInt("playerAccoladeOnStreak") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("playerAccoladeOnStreak") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Streaks Started: " .. LocalPly:GetNWInt("playerAccoladeOnStreak") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Streaks Started: " .. LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Streaks Started: " .. LocalPly:GetNWInt("playerAccoladeOnStreak") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Streaks Started: " .. LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "buzzkills" then
-							if LocalPly:GetNWInt("playerAccoladeBuzzkill") < newCardUnlockValue then
+							if LocalPlayer():GetNWInt("playerAccoladeBuzzkill") < newCardUnlockValue then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Buzzkills: " .. LocalPly:GetNWInt("playerAccoladeBuzzkill") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Buzzkills: " .. LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Buzzkills: " .. LocalPly:GetNWInt("playerAccoladeBuzzkill") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Buzzkills: " .. LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newCardUnlockValue, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "level" then
@@ -1652,13 +1671,13 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								previewColor = previewGreen
 							end
 						elseif newCardUnlockType == "mastery" then
-							if LocalPly:GetNWInt("killsWith_" .. newCardUnlockValue) < 50 then
+							if LocalPlayer():GetNWInt("killsWith_" .. newCardUnlockValue) < 50 then
 								draw.SimpleText("Locked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Kills w/ gun: " .. LocalPly:GetNWInt("killsWith_" .. newCardUnlockValue) .. "/" .. 50, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Kills w/ gun: " .. LocalPlayer():GetNWInt("killsWith_" .. newCardUnlockValue) .. "/" .. 50, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidRed, TEXT_ALIGN_LEFT)
 								previewColor = previewRed
 							else
 								draw.SimpleText("Unlocked", "PlayerNotiName", TM.MenuScale(490), TM.MenuScale(5), solidGreen, TEXT_ALIGN_LEFT)
-								draw.SimpleText("Kills w/ gun: " .. LocalPly:GetNWInt("killsWith_" .. newCardUnlockValue) .. "/" .. 50, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
+								draw.SimpleText("Kills w/ gun: " .. LocalPlayer():GetNWInt("killsWith_" .. newCardUnlockValue) .. "/" .. 50, "MainMenuDescription", TM.MenuScale(490), TM.MenuScale(65), solidGreen, TEXT_ALIGN_LEFT)
 								previewColor = previewGreen
 							end
 						end
@@ -1701,7 +1720,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif CARDS[i][4] == "kills" or CARDS[i][4] == "streak" or CARDS[i][4] == "matches" or CARDS[i][4] == "wins" then
 								statCardsTotal = statCardsTotal + 1
 
-								if (CARDS[i][4] == "kills" and LocalPly:GetNWInt("playerKills") < CARDS[i][5] or CARDS[i][4] == "streak" and LocalPly:GetNWInt("highestKillStreak") < CARDS[i][5] or CARDS[i][4] == "matches" and LocalPly:GetNWInt("matchesPlayed") < CARDS[i][5] or CARDS[i][4] == "wins" and LocalPly:GetNWInt("matchesWon") < CARDS[i][5]) and !unlockAllCVar:GetBool() then
+								if (CARDS[i][4] == "kills" and LocalPlayer():GetNWInt("playerKills") < CARDS[i][5] or CARDS[i][4] == "streak" and LocalPlayer():GetNWInt("highestKillStreak") < CARDS[i][5] or CARDS[i][4] == "matches" and LocalPlayer():GetNWInt("matchesPlayed") < CARDS[i][5] or CARDS[i][4] == "wins" and LocalPlayer():GetNWInt("matchesWon") < CARDS[i][5]) and !unlockAllCVar:GetBool() then
 									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockStatCards)
@@ -1734,7 +1753,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif CARDS[i][4] == "headshot" or CARDS[i][4] == "smackdown" or CARDS[i][4] == "clutch" or CARDS[i][4] == "longshot" or CARDS[i][4] == "pointblank" or CARDS[i][4] == "killstreaks" or CARDS[i][4] == "buzzkills" then
 								accoladeCardsTotal = accoladeCardsTotal + 1
 
-								if (CARDS[i][4] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < CARDS[i][5] or CARDS[i][4] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < CARDS[i][5] or CARDS[i][4] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < CARDS[i][5] or CARDS[i][4] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < CARDS[i][5] or CARDS[i][4] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < CARDS[i][5] or CARDS[i][4] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < CARDS[i][5] or CARDS[i][4] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < CARDS[i][5]) and !unlockAllCVar:GetBool() then
+								if (CARDS[i][4] == "headshot" and LocalPlayer():GetNWInt("playerAccoladeHeadshot") < CARDS[i][5] or CARDS[i][4] == "smackdown" and LocalPlayer():GetNWInt("playerAccoladeSmackdown") < CARDS[i][5] or CARDS[i][4] == "clutch" and LocalPlayer():GetNWInt("playerAccoladeClutch") < CARDS[i][5] or CARDS[i][4] == "longshot" and LocalPlayer():GetNWInt("playerAccoladeLongshot") < CARDS[i][5] or CARDS[i][4] == "pointblank" and LocalPlayer():GetNWInt("playerAccoladePointblank") < CARDS[i][5] or CARDS[i][4] == "killstreaks" and LocalPlayer():GetNWInt("playerAccoladeOnStreak") < CARDS[i][5] or CARDS[i][4] == "buzzkills" and LocalPlayer():GetNWInt("playerAccoladeBuzzkill") < CARDS[i][5]) and !unlockAllCVar:GetBool() then
 									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockAccoladeCards)
@@ -1858,7 +1877,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif CARDS[i][4] == "mastery" then
 								masteryCardsTotal = masteryCardsTotal + 1
 
-								if (CARDS[i][4] == "mastery" and LocalPly:GetNWInt("killsWith_" .. CARDS[i][5]) < 50) and !unlockAllCVar:GetBool() then
+								if (CARDS[i][4] == "mastery" and LocalPlayer():GetNWInt("killsWith_" .. CARDS[i][5]) < 50) and !unlockAllCVar:GetBool() then
 									table.insert(lockedCards, CARDS[i])
 								else
 									local card = vgui.Create("DImageButton", DockMasteryCards)
@@ -1903,7 +1922,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									surface.DrawRect(0, h - TM.MenuScale(5), TM.MenuScale(240), TM.MenuScale(5))
 
 									surface.SetDrawColor(255, 255, 0, 100)
-									if lockedCards[i][4] == "kills" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("playerKills") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "streak" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("highestKillStreak") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "matches" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("matchesPlayed") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "wins" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("matchesWon") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) end
+									if lockedCards[i][4] == "kills" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("playerKills") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "streak" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("highestKillStreak") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "matches" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("matchesPlayed") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "wins" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("matchesWon") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) end
 								end
 								local lockIndicator = vgui.Create("DImage", card)
 								lockIndicator:SetImage("icons/lockicon.png")
@@ -1940,7 +1959,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									surface.DrawRect(0, h - TM.MenuScale(5), TM.MenuScale(240), TM.MenuScale(5))
 
 									surface.SetDrawColor(255, 255, 0, 100)
-									if lockedCards[i][4] == "headshot" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("playerAccoladeHeadshot") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "smackdown" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("playerAccoladeSmackdown") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "clutch" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("playerAccoladeClutch") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "longshot" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("playerAccoladeLongshot") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "pointblank" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("playerAccoladePointblank") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "killstreaks" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("playerAccoladeOnStreak") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "buzzkills" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("playerAccoladeBuzzkill") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) end
+									if lockedCards[i][4] == "headshot" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("playerAccoladeHeadshot") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "smackdown" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("playerAccoladeSmackdown") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "clutch" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("playerAccoladeClutch") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "longshot" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("playerAccoladeLongshot") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "pointblank" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("playerAccoladePointblank") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "killstreaks" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("playerAccoladeOnStreak") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) elseif lockedCards[i][4] == "buzzkills" then surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("playerAccoladeBuzzkill") / lockedCards[i][5]) * TM.MenuScale(240), TM.MenuScale(5)) end
 								end
 								local lockIndicator = vgui.Create("DImage", card)
 								lockIndicator:SetImage("icons/lockicon.png")
@@ -2014,7 +2033,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 									surface.DrawRect(0, h - TM.MenuScale(5), TM.MenuScale(240), TM.MenuScale(5))
 
 									surface.SetDrawColor(255, 255, 0, 100)
-									surface.DrawRect(0, h - TM.MenuScale(5), (LocalPly:GetNWInt("killsWith_" .. lockedCards[i][5]) / TM.MenuScale(50)) * TM.MenuScale(240), TM.MenuScale(5))
+									surface.DrawRect(0, h - TM.MenuScale(5), (LocalPlayer():GetNWInt("killsWith_" .. lockedCards[i][5]) / TM.MenuScale(50)) * TM.MenuScale(240), TM.MenuScale(5))
 								end
 								local lockIndicator = vgui.Create("DImage", card)
 								lockIndicator:SetImage("icons/lockicon.png")
@@ -2077,7 +2096,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								card.DoClick = function() ApplyCard() end
 							elseif CARDS[i][4] == "kills" or CARDS[i][4] == "streak" or CARDS[i][4] == "matches" or CARDS[i][4] == "wins" then
 								statCardsTotal = statCardsTotal + 1
-								if CARDS[i][4] == "kills" and LocalPly:GetNWInt("playerKills") >= CARDS[i][5] or CARDS[i][4] == "streak" and LocalPly:GetNWInt("highestKillStreak") >= CARDS[i][5] or CARDS[i][4] == "matches" and LocalPly:GetNWInt("matchesPlayed") >= CARDS[i][5] or CARDS[i][4] == "wins" and LocalPly:GetNWInt("matchesWon") >= CARDS[i][5] then
+								if CARDS[i][4] == "kills" and LocalPlayer():GetNWInt("playerKills") >= CARDS[i][5] or CARDS[i][4] == "streak" and LocalPlayer():GetNWInt("highestKillStreak") >= CARDS[i][5] or CARDS[i][4] == "matches" and LocalPlayer():GetNWInt("matchesPlayed") >= CARDS[i][5] or CARDS[i][4] == "wins" and LocalPlayer():GetNWInt("matchesWon") >= CARDS[i][5] then
 									local card = vgui.Create("DImageButton", DockStatCards)
 									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
@@ -2108,7 +2127,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 							elseif CARDS[i][4] == "headshot" or CARDS[i][4] == "smackdown" or CARDS[i][4] == "clutch" or CARDS[i][4] == "longshot" or CARDS[i][4] == "pointblank" or CARDS[i][4] == "killstreaks" or CARDS[i][4] == "buzzkills" then
 								accoladeCardsTotal = accoladeCardsTotal + 1
-								if CARDS[i][4] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") >= CARDS[i][5] or CARDS[i][4] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") >= CARDS[i][5] or CARDS[i][4] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") >= CARDS[i][5] or CARDS[i][4] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") >= CARDS[i][5] or CARDS[i][4] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") >= CARDS[i][5] or CARDS[i][4] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") >= CARDS[i][5] or CARDS[i][4] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") >= CARDS[i][5] then
+								if CARDS[i][4] == "headshot" and LocalPlayer():GetNWInt("playerAccoladeHeadshot") >= CARDS[i][5] or CARDS[i][4] == "smackdown" and LocalPlayer():GetNWInt("playerAccoladeSmackdown") >= CARDS[i][5] or CARDS[i][4] == "clutch" and LocalPlayer():GetNWInt("playerAccoladeClutch") >= CARDS[i][5] or CARDS[i][4] == "longshot" and LocalPlayer():GetNWInt("playerAccoladeLongshot") >= CARDS[i][5] or CARDS[i][4] == "pointblank" and LocalPlayer():GetNWInt("playerAccoladePointblank") >= CARDS[i][5] or CARDS[i][4] == "killstreaks" and LocalPlayer():GetNWInt("playerAccoladeOnStreak") >= CARDS[i][5] or CARDS[i][4] == "buzzkills" and LocalPlayer():GetNWInt("playerAccoladeBuzzkill") >= CARDS[i][5] then
 									local card = vgui.Create("DImageButton", DockAccoladeCards)
 									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
@@ -2228,7 +2247,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								end
 							elseif CARDS[i][4] == "mastery" then
 								masteryCardsTotal = masteryCardsTotal + 1
-								if CARDS[i][4] == "mastery" and LocalPly:GetNWInt("killsWith_" .. CARDS[i][5]) >= 50 then
+								if CARDS[i][4] == "mastery" and LocalPlayer():GetNWInt("killsWith_" .. CARDS[i][5]) >= 50 then
 									local card = vgui.Create("DImageButton", DockMasteryCards)
 									card:SetImage(CARDS[i][1])
 									card:SetSize(TM.MenuScale(240), TM.MenuScale(80))
@@ -2495,7 +2514,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local BackButtonSlideout = vgui.Create("DImageButton", CardQuickjumpHolder)
-					BackButtonSlideout:SetPos(TM.MenuScale(12), scrH - TM.MenuScale(44))
+					BackButtonSlideout:SetPos(TM.MenuScale(12), ScrH() - TM.MenuScale(44))
 					BackButtonSlideout:SetSize(TM.MenuScale(32), TM.MenuScale(32))
 					BackButtonSlideout:SetImage("icons/exiticon.png")
 					BackButtonSlideout:SetTooltip("Return to Main Menu")
@@ -2515,11 +2534,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				TriggerSound("click")
 				MainPanel:AlphaTo(0, 0.05, 0, function() MainPanel:Hide() end)
 
-				local currentModel = LocalPly:GetNWString("chosenPlayermodel")
+				local currentModel = LocalPlayer():GetNWString("chosenPlayermodel")
 
 				if !IsValid(ModelPanel) then
 					local ModelPanel = vgui.Create("DPanel", MainMenu)
-					ModelPanel:SetSize(TM.MenuScale(630), scrH)
+					ModelPanel:SetSize(TM.MenuScale(630), ScrH())
 					ModelPanel:SetPos(TM.MenuScale(56), 0)
 					ModelPanel:SetAlpha(0)
 					ModelPanel.Paint = function(self, w, h)
@@ -2527,7 +2546,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local ModelSlideoutPanel = vgui.Create("DPanel", MainMenu)
-					ModelSlideoutPanel:SetSize(TM.MenuScale(56), scrH)
+					ModelSlideoutPanel:SetSize(TM.MenuScale(56), ScrH())
 					ModelSlideoutPanel:SetPos(0, 0)
 					ModelSlideoutPanel:SetAlpha(0)
 					ModelSlideoutPanel.Paint = function(self, w, h)
@@ -2576,11 +2595,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local ModelQuickjumpHolder = vgui.Create("DPanel", ModelSlideoutPanel)
 					ModelQuickjumpHolder:Dock(TOP)
-					ModelQuickjumpHolder:SetSize(0, scrH)
+					ModelQuickjumpHolder:SetSize(0, ScrH())
 
 					ModelQuickjumpHolder.Paint = function(self, w, h)
 						draw.RoundedBox(0, 0, 0, w, h, lightGray)
-						draw.RoundedBox(0, TM.MenuScale(4), scrH - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
+						draw.RoundedBox(0, TM.MenuScale(4), ScrH() - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
 					end
 
 					ModelPanel:AlphaTo(255, 0.05, 0.025)
@@ -2671,7 +2690,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local ModelPreviewPanel = vgui.Create("DPanel", MainMenu)
-					ModelPreviewPanel:SetSize(TM.MenuScale(1450), scrH)
+					ModelPreviewPanel:SetSize(TM.MenuScale(1450), ScrH())
 					ModelPreviewPanel:SetPos(TM.MenuScale(686), 0)
 					ModelPreviewPanel:SetAlpha(0)
 					ModelPreviewPanel.Paint = function(self, w, h)
@@ -2691,7 +2710,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						if IsValid(SelectedModelDisplay) then SelectedModelDisplay:Remove() end
 						SelectedModelDisplay = vgui.Create("DModelPanel", SelectedModelHolder)
 						SelectedModelDisplay:SetAlpha(0)
-						SelectedModelDisplay:SetSize(TM.MenuScale(1450), scrH)
+						SelectedModelDisplay:SetSize(TM.MenuScale(1450), ScrH())
 						SelectedModelDisplay:SetPos(TM.MenuScale(-525), 0)
 						SelectedModelDisplay:SetMouseInputEnabled(true)
 						SelectedModelDisplay:SetDirectionalLight(BOX_RIGHT, Color(255, 160, 80, 255))
@@ -2805,7 +2824,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif MODELS[i][3] == "kills" or MODELS[i][3] == "streak" or MODELS[i][3] == "matches" or MODELS[i][3] == "wins" then
 								statModelsTotal = statModelsTotal + 1
 
-								if (MODELS[i][3] == "kills" and LocalPly:GetNWInt("playerKills") < MODELS[i][4] or MODELS[i][3] == "streak" and LocalPly:GetNWInt("highestKillStreak") < MODELS[i][4] or MODELS[i][3] == "matches" and LocalPly:GetNWInt("matchesPlayed") < MODELS[i][4] or MODELS[i][3] == "wins" and LocalPly:GetNWInt("matchesWon") < MODELS[i][4]) and !unlockAllCVar:GetBool() then
+								if (MODELS[i][3] == "kills" and LocalPlayer():GetNWInt("playerKills") < MODELS[i][4] or MODELS[i][3] == "streak" and LocalPlayer():GetNWInt("highestKillStreak") < MODELS[i][4] or MODELS[i][3] == "matches" and LocalPlayer():GetNWInt("matchesPlayed") < MODELS[i][4] or MODELS[i][3] == "wins" and LocalPlayer():GetNWInt("matchesWon") < MODELS[i][4]) and !unlockAllCVar:GetBool() then
 									table.insert(lockedModels, MODELS[i])
 								else
 									local icon = vgui.Create("SpawnIcon", DockModelsStats)
@@ -2863,16 +2882,16 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 
 											if newModelUnlockType == "kills" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "streak" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("HIGHEST STREAK", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "matches" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("MATCHES PLAYED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "wins" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("MATCHES WON", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											end
 
@@ -2895,7 +2914,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif MODELS[i][3] == "headshot" or MODELS[i][3] == "smackdown" or MODELS[i][3] == "clutch" or MODELS[i][3] == "longshot" or MODELS[i][3] == "pointblank" or MODELS[i][3] == "killstreaks" or MODELS[i][3] == "buzzkills" then
 								accoladeModelsTotal = accoladeModelsTotal + 1
 
-								if (MODELS[i][3] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") < MODELS[i][4] or MODELS[i][3] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") < MODELS[i][4] or MODELS[i][3] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") < MODELS[i][4] or MODELS[i][3] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") < MODELS[i][4] or MODELS[i][3] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") < MODELS[i][4] or MODELS[i][3] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") < MODELS[i][4] or MODELS[i][3] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") < MODELS[i][4]) and !unlockAllCVar:GetBool() then
+								if (MODELS[i][3] == "headshot" and LocalPlayer():GetNWInt("playerAccoladeHeadshot") < MODELS[i][4] or MODELS[i][3] == "smackdown" and LocalPlayer():GetNWInt("playerAccoladeSmackdown") < MODELS[i][4] or MODELS[i][3] == "clutch" and LocalPlayer():GetNWInt("playerAccoladeClutch") < MODELS[i][4] or MODELS[i][3] == "longshot" and LocalPlayer():GetNWInt("playerAccoladeLongshot") < MODELS[i][4] or MODELS[i][3] == "pointblank" and LocalPlayer():GetNWInt("playerAccoladePointblank") < MODELS[i][4] or MODELS[i][3] == "killstreaks" and LocalPlayer():GetNWInt("playerAccoladeOnStreak") < MODELS[i][4] or MODELS[i][3] == "buzzkills" and LocalPlayer():GetNWInt("playerAccoladeBuzzkill") < MODELS[i][4]) and !unlockAllCVar:GetBool() then
 									table.insert(lockedModels, MODELS[i])
 								else
 									local icon = vgui.Create("SpawnIcon", DockModelsAccolade)
@@ -2952,25 +2971,25 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 
 											if newModelUnlockType == "headshot" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("HEADSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "smackdown" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("MELEE KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "clutch" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("CLUTCHES", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "longshot" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("LONGSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "pointblank" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("POINT BLANKS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "killstreaks" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("STREAKS STARTED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "buzzkills" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("BUZZKILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											end
 
@@ -3052,16 +3071,16 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 
 										if newModelUnlockType == "kills" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
 											draw.SimpleTextOutlined("KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										elseif newModelUnlockType == "streak" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
 											draw.SimpleTextOutlined("HIGHEST STREAK", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										elseif newModelUnlockType == "matches" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
 											draw.SimpleTextOutlined("MATCHES PLAYED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										elseif newModelUnlockType == "wins" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
 											draw.SimpleTextOutlined("MATCHES WON", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										end
 									end
@@ -3136,25 +3155,25 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 
 										if newModelUnlockType == "headshot" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
 											draw.SimpleTextOutlined("HEADSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										elseif newModelUnlockType == "smackdown" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
 											draw.SimpleTextOutlined("MELEE KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										elseif newModelUnlockType == "clutch" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
 											draw.SimpleTextOutlined("CLUTCHES", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										elseif newModelUnlockType == "longshot" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(2550, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(2550, 0, 0, 15))
 											draw.SimpleTextOutlined("LONGSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										elseif newModelUnlockType == "pointblank" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(2550, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(2550, 0, 0, 15))
 											draw.SimpleTextOutlined("POINT BLANKS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										elseif newModelUnlockType == "killstreaks" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(2550, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(2550, 0, 0, 15))
 											draw.SimpleTextOutlined("STREAKS STARTED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										elseif newModelUnlockType == "buzzkills" then
-											draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
 											draw.SimpleTextOutlined("BUZZKILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 										end
 									end
@@ -3251,7 +3270,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								icon.DoClick = function() ApplyModel() end
 							elseif MODELS[i][3] == "kills" or MODELS[i][3] == "streak" or MODELS[i][3] == "matches" or MODELS[i][3] == "wins" then
 								statModelsTotal = statModelsTotal + 1
-								if MODELS[i][3] == "kills" and LocalPly:GetNWInt("playerKills") >= MODELS[i][4] or MODELS[i][3] == "streak" and LocalPly:GetNWInt("highestKillStreak") >= MODELS[i][4] or MODELS[i][3] == "matches" and LocalPly:GetNWInt("matchesPlayed") >= MODELS[i][4] or MODELS[i][3] == "wins" and LocalPly:GetNWInt("matchesWon") >= MODELS[i][4] then
+								if MODELS[i][3] == "kills" and LocalPlayer():GetNWInt("playerKills") >= MODELS[i][4] or MODELS[i][3] == "streak" and LocalPlayer():GetNWInt("highestKillStreak") >= MODELS[i][4] or MODELS[i][3] == "matches" and LocalPlayer():GetNWInt("matchesPlayed") >= MODELS[i][4] or MODELS[i][3] == "wins" and LocalPlayer():GetNWInt("matchesWon") >= MODELS[i][4] then
 									local icon = vgui.Create("SpawnIcon", DockModelsStats)
 									icon:SetModel(MODELS[i][1])
 									icon:SetSize(TM.MenuScale(150), TM.MenuScale(150))
@@ -3308,16 +3327,16 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 
 											if newModelUnlockType == "kills" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "streak" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("HIGHEST STREAK", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "matches" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("MATCHES PLAYED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "wins" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("MATCHES WON", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											end
 
@@ -3330,7 +3349,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							elseif MODELS[i][3] == "headshot" or MODELS[i][3] == "smackdown" or MODELS[i][3] == "clutch" or MODELS[i][3] == "longshot" or MODELS[i][3] == "pointblank" or MODELS[i][3] == "killstreaks" or MODELS[i][3] == "buzzkills" then
 								accoladeModelsTotal = accoladeModelsTotal + 1
 
-								if MODELS[i][3] == "headshot" and LocalPly:GetNWInt("playerAccoladeHeadshot") >= MODELS[i][4] or MODELS[i][3] == "smackdown" and LocalPly:GetNWInt("playerAccoladeSmackdown") >= MODELS[i][4] or MODELS[i][3] == "clutch" and LocalPly:GetNWInt("playerAccoladeClutch") >= MODELS[i][4] or MODELS[i][3] == "longshot" and LocalPly:GetNWInt("playerAccoladeLongshot") >= MODELS[i][4] or MODELS[i][3] == "pointblank" and LocalPly:GetNWInt("playerAccoladePointblank") >= MODELS[i][4] or MODELS[i][3] == "killstreaks" and LocalPly:GetNWInt("playerAccoladeOnStreak") >= MODELS[i][4] or MODELS[i][3] == "buzzkills" and LocalPly:GetNWInt("playerAccoladeBuzzkill") >= MODELS[i][4] then
+								if MODELS[i][3] == "headshot" and LocalPlayer():GetNWInt("playerAccoladeHeadshot") >= MODELS[i][4] or MODELS[i][3] == "smackdown" and LocalPlayer():GetNWInt("playerAccoladeSmackdown") >= MODELS[i][4] or MODELS[i][3] == "clutch" and LocalPlayer():GetNWInt("playerAccoladeClutch") >= MODELS[i][4] or MODELS[i][3] == "longshot" and LocalPlayer():GetNWInt("playerAccoladeLongshot") >= MODELS[i][4] or MODELS[i][3] == "pointblank" and LocalPlayer():GetNWInt("playerAccoladePointblank") >= MODELS[i][4] or MODELS[i][3] == "killstreaks" and LocalPlayer():GetNWInt("playerAccoladeOnStreak") >= MODELS[i][4] or MODELS[i][3] == "buzzkills" and LocalPlayer():GetNWInt("playerAccoladeBuzzkill") >= MODELS[i][4] then
 									local icon = vgui.Create("SpawnIcon", DockModelsAccolade)
 									icon:SetModel(MODELS[i][1])
 									icon:SetSize(TM.MenuScale(150), TM.MenuScale(150))
@@ -3386,25 +3405,25 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 
 											if newModelUnlockType == "headshot" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("HEADSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "smackdown" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("MELEE KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "clutch" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("CLUTCHES", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "longshot" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("LONGSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "pointblank" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("POINT BLANKS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "killstreaks" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("STREAKS STARTED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											elseif newModelUnlockType == "buzzkills" then
-												draw.SimpleTextOutlined(LocalPly:GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
 												draw.SimpleTextOutlined("BUZZKILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
 											end
 
@@ -3540,7 +3559,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local BackButtonSlideout = vgui.Create("DImageButton", ModelQuickjumpHolder)
-					BackButtonSlideout:SetPos(TM.MenuScale(12), scrH - TM.MenuScale(44))
+					BackButtonSlideout:SetPos(TM.MenuScale(12), ScrH() - TM.MenuScale(44))
 					BackButtonSlideout:SetSize(TM.MenuScale(32), TM.MenuScale(32))
 					BackButtonSlideout:SetImage("icons/exiticon.png")
 					BackButtonSlideout:SetTooltip("Return to Main Menu")
@@ -3558,7 +3577,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 			local OptionsButton = vgui.Create("DButton", MainPanel)
 			local OptionsSettingsButton = vgui.Create("DButton", OptionsButton)
 			local OptionsHUDButton = vgui.Create("DButton", OptionsButton)
-			OptionsButton:SetPos(0, scrH / 2 + TM.MenuScale(50))
+			OptionsButton:SetPos(0, ScrH() / 2 + TM.MenuScale(50))
 			OptionsButton:SetText("")
 			OptionsButton:SetSize(TM.MenuScale(405), TM.MenuScale(100))
 			local textAnim = 0
@@ -3607,11 +3626,11 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local OptionsQuickjumpHolder = vgui.Create("DPanel", OptionsSlideoutPanel)
 					OptionsQuickjumpHolder:Dock(TOP)
-					OptionsQuickjumpHolder:SetSize(0, scrH)
+					OptionsQuickjumpHolder:SetSize(0, ScrH())
 
 					OptionsQuickjumpHolder.Paint = function(self, w, h)
 						draw.RoundedBox(0, 0, 0, w, h, lightGray)
-						draw.RoundedBox(0, TM.MenuScale(4), scrH - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
+						draw.RoundedBox(0, TM.MenuScale(4), ScrH() - TM.MenuScale(52), TM.MenuScale(48), TM.MenuScale(48), transparentRed)
 					end
 
 					local OptionsScroller = vgui.Create("DScrollPanel", OptionsPanel)
@@ -3745,7 +3764,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local BackButtonSlideout = vgui.Create("DImageButton", OptionsQuickjumpHolder)
-					BackButtonSlideout:SetPos(TM.MenuScale(12), scrH - TM.MenuScale(44))
+					BackButtonSlideout:SetPos(TM.MenuScale(12), ScrH() - TM.MenuScale(44))
 					BackButtonSlideout:SetSize(TM.MenuScale(32), TM.MenuScale(32))
 					BackButtonSlideout:SetTooltip("Return to Main Menu")
 					BackButtonSlideout:SetImage("icons/exiticon.png")
@@ -4037,12 +4056,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					notificationToggle:SetConVar("tm_hud_notifications")
 					notificationToggle:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function notificationToggle:OnChange() TriggerSound("click") end
-
-					local dmgIndicatorToggle = DockUI:Add("DCheckBox")
-					dmgIndicatorToggle:SetPos(TM.MenuScale(20), TM.MenuScale(150))
-					dmgIndicatorToggle:SetConVar("tm_hud_dmgindicator")
-					dmgIndicatorToggle:SetSize(TM.MenuScale(30), TM.MenuScale(30))
-					function dmgIndicatorToggle:OnChange() TriggerSound("click") end
 
 					local reloadHintsToggle = DockUI:Add("DCheckBox")
 					reloadHintsToggle:SetPos(TM.MenuScale(20), TM.MenuScale(190))
@@ -4630,20 +4643,20 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					}
 					draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 0))
 					if GetConVar("tm_hud_ammo_style"):GetInt() == 0 then
-						draw.SimpleText(wep, "HUD_GunPrintName", scrW - TM.HUDScale(GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(50) - TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
-						if GetConVar("tm_hud_killtracker"):GetInt() == 1 then draw.SimpleText(health .. " kills", "HUD_StreakText", scrW - TM.HUDScale(5) - TM.HUDScale(GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(170) - TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
-						draw.SimpleText(ammo, "HUD_AmmoCount", scrW - TM.HUDScale(GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(165) - TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
+						draw.SimpleText(wep, "HUD_GunPrintName", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(50) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
+						if GetConVar("tm_hud_killtracker"):GetInt() == 1 then draw.SimpleText(health .. " kills", "HUD_StreakText", ScrW() - TM.ScreenScale(5) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(170) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
+						draw.SimpleText(ammo, "HUD_AmmoCount", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(165) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
 					elseif GetConVar("tm_hud_ammo_style"):GetInt() == 1 then
-						draw.SimpleText(wep, "HUD_GunPrintName", scrW - TM.HUDScale(GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(90) - TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
-						if GetConVar("tm_hud_killtracker"):GetInt() == 1 then draw.SimpleText(health .. " kills", "HUD_StreakText", scrW - TM.HUDScale(GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(105) - TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
+						draw.SimpleText(wep, "HUD_GunPrintName", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(90) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
+						if GetConVar("tm_hud_killtracker"):GetInt() == 1 then draw.SimpleText(health .. " kills", "HUD_StreakText", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(105) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
 						surface.SetDrawColor(GetConVar("tm_hud_ammo_bar_color_r"):GetInt() - 205, GetConVar("tm_hud_ammo_bar_color_g"):GetInt() - 205, GetConVar("tm_hud_ammo_bar_color_b"):GetInt() - 205, 80)
-						surface.DrawRect(scrW - TM.HUDScale(400) - TM.HUDScale(GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(30) - TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(400), TM.HUDScale(30))
+						surface.DrawRect(ScrW() - TM.ScreenScale(400) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(400), TM.ScreenScale(30))
 						surface.SetDrawColor(GetConVar("tm_hud_ammo_bar_color_r"):GetInt(), GetConVar("tm_hud_ammo_bar_color_g"):GetInt(), GetConVar("tm_hud_ammo_bar_color_b"):GetInt(), 175)
-						surface.DrawRect(scrW - TM.HUDScale(400) - TM.HUDScale(GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(30) - TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(400) * (ammo / 30), TM.HUDScale(30))
-						draw.SimpleText(ammo, "HUD_Health", scrW - TM.HUDScale(390) - TM.HUDScale(GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(30) - TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
+						surface.DrawRect(ScrW() - TM.ScreenScale(400) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(400) * (ammo / 30), TM.ScreenScale(30))
+						draw.SimpleText(ammo, "HUD_Health", ScrW() - TM.ScreenScale(390) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
 					end
 					surface.SetDrawColor(50, 50, 50, 80)
-					surface.DrawRect(TM.HUDScale(GetConVar("tm_hud_health_offset_x"):GetInt() + (GetConVar("tm_hud_bounds_x"):GetInt())), scrH - TM.HUDScale(30) - TM.HUDScale(GetConVar("tm_hud_health_offset_y"):GetInt() + (GetConVar("tm_hud_bounds_y"):GetInt())), TM.HUDScale(GetConVar("tm_hud_health_size"):GetInt()), TM.HUDScale(30))
+					surface.DrawRect(TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + (GetConVar("tm_hud_bounds_x"):GetInt())), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + (GetConVar("tm_hud_bounds_y"):GetInt())), TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()), TM.ScreenScale(30))
 					if health <= 66 then
 						if health <= 33 then
 							surface.SetDrawColor(GetConVar("tm_hud_health_color_low_r"):GetInt(), GetConVar("tm_hud_health_color_low_g"):GetInt(), GetConVar("tm_hud_health_color_low_b"):GetInt(), 120)
@@ -4653,32 +4666,32 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					else
 						surface.SetDrawColor(GetConVar("tm_hud_health_color_high_r"):GetInt(), GetConVar("tm_hud_health_color_high_g"):GetInt(), GetConVar("tm_hud_health_color_high_b"):GetInt(), 120)
 					end
-					surface.DrawRect(TM.HUDScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(30) - TM.HUDScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(GetConVar("tm_hud_health_size"):GetInt()) * (health / 100), TM.HUDScale(30))
-					draw.SimpleText(health, "HUD_Health", TM.HUDScale(GetConVar("tm_hud_health_size"):GetInt()) + TM.HUDScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.HUDScale(10), scrH - TM.HUDScale(30) - TM.HUDScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
+					surface.DrawRect(TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()) * (health / 100), TM.ScreenScale(30))
+					draw.SimpleText(health, "HUD_Health", TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()) + TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
 					local feedStyle
 					if GetConVar("tm_hud_killfeed_style"):GetInt() == 0 then
-						feedStyle = TM.HUDScale(-20)
+						feedStyle = TM.ScreenScale(-20)
 					else
-						feedStyle = TM.HUDScale(20)
+						feedStyle = TM.ScreenScale(20)
 					end
 					surface.SetFont("HUD_StreakText")
 					for k, v in pairs(fakeFeedArray) do
 						if v[2] == 1 and v[2] != nil then surface.SetDrawColor(150, 50, 50, GetConVar("tm_hud_killfeed_opacity"):GetInt()) else surface.SetDrawColor(50, 50, 50, GetConVar("tm_hud_killfeed_opacity"):GetInt()) end
 						local nameLength = select(1, surface.GetTextSize(v[1]))
 
-						surface.DrawRect(TM.HUDScale(GetConVar("tm_hud_killfeed_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(20) + ((k - 1) * feedStyle) - TM.HUDScale(GetConVar("tm_hud_killfeed_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), nameLength + TM.HUDScale(5), TM.HUDScale(20))
-						draw.SimpleText(v[1], "HUD_StreakText", TM.HUDScale(2.5) + TM.HUDScale(GetConVar("tm_hud_killfeed_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), scrH - TM.HUDScale(22) + ((k - 1) * feedStyle) - TM.HUDScale(GetConVar("tm_hud_killfeed_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
+						surface.DrawRect(TM.ScreenScale(GetConVar("tm_hud_killfeed_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(20) + ((k - 1) * feedStyle) - TM.ScreenScale(GetConVar("tm_hud_killfeed_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), nameLength + TM.ScreenScale(5), TM.ScreenScale(20))
+						draw.SimpleText(v[1], "HUD_StreakText", TM.ScreenScale(2.5) + TM.ScreenScale(GetConVar("tm_hud_killfeed_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(22) + ((k - 1) * feedStyle) - TM.ScreenScale(GetConVar("tm_hud_killfeed_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
 					end
 					surface.SetMaterial(grappleMat)
 					surface.SetDrawColor(255,255,255,255)
-					surface.DrawTexturedRect(TM.HUDScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.HUDScale(45), scrH - TM.HUDScale(40) - TM.HUDScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(35), TM.HUDScale(40))
-					draw.SimpleText("[" .. string.upper(input.GetKeyName(GetConVar("tm_grapplebind"):GetInt())) .. "]", "HUD_StreakText", TM.HUDScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.HUDScale(27.5), scrH - TM.HUDScale(65) - TM.HUDScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+					surface.DrawTexturedRect(TM.ScreenScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.ScreenScale(45), ScrH() - TM.ScreenScale(40) - TM.ScreenScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(35), TM.ScreenScale(40))
+					draw.SimpleText("[" .. string.upper(input.GetKeyName(GetConVar("tm_grapplebind"):GetInt())) .. "]", "HUD_StreakText", TM.ScreenScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - TM.ScreenScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 					surface.SetMaterial(nadeMat)
 					surface.SetDrawColor(255,255,255,255)
-					surface.DrawTexturedRect(TM.HUDScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) + TM.HUDScale(10), scrH - TM.HUDScale(40) - TM.HUDScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(35), TM.HUDScale(40))
+					surface.DrawTexturedRect(TM.ScreenScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) + TM.ScreenScale(10), ScrH() - TM.ScreenScale(40) - TM.ScreenScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(35), TM.ScreenScale(40))
 					if GetConVar("tm_hud_keypressoverlay"):GetInt() == 1 then
-						local keyX = TM.HUDScale(GetConVar("tm_hud_keypressoverlay_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt())
-						local keyY = TM.HUDScale(GetConVar("tm_hud_keypressoverlay_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt())
+						local keyX = TM.ScreenScale(GetConVar("tm_hud_keypressoverlay_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt())
+						local keyY = TM.ScreenScale(GetConVar("tm_hud_keypressoverlay_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt())
 						local actuatedColor = Color(GetConVar("tm_hud_keypressoverlay_actuated_r"):GetInt(), GetConVar("tm_hud_keypressoverlay_actuated_g"):GetInt(), GetConVar("tm_hud_keypressoverlay_actuated_b"):GetInt())
 						local inactiveColor = Color(GetConVar("tm_hud_keypressoverlay_inactive_r"):GetInt(), GetConVar("tm_hud_keypressoverlay_inactive_g"):GetInt(), GetConVar("tm_hud_keypressoverlay_inactive_b"):GetInt())
 						local keyMat = Material("icons/keyicon.png")
@@ -4686,61 +4699,61 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						local keyMatLong = Material("icons/keyiconlong.png")
 						surface.SetMaterial(keyMat)
 						surface.SetDrawColor(actuatedColor)
-						surface.DrawTexturedRect(TM.HUDScale(48) + keyX, 0 + keyY, TM.HUDScale(42), TM.HUDScale(42))
+						surface.DrawTexturedRect(TM.ScreenScale(48) + keyX, 0 + keyY, TM.ScreenScale(42), TM.ScreenScale(42))
 						surface.SetDrawColor(actuatedColor)
-						surface.DrawTexturedRect(0 + keyX, TM.HUDScale(48) + keyY, TM.HUDScale(42), TM.HUDScale(42))
+						surface.DrawTexturedRect(0 + keyX, TM.ScreenScale(48) + keyY, TM.ScreenScale(42), TM.ScreenScale(42))
 						surface.SetDrawColor(inactiveColor)
-						surface.DrawTexturedRect(TM.HUDScale(48) + keyX, TM.HUDScale(48) + keyY, TM.HUDScale(42), TM.HUDScale(42))
+						surface.DrawTexturedRect(TM.ScreenScale(48) + keyX, TM.ScreenScale(48) + keyY, TM.ScreenScale(42), TM.ScreenScale(42))
 						surface.SetDrawColor(inactiveColor)
-						surface.DrawTexturedRect(TM.HUDScale(96) + keyX, TM.HUDScale(48) + keyY, TM.HUDScale(42), TM.HUDScale(42))
+						surface.DrawTexturedRect(TM.ScreenScale(96) + keyX, TM.ScreenScale(48) + keyY, TM.ScreenScale(42), TM.ScreenScale(42))
 						surface.SetMaterial(keyMatLong)
 						surface.SetDrawColor(actuatedColor)
-						surface.DrawTexturedRect(0 + keyX, TM.HUDScale(96) + keyY, TM.HUDScale(138), TM.HUDScale(42))
+						surface.DrawTexturedRect(0 + keyX, TM.ScreenScale(96) + keyY, TM.ScreenScale(138), TM.ScreenScale(42))
 						surface.SetMaterial(keyMatMed)
 						surface.SetDrawColor(inactiveColor)
-						surface.DrawTexturedRect(0 + keyX, TM.HUDScale(144) + keyY, TM.HUDScale(66), TM.HUDScale(42))
+						surface.DrawTexturedRect(0 + keyX, TM.ScreenScale(144) + keyY, TM.ScreenScale(66), TM.ScreenScale(42))
 						surface.SetDrawColor(actuatedColor)
-						surface.DrawTexturedRect(TM.HUDScale(72) + keyX, TM.HUDScale(144) + keyY, TM.HUDScale(66), TM.HUDScale(42))
-						draw.SimpleText("W", "HUD_StreakText", TM.HUDScale(69) + keyX, TM.HUDScale(10) + keyY, actuatedColor, TEXT_ALIGN_CENTER)
-						draw.SimpleText("A", "HUD_StreakText", TM.HUDScale(21) + keyX, TM.HUDScale(58) + keyY, actuatedColor, TEXT_ALIGN_CENTER)
-						draw.SimpleText("S", "HUD_StreakText", TM.HUDScale(69) + keyX, TM.HUDScale(58) + keyY, inactiveColor, TEXT_ALIGN_CENTER)
-						draw.SimpleText("D", "HUD_StreakText", TM.HUDScale(117) + keyX, TM.HUDScale(58) + keyY, inactiveColor, TEXT_ALIGN_CENTER)
-						draw.SimpleText("JUMP", "HUD_StreakText", TM.HUDScale(69) + keyX, TM.HUDScale(106) + keyY, actuatedColor, TEXT_ALIGN_CENTER)
-						draw.SimpleText("RUN", "HUD_StreakText", TM.HUDScale(33) + keyX, TM.HUDScale(154) + keyY, inactiveColor, TEXT_ALIGN_CENTER)
-						draw.SimpleText("DUCK", "HUD_StreakText", TM.HUDScale(105) + keyX, TM.HUDScale(154) + keyY, actuatedColor, TEXT_ALIGN_CENTER)
+						surface.DrawTexturedRect(TM.ScreenScale(72) + keyX, TM.ScreenScale(144) + keyY, TM.ScreenScale(66), TM.ScreenScale(42))
+						draw.SimpleText("W", "HUD_StreakText", TM.ScreenScale(69) + keyX, TM.ScreenScale(10) + keyY, actuatedColor, TEXT_ALIGN_CENTER)
+						draw.SimpleText("A", "HUD_StreakText", TM.ScreenScale(21) + keyX, TM.ScreenScale(58) + keyY, actuatedColor, TEXT_ALIGN_CENTER)
+						draw.SimpleText("S", "HUD_StreakText", TM.ScreenScale(69) + keyX, TM.ScreenScale(58) + keyY, inactiveColor, TEXT_ALIGN_CENTER)
+						draw.SimpleText("D", "HUD_StreakText", TM.ScreenScale(117) + keyX, TM.ScreenScale(58) + keyY, inactiveColor, TEXT_ALIGN_CENTER)
+						draw.SimpleText("JUMP", "HUD_StreakText", TM.ScreenScale(69) + keyX, TM.ScreenScale(106) + keyY, actuatedColor, TEXT_ALIGN_CENTER)
+						draw.SimpleText("RUN", "HUD_StreakText", TM.ScreenScale(33) + keyX, TM.ScreenScale(154) + keyY, inactiveColor, TEXT_ALIGN_CENTER)
+						draw.SimpleText("DUCK", "HUD_StreakText", TM.ScreenScale(105) + keyX, TM.ScreenScale(154) + keyY, actuatedColor, TEXT_ALIGN_CENTER)
 					end
 					if GetConVar("tm_hud_velocitycounter"):GetInt() == 1 then
-						draw.SimpleText(velocity .. " u/s", "HUD_Health", TM.HUDScale(GetConVar("tm_hud_velocitycounter_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), TM.HUDScale(GetConVar("tm_hud_velocitycounter_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+						draw.SimpleText(velocity .. " u/s", "HUD_Health", TM.ScreenScale(GetConVar("tm_hud_velocitycounter_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), TM.ScreenScale(GetConVar("tm_hud_velocitycounter_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 					end
 					timeText = string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i")
-					draw.SimpleText(mode .. " |" .. timeText, "HUD_Health", scrW / 2, TM.HUDScale(-5) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+					draw.SimpleText(mode .. " |" .. timeText, "HUD_Health", ScrW() / 2, TM.ScreenScale(-5) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 
 					if mode == "Gun Game" then
-						draw.SimpleText(ggGuns  .. " kills left", "HUD_Health", scrW / 2, TM.HUDScale(25) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+						draw.SimpleText(ggGuns  .. " kills left", "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 					elseif mode == "Fiesta" then
-						draw.SimpleText(modeTimeText, "HUD_Health", scrW / 2, TM.HUDScale(25) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+						draw.SimpleText(modeTimeText, "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 					elseif mode == "Cranked" then
-						draw.SimpleText(modeTime, "HUD_Health", scrW / 2, TM.HUDScale(25) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+						draw.SimpleText(modeTime, "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 						surface.SetDrawColor(50, 50, 50, 80)
-						surface.DrawRect(scrW / 2 - TM.HUDScale(75), TM.HUDScale(60) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(150), TM.HUDScale(10))
+						surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(150), TM.ScreenScale(10))
 						surface.SetDrawColor(GetConVar("tm_hud_obj_color_contested_r"):GetInt(), GetConVar("tm_hud_obj_color_contested_g"):GetInt(), GetConVar("tm_hud_obj_color_contested_b"):GetInt(), 80)
-						surface.DrawRect(scrW / 2 - TM.HUDScale(75), TM.HUDScale(60) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(150) * (modeTime / 45), TM.HUDScale(10))
+						surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(150) * (modeTime / 45), TM.ScreenScale(10))
 					elseif mode == "KOTH" then
-						draw.SimpleText("Contested", "HUD_Health", scrW / 2, TM.HUDScale(25) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+						draw.SimpleText("Contested", "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 						surface.SetDrawColor(GetConVar("tm_hud_obj_color_contested_r"):GetInt(), GetConVar("tm_hud_obj_color_contested_g"):GetInt(), GetConVar("tm_hud_obj_color_contested_b"):GetInt(), 100)
 						surface.SetMaterial(hillEmptyMat)
-						surface.DrawTexturedRect(scrW / 2 - TM.HUDScale(21), TM.HUDScale(60) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(42), TM.HUDScale(42))
+						surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(60) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(42), TM.ScreenScale(42))
 						surface.SetMaterial(border)
 						surface.SetDrawColor(GetConVar("tm_hud_obj_color_contested_r"):GetInt(), GetConVar("tm_hud_obj_color_contested_g"):GetInt(), GetConVar("tm_hud_obj_color_contested_b"):GetInt(), 175)
-						surface.DrawTexturedRect(0, 0, scrW, scrH)
+						surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 					elseif mode == "VIP" then
-						draw.SimpleText(LocalPly:Nick(), "HUD_Health", scrW / 2, TM.HUDScale(25) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+						draw.SimpleText(LocalPlayer():Nick(), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 						surface.SetDrawColor(GetConVar("tm_hud_obj_color_occupied_r"):GetInt(), GetConVar("tm_hud_obj_color_occupied_g"):GetInt(), GetConVar("tm_hud_obj_color_occupied_b"):GetInt(), 225)
 						surface.SetMaterial(hillEmptyMat)
-						surface.DrawTexturedRect(scrW / 2 - TM.HUDScale(24), TM.HUDScale(57) + TM.HUDScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.HUDScale(48), TM.HUDScale(48))
+						surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(24), TM.ScreenScale(57) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(48), TM.ScreenScale(48))
 						surface.SetMaterial(border)
 						surface.SetDrawColor(GetConVar("tm_hud_obj_color_occupied_r"):GetInt(), GetConVar("tm_hud_obj_color_occupied_g"):GetInt(), GetConVar("tm_hud_obj_color_occupied_b"):GetInt(), 175)
-						surface.DrawTexturedRect(0, 0, scrW, scrH)
+						surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 					end
 				end
 
@@ -5042,7 +5055,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				end
 				AddFeedEntryButton.DoClick = function()
 					if GetConVar("tm_hud_enablekillfeed"):GetInt() == 0 then return end
-					local playersInAction = LocalPly:Nick() .. " killed " .. math.random(1, 1000)
+					local playersInAction = LocalPlayer():Nick() .. " killed " .. math.random(1, 1000)
 					local victimLastHitIn = math.random(0, 1)
 
 					table.insert(fakeFeedArray, {playersInAction, victimLastHitIn})
@@ -5191,39 +5204,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				ObjContestedBrushColor:SetAlphaBar(false)
 				ObjContestedBrushColor:SetPalette(false)
 				ObjContestedBrushColor:SetWangs(true)
-
-				local DamageIndicatorOverlay
-				if GetConVar("tm_hud_dmgindicator"):GetInt() == 1 then DamageIndicatorOverlay = vgui.Create("DPanel", EditorScroller) else
-					DamageIndicatorOverlay = vgui.Create("DPanel", HiddenOptionsScroller)
-					ShowHiddenOptions = true
-				end
-
-				DamageIndicatorOverlay:Dock(TOP)
-				DamageIndicatorOverlay:SetSize(0, TM.MenuScale(160))
-				DamageIndicatorOverlay.Paint = function(self, w, h)
-					draw.RoundedBox(0, 0, 0, w, h, Color(10, 10, 10, 160))
-					draw.SimpleText("DAMAGE INDICATOR", "SettingsLabel", TM.MenuScale(20), TM.MenuScale(10), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("Indicator Color", "Health", TM.MenuScale(210), TM.MenuScale(45), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("Indicator Opacity", "Health", TM.MenuScale(165), TM.MenuScale(130), white, TEXT_ALIGN_LEFT)
-				end
-
-				local IndicatorColor = vgui.Create("DColorMixer", DamageIndicatorOverlay)
-				IndicatorColor:SetPos(TM.MenuScale(20), TM.MenuScale(50))
-				IndicatorColor:SetSize(TM.MenuScale(185), TM.MenuScale(70))
-				IndicatorColor:SetConVarR("tm_hud_dmgindicator_color_r")
-				IndicatorColor:SetConVarG("tm_hud_dmgindicator_color_g")
-				IndicatorColor:SetConVarB("tm_hud_dmgindicator_color_b")
-				IndicatorColor:SetAlphaBar(false)
-				IndicatorColor:SetPalette(false)
-				IndicatorColor:SetWangs(true)
-
-				local IndicatorOpaticy = DamageIndicatorOverlay:Add("DNumSlider")
-				IndicatorOpaticy:SetPos(TM.MenuScale(-85), TM.MenuScale(130))
-				IndicatorOpaticy:SetSize(TM.MenuScale(250), TM.MenuScale(30))
-				IndicatorOpaticy:SetConVar("tm_hud_dmgindicator_opacity")
-				IndicatorOpaticy:SetMin(0)
-				IndicatorOpaticy:SetMax(255)
-				IndicatorOpaticy:SetDecimals(0)
 
 				local KeypressOverlay
 				if GetConVar("tm_hud_keypressoverlay"):GetInt() == 1 then KeypressOverlay = vgui.Create("DPanel", EditorScroller) else
@@ -5429,7 +5409,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					CreateExportedCodeEntry(GetConVar("tm_hud_scale"):GetFloat() .. "-" .. GetConVar("tm_hud_font"):GetString() .. "-" .. GetConVar("tm_hud_bounds_x"):GetInt() .. "-" .. GetConVar("tm_hud_bounds_y"):GetInt() .. "-" .. GetConVar("tm_hud_text_color_r"):GetInt() .. "-" .. GetConVar("tm_hud_text_color_g"):GetInt() .. "-" .. GetConVar("tm_hud_text_color_b"):GetInt() .. "-" .. GetConVar("tm_hud_ammo_style"):GetInt() .. "-" .. GetConVar("tm_hud_ammo_bar_color_r"):GetInt() .. "-" .. GetConVar("tm_hud_ammo_bar_color_g"):GetInt() .. "-"
 					.. GetConVar("tm_hud_ammo_bar_color_b"):GetInt() .. "-" .. GetConVar("tm_hud_health_size"):GetInt() .. "-" .. GetConVar("tm_hud_health_offset_x"):GetInt() .. "-" .. GetConVar("tm_hud_health_offset_y"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_high_r"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_high_g"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_high_b"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_mid_r"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_mid_g"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_mid_b"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_low_r"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_low_g"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_low_b"):GetInt() .. "-" .. GetConVar("tm_hud_equipment_anchor"):GetInt() .. "-"
 					.. GetConVar("tm_hud_equipment_offset_x"):GetInt() .. "-" .. GetConVar("tm_hud_equipment_offset_y"):GetInt() .. "-" .. GetConVar("tm_hud_enablekillfeed"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_style"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_limit"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_offset_x"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_offset_y"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_opacity"):GetInt() .. "-" .. GetConVar("tm_hud_killdeath_offset_x"):GetInt() .. "-" .. GetConVar("tm_hud_killdeath_offset_y"):GetInt() .. "-" .. GetConVar("tm_hud_kill_iconcolor_r"):GetInt() .. "-" .. GetConVar("tm_hud_kill_iconcolor_g"):GetInt() .. "-" .. GetConVar("tm_hud_kill_iconcolor_b"):GetInt() .. "-" .. GetConVar("tm_hud_obj_scale"):GetInt() .. "-"
-					.. GetConVar("tm_hud_obj_color_empty_r"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_empty_g"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_empty_b"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_occupied_r"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_occupied_g"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_occupied_b"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_contested_r"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_contested_g"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_contested_b"):GetInt() .. "-" .. GetConVar("tm_hud_dmgindicator_color_r"):GetInt() .. "-" .. GetConVar("tm_hud_dmgindicator_color_g"):GetInt() .. "-" .. GetConVar("tm_hud_dmgindicator_color_b"):GetInt() .. "-" .. GetConVar("tm_hud_dmgindicator_opacity"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_x"):GetInt() .. "-"
+					.. GetConVar("tm_hud_obj_color_empty_r"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_empty_g"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_empty_b"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_occupied_r"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_occupied_g"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_occupied_b"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_contested_r"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_contested_g"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_contested_b"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_x"):GetInt() .. "-"
 					.. GetConVar("tm_hud_keypressoverlay_y"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_inactive_r"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_inactive_g"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_inactive_b"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_actuated_r"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_actuated_g"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_actuated_b"):GetInt() .. "-" .. GetConVar("tm_hud_velocitycounter_x"):GetInt() .. "-" .. GetConVar("tm_hud_velocitycounter_y"):GetInt())
 				end
 
@@ -5466,12 +5446,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 			end
 
 			local CreditsButton = vgui.Create("DButton", MainPanel)
-			CreditsButton:SetPos(scrW - TM.MenuScale(110), scrH - TM.MenuScale(58))
+			CreditsButton:SetPos(ScrW() - TM.MenuScale(110), ScrH() - TM.MenuScale(58))
 			CreditsButton:SetText("")
 			CreditsButton:SetSize(TM.MenuScale(110), TM.MenuScale(32))
 			local textAnim = 20
 			CreditsButton.Paint = function()
-				CreditsButton:SetPos(scrW - TM.MenuScale(110), scrH - TM.MenuScale(58))
+				CreditsButton:SetPos(ScrW() - TM.MenuScale(110), ScrH() - TM.MenuScale(58))
 				if CreditsButton:IsHovered() then
 					textAnim = math.Clamp(textAnim - 200 * RealFrameTime(), 0, 20)
 				else
@@ -5485,12 +5465,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 			end
 
 			local PatchNotesButton = vgui.Create("DButton", MainPanel)
-			PatchNotesButton:SetPos(scrW - TM.MenuScale(150), scrH - TM.MenuScale(32))
+			PatchNotesButton:SetPos(ScrW() - TM.MenuScale(150), ScrH() - TM.MenuScale(32))
 			PatchNotesButton:SetText("")
 			PatchNotesButton:SetSize(TM.MenuScale(150), TM.MenuScale(32))
 			local textAnim = 20
 			PatchNotesButton.Paint = function()
-				PatchNotesButton:SetPos(scrW - TM.MenuScale(150), scrH - TM.MenuScale(32))
+				PatchNotesButton:SetPos(ScrW() - TM.MenuScale(150), ScrH() - TM.MenuScale(32))
 				if PatchNotesButton:IsHovered() then
 					textAnim = math.Clamp(textAnim - 200 * RealFrameTime(), 0, 20)
 				else
@@ -5507,7 +5487,7 @@ end )
 
 PANEL = {}
 function PANEL:Init()
-	self:SetSize(scrW, scrH)
+	self:SetSize(ScrW(), ScrH())
 	self:SetPos(0, 0)
 end
 
@@ -5519,7 +5499,7 @@ vgui.Register("MainPanel", PANEL, "Panel")
 
 PANEL = {}
 function PANEL:Init()
-	self:SetSize(TM.MenuScale(56), scrH)
+	self:SetSize(TM.MenuScale(56), ScrH())
 	self:SetPos(0, 0)
 end
 
@@ -5531,7 +5511,7 @@ vgui.Register("OptionsSlideoutPanel", PANEL, "Panel")
 
 PANEL = {}
 function PANEL:Init()
-	self:SetSize(TM.MenuScale(600), scrH)
+	self:SetSize(TM.MenuScale(600), ScrH())
 	self:SetPos(TM.MenuScale(56), 0)
 end
 
@@ -5543,7 +5523,7 @@ vgui.Register("OptionsPanel", PANEL, "Panel")
 
 PANEL = {}
 function PANEL:Init()
-	self:SetSize(TM.MenuScale(56), scrH)
+	self:SetSize(TM.MenuScale(56), ScrH())
 	self:SetPos(0, 0)
 end
 
@@ -5555,7 +5535,7 @@ vgui.Register("LeaderboardSlideoutPanel", PANEL, "Panel")
 
 PANEL = {}
 function PANEL:Init()
-	self:SetSize(TM.MenuScale(780), scrH)
+	self:SetSize(TM.MenuScale(780), ScrH())
 	self:SetPos(TM.MenuScale(56), 0)
 end
 
@@ -5567,13 +5547,13 @@ vgui.Register("LeaderboardPanel", PANEL, "Panel")
 
 PANEL = {}
 function PANEL:Init()
-	self:SetSize(TM.MenuScale(56), scrH)
+	self:SetSize(TM.MenuScale(56), ScrH())
 	self:SetPos(0, 0)
 end
 
 PANEL = {}
 function PANEL:Init()
-	self:SetSize(scrW, scrH)
+	self:SetSize(ScrW(), ScrH())
 	self:SetPos(0, 0)
 end
 

@@ -1,7 +1,9 @@
 -- removing unneccessary server hook
 if SERVER then
 	hook.Add("Initialize", "SVHookRemoval", function()
-		if timer.Exists("CheckHookTimes") then timer.Remove("CheckHookTimes") end
+		if timer.Exists("CheckHookTimes") then
+			timer.Remove("CheckHookTimes")
+		end
 	end)
 end
 

@@ -31,17 +31,12 @@ if CLIENT then
 
 	-- force users selected FOV when spectating
 	hook.Add("TFA_TranslateFOV", "DisableClientFOVChange", function(ply)
-		local localPly = LocalPlayer()
-		if localPly:Alive() then return end
+		if LocalPlayer():Alive() then return end
 
-		if localPly:GetInfoNum("tm_customfov", 0) == 1 then
-			return localPly:GetInfoNum("tm_customfov_value", 100)
+		if LocalPlayer():GetInfoNum("tm_customfov", 0) == 1 then
+			return LocalPlayer():GetInfoNum("tm_customfov_value", 100)
 		else
-			return localPly:GetInfoNum("fov_desired", 75)
+			return LocalPlayer():GetInfoNum("fov_desired", 75)
 		end
 	end)
 end
-
-hook.Add("PreRegisterSWEP", "TFAOverride", function(swep, class)
-	if SWEP.Base != "tfa_gun_base" and SWEP.Base != "tm_knife_base" and SWEP.Base != "rust_throwable_melee_base" then return end
-end)
