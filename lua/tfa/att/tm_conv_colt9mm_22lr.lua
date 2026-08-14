@@ -6,24 +6,25 @@ end
 
 ATTACHMENT.Name = ".22 LR"
 ATTACHMENT.ShortName = ".22"
+ATTACHMENT.Icon = "attachments/conversion.png"
+
 ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], "22 Long Rifle Conversion",
+	TFA.AttachmentColors["="], "22 Long Rifle conversion",
 	TFA.AttachmentColors["+"], "15% more RPM",
 	TFA.AttachmentColors["-"], "15% less damage",
-	TFA.AttachmentColors["-"], "40% more recoil",
+	TFA.AttachmentColors["-"], "40% more recoil"
 }
-ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 0.85 end,
 		["RPM"] = function(wep, stat) return 800 end,
-		["KickUp"] = function( wep, stat ) return stat * 1.4 end,
-		["KickHorizontal"] = function( wep, stat ) return stat * 1.4 end,
-		["KickDown"] = function( wep, stat ) return stat * 1.4 end,
-		["Sound"] = function( wep, stat ) return Sound("Weapon_M4_9MM.1.CONV") end,
-		["SilencedSound"] = function( wep, stat ) return Sound("Weapon_M4_9MM.2.CONV") end
-	},
+		["KickUp"] = function(wep, stat) return stat * 1.4 end,
+		["KickHorizontal"] = function(wep, stat) return stat * 1.4 end,
+		["KickDown"] = function(wep, stat) return stat * 1.4 end,
+		["Sound"] = function(wep, stat) return Sound("Weapon_M4_9MM.1.CONV") end,
+		["SilencedSound"] = function(wep, stat) return Sound("Weapon_M4_9MM.2.CONV") end
+	}
 }
 
 if not TFA_ATTACHMENT_ISUPDATING then

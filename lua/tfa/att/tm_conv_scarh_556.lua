@@ -6,13 +6,14 @@ end
 
 ATTACHMENT.Name = "5.56"
 ATTACHMENT.ShortName = "5.56"
+ATTACHMENT.Icon = "attachments/conversion.png"
+
 ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], "5.56×45mm Conversion",
+	TFA.AttachmentColors["="], "5.56×45mm conversion",
 	TFA.AttachmentColors["+"], "30% more RPM",
 	TFA.AttachmentColors["+"], "40% less recoil",
-	TFA.AttachmentColors["-"], "30% less damage",
+	TFA.AttachmentColors["-"], "30% less damage"
 }
-ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
@@ -21,17 +22,17 @@ ATTACHMENT.WeaponTable = {
 		["KickUp"] = function(wep, stat) return stat * 0.6 end,
 		["KickDown"] = function(wep, stat) return stat * 0.6 end,
 		["KickHorizontal"] = function(wep, stat) return stat * 0.6 end,
-		["Sound"] = function( wep, stat ) return Sound("TFA_INS2.SCAR_SSR.Fire.CONV") end,
-		["SilencedSound"] = function( wep, stat ) return Sound("TFA_INS2.SCAR_SSR.Fire_Suppressed.CONV") end
+		["Sound"] = function(wep, stat) return Sound("TFA_INS2.SCAR_SSR.Fire.CONV") end,
+		["SilencedSound"] = function(wep, stat) return Sound("TFA_INS2.SCAR_SSR.Fire_Suppressed.CONV") end
 	},
 	["SequenceRateOverride"] = {
-		["iron_fire"] = 160 / 32,
-		["iron_fire_a"] = 160 / 32,
-		["iron_fire_b"] = 160 / 32,
-		["iron_fire_c"] = 160 / 32,
-		["iron_fire_d"] = 160 / 32,
-		["iron_fire_e"] = 160 / 32,
-		["iron_fire_f"] = 160 / 32,
+		["iron_fire"] = 5,
+		["iron_fire_a"] = 5,
+		["iron_fire_b"] = 5,
+		["iron_fire_c"] = 5,
+		["iron_fire_d"] = 5,
+		["iron_fire_e"] = 5,
+		["iron_fire_f"] = 5
 	}
 }
 

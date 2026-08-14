@@ -5,30 +5,23 @@ if not ATTACHMENT then
 end
 
 ATTACHMENT.Name = ".22 LR"
-ATTACHMENT.ShortName = "22LR"
-ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], ".22 LR Conversion",
-	TFA.AttachmentColors["+"], "50% more damage",
-	TFA.AttachmentColors["-"], "40% less RPM",
-}
+ATTACHMENT.ShortName = ".22"
 ATTACHMENT.Icon = "attachments/conversion.png"
+
+ATTACHMENT.Description = {
+	TFA.AttachmentColors["="], ".22 LR conversion",
+	TFA.AttachmentColors["+"], "50% more damage",
+	TFA.AttachmentColors["-"], "40% less RPM"
+}
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 1.5 end,
 		["RPM"] = function(wep, stat) return 600 end,
-		["Sound"] = function( wep, stat ) return Sound("Weapon_IMIUZI_TFA_N_1.CONV") end,
-	},
-	["FireModes"] = {"Semi"}
+		["Sound"] = function(wep, stat) return Sound("Weapon_IMIUZI_TFA_N_1.CONV") end,
+		["Automatic"] = function(wep, stat) return false end
+	}
 }
-
-function ATTACHMENT:Attach(wep)
-	wep.Primary.Automatic = false
-end
-
-function ATTACHMENT:Detach(wep)
-	wep.Primary.Automatic = true
-end
 
 if not TFA_ATTACHMENT_ISUPDATING then
 	TFAUpdateAttachments()

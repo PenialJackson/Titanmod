@@ -6,22 +6,23 @@ end
 
 ATTACHMENT.Name = ".30-06"
 ATTACHMENT.ShortName = "30-06"
+ATTACHMENT.Icon = "attachments/conversion.png"
+
 ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], ".30-06 Springfield Conversion",
+	TFA.AttachmentColors["="], ".30-06 Springfield conversion",
 	TFA.AttachmentColors["+"], "50% more RPM",
 	TFA.AttachmentColors["-"], "25% less damage",
-	TFA.AttachmentColors["-"], "75% more recoil",
+	TFA.AttachmentColors["-"], "75% more recoil"
 }
-ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 0.75 end,
 		["RPM"] = function(wep, stat) return 950 end,
-		["KickUp"] = function( wep, stat ) return stat * 1.75 end,
-		["KickDown"] = function( wep, stat ) return stat * 1.75 end,
-		["KickHorizontal"] = function( wep, stat ) return stat * 1.75 end,
-		["Sound"] = function( wep, stat ) return Sound("Weapon_Bar.1.CONV") end
+		["KickUp"] = function(wep, stat) return stat * 1.75 end,
+		["KickDown"] = function(wep, stat) return stat * 1.75 end,
+		["KickHorizontal"] = function(wep, stat) return stat * 1.75 end,
+		["Sound"] = function(wep, stat) return Sound("Weapon_Bar.1.CONV") end
 	}
 }
 

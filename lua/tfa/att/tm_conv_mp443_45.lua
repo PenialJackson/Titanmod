@@ -6,20 +6,21 @@ end
 
 ATTACHMENT.Name = ".45 ACP"
 ATTACHMENT.ShortName = ".45"
-ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], ".45 ACP Conversion",
-	TFA.AttachmentColors["+"], "25% more damage",
-	TFA.AttachmentColors["-"], "125% more vertical recoil",
-}
 ATTACHMENT.Icon = "attachments/conversion.png"
+
+ATTACHMENT.Description = {
+	TFA.AttachmentColors["="], ".45 ACP conversion",
+	TFA.AttachmentColors["+"], "25% more damage",
+	TFA.AttachmentColors["-"], "125% more vertical recoil"
+}
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 1.25 end,
-		["KickUp"] = function( wep, stat ) return stat * 2.25 end,
-		["KickDown"] = function( wep, stat ) return stat * 2.25 end,
-		["KickHorizontal"] = function( wep, stat ) return stat * 2.25 end,
-		["Sound"] = function( wep, stat ) return Sound("Weapon_MP443.1.CONV") end
+		["KickUp"] = function(wep, stat) return stat * 2.25 end,
+		["KickDown"] = function(wep, stat) return stat * 2.25 end,
+		["KickHorizontal"] = function(wep, stat) return stat * 2.25 end,
+		["Sound"] = function(wep, stat) return Sound("Weapon_MP443.1.CONV") end
 	}
 }
 

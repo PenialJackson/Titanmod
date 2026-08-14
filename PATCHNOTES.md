@@ -1,5 +1,16 @@
 # --- (##/##/##)
 **>GAMEPLAY**
+*MOBILITY*
+- Mobility is no longer set on a per weapon basis, with every weapon now having identical base mobility (said base mobility being 100%)
+
+*MODIFIERS*
+- Modifiers that were previously weapon specific have now been moved to global effects:
+- *Mobility while ADSing is now 80% of base mobility*
+- *Recoil while ADSing is now 80% of base recoil*
+- *Recoil while crouching is now 80% of base recoil*
+- *Spread while crouching is now 80% of base spread*
+- All previous devations on specific weapons have been replaced with these new effects
+
 *NEW CONVAR SETTINGS*
 - Individual speed values for each state instead of one global multiplier
 - Grapple hook cooldown bonus on kill amount
@@ -29,7 +40,7 @@
 *Initial*
 - Fixed incorrect lighting on doors
 
-*legacy*
+*Legacy*
 - Improved brushwork and textures
 - Improved player clipping
 
@@ -43,6 +54,21 @@
 - Improved brushwork and textures
 - Improved player clipping
 
+**>BALANCE**
+*Flamethrower*
+- Increased damage to 30 (previously 15)
+
+*M134 Minigun*
+- Increased damage to 12 (previously 10)
+
+*Mas 38*
+- Reduced vertical recoil to 18 (previously 25)
+- Reduced horizontal recoil to 5 (previously 10)
+
+*WA-2000*
+- Reduced vertical recoil to 70 (previously 200)
+- Reduced horizontal recoil to 20 (previously 30)
+
 **>QOL & BUG FIXES**
 - Drastically reduced the file size of the addon containing all maps (from 1.3gb down to 500mb~)
 
@@ -54,9 +80,13 @@
 
 - Reworked how convars and config values are loaded and handled
 
+- Updated the description of numerous attachments to better fit their actual stat changes
+
 - Heavy optimization across the entire gamemodes code
 
 - Fixed Coonan .357 and various melee weapons not being able to fire underwater
+
+- Fixed Coonan .357 having spread while ADSing
 
 - Fixed usages of deprecated classes and hooks
 

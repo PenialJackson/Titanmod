@@ -6,23 +6,24 @@ end
 
 ATTACHMENT.Name = "7.62"
 ATTACHMENT.ShortName = "7.62"
+ATTACHMENT.Icon = "attachments/conversion.png"
+
 ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], "7.62×51mm Conversion",
+	TFA.AttachmentColors["="], "7.62×51mm conversion",
 	TFA.AttachmentColors["+"], "20% more damage",
 	TFA.AttachmentColors["-"], "25% less RPM",
-	TFA.AttachmentColors["-"], "40% more recoil",
+	TFA.AttachmentColors["-"], "40% more recoil"
 }
-ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 1.2 end,
 		["RPM"] = function(wep, stat) return 540 end,
-		["KickUp"] = function( wep, stat ) return stat * 1.4 end,
-		["KickDown"] = function( wep, stat ) return stat * 1.4 end,
-		["KickHorizontal"] = function( wep, stat ) return stat * 1.4 end,
-		["Sound"] = function( wep, stat ) return Sound("pindadss2.1.CONV") end,
-		["SilencedSound"] = function( wep, stat ) return Sound("pindadss2.2.CONV") end
+		["KickUp"] = function(wep, stat) return stat * 1.4 end,
+		["KickDown"] = function(wep, stat) return stat * 1.4 end,
+		["KickHorizontal"] = function(wep, stat) return stat * 1.4 end,
+		["Sound"] = function(wep, stat) return Sound("pindadss2.1.CONV") end,
+		["SilencedSound"] = function(wep, stat) return Sound("pindadss2.2.CONV") end
 	}
 }
 

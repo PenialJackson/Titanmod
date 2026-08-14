@@ -5,24 +5,25 @@ if not ATTACHMENT then
 end
 
 ATTACHMENT.Name = ".50 BMG"
-ATTACHMENT.ShortName = "50BMG"
+ATTACHMENT.ShortName = "BMG"
+ATTACHMENT.Icon = "attachments/conversion.png"
+
 ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], ".50 BMG Conversion",
+	TFA.AttachmentColors["="], ".50 BMG conversion",
 	TFA.AttachmentColors["+"], "33% more damage",
 	TFA.AttachmentColors["-"], "33% less RPM",
-	TFA.AttachmentColors["-"], "50% more recoil",
+	TFA.AttachmentColors["-"], "50% more recoil"
 }
-ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 1.33 end,
 		["RPM"] = function(wep, stat) return 435 end,
-		["KickUp"] = function( wep, stat ) return stat * 1.5 end,
-		["KickHorizontal"] = function( wep, stat ) return stat * 1.5 end,
-		["KickDown"] = function( wep, stat ) return stat * 1.5 end,
-		["Sound"] = function( wep, stat ) return Sound("TFA_PD2_ASh12.CONV.1") end,
-		["SilencedSound"] = function( wep, stat ) return Sound("TFA_PD2_ASh12.CONV.2") end
+		["KickUp"] = function(wep, stat) return stat * 1.5 end,
+		["KickHorizontal"] = function(wep, stat) return stat * 1.5 end,
+		["KickDown"] = function(wep, stat) return stat * 1.5 end,
+		["Sound"] = function(wep, stat) return Sound("TFA_PD2_ASh12.CONV.1") end,
+		["SilencedSound"] = function(wep, stat) return Sound("TFA_PD2_ASh12.CONV.2") end
 	}
 }
 

@@ -5,25 +5,26 @@ if not ATTACHMENT then
 end
 
 ATTACHMENT.Name = "5.45"
-ATTACHMENT.ShortName = "545"
+ATTACHMENT.ShortName = "5.45"
+ATTACHMENT.Icon = "attachments/conversion.png"
+
 ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], "5.45x39mm Conversion",
+	TFA.AttachmentColors["="], "5.45x39mm conversion",
 	TFA.AttachmentColors["+"], "60% less recoil",
 	TFA.AttachmentColors["+"], "30% less spread",
-	TFA.AttachmentColors["-"], "15% less damage",
+	TFA.AttachmentColors["-"], "15% less damage"
 }
-ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 0.85 end,
-		["Spread"] = function( wep, stat ) return stat * 0.7 end,
-		["KickUp"] = function( wep, stat ) return stat * 0.4 end,
-		["KickHorizontal"] = function( wep, stat ) return stat * 0.4 end,
-		["KickDown"] = function( wep, stat ) return stat * 0.4 end,
-		["Sound"] = function( wep, stat ) return Sound("TFA_INS2.L85A2.1.CONV") end,
-		["SilencedSound"] = function( wep, stat ) return Sound("TFA_INS2.L85A2.2.CONV") end,
-	},
+		["Spread"] = function(wep, stat) return stat * 0.7 end,
+		["KickUp"] = function(wep, stat) return stat * 0.4 end,
+		["KickHorizontal"] = function(wep, stat) return stat * 0.4 end,
+		["KickDown"] = function(wep, stat) return stat * 0.4 end,
+		["Sound"] = function(wep, stat) return Sound("TFA_INS2.L85A2.1.CONV") end,
+		["SilencedSound"] = function(wep, stat) return Sound("TFA_INS2.L85A2.2.CONV") end
+	}
 }
 
 if not TFA_ATTACHMENT_ISUPDATING then

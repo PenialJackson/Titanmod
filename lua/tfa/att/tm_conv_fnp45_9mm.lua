@@ -6,24 +6,25 @@ end
 
 ATTACHMENT.Name = "9mm"
 ATTACHMENT.ShortName = "9mm"
+ATTACHMENT.Icon = "attachments/conversion.png"
+
 ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], "9mm Conversion",
+	TFA.AttachmentColors["="], "9mm conversion",
 	TFA.AttachmentColors["+"], "40% more RPM",
 	TFA.AttachmentColors["-"], "50% less recoil",
-	TFA.AttachmentColors["-"], "25% less damage",
+	TFA.AttachmentColors["-"], "25% less damage"
 }
-ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 0.75 end,
 		["RPM"] = function(wep, stat) return 580 end,
-		["KickUp"] = function( wep, stat ) return stat * 0.5 end,
-		["KickHorizontal"] = function( wep, stat ) return stat * 0.5 end,
-		["KickDown"] = function( wep, stat ) return stat * 0.5 end,
-		["Sound"] = function( wep, stat ) return Sound("TFA_INS2.FNP45.Fire.CONV") end,
-		["SilencedSound"] = function( wep, stat ) return Sound("TFA_INS2.FNP45.Fire_Suppressed.CONV") end
-	},
+		["KickUp"] = function(wep, stat) return stat * 0.5 end,
+		["KickHorizontal"] = function(wep, stat) return stat * 0.5 end,
+		["KickDown"] = function(wep, stat) return stat * 0.5 end,
+		["Sound"] = function(wep, stat) return Sound("TFA_INS2.FNP45.Fire.CONV") end,
+		["SilencedSound"] = function(wep, stat) return Sound("TFA_INS2.FNP45.Fire_Suppressed.CONV") end
+	}
 }
 
 if not TFA_ATTACHMENT_ISUPDATING then

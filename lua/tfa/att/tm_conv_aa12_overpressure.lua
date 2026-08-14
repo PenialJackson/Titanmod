@@ -6,21 +6,22 @@ end
 
 ATTACHMENT.Name = "+P"
 ATTACHMENT.ShortName = "+P"
+ATTACHMENT.Icon = "attachments/conversion.png"
+
 ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], "Overpressure Conversion",
+	TFA.AttachmentColors["="], "Overpressure conversion",
 	TFA.AttachmentColors["+"], "100% more RPM",
 	TFA.AttachmentColors["-"], "33% less damage",
-	TFA.AttachmentColors["-"], "50% more spread",
+	TFA.AttachmentColors["-"], "50% more spread"
 }
-ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 0.67 end,
 		["RPM"] = function(wep, stat) return 540 end,
-		["Spread"] = function( wep, stat ) return stat * 1.50 end,
-		["IronAccuracy"] = function( wep, stat ) return stat * 1.50 end
-	},
+		["Spread"] = function(wep, stat) return stat * 1.50 end,
+		["IronAccuracy"] = function(wep, stat) return stat * 1.50 end
+	}
 }
 
 if not TFA_ATTACHMENT_ISUPDATING then

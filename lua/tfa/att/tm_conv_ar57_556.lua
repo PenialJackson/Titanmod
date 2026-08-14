@@ -6,13 +6,14 @@ end
 
 ATTACHMENT.Name = "5.56"
 ATTACHMENT.ShortName = "5.56"
+ATTACHMENT.Icon = "attachments/conversion.png"
+
 ATTACHMENT.Description = {
-	TFA.AttachmentColors["="], "5.56×45mm Conversion",
+	TFA.AttachmentColors["="], "5.56×45mm conversion",
 	TFA.AttachmentColors["+"], "20% less RPM",
 	TFA.AttachmentColors["+"], "20% more recoil",
-	TFA.AttachmentColors["-"], "15% more damage",
+	TFA.AttachmentColors["-"], "15% more damage"
 }
-ATTACHMENT.Icon = "attachments/conversion.png"
 
 ATTACHMENT.WeaponTable = {
 	["Primary"] = {
@@ -20,8 +21,8 @@ ATTACHMENT.WeaponTable = {
 		["RPM"] = function(wep, stat) return 720 end,
 		["KickUp"] = function(wep, stat) return stat * 1.2 end,
 		["KickDown"] = function(wep, stat) return stat * 1.2 end,
-		["KickHorizontal"] = function(wep, stat) return stat * 1.2 end,
-	},
+		["KickHorizontal"] = function(wep, stat) return stat * 1.2 end
+	}
 }
 
 if not TFA_ATTACHMENT_ISUPDATING then
