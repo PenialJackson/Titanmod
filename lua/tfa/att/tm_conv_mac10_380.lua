@@ -20,8 +20,9 @@ ATTACHMENT.WeaponTable = {
 		["Damage"] = function(wep, stat) return stat * 0.90 end,
 		["RPM"] = function(wep, stat) return 1444 end,
 		["KickUp"] = function(wep, stat) return stat * 1.5 end,
+		["KickDown"] = function(wep, stat) return stat * 1.5 end,
 		["KickHorizontal"] = function(wep, stat) return stat * 1.5 end,
-		["Sound"] = function(wep, stat) return Sound("weapons/cw_mac10/MAC_WZ_conv.wav") end
+		-- ["Sound"] = function(wep, stat) return Sound("weapons/cw_mac10/MAC_WZ_conv.wav") end
 	}
 }
 

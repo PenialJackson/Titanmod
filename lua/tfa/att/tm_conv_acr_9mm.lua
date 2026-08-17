@@ -20,8 +20,8 @@ ATTACHMENT.WeaponTable = {
 		["Damage"] = function(wep, stat) return stat * 0.8 end,
 		["RPM"] = function(wep, stat) return 950 end,
 		["Spread"] = function(wep, stat) return stat * 1.45 end,
-		["Sound"] = function(wep, stat) return Sound("TFA_INS2.ACRC.CONV.1") end,
-		["SilencedSound"] = function(wep, stat) return Sound("TFA_INS2.ACRC.CONV.2") end
+		-- ["Sound"] = function(wep, stat) return Sound("TFA_INS2.ACRC.CONV.1") end,
+		-- ["SilencedSound"] = function(wep, stat) return Sound("TFA_INS2.ACRC.CONV.2") end
 	}
 }
 

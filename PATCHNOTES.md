@@ -11,6 +11,20 @@
 - *Spread while crouching is now 80% of base spread*
 - All previous devations on specific weapons have been replaced with these new effects
 
+*WEAPON OVERHAULS*
+- Improved models, sounds, animations and attachment compatibility on the following weapons:
+- *AUG A2*
+- *Glock 17*
+- *M4A1*
+- *MAC-10*
+- *MSR*
+
+*WEAPON ADJUSTMENTS*
+- Renamed Dual Mac 10s to Dual MAC-10s
+- Renamed Glock 18 to Glock 17
+- Renamed Mac 10 to MAC-10
+- Renamed Remington MSR to MSR
+
 *NEW CONVAR SETTINGS*
 - Individual speed values for each state instead of one global multiplier
 - Grapple hook cooldown bonus on kill amount
@@ -55,8 +69,15 @@
 - Improved player clipping
 
 **>BALANCE**
+*ACR*
+- Reduced vertical recoil to 15 (previously 30)
+- Reduced horizontal recoil to 6 (previously 15)
+
 *Flamethrower*
 - Increased damage to 30 (previously 15)
+
+*Howa Type 64*
+- Reduced vertical recoil to 60 (previously 83)
 
 *M134 Minigun*
 - Increased damage to 12 (previously 10)
@@ -64,6 +85,10 @@
 *Mas 38*
 - Reduced vertical recoil to 18 (previously 25)
 - Reduced horizontal recoil to 5 (previously 10)
+
+*MSR*
+- Increased damage to 113 (previously 120)
+- Increased spread to 50 (previously 33)
 
 *WA-2000*
 - Reduced vertical recoil to 70 (previously 200)
@@ -87,6 +112,8 @@
 - Fixed Coonan .357 and various melee weapons not being able to fire underwater
 
 - Fixed Coonan .357 having spread while ADSing
+
+- Fixed Kar98k having an incorrect auto switch weighting
 
 - Fixed usages of deprecated classes and hooks
 
