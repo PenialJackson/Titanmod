@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "139"
+	"mapversion" "141"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "139"
+	"mapversion" "141"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -9885,7 +9885,7 @@ world
 		side
 		{
 			"id" "606"
-			"plane" "(158 960 104) (158 968 104) (170 968 104)"
+			"plane" "(158 960 104) (158 968 0) (170 968 104)"
 			vertices_plus
 			{
 				"v" "158 960 104"
@@ -50624,6 +50624,7 @@ entity
 	connections
 	{
 		"OnMapSpawn" "tonemapctrlSetBloomScale0.450-1"
+		"OnMapSpawn" "tonemapctrlSetAutoExposureMax1.50-1"
 	}
 	"origin" "960 960 552"
 	editor
@@ -50681,6 +50682,7 @@ entity
 {
 	"id" "87039"
 	"classname" "env_tonemap_controller"
+	"spawnflags" "0"
 	"targetname" "tonemapctrl"
 	"origin" "960 936 552"
 	editor
@@ -53746,13 +53748,13 @@ entity
 {
 	"id" "87045"
 	"classname" "env_sun"
-	"angles" "-78 118 0"
+	"angles" "0 205 0"
 	"HDRColorScale" "1.0"
 	"material" "sprites/light_glow02_add_noz"
 	"overlaycolor" "0 0 0"
 	"overlaymaterial" "sprites/light_glow02_add_noz"
 	"overlaysize" "-1"
-	"pitch" "-78"
+	"pitch" "-20"
 	"rendercolor" "255 241 217"
 	"size" "16"
 	"use_angles" "1"
@@ -68225,8 +68227,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[660.775 159.358 51.1951]"
-		"look" "[898.971 278.439 46.2353]"
+		"position" "[896.047 939.443 530.687]"
+		"look" "[1148.7 916.495 611.821]"
 	}
 	camera
 	{

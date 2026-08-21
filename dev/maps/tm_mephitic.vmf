@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "186"
+	"mapversion" "191"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -14,7 +14,7 @@ viewsettings
 	"bSnapToGrid" "1"
 	"bShowGrid" "1"
 	"bShowLogicalGrid" "0"
-	"nGridSpacing" "64"
+	"nGridSpacing" "8"
 }
 palette_plus
 {
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "186"
+	"mapversion" "191"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -67920,7 +67920,7 @@ entity
 {
 	"id" "1676"
 	"classname" "light_environment"
-	"_ambient" "187 187 0 75"
+	"_ambient" "187 187 0 175"
 	"_ambientHDR" "-1 -1 -1 1"
 	"_AmbientScaleHDR" "1"
 	"_light" "255 255 159 500"
@@ -69915,6 +69915,7 @@ entity
 {
 	"id" "12725"
 	"classname" "move_rope"
+	"angles" "0 0 0"
 	"Barbed" "0"
 	"Breakable" "0"
 	"Collide" "0"
@@ -69933,7 +69934,7 @@ entity
 	"TextureScale" "1"
 	"Type" "0"
 	"Width" "2"
-	"origin" "-160 -928 2441.44"
+	"origin" "-160 -928 2432"
 	editor
 	{
 		"color" "220 30 220"
@@ -69946,6 +69947,7 @@ entity
 {
 	"id" "12754"
 	"classname" "move_rope"
+	"angles" "0 0 0"
 	"Barbed" "0"
 	"Breakable" "0"
 	"Collide" "0"
@@ -69964,7 +69966,7 @@ entity
 	"TextureScale" "1"
 	"Type" "0"
 	"Width" "2"
-	"origin" "-352 -928 2441.44"
+	"origin" "-352 -928 2432"
 	editor
 	{
 		"color" "220 30 220"
@@ -69977,6 +69979,7 @@ entity
 {
 	"id" "12766"
 	"classname" "move_rope"
+	"angles" "0 0 0"
 	"Barbed" "0"
 	"Breakable" "0"
 	"Collide" "0"
@@ -69995,7 +69998,7 @@ entity
 	"TextureScale" "1"
 	"Type" "0"
 	"Width" "2"
-	"origin" "-352 -1120 2441.44"
+	"origin" "-352 -1120 2432"
 	editor
 	{
 		"color" "220 30 220"
@@ -70008,6 +70011,7 @@ entity
 {
 	"id" "12778"
 	"classname" "move_rope"
+	"angles" "0 0 0"
 	"Barbed" "0"
 	"Breakable" "0"
 	"Collide" "0"
@@ -70026,7 +70030,7 @@ entity
 	"TextureScale" "1"
 	"Type" "0"
 	"Width" "2"
-	"origin" "-160 -1120 2441.44"
+	"origin" "-160 -1120 2432"
 	editor
 	{
 		"color" "220 30 220"
@@ -79890,130 +79894,6 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[500 11500]"
-	}
-}
-entity
-{
-	"id" "90979"
-	"classname" "prop_static"
-	"angles" "0 180 0"
-	"disableselfshadowing" "0"
-	"disableshadows" "1"
-	"disablevertexlighting" "0"
-	"enablelightbounce" "0"
-	"fademaxdist" "0"
-	"fademindist" "-1"
-	"fadescale" "1"
-	"generatelightmaps" "0"
-	"ignorenormals" "0"
-	"lightmapresolutionx" "32"
-	"lightmapresolutiony" "32"
-	"maxdxlevel" "0"
-	"mindxlevel" "0"
-	"model" "models/props_trainstation/trainstation_ornament002.mdl"
-	"screenspacefade" "0"
-	"skin" "0"
-	"solid" "6"
-	"origin" "-352 -928 2432"
-	editor
-	{
-		"color" "255 255 0"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[500 12000]"
-	}
-}
-entity
-{
-	"id" "90987"
-	"classname" "prop_static"
-	"angles" "0 180 0"
-	"disableselfshadowing" "0"
-	"disableshadows" "1"
-	"disablevertexlighting" "0"
-	"enablelightbounce" "0"
-	"fademaxdist" "0"
-	"fademindist" "-1"
-	"fadescale" "1"
-	"generatelightmaps" "0"
-	"ignorenormals" "0"
-	"lightmapresolutionx" "32"
-	"lightmapresolutiony" "32"
-	"maxdxlevel" "0"
-	"mindxlevel" "0"
-	"model" "models/props_trainstation/trainstation_ornament002.mdl"
-	"screenspacefade" "0"
-	"skin" "0"
-	"solid" "6"
-	"origin" "-352 -1120 2432"
-	editor
-	{
-		"color" "255 255 0"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[500 12500]"
-	}
-}
-entity
-{
-	"id" "90995"
-	"classname" "prop_static"
-	"angles" "0 180 0"
-	"disableselfshadowing" "0"
-	"disableshadows" "1"
-	"disablevertexlighting" "0"
-	"enablelightbounce" "0"
-	"fademaxdist" "0"
-	"fademindist" "-1"
-	"fadescale" "1"
-	"generatelightmaps" "0"
-	"ignorenormals" "0"
-	"lightmapresolutionx" "32"
-	"lightmapresolutiony" "32"
-	"maxdxlevel" "0"
-	"mindxlevel" "0"
-	"model" "models/props_trainstation/trainstation_ornament002.mdl"
-	"screenspacefade" "0"
-	"skin" "0"
-	"solid" "6"
-	"origin" "-160 -1120 2432"
-	editor
-	{
-		"color" "255 255 0"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[500 13000]"
-	}
-}
-entity
-{
-	"id" "91003"
-	"classname" "prop_static"
-	"angles" "0 180 0"
-	"disableselfshadowing" "0"
-	"disableshadows" "1"
-	"disablevertexlighting" "0"
-	"enablelightbounce" "0"
-	"fademaxdist" "0"
-	"fademindist" "-1"
-	"fadescale" "1"
-	"generatelightmaps" "0"
-	"ignorenormals" "0"
-	"lightmapresolutionx" "32"
-	"lightmapresolutiony" "32"
-	"maxdxlevel" "0"
-	"mindxlevel" "0"
-	"model" "models/props_trainstation/trainstation_ornament002.mdl"
-	"screenspacefade" "0"
-	"skin" "0"
-	"solid" "6"
-	"origin" "-160 -928 2432"
-	editor
-	{
-		"color" "255 255 0"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[500 13500]"
 	}
 }
 entity
@@ -113689,7 +113569,7 @@ entity
 	"classname" "water_lod_control"
 	"cheapwaterenddistance" "2048"
 	"cheapwaterstartdistance" "1024"
-	"origin" "0 0 1728"
+	"origin" "0 0 2368"
 	editor
 	{
 		"color" "220 30 220"
@@ -113738,7 +113618,8 @@ entity
 	"spawnflags" "1"
 	connections
 	{
-		"OnMapSpawn" "tonemapctrlSetBloomScale0.550-1"
+		"OnMapSpawn" "tonemapctrlSetBloomScale0.50-1"
+		"OnMapSpawn" "tonemapctrlSetAutoExposureMax20-1"
 	}
 	"origin" "0 -56 3648"
 	editor
@@ -311756,8 +311637,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[1470.14 -696.358 2501.37]"
-		"look" "[1600 -463.982 2492.35]"
+		"position" "[23.1997 -106.883 3669.38]"
+		"look" "[-153.22 68.698 3574.55]"
 	}
 	camera
 	{

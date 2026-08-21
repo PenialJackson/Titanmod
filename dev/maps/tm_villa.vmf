@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "88"
+	"mapversion" "90"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "88"
+	"mapversion" "90"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -91787,15 +91787,15 @@ entity
 {
 	"id" "5072"
 	"classname" "env_sun"
-	"angles" "-78 118 0"
+	"angles" "0 120 0"
 	"HDRColorScale" "1.0"
 	"material" "sprites/light_glow02_add_noz"
 	"overlaycolor" "0 0 0"
 	"overlaymaterial" "sprites/light_glow02_add_noz"
 	"overlaysize" "-1"
-	"pitch" "-78"
+	"pitch" "-25"
 	"rendercolor" "255 241 217"
-	"size" "16"
+	"size" "24"
 	"use_angles" "1"
 	"origin" "280 74 984"
 	editor
@@ -104310,7 +104310,8 @@ entity
 	"spawnflags" "1"
 	connections
 	{
-		"OnMapSpawn" "tonemapctrlSetBloomScale0.450-1"
+		"OnMapSpawn" "tonemapctrlSetBloomScale0.40-1"
+		"OnMapSpawn" "tonemapctrlSetAutoExposureMax1.50-1"
 	}
 	"origin" "280 168 984"
 	editor
@@ -138085,35 +138086,6 @@ entity
 }
 entity
 {
-	"id" "8893"
-	"classname" "prop_static"
-	"angles" "0 270 0"
-	"disableselfshadowing" "0"
-	"disableshadows" "0"
-	"disablevertexlighting" "0"
-	"fademaxdist" "0"
-	"fademindist" "-1"
-	"fadescale" "1"
-	"ignorenormals" "0"
-	"lightmapresolutionx" "32"
-	"lightmapresolutiony" "32"
-	"maxdxlevel" "0"
-	"mindxlevel" "0"
-	"model" "models/props_rooftop/chimneytoppipe_cluster01c.mdl"
-	"screenspacefade" "0"
-	"skin" "0"
-	"solid" "6"
-	"origin" "396 1184 1304"
-	editor
-	{
-		"color" "255 255 0"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[2500 13500]"
-	}
-}
-entity
-{
 	"id" "8894"
 	"classname" "prop_static"
 	"angles" "0 180 0"
@@ -140780,8 +140752,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[676.882 1.46112 344.527]"
-		"look" "[899.858 147.139 341.822]"
+		"position" "[339.46 1041.71 1309.61]"
+		"look" "[506.712 1249.01 1310.51]"
 	}
 	camera
 	{

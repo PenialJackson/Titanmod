@@ -36,6 +36,7 @@
 - Every map has been properly compiled to improve FPS in-game
 - Drastically improved cubemap resolution
 - All map props no longer fade in/out depending on their distance from the player
+- Improved the placement of the sun on most skyboxes
 
 *Arctic*
 - Improved player clipping
@@ -43,6 +44,9 @@
 *Bridge*
 - Reduced the length of all car kill triggers
 - Fixed out of bounds player clipping
+
+*Corrugated*
+- Potentially fixed map related crash
 
 *Disequilibrium*
 - Improved player clipping
@@ -57,9 +61,18 @@
 *Legacy*
 - Improved brushwork and textures
 - Improved player clipping
+- Potentially fixed broken material textures
+
+*Mall*
+- Improved visuals when the lights are switched off
+- Reduced cooldown for toggling lights
+- Potentially fixed broken reflection textures
 
 *Rig*
 - Re-added rain
+
+*Shipment*
+- Potentially fixed broken reflection textures
 
 *Villa*
 - Improved player clipping
@@ -114,6 +127,10 @@
 - Fixed Coonan .357 having spread while ADSing
 
 - Fixed Kar98k having an incorrect auto switch weighting
+
+- Fixed various misalligned sights across all weapons
+
+- Fixed missing iron sight firing animations across numerous weapons
 
 - Fixed usages of deprecated classes and hooks
 

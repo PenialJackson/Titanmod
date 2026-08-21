@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "134"
+	"mapversion" "136"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "0"
-	"mapversion" "134"
+	"mapversion" "136"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -131188,7 +131188,8 @@ entity
 	"spawnflags" "1"
 	connections
 	{
-		"OnMapSpawn" "tonemapctrlSetBloomScale0.500-1"
+		"OnMapSpawn" "tonemapctrlSetBloomScale0.40-1"
+		"OnMapSpawn" "tonemapctrlSetAutoExposureMax1.60-1"
 	}
 	"origin" "-56 -290 168"
 	editor
@@ -138089,9 +138090,9 @@ entity
 	"overlaycolor" "0 0 0"
 	"overlaymaterial" "sprites/light_glow02_add_noz"
 	"overlaysize" "-1"
-	"pitch" "-78"
+	"pitch" "-12"
 	"rendercolor" "255 241 217"
-	"size" "16"
+	"size" "24"
 	"use_angles" "1"
 	"origin" "-56 -384 168"
 	editor
@@ -209916,8 +209917,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[207.712 -1236.51 -54.6787]"
-		"look" "[124.788 -1483.03 -111.94]"
+		"position" "[-76.5226 -405.759 199.786]"
+		"look" "[46.7982 -634.868 256.607]"
 	}
 	camera
 	{

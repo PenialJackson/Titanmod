@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8871"
-	"mapversion" "42"
+	"mapversion" "43"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "42"
+	"mapversion" "43"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -47306,7 +47306,7 @@ entity
 	"fademindist" "-1"
 	"material" "decals/burn02a"
 	"RenderOrder" "0"
-	"sides" "473 4709 4163 4164 4167"
+	"sides" "473"
 	"StartU" "0"
 	"StartV" "0"
 	"uv0" "-152 -112.5 0"
@@ -73675,8 +73675,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[912 839.848 512]"
-		"look" "[912 1106.21 512]"
+		"position" "[-8164.97 358.933 734.65]"
+		"look" "[-8352.3 362.686 545.324]"
 	}
 	camera
 	{
