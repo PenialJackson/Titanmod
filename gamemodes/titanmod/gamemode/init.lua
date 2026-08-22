@@ -44,7 +44,7 @@ local matchLength = GetConVar("sv_tm_match_length")
 local intermissionLength = GetConVar("sv_tm_intermission_length")
 local voiceRange = GetConVar("sv_tm_voice_range")
 local voting = GetConVar("sv_tm_voting")
-local deathCamera = GetConVar("sv_tm_death_camera")
+local deathCamera = GetConVar("sv_tm_deathcam")
 
 function GM:InitPostEntity()
 	SetGlobalBool("tm_intermission", true)
@@ -150,8 +150,8 @@ function GM:PlayerSpawn(ply)
 		ply:Freeze(true)
 	end
 
-	if ply:GetInfoNum("tm_customfov", 0) == 1 then
-		ply:SetFOV(ply:GetInfoNum("tm_customfov_value", 100))
+	if ply:GetInfoNum("tm_fov", 0) == 1 then
+		ply:SetFOV(ply:GetInfoNum("tm_fov_amount", 100))
 	end
 
 	net.Start("PlayerSpawn")

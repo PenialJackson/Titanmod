@@ -20,7 +20,7 @@ else
 end
 
 local function TriggerSound(type)
-	if GetConVar("tm_menusounds"):GetInt() == 0 then return end
+	if GetConVar("tm_menu_sfx"):GetInt() == 0 then return end
 	if type == "click" then surface.PlaySound("tmui/click" .. math.random(1, 3) .. ".wav") end
 	if type == "forward" then surface.PlaySound("tmui/clickforward.wav") end
 	if type == "back" then surface.PlaySound("tmui/clickback.wav") end
@@ -3646,10 +3646,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						draw.RoundedBox(0, TM.MenuScale(5), TM.MenuScale(8), TM.MenuScale(5), h - TM.MenuScale(16), Color(255, 255, 255, 175))
 					end
 
-					local DockAccount = vgui.Create("DPanel", OptionsScroller)
-					DockAccount:Dock(TOP)
-					DockAccount:SetSize(0, TM.MenuScale(110))
-
 					local DockInputs = vgui.Create("DPanel", OptionsScroller)
 					DockInputs:Dock(TOP)
 					DockInputs:SetSize(0, TM.MenuScale(720))
@@ -3683,18 +3679,8 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					SettingsCog:SetSize(TM.MenuScale(32), TM.MenuScale(32))
 					SettingsCog:SetImage("icons/settingsicon.png")
 
-					local AccountJump = vgui.Create("DImageButton", OptionsQuickjumpHolder)
-					AccountJump:SetPos(TM.MenuScale(4), TM.MenuScale(100))
-					AccountJump:SetSize(TM.MenuScale(48), TM.MenuScale(48))
-					AccountJump:SetTooltip("Account")
-					AccountJump:SetImage("icons/accounticon.png")
-					AccountJump.DoClick = function()
-						TriggerSound("click")
-						OptionsScroller:ScrollToChild(DockAccount)
-					end
-
 					local InputsJump = vgui.Create("DImageButton", OptionsQuickjumpHolder)
-					InputsJump:SetPos(TM.MenuScale(4), TM.MenuScale(152))
+					InputsJump:SetPos(TM.MenuScale(4), TM.MenuScale(100))
 					InputsJump:SetSize(TM.MenuScale(48), TM.MenuScale(48))
 					InputsJump:SetTooltip("Input")
 					InputsJump:SetImage("icons/inputicon.png")
@@ -3704,7 +3690,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local GameplayJump = vgui.Create("DImageButton", OptionsQuickjumpHolder)
-					GameplayJump:SetPos(TM.MenuScale(4), TM.MenuScale(204))
+					GameplayJump:SetPos(TM.MenuScale(4), TM.MenuScale(152))
 					GameplayJump:SetSize(TM.MenuScale(48), TM.MenuScale(48))
 					GameplayJump:SetTooltip("Gameplay")
 					GameplayJump:SetImage("icons/weaponicon.png")
@@ -3714,7 +3700,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local UIJump = vgui.Create("DImageButton", OptionsQuickjumpHolder)
-					UIJump:SetPos(TM.MenuScale(4), TM.MenuScale(256))
+					UIJump:SetPos(TM.MenuScale(4), TM.MenuScale(204))
 					UIJump:SetSize(TM.MenuScale(48), TM.MenuScale(48))
 					UIJump:SetTooltip("Interface")
 					UIJump:SetImage("icons/interfaceicon.png")
@@ -3724,7 +3710,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local AudioJump = vgui.Create("DImageButton", OptionsQuickjumpHolder)
-					AudioJump:SetPos(TM.MenuScale(4), TM.MenuScale(308))
+					AudioJump:SetPos(TM.MenuScale(4), TM.MenuScale(256))
 					AudioJump:SetSize(TM.MenuScale(48), TM.MenuScale(48))
 					AudioJump:SetTooltip("Audio")
 					AudioJump:SetImage("icons/audioicon.png")
@@ -3734,7 +3720,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local CrosshairJump = vgui.Create("DImageButton", OptionsQuickjumpHolder)
-					CrosshairJump:SetPos(TM.MenuScale(4), TM.MenuScale(360))
+					CrosshairJump:SetPos(TM.MenuScale(4), TM.MenuScale(308))
 					CrosshairJump:SetSize(TM.MenuScale(48), TM.MenuScale(48))
 					CrosshairJump:SetTooltip("Crosshair")
 					CrosshairJump:SetImage("icons/crosshairicon.png")
@@ -3744,7 +3730,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local HitmarkerJump = vgui.Create("DImageButton", OptionsQuickjumpHolder)
-					HitmarkerJump:SetPos(TM.MenuScale(4), TM.MenuScale(412))
+					HitmarkerJump:SetPos(TM.MenuScale(4), TM.MenuScale(360))
 					HitmarkerJump:SetSize(TM.MenuScale(48), TM.MenuScale(48))
 					HitmarkerJump:SetTooltip("Hitmarker")
 					HitmarkerJump:SetImage("icons/hitmarkericon.png")
@@ -3754,7 +3740,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					end
 
 					local PerformanceJump = vgui.Create("DImageButton", OptionsQuickjumpHolder)
-					PerformanceJump:SetPos(TM.MenuScale(4), TM.MenuScale(464))
+					PerformanceJump:SetPos(TM.MenuScale(4), TM.MenuScale(412))
 					PerformanceJump:SetSize(TM.MenuScale(48), TM.MenuScale(48))
 					PerformanceJump:SetTooltip("Performance")
 					PerformanceJump:SetImage("icons/performanceicon.png")
@@ -3776,19 +3762,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						MainPanel:AlphaTo(255, 0.05, 0.025)
 						timer.Remove("CrosshairDynamicPreview")
 					end
-
-					DockAccount.Paint = function(self, w, h)
-						draw.RoundedBox(0, 0, 0, w, h, gray)
-						draw.SimpleText("ACCOUNT", "OptionsHeader", TM.MenuScale(20), 0, white, TEXT_ALIGN_LEFT)
-
-						draw.SimpleText("Hide Lifetime Stats From Others", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(65), white, TEXT_ALIGN_LEFT)
-					end
-
-					local hideStatsFromOthers = DockAccount:Add("DCheckBox")
-					hideStatsFromOthers:SetPos(TM.MenuScale(20), TM.MenuScale(70))
-					hideStatsFromOthers:SetConVar("tm_hidestatsfromothers")
-					hideStatsFromOthers:SetSize(TM.MenuScale(30), TM.MenuScale(30))
-					function hideStatsFromOthers:OnChange() TriggerSound("click") end
 
 					DockInputs.Paint = function(self, w, h)
 						draw.RoundedBox(0, 0, 0, w, h, gray)
@@ -3876,61 +3849,61 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local mainMenuBind = DockInputs:Add("DBinder")
 					mainMenuBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(390))
 					mainMenuBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					mainMenuBind:SetSelectedNumber(GetConVar("tm_mainmenubind"):GetInt())
+					mainMenuBind:SetSelectedNumber(GetConVar("tm_bind_menu"):GetInt())
 					function mainMenuBind:OnChange(num)
 						TriggerSound("forward")
 						selectedMenuBind = mainMenuBind:GetSelectedNumber()
-						RunConsoleCommand("tm_mainmenubind", selectedMenuBind)
+						RunConsoleCommand("tm_bind_menu", selectedMenuBind)
 					end
 
 					local grenadeBind = DockInputs:Add("DBinder")
 					grenadeBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(430))
 					grenadeBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					grenadeBind:SetSelectedNumber(GetConVar("tm_nadebind"):GetInt())
+					grenadeBind:SetSelectedNumber(GetConVar("tm_bind_nade"):GetInt())
 					function grenadeBind:OnChange(num)
 						TriggerSound("forward")
 						selectedGrenadeBind = grenadeBind:GetSelectedNumber()
-						RunConsoleCommand("tm_nadebind", selectedGrenadeBind)
+						RunConsoleCommand("tm_bind_nade", selectedGrenadeBind)
 					end
 
 					local grappleBind = DockInputs:Add("DBinder")
 					grappleBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(470))
 					grappleBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					grappleBind:SetSelectedNumber(GetConVar("tm_grapplebind"):GetInt())
+					grappleBind:SetSelectedNumber(GetConVar("tm_bind_grapple"):GetInt())
 					function grappleBind:OnChange(num)
 						TriggerSound("forward")
 						selectedGrappleBind = grappleBind:GetSelectedNumber()
-						RunConsoleCommand("tm_grapplebind", selectedGrappleBind)
+						RunConsoleCommand("tm_bind_grapple", selectedGrappleBind)
 					end
 
 					local primaryBind = DockInputs:Add("DBinder")
 					primaryBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(510))
 					primaryBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					primaryBind:SetSelectedNumber(GetConVar("tm_primarybind"):GetInt())
+					primaryBind:SetSelectedNumber(GetConVar("tm_bind_primary"):GetInt())
 					function primaryBind:OnChange(num)
 						TriggerSound("forward")
 						selectedPrimaryBind = primaryBind:GetSelectedNumber()
-						RunConsoleCommand("tm_primarybind", selectedPrimaryBind)
+						RunConsoleCommand("tm_bind_primary", selectedPrimaryBind)
 					end
 
 					local secondaryBind = DockInputs:Add("DBinder")
 					secondaryBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(550))
 					secondaryBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					secondaryBind:SetSelectedNumber(GetConVar("tm_secondarybind"):GetInt())
+					secondaryBind:SetSelectedNumber(GetConVar("tm_bind_secondary"):GetInt())
 					function secondaryBind:OnChange(num)
 						TriggerSound("forward")
 						selectedSecondaryBind = secondaryBind:GetSelectedNumber()
-						RunConsoleCommand("tm_secondarybind", selectedSecondaryBind)
+						RunConsoleCommand("tm_bind_secondary", selectedSecondaryBind)
 					end
 
 					local meleeBind = DockInputs:Add("DBinder")
 					meleeBind:SetPos(TM.MenuScale(22.5), TM.MenuScale(590))
 					meleeBind:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					meleeBind:SetSelectedNumber(GetConVar("tm_meleebind"):GetInt())
+					meleeBind:SetSelectedNumber(GetConVar("tm_bind_melee"):GetInt())
 					function meleeBind:OnChange(num)
 						TriggerSound("forward")
 						selectedMeleeBind = meleeBind:GetSelectedNumber()
-						RunConsoleCommand("tm_meleebind", selectedMeleeBind)
+						RunConsoleCommand("tm_bind_melee", selectedMeleeBind)
 					end
 
 					local inspectBind = DockInputs:Add("DBinder")
@@ -3967,21 +3940,21 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local customFOV = DockGameplay:Add("DCheckBox")
 					customFOV:SetPos(TM.MenuScale(20), TM.MenuScale(70))
-					customFOV:SetConVar("tm_customfov")
+					customFOV:SetConVar("tm_fov")
 					customFOV:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function customFOV:OnChange() TriggerSound("click") end
 
 					local customFOVSlider = DockGameplay:Add("DNumSlider")
 					customFOVSlider:SetPos(TM.MenuScale(-85), TM.MenuScale(110))
 					customFOVSlider:SetSize(TM.MenuScale(250), TM.MenuScale(30))
-					customFOVSlider:SetConVar("tm_customfov_value")
+					customFOVSlider:SetConVar("tm_fov_amount")
 					customFOVSlider:SetMin(100)
 					customFOVSlider:SetMax(144)
 					customFOVSlider:SetDecimals(0)
 
 					local sprintingFOV = DockGameplay:Add("DCheckBox")
 					sprintingFOV:SetPos(TM.MenuScale(20), TM.MenuScale(150))
-					sprintingFOV:SetConVar("tm_customfov_sprint")
+					sprintingFOV:SetConVar("tm_fov_sprint")
 					sprintingFOV:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function sprintingFOV:OnChange() TriggerSound("click") end
 
@@ -4037,7 +4010,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						draw.SimpleText("HUD", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(65), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Notifications", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(105), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Damage Indicator", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(145), white, TEXT_ALIGN_LEFT)
-						draw.SimpleText("Reload Hints", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(185), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Loadout Hints", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(225), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Kill Tracker", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(265), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Keypress Overlay", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(305), white, TEXT_ALIGN_LEFT)
@@ -4057,15 +4029,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					notificationToggle:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function notificationToggle:OnChange() TriggerSound("click") end
 
-					local reloadHintsToggle = DockUI:Add("DCheckBox")
-					reloadHintsToggle:SetPos(TM.MenuScale(20), TM.MenuScale(190))
-					reloadHintsToggle:SetConVar("tm_hud_reloadhint")
-					reloadHintsToggle:SetSize(TM.MenuScale(30), TM.MenuScale(30))
-					function reloadHintsToggle:OnChange() TriggerSound("click") end
-
 					local loadoutHintsToggle = DockUI:Add("DCheckBox")
 					loadoutHintsToggle:SetPos(TM.MenuScale(20), TM.MenuScale(230))
-					loadoutHintsToggle:SetConVar("tm_hud_loadouthint")
+					loadoutHintsToggle:SetConVar("tm_hud_hints_loadout")
 					loadoutHintsToggle:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function loadoutHintsToggle:OnChange() TriggerSound("click") end
 
@@ -4083,7 +4049,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local VelocityCounterToggle = DockUI:Add("DCheckBox")
 					VelocityCounterToggle:SetPos(TM.MenuScale(20), TM.MenuScale(350))
-					VelocityCounterToggle:SetConVar("tm_hud_velocitycounter")
+					VelocityCounterToggle:SetConVar("tm_hud_velocityoverlay")
 					VelocityCounterToggle:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function VelocityCounterToggle:OnChange() TriggerSound("click") end
 
@@ -4108,34 +4074,34 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local menuSoundsButton = DockAudio:Add("DCheckBox")
 					menuSoundsButton:SetPos(TM.MenuScale(20), TM.MenuScale(70))
-					menuSoundsButton:SetConVar("tm_menusounds")
+					menuSoundsButton:SetConVar("tm_menu_sfx")
 					menuSoundsButton:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function menuSoundsButton:OnChange() TriggerSound("click") end
 
 					local musicVolume = DockAudio:Add("DNumSlider")
 					musicVolume:SetPos(TM.MenuScale(-85), TM.MenuScale(110))
 					musicVolume:SetSize(TM.MenuScale(250), TM.MenuScale(30))
-					musicVolume:SetConVar("tm_musicvolume")
+					musicVolume:SetConVar("tm_music_volume")
 					musicVolume:SetMin(0)
 					musicVolume:SetMax(1)
 					musicVolume:SetDecimals(2)
 
 					local hitSoundsButton = DockAudio:Add("DCheckBox")
 					hitSoundsButton:SetPos(TM.MenuScale(20), TM.MenuScale(150))
-					hitSoundsButton:SetConVar("tm_hitsounds")
+					hitSoundsButton:SetConVar("tm_hit_sfx")
 					hitSoundsButton:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function hitSoundsButton:OnChange() TriggerSound("click") end
 
 					local killSoundButton = DockAudio:Add("DCheckBox")
 					killSoundButton:SetPos(TM.MenuScale(20), TM.MenuScale(190))
-					killSoundButton:SetConVar("tm_killsound")
+					killSoundButton:SetConVar("tm_kill_sfx")
 					killSoundButton:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function killSoundButton:OnChange() TriggerSound("click") end
 
 					local hitSoundsType = DockAudio:Add("DComboBox")
 					hitSoundsType:SetPos(TM.MenuScale(20), TM.MenuScale(230))
 					hitSoundsType:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					if GetConVar("tm_hitsoundtype"):GetInt() == 0 then hitSoundsType:SetValue("Rust") elseif GetConVar("tm_hitsoundtype"):GetInt() == 1 then hitSoundsType:SetValue("TABG") elseif GetConVar("tm_hitsoundtype"):GetInt() == 2 then hitSoundsType:SetValue("Apex Legends") elseif GetConVar("tm_hitsoundtype"):GetInt() == 3 then hitSoundsType:SetValue("Bad Business") elseif GetConVar("tm_hitsoundtype"):GetInt() == 4 then hitSoundsType:SetValue("Call Of Duty") elseif GetConVar("tm_hitsoundtype"):GetInt() == 5 then hitSoundsType:SetValue("Overwatch") end
+					if GetConVar("tm_hit_sfx_style"):GetInt() == 0 then hitSoundsType:SetValue("Rust") elseif GetConVar("tm_hit_sfx_style"):GetInt() == 1 then hitSoundsType:SetValue("TABG") elseif GetConVar("tm_hit_sfx_style"):GetInt() == 2 then hitSoundsType:SetValue("Apex Legends") elseif GetConVar("tm_hit_sfx_style"):GetInt() == 3 then hitSoundsType:SetValue("Bad Business") elseif GetConVar("tm_hit_sfx_style"):GetInt() == 4 then hitSoundsType:SetValue("Call Of Duty") elseif GetConVar("tm_hit_sfx_style"):GetInt() == 5 then hitSoundsType:SetValue("Overwatch") end
 					hitSoundsType:AddChoice("Rust")
 					hitSoundsType:AddChoice("TABG")
 					hitSoundsType:AddChoice("Apex Legends")
@@ -4144,13 +4110,13 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					hitSoundsType:AddChoice("Overwatch")
 					hitSoundsType.OnSelect = function(self, value)
 						surface.PlaySound("hitsound/hit_" .. value - 1 .. ".wav")
-						RunConsoleCommand("tm_hitsoundtype", value - 1)
+						RunConsoleCommand("tm_hit_sfx_style", value - 1)
 					end
 
 					local killSoundsType = DockAudio:Add("DComboBox")
 					killSoundsType:SetPos(TM.MenuScale(20), TM.MenuScale(270))
 					killSoundsType:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					if GetConVar("tm_killsoundtype"):GetInt() == 0 then killSoundsType:SetValue("Call Of Duty") elseif GetConVar("tm_killsoundtype"):GetInt() == 1 then killSoundsType:SetValue("TABG") elseif GetConVar("tm_killsoundtype"):GetInt() == 2 then killSoundsType:SetValue("Bad Business") elseif GetConVar("tm_killsoundtype"):GetInt() == 3 then killSoundsType:SetValue("Apex Legends") elseif GetConVar("tm_killsoundtype"):GetInt() == 4 then killSoundsType:SetValue("Counter Strike") elseif GetConVar("tm_killsoundtype"):GetInt() == 5 then killSoundsType:SetValue("Overwatch") end
+					if GetConVar("tm_kill_sfx_style"):GetInt() == 0 then killSoundsType:SetValue("Call Of Duty") elseif GetConVar("tm_kill_sfx_style"):GetInt() == 1 then killSoundsType:SetValue("TABG") elseif GetConVar("tm_kill_sfx_style"):GetInt() == 2 then killSoundsType:SetValue("Bad Business") elseif GetConVar("tm_kill_sfx_style"):GetInt() == 3 then killSoundsType:SetValue("Apex Legends") elseif GetConVar("tm_kill_sfx_style"):GetInt() == 4 then killSoundsType:SetValue("Counter Strike") elseif GetConVar("tm_kill_sfx_style"):GetInt() == 5 then killSoundsType:SetValue("Overwatch") end
 					killSoundsType:AddChoice("Call Of Duty")
 					killSoundsType:AddChoice("TABG")
 					killSoundsType:AddChoice("Bad Business")
@@ -4159,13 +4125,13 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					killSoundsType:AddChoice("Overwatch")
 					killSoundsType.OnSelect = function(self, value)
 						surface.PlaySound("hitsound/kill_" .. value - 1 .. ".wav")
-						RunConsoleCommand("tm_killsoundtype", value - 1)
+						RunConsoleCommand("tm_kill_sfx_style", value - 1)
 					end
 
 					local headshotKillSoundsType = DockAudio:Add("DComboBox")
 					headshotKillSoundsType:SetPos(TM.MenuScale(20), TM.MenuScale(310))
 					headshotKillSoundsType:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-					if GetConVar("tm_headshotkillsoundtype"):GetInt() == 0 then headshotKillSoundsType:SetValue("Call Of Duty") elseif GetConVar("tm_headshotkillsoundtype"):GetInt() == 1 then headshotKillSoundsType:SetValue("TABG") elseif GetConVar("tm_headshotkillsoundtype"):GetInt() == 2 then headshotKillSoundsType:SetValue("Bad Business") elseif GetConVar("tm_headshotkillsoundtype"):GetInt() == 3 then headshotKillSoundsType:SetValue("Apex Legends") elseif GetConVar("tm_headshotkillsoundtype"):GetInt() == 4 then headshotKillSoundsType:SetValue("Counter Strike") elseif GetConVar("tm_headshotkillsoundtype"):GetInt() == 5 then headshotKillSoundsType:SetValue("Overwatch") end
+					if GetConVar("tm_kill_headshot_sfx_style"):GetInt() == 0 then headshotKillSoundsType:SetValue("Call Of Duty") elseif GetConVar("tm_kill_headshot_sfx_style"):GetInt() == 1 then headshotKillSoundsType:SetValue("TABG") elseif GetConVar("tm_kill_headshot_sfx_style"):GetInt() == 2 then headshotKillSoundsType:SetValue("Bad Business") elseif GetConVar("tm_kill_headshot_sfx_style"):GetInt() == 3 then headshotKillSoundsType:SetValue("Apex Legends") elseif GetConVar("tm_kill_headshot_sfx_style"):GetInt() == 4 then headshotKillSoundsType:SetValue("Counter Strike") elseif GetConVar("tm_kill_headshot_sfx_style"):GetInt() == 5 then headshotKillSoundsType:SetValue("Overwatch") end
 					headshotKillSoundsType:AddChoice("Call Of Duty")
 					headshotKillSoundsType:AddChoice("TABG")
 					headshotKillSoundsType:AddChoice("Bad Business")
@@ -4174,7 +4140,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					headshotKillSoundsType:AddChoice("Overwatch")
 					headshotKillSoundsType.OnSelect = function(self, value)
 						surface.PlaySound("hitsound/kill_" .. value - 1 .. ".wav")
-						RunConsoleCommand("tm_headshotkillsoundtype", value - 1)
+						RunConsoleCommand("tm_kill_headshot_sfx_style", value - 1)
 					end
 
 					DockCrosshair.Paint = function(self, w, h)
@@ -4450,7 +4416,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					hitmarkerDuration:SetPos(TM.MenuScale(-85), TM.MenuScale(270))
 					hitmarkerDuration:SetSize(TM.MenuScale(250), TM.MenuScale(30))
 					hitmarkerDuration:SetConVar("tm_hud_hitmarker_duration")
-					hitmarkerDuration:SetMin(1)
+					hitmarkerDuration:SetMin(0.5)
 					hitmarkerDuration:SetMax(5)
 					hitmarkerDuration:SetDecimals(1)
 					function hitmarkerDuration:OnValueChanged() end
@@ -4497,12 +4463,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							["thickness"] = GetConVar("tm_hud_hitmarker_thickness"):GetInt(),
 							["opacity"] = GetConVar("tm_hud_hitmarker_opacity"):GetInt(),
 							["duration"] = GetConVar("tm_hud_hitmarker_duration"):GetInt(),
-							["hit_r"] = GetConVar("tm_hud_hitmarker_color_hit_r"):GetInt(),
-							["hit_g"] = GetConVar("tm_hud_hitmarker_color_hit_g"):GetInt(),
-							["hit_b"] = GetConVar("tm_hud_hitmarker_color_hit_b"):GetInt(),
-							["head_r"] = GetConVar("tm_hud_hitmarker_color_head_r"):GetInt(),
-							["head_g"] = GetConVar("tm_hud_hitmarker_color_head_g"):GetInt(),
-							["head_b"] = GetConVar("tm_hud_hitmarker_color_head_b"):GetInt()
+							["hit_r"] = GetConVar("tm_hud_hitmarker_color_r"):GetInt(),
+							["hit_g"] = GetConVar("tm_hud_hitmarker_color_g"):GetInt(),
+							["hit_b"] = GetConVar("tm_hud_hitmarker_color_b"):GetInt(),
+							["head_r"] = GetConVar("tm_hud_hitmarker_head_color_r"):GetInt(),
+							["head_g"] = GetConVar("tm_hud_hitmarker_head_color_g"):GetInt(),
+							["head_b"] = GetConVar("tm_hud_hitmarker_head_color_b"):GetInt()
 						}
 					end
 					UpdateHitmarker()
@@ -4539,7 +4505,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					local renderHands = DockPerformance:Add("DCheckBox")
 					renderHands:SetPos(TM.MenuScale(20), TM.MenuScale(70))
-					renderHands:SetConVar("tm_renderhands")
+					renderHands:SetConVar("tm_render_hands")
 					renderHands:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function renderHands:OnChange() TriggerSound("click") end
 
@@ -4642,29 +4608,19 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						["text_b"] = GetConVar("tm_hud_text_color_b"):GetInt()
 					}
 					draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 0))
-					if GetConVar("tm_hud_ammo_style"):GetInt() == 0 then
-						draw.SimpleText(wep, "HUD_GunPrintName", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(50) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
-						if GetConVar("tm_hud_killtracker"):GetInt() == 1 then draw.SimpleText(health .. " kills", "HUD_StreakText", ScrW() - TM.ScreenScale(5) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(170) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
-						draw.SimpleText(ammo, "HUD_AmmoCount", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(165) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
-					elseif GetConVar("tm_hud_ammo_style"):GetInt() == 1 then
-						draw.SimpleText(wep, "HUD_GunPrintName", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(90) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
-						if GetConVar("tm_hud_killtracker"):GetInt() == 1 then draw.SimpleText(health .. " kills", "HUD_StreakText", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(105) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
-						surface.SetDrawColor(GetConVar("tm_hud_ammo_bar_color_r"):GetInt() - 205, GetConVar("tm_hud_ammo_bar_color_g"):GetInt() - 205, GetConVar("tm_hud_ammo_bar_color_b"):GetInt() - 205, 80)
-						surface.DrawRect(ScrW() - TM.ScreenScale(400) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(400), TM.ScreenScale(30))
-						surface.SetDrawColor(GetConVar("tm_hud_ammo_bar_color_r"):GetInt(), GetConVar("tm_hud_ammo_bar_color_g"):GetInt(), GetConVar("tm_hud_ammo_bar_color_b"):GetInt(), 175)
-						surface.DrawRect(ScrW() - TM.ScreenScale(400) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(400) * (ammo / 30), TM.ScreenScale(30))
-						draw.SimpleText(ammo, "HUD_Health", ScrW() - TM.ScreenScale(390) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
-					end
+					draw.SimpleText(wep, "HUD_GunPrintName", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(50) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
+					if GetConVar("tm_hud_killtracker"):GetInt() == 1 then draw.SimpleText(health .. " kills", "HUD_StreakText", ScrW() - TM.ScreenScale(5) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(170) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
+					draw.SimpleText(ammo, "HUD_AmmoCount", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(165) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
 					surface.SetDrawColor(50, 50, 50, 80)
 					surface.DrawRect(TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + (GetConVar("tm_hud_bounds_x"):GetInt())), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + (GetConVar("tm_hud_bounds_y"):GetInt())), TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()), TM.ScreenScale(30))
 					if health <= 66 then
 						if health <= 33 then
-							surface.SetDrawColor(GetConVar("tm_hud_health_color_low_r"):GetInt(), GetConVar("tm_hud_health_color_low_g"):GetInt(), GetConVar("tm_hud_health_color_low_b"):GetInt(), 120)
+							surface.SetDrawColor(180, 100, 100, 120)
 						else
-							surface.SetDrawColor(GetConVar("tm_hud_health_color_mid_r"):GetInt(), GetConVar("tm_hud_health_color_mid_g"):GetInt(), GetConVar("tm_hud_health_color_mid_b"):GetInt(), 120)
+							surface.SetDrawColor(180, 180, 100, 120)
 						end
 					else
-						surface.SetDrawColor(GetConVar("tm_hud_health_color_high_r"):GetInt(), GetConVar("tm_hud_health_color_high_g"):GetInt(), GetConVar("tm_hud_health_color_high_b"):GetInt(), 120)
+						surface.SetDrawColor(100, 180, 100, 120)
 					end
 					surface.DrawRect(TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()) * (health / 100), TM.ScreenScale(30))
 					draw.SimpleText(health, "HUD_Health", TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()) + TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
@@ -4685,7 +4641,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					surface.SetMaterial(grappleMat)
 					surface.SetDrawColor(255,255,255,255)
 					surface.DrawTexturedRect(TM.ScreenScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.ScreenScale(45), ScrH() - TM.ScreenScale(40) - TM.ScreenScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(35), TM.ScreenScale(40))
-					draw.SimpleText("[" .. string.upper(input.GetKeyName(GetConVar("tm_grapplebind"):GetInt())) .. "]", "HUD_StreakText", TM.ScreenScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - TM.ScreenScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+					draw.SimpleText("[" .. string.upper(input.GetKeyName(GetConVar("tm_bind_grapple"):GetInt())) .. "]", "HUD_StreakText", TM.ScreenScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - TM.ScreenScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
 					surface.SetMaterial(nadeMat)
 					surface.SetDrawColor(255,255,255,255)
 					surface.DrawTexturedRect(TM.ScreenScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) + TM.ScreenScale(10), ScrH() - TM.ScreenScale(40) - TM.ScreenScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(35), TM.ScreenScale(40))
@@ -4722,8 +4678,8 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						draw.SimpleText("RUN", "HUD_StreakText", TM.ScreenScale(33) + keyX, TM.ScreenScale(154) + keyY, inactiveColor, TEXT_ALIGN_CENTER)
 						draw.SimpleText("DUCK", "HUD_StreakText", TM.ScreenScale(105) + keyX, TM.ScreenScale(154) + keyY, actuatedColor, TEXT_ALIGN_CENTER)
 					end
-					if GetConVar("tm_hud_velocitycounter"):GetInt() == 1 then
-						draw.SimpleText(velocity .. " u/s", "HUD_Health", TM.ScreenScale(GetConVar("tm_hud_velocitycounter_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), TM.ScreenScale(GetConVar("tm_hud_velocitycounter_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+					if GetConVar("tm_hud_velocityoverlay"):GetInt() == 1 then
+						draw.SimpleText(velocity .. " u/s", "HUD_Health", TM.ScreenScale(GetConVar("tm_hud_velocityoverlay_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), TM.ScreenScale(GetConVar("tm_hud_velocityoverlay_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 					end
 					timeText = string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i")
 					draw.SimpleText(mode .. " |" .. timeText, "HUD_Health", ScrW() / 2, TM.ScreenScale(-5) + TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
@@ -4816,7 +4772,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				HUDScale:SetPos(TM.MenuScale(-85), TM.MenuScale(50))
 				HUDScale:SetSize(TM.MenuScale(250), TM.MenuScale(30))
 				HUDScale:SetConVar("tm_hud_scale")
-				HUDScale:SetMin(0.5)
+				HUDScale:SetMin(0.25)
 				HUDScale:SetMax(2)
 				HUDScale:SetDecimals(2)
 
@@ -4876,42 +4832,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				WepTextColor:SetPalette(false)
 				WepTextColor:SetWangs(true)
 
-				local AmmoEditor = vgui.Create("DPanel", EditorScroller)
-				AmmoEditor:Dock(TOP)
-				AmmoEditor:SetSize(0, TM.MenuScale(170))
-				AmmoEditor.Paint = function(self, w, h)
-					draw.RoundedBox(0, 0, 0, w, h, Color(10, 10, 10, 160))
-					draw.SimpleText("AMMO", "SettingsLabel", TM.MenuScale(20), TM.MenuScale(10), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("Style", "Health", TM.MenuScale(125), TM.MenuScale(50), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("Bar Color", "Health", TM.MenuScale(210), TM.MenuScale(85), white, TEXT_ALIGN_LEFT)
-				end
-
-				local AmmoStyle = AmmoEditor:Add("DComboBox")
-				AmmoStyle:SetPos(TM.MenuScale(20), TM.MenuScale(50))
-				AmmoStyle:SetSize(TM.MenuScale(100), TM.MenuScale(30))
-				if GetConVar("tm_hud_ammo_style"):GetInt() == 0 then
-					AmmoStyle:SetValue("Numeric")
-				elseif GetConVar("tm_hud_ammo_style"):GetInt() == 1 then
-					AmmoStyle:SetValue("Bar")
-				end
-				AmmoStyle:AddChoice("Numeric")
-				AmmoStyle:AddChoice("Bar")
-				AmmoStyle.OnSelect = function(self, value)
-					surface.PlaySound("tmui/buttonrollover.wav")
-					RunConsoleCommand("tm_hud_ammo_style", value - 1)
-					TriggerSound("forward")
-				end
-
-				local AmmoBarColor = vgui.Create("DColorMixer", AmmoEditor)
-				AmmoBarColor:SetPos(TM.MenuScale(20), TM.MenuScale(90))
-				AmmoBarColor:SetSize(TM.MenuScale(185), TM.MenuScale(70))
-				AmmoBarColor:SetConVarR("tm_hud_ammo_bar_color_r")
-				AmmoBarColor:SetConVarG("tm_hud_ammo_bar_color_g")
-				AmmoBarColor:SetConVarB("tm_hud_ammo_bar_color_b")
-				AmmoBarColor:SetAlphaBar(false)
-				AmmoBarColor:SetPalette(false)
-				AmmoBarColor:SetWangs(true)
-
 				local HealthEditor = vgui.Create("DPanel", EditorScroller)
 				HealthEditor:Dock(TOP)
 				HealthEditor:SetSize(0, TM.MenuScale(390))
@@ -4949,36 +4869,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				HealthBarY:SetMin(0)
 				HealthBarY:SetMax(1080)
 				HealthBarY:SetDecimals(0)
-
-				local HealthHighColor = vgui.Create("DColorMixer", HealthEditor)
-				HealthHighColor:SetPos(TM.MenuScale(20), TM.MenuScale(150))
-				HealthHighColor:SetSize(TM.MenuScale(185), TM.MenuScale(70))
-				HealthHighColor:SetConVarR("tm_hud_health_color_high_r")
-				HealthHighColor:SetConVarG("tm_hud_health_color_high_g")
-				HealthHighColor:SetConVarB("tm_hud_health_color_high_b")
-				HealthHighColor:SetAlphaBar(false)
-				HealthHighColor:SetPalette(false)
-				HealthHighColor:SetWangs(true)
-
-				local HealthMidColor = vgui.Create("DColorMixer", HealthEditor)
-				HealthMidColor:SetPos(TM.MenuScale(20), TM.MenuScale(230))
-				HealthMidColor:SetSize(TM.MenuScale(185), TM.MenuScale(70))
-				HealthMidColor:SetConVarR("tm_hud_health_color_mid_r")
-				HealthMidColor:SetConVarG("tm_hud_health_color_mid_g")
-				HealthMidColor:SetConVarB("tm_hud_health_color_mid_b")
-				HealthMidColor:SetAlphaBar(false)
-				HealthMidColor:SetPalette(false)
-				HealthMidColor:SetWangs(true)
-
-				local HealthLowColor = vgui.Create("DColorMixer", HealthEditor)
-				HealthLowColor:SetPos(TM.MenuScale(20), TM.MenuScale(310))
-				HealthLowColor:SetSize(TM.MenuScale(185), TM.MenuScale(70))
-				HealthLowColor:SetConVarR("tm_hud_health_color_low_r")
-				HealthLowColor:SetConVarG("tm_hud_health_color_low_g")
-				HealthLowColor:SetConVarB("tm_hud_health_color_low_b")
-				HealthLowColor:SetAlphaBar(false)
-				HealthLowColor:SetPalette(false)
-				HealthLowColor:SetWangs(true)
 
 				local EquipmentEditor = vgui.Create("DPanel", EditorScroller)
 				EquipmentEditor:Dock(TOP)
@@ -5054,7 +4944,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					draw.DrawText("Add Feed Entry", "StreakText", 0 + TM.MenuScale(textAnim), 0, white, TEXT_ALIGN_LEFT)
 				end
 				AddFeedEntryButton.DoClick = function()
-					if GetConVar("tm_hud_enablekillfeed"):GetInt() == 0 then return end
+					if GetConVar("tm_hud_killfeed"):GetInt() == 0 then return end
 					local playersInAction = LocalPlayer():Nick() .. " killed " .. math.random(1, 1000)
 					local victimLastHitIn = math.random(0, 1)
 
@@ -5064,7 +4954,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 				local EnableKillFeed = KillFeedEditor:Add("DCheckBox")
 				EnableKillFeed:SetPos(TM.MenuScale(20), TM.MenuScale(50))
-				EnableKillFeed:SetConVar("tm_hud_enablekillfeed")
+				EnableKillFeed:SetConVar("tm_hud_killfeed")
 				EnableKillFeed:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 				function EnableKillFeed:OnChange() TriggerSound("click") end
 
@@ -5116,44 +5006,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				KillFeedOpacity:SetMax(255)
 				KillFeedOpacity:SetDecimals(0)
 
-				local KillDeathEditor
-				KillDeathEditor = vgui.Create("DPanel", EditorScroller)
-				KillDeathEditor:Dock(TOP)
-				KillDeathEditor:SetSize(0, TM.MenuScale(200))
-				KillDeathEditor.Paint = function(self, w, h)
-					draw.RoundedBox(0, 0, 0, w, h, Color(10, 10, 10, 160))
-					draw.SimpleText("KILL/DEATH UI", "SettingsLabel", TM.MenuScale(20), TM.MenuScale(10), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("UI X Offset", "Health", TM.MenuScale(165), TM.MenuScale(50), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("UI Y Offset", "Health", TM.MenuScale(165), TM.MenuScale(80), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("Kill Icon Color", "Health", TM.MenuScale(210), TM.MenuScale(115), white, TEXT_ALIGN_LEFT)
-				end
-
-				local KillDeathX = KillDeathEditor:Add("DNumSlider")
-				KillDeathX:SetPos(TM.MenuScale(-85), TM.MenuScale(50))
-				KillDeathX:SetSize(TM.MenuScale(250), TM.MenuScale(30))
-				KillDeathX:SetConVar("tm_hud_killdeath_offset_x")
-				KillDeathX:SetMin(-960)
-				KillDeathX:SetMax(960)
-				KillDeathX:SetDecimals(0)
-
-				local KillDeathY = KillDeathEditor:Add("DNumSlider")
-				KillDeathY:SetPos(TM.MenuScale(-85), TM.MenuScale(80))
-				KillDeathY:SetSize(TM.MenuScale(250), TM.MenuScale(30))
-				KillDeathY:SetConVar("tm_hud_killdeath_offset_y")
-				KillDeathY:SetMin(0)
-				KillDeathY:SetMax(1080)
-				KillDeathY:SetDecimals(0)
-
-				local KillColor = vgui.Create("DColorMixer", KillDeathEditor)
-				KillColor:SetPos(TM.MenuScale(20), TM.MenuScale(120))
-				KillColor:SetSize(TM.MenuScale(185), TM.MenuScale(70))
-				KillColor:SetConVarR("tm_hud_kill_iconcolor_r")
-				KillColor:SetConVarG("tm_hud_kill_iconcolor_g")
-				KillColor:SetConVarB("tm_hud_kill_iconcolor_b")
-				KillColor:SetAlphaBar(false)
-				KillColor:SetPalette(false)
-				KillColor:SetWangs(true)
-
 				local ObjectiveEditor
 				ObjectiveEditor = vgui.Create("DPanel", EditorScroller)
 				ObjectiveEditor:Dock(TOP)
@@ -5171,16 +5023,16 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				ObjScale:SetPos(TM.MenuScale(-85), TM.MenuScale(50))
 				ObjScale:SetSize(TM.MenuScale(250), TM.MenuScale(30))
 				ObjScale:SetConVar("tm_hud_obj_scale")
-				ObjScale:SetMin(0.5)
+				ObjScale:SetMin(0.25)
 				ObjScale:SetMax(3.0)
 				ObjScale:SetDecimals(2)
 
 				local ObjEmptyBrushColor = vgui.Create("DColorMixer", ObjectiveEditor)
 				ObjEmptyBrushColor:SetPos(TM.MenuScale(20), TM.MenuScale(90))
 				ObjEmptyBrushColor:SetSize(TM.MenuScale(185), TM.MenuScale(70))
-				ObjEmptyBrushColor:SetConVarR("tm_hud_obj_color_empty_r")
-				ObjEmptyBrushColor:SetConVarG("tm_hud_obj_color_empty_g")
-				ObjEmptyBrushColor:SetConVarB("tm_hud_obj_color_empty_b")
+				ObjEmptyBrushColor:SetConVarR("tm_hud_obj_empty_color_r")
+				ObjEmptyBrushColor:SetConVarG("tm_hud_obj_empty_color_g")
+				ObjEmptyBrushColor:SetConVarB("tm_hud_obj_empty_color_b")
 				ObjEmptyBrushColor:SetAlphaBar(false)
 				ObjEmptyBrushColor:SetPalette(false)
 				ObjEmptyBrushColor:SetWangs(true)
@@ -5188,9 +5040,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local ObjOccupiedBrushColor = vgui.Create("DColorMixer", ObjectiveEditor)
 				ObjOccupiedBrushColor:SetPos(TM.MenuScale(20), TM.MenuScale(170))
 				ObjOccupiedBrushColor:SetSize(TM.MenuScale(185), TM.MenuScale(70))
-				ObjOccupiedBrushColor:SetConVarR("tm_hud_obj_color_occupied_r")
-				ObjOccupiedBrushColor:SetConVarG("tm_hud_obj_color_occupied_g")
-				ObjOccupiedBrushColor:SetConVarB("tm_hud_obj_color_occupied_b")
+				ObjOccupiedBrushColor:SetConVarR("tm_hud_obj_occupied_color_r")
+				ObjOccupiedBrushColor:SetConVarG("tm_hud_obj_occupied_color_g")
+				ObjOccupiedBrushColor:SetConVarB("tm_hud_obj_occupied_color_b")
 				ObjOccupiedBrushColor:SetAlphaBar(false)
 				ObjOccupiedBrushColor:SetPalette(false)
 				ObjOccupiedBrushColor:SetWangs(true)
@@ -5198,9 +5050,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local ObjContestedBrushColor = vgui.Create("DColorMixer", ObjectiveEditor)
 				ObjContestedBrushColor:SetPos(TM.MenuScale(20), TM.MenuScale(250))
 				ObjContestedBrushColor:SetSize(TM.MenuScale(185), TM.MenuScale(70))
-				ObjContestedBrushColor:SetConVarR("tm_hud_obj_color_contested_r")
-				ObjContestedBrushColor:SetConVarG("tm_hud_obj_color_contested_g")
-				ObjContestedBrushColor:SetConVarB("tm_hud_obj_color_contested_b")
+				ObjContestedBrushColor:SetConVarR("tm_hud_obj_contested_color_r")
+				ObjContestedBrushColor:SetConVarG("tm_hud_obj_contested_color_g")
+				ObjContestedBrushColor:SetConVarB("tm_hud_obj_contested_color_b")
 				ObjContestedBrushColor:SetAlphaBar(false)
 				ObjContestedBrushColor:SetPalette(false)
 				ObjContestedBrushColor:SetWangs(true)
@@ -5259,7 +5111,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				KeypressActuatedColor:SetWangs(true)
 
 				local VelocityCounter
-				if GetConVar("tm_hud_velocitycounter"):GetInt() == 1 then VelocityCounter = vgui.Create("DPanel", EditorScroller) else
+				if GetConVar("tm_hud_velocityoverlay"):GetInt() == 1 then VelocityCounter = vgui.Create("DPanel", EditorScroller) else
 					VelocityCounter = vgui.Create("DPanel", HiddenOptionsScroller)
 					ShowHiddenOptions = true
 				end
@@ -5277,7 +5129,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local VelocityCounterX = VelocityCounter:Add("DNumSlider")
 				VelocityCounterX:SetPos(TM.MenuScale(-85), TM.MenuScale(50))
 				VelocityCounterX:SetSize(TM.MenuScale(250), TM.MenuScale(30))
-				VelocityCounterX:SetConVar("tm_hud_velocitycounter_x")
+				VelocityCounterX:SetConVar("tm_hud_velocityoverlay_x")
 				VelocityCounterX:SetMin(0)
 				VelocityCounterX:SetMax(1920)
 				VelocityCounterX:SetDecimals(0)
@@ -5285,7 +5137,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local VelocityCounterY = VelocityCounter:Add("DNumSlider")
 				VelocityCounterY:SetPos(TM.MenuScale(-85), TM.MenuScale(80))
 				VelocityCounterY:SetSize(TM.MenuScale(250), TM.MenuScale(30))
-				VelocityCounterY:SetConVar("tm_hud_velocitycounter_y")
+				VelocityCounterY:SetConVar("tm_hud_velocityoverlay_y")
 				VelocityCounterY:SetMin(0)
 				VelocityCounterY:SetMax(1080)
 				VelocityCounterY:SetDecimals(0)
@@ -5406,11 +5258,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					draw.DrawText("Export HUD Code", "Health", 0 + TM.MenuScale(textAnim), 0, white, TEXT_ALIGN_LEFT)
 				end
 				ExportCode.DoClick = function()
-					CreateExportedCodeEntry(GetConVar("tm_hud_scale"):GetFloat() .. "-" .. GetConVar("tm_hud_font"):GetString() .. "-" .. GetConVar("tm_hud_bounds_x"):GetInt() .. "-" .. GetConVar("tm_hud_bounds_y"):GetInt() .. "-" .. GetConVar("tm_hud_text_color_r"):GetInt() .. "-" .. GetConVar("tm_hud_text_color_g"):GetInt() .. "-" .. GetConVar("tm_hud_text_color_b"):GetInt() .. "-" .. GetConVar("tm_hud_ammo_style"):GetInt() .. "-" .. GetConVar("tm_hud_ammo_bar_color_r"):GetInt() .. "-" .. GetConVar("tm_hud_ammo_bar_color_g"):GetInt() .. "-"
-					.. GetConVar("tm_hud_ammo_bar_color_b"):GetInt() .. "-" .. GetConVar("tm_hud_health_size"):GetInt() .. "-" .. GetConVar("tm_hud_health_offset_x"):GetInt() .. "-" .. GetConVar("tm_hud_health_offset_y"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_high_r"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_high_g"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_high_b"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_mid_r"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_mid_g"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_mid_b"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_low_r"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_low_g"):GetInt() .. "-" .. GetConVar("tm_hud_health_color_low_b"):GetInt() .. "-" .. GetConVar("tm_hud_equipment_anchor"):GetInt() .. "-"
-					.. GetConVar("tm_hud_equipment_offset_x"):GetInt() .. "-" .. GetConVar("tm_hud_equipment_offset_y"):GetInt() .. "-" .. GetConVar("tm_hud_enablekillfeed"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_style"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_limit"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_offset_x"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_offset_y"):GetInt() .. "-" .. GetConVar("tm_hud_killfeed_opacity"):GetInt() .. "-" .. GetConVar("tm_hud_killdeath_offset_x"):GetInt() .. "-" .. GetConVar("tm_hud_killdeath_offset_y"):GetInt() .. "-" .. GetConVar("tm_hud_kill_iconcolor_r"):GetInt() .. "-" .. GetConVar("tm_hud_kill_iconcolor_g"):GetInt() .. "-" .. GetConVar("tm_hud_kill_iconcolor_b"):GetInt() .. "-" .. GetConVar("tm_hud_obj_scale"):GetInt() .. "-"
-					.. GetConVar("tm_hud_obj_color_empty_r"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_empty_g"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_empty_b"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_occupied_r"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_occupied_g"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_occupied_b"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_contested_r"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_contested_g"):GetInt() .. "-" .. GetConVar("tm_hud_obj_color_contested_b"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_x"):GetInt() .. "-"
-					.. GetConVar("tm_hud_keypressoverlay_y"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_inactive_r"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_inactive_g"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_inactive_b"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_actuated_r"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_actuated_g"):GetInt() .. "-" .. GetConVar("tm_hud_keypressoverlay_actuated_b"):GetInt() .. "-" .. GetConVar("tm_hud_velocitycounter_x"):GetInt() .. "-" .. GetConVar("tm_hud_velocitycounter_y"):GetInt())
+					CreateExportedCodeEntry()
 				end
 
 				local ResetToDefaultButton = vgui.Create("DButton", EditorButtons)

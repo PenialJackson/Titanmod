@@ -9,8 +9,8 @@ if CLIENT then
 	hook.Add("TFA_TranslateFOV", "DisableClientFOVChange", function(ply)
 		if LocalPlayer():Alive() then return end
 
-		if LocalPlayer():GetInfoNum("tm_customfov", 0) == 1 then
-			return LocalPlayer():GetInfoNum("tm_customfov_value", 100)
+		if LocalPlayer():GetInfoNum("tm_fov", 0) == 1 then
+			return LocalPlayer():GetInfoNum("tm_fov_amount", 100)
 		else
 			return LocalPlayer():GetInfoNum("fov_desired", 75)
 		end

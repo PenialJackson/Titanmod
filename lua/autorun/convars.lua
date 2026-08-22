@@ -190,154 +190,779 @@ cvars["voting"] = {
 	max = 1
 }
 
-cvars["death_camera"] = {
+cvars["deathcam"] = {
 	default = 1,
 	replicated = true,
+	min = 0,
+	max = 1,
+	userinfo = true
+}
+
+-- client
+cvars["menu_sfx"] = {
+	client = true,
+	default = 1,
 	min = 0,
 	max = 1
 }
 
-if CLIENT then
-	CreateClientConVar("tm_menusounds", 1, true, false, "Enable/disable the menu sounds", 0, 1)
-	CreateClientConVar("tm_hitsounds", 1, true, false, "Enable/disable the hitsounds", 0, 1)
-	CreateClientConVar("tm_killsound", 1, true, false, "Enable/disable the kill confirmation sound", 0, 1)
-	CreateClientConVar("tm_musicvolume", 1, true, false, "Increase or lower the volume of music", 0, 1)
-	CreateClientConVar("tm_hitsoundtype", 0, true, false, "Switch between the multiple styles of hitsounds", 0, 5)
-	CreateClientConVar("tm_killsoundtype", 0, true, false, "Switch between the multiple styles of kill sounds", 0, 5)
-	CreateClientConVar("tm_headshotkillsoundtype", 0, true, false, "Switch between the multiple styles of kill sounds when getting a headshot kill", 0, 5)
-	CreateClientConVar("tm_nadebind", KEY_4, true, true, "Determines the keybind that will begin cocking a grenade")
-	CreateClientConVar("tm_grapplebind", KEY_G, true, true, "")
-	CreateClientConVar("tm_mainmenubind", KEY_M, true, true, "Determines the keybind that will open the main menu")
-	CreateClientConVar("tm_primarybind", KEY_1, true, true, "Determines the keybind that will switch to your primary weapon")
-	CreateClientConVar("tm_secondarybind", KEY_2, true, true, "Determines the keybind that will switch to your secondary weapon")
-	CreateClientConVar("tm_meleebind", KEY_3, true, true, "Determines the keybind that will switch to your melee")
-	CreateClientConVar("tm_hidestatsfromothers", 0, true, true, "Determines if other players can see and/or compare your stats", 0, 1)
-	CreateClientConVar("tm_screenflashes", 1, true, false, "Enable/disable sudden screen flashes on certain occasions (mainly dying and leveling up)", 0, 1)
-	CreateClientConVar("tm_lensflare", 1, true, false, "Enable/disable lens flare effects", 0, 1)
-	CreateClientConVar("tm_deathcam", 1, true, true, "Enable/disable the custom death camera when killed by another player", 0, 1)
-	CreateClientConVar("tm_customfov", 0, true, true, "Enable/disable Titanmod's custom FOV system", 0, 1)
-	CreateClientConVar("tm_customfov_value", 100, true, true, "Adjust the players FOV while using Titanmod's custom FOV system", 100, 144)
-	CreateClientConVar("tm_customfov_sprint", 1, true, true, "Increase the players FOV while sprinting", 0, 1)
-	CreateClientConVar("tm_sensitivity_1x", 80, true, true, "Adjust the sensitivity when using iron sights/low zoom optics", 1, 100)
-	CreateClientConVar("tm_sensitivity_2x", 50, true, true, "Adjust the sensitivity when using medium zoom optics", 1, 100)
-	CreateClientConVar("tm_sensitivity_4x", 25, true, true, "Adjust the sensitivity when using medium-high zoom optics", 1, 100)
-	CreateClientConVar("tm_sensitivity_6x", 12, true, true, "Adjust the sensitivity when using high zoom optics", 1, 100)
-	CreateClientConVar("tm_sensitivity_transition", 1, true, true, "Adjust the style of transition between different zoom sensitivities", 0, 1)
-	CreateClientConVar("tm_renderhands", 1, true, false, "Enable/disable the rendering of your own hands", 0, 1)
-	CreateClientConVar("tm_autosprint", 0, true, true, "Enable/disable automatic sprinting while moving", 0, 1)
-	CreateClientConVar("tm_autosprint_delay", 0.25, true, true, "Adjust the time between pressing a mouse button and being able to auto sprint again", 0.25, 0.50)
+cvars["hit_sfx"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
 
-	CreateClientConVar("tm_hud_enable", 1, true, false, "Enable/disable any custom HUD elements created by the gamemode", 0, 1)
-	CreateClientConVar("tm_hud_scale", 1, true, false, "Adjust the scale for all HUD items", 0.5, 2)
-	CreateClientConVar("tm_hud_bounds_x", 15, true, false, "Adjust the HUD bounds on the X axis, moving all hud elements from the edge of your screen", 0, 480)
-	CreateClientConVar("tm_hud_bounds_y", 15, true, false, "Adjust the HUD bounds on the Y axis, moving all hud elements from the edge of your screen", 0, 270)
-	CreateClientConVar("tm_hud_text_color_r", 255, true, false, "Adjusts the red coloring of the HUD text", 0, 255)
-	CreateClientConVar("tm_hud_text_color_g", 255, true, false, "Adjusts the green coloring of the HUD text", 0, 255)
-	CreateClientConVar("tm_hud_text_color_b", 255, true, false, "Adjusts the blue coloring of the HUD text", 0, 255)
-	CreateClientConVar("tm_hud_enablekillfeed", 1, true, false, "Enable/disable the kill feed", 0, 1)
-	CreateClientConVar("tm_hud_font", "Bender", true, false, "Enable/disable any custom HUD elements created by the gamemode")
-	CreateClientConVar("tm_hud_ammo_style", 0, true, false, "Adjusts the style and look of the ammo counter", 0, 1)
-	CreateClientConVar("tm_hud_ammo_bar_color_r", 150, true, false, "Adjusts the red coloring for the ammo bar", 0, 255)
-	CreateClientConVar("tm_hud_ammo_bar_color_g", 100, true, false, "Adjusts the green coloring for the ammo bar", 0, 255)
-	CreateClientConVar("tm_hud_ammo_bar_color_b", 50, true, false, "Adjusts the blue coloring for the ammo bar", 0, 255)
-	CreateClientConVar("tm_hud_health_size", 450, true, false, "Adjusts the size of the players health bar", 100, 1000)
-	CreateClientConVar("tm_hud_health_offset_x", 0, true, false, "Adjusts the X offset of the players health bar", 0, 1920)
-	CreateClientConVar("tm_hud_health_offset_y", 0, true, false, "Adjusts the Y offset of the players health bar", 0, 1080)
-	CreateClientConVar("tm_hud_health_color_high_r", 100, true, false, "Adjusts the red coloring for the health bar while on high health", 0, 255)
-	CreateClientConVar("tm_hud_health_color_high_g", 180, true, false, "Adjusts the green coloring for the health bar while on high health", 0, 255)
-	CreateClientConVar("tm_hud_health_color_high_b", 100, true, false, "Adjusts the blue coloring for the health bar while on high health", 0, 255)
-	CreateClientConVar("tm_hud_health_color_mid_r", 180, true, false, "Adjusts the red coloring for the health bar while on medium health", 0, 255)
-	CreateClientConVar("tm_hud_health_color_mid_g", 180, true, false, "Adjusts the green coloring for the health bar while on medium health", 0, 255)
-	CreateClientConVar("tm_hud_health_color_mid_b", 100, true, false, "Adjusts the blue coloring for the health bar while on medium health", 0, 255)
-	CreateClientConVar("tm_hud_health_color_low_r", 180, true, false, "Adjusts the red coloring for the health bar while on low health", 0, 255)
-	CreateClientConVar("tm_hud_health_color_low_g", 100, true, false, "Adjusts the green coloring for the health bar while on low health", 0, 255)
-	CreateClientConVar("tm_hud_health_color_low_b", 100, true, false, "Adjusts the blue coloring for the health bar while on low health", 0, 255)
-	CreateClientConVar("tm_hud_equipment_offset_x", 525, true, false, "Adjusts the X offset of the players equipment UI", 0, 1920)
-	CreateClientConVar("tm_hud_equipment_offset_y", 0, true, false, "Adjusts the Y offset of the players equipment UI", 0, 1080)
-	CreateClientConVar("tm_hud_equipment_anchor", 0, true, false, "Adjusts the anchoring of the players equipment UI", 0, 2)
-	CreateClientConVar("tm_hud_killfeed_style", 0, true, false, "Switch the killfeed entries between ascending and descending", 0, 1)
-	CreateClientConVar("tm_hud_killfeed_limit", 6, true, false, "Limit the amount of kill feed entries that are shown at one time", 1, 10)
-	CreateClientConVar("tm_hud_killfeed_offset_x", 0, true, false, "Adjusts the X offset of the kill feed", 0, 1920)
-	CreateClientConVar("tm_hud_killfeed_offset_y", 40, true, false, "Adjusts the Y offset of the kill feed", 0, 1080)
-	CreateClientConVar("tm_hud_killfeed_opacity", 80, true, false, "Adjusts the background opacity of a kill feed entry", 0, 255)
-	CreateClientConVar("tm_hud_killdeath_offset_x", 0, true, false, "Adjusts the X offset of the kill and death UI", -960, 960)
-	CreateClientConVar("tm_hud_killdeath_offset_y", 335, true, false, "Adjusts the Y offset of the kill and death UI", 0, 1080)
-	CreateClientConVar("tm_hud_kill_iconcolor_r", 255, true, false, "Adjusts the red coloring for the kill icon", 0, 255)
-	CreateClientConVar("tm_hud_kill_iconcolor_g", 255, true, false, "Adjusts the green coloring for the kill icon", 0, 255)
-	CreateClientConVar("tm_hud_kill_iconcolor_b", 255, true, false, "Adjusts the blue coloring for the kill icon", 0, 255)
-	CreateClientConVar("tm_hud_reloadhint", 1, true, false, "Enable/disable the reload text when out of ammo", 0, 1)
-	CreateClientConVar("tm_hud_loadouthint", 1, true, false, "Enable/disable the loadout info displaying on player spawn", 0, 1)
-	CreateClientConVar("tm_hud_killtracker", 0, true, false, "Enable/disable the weapon specific kill tracking on the UI", 0, 1)
-	CreateClientConVar("tm_hud_keypressoverlay", 0, true, false, "Enable/disable the keypress overlay (shows which keys are being pressed on your screen)", 0, 1)
-	CreateClientConVar("tm_hud_keypressoverlay_x", 0, true, false, "Adjusts the X offset of the keypress overlay", 0, 1920)
-	CreateClientConVar("tm_hud_keypressoverlay_y", 0, true, false, "Adjusts the Y offset of the keypress overlay", 0, 1080)
-	CreateClientConVar("tm_hud_keypressoverlay_inactive_r", 255, true, false, "Adjusts the red coloring for a inactive key on the keypress overlay", 0, 255)
-	CreateClientConVar("tm_hud_keypressoverlay_inactive_g", 255, true, false, "Adjusts the green coloring for a inactive key on the keypress overlay", 0, 255)
-	CreateClientConVar("tm_hud_keypressoverlay_inactive_b", 255, true, false, "Adjusts the blue coloring for a inactive key on the keypress overlay", 0, 255)
-	CreateClientConVar("tm_hud_keypressoverlay_actuated_r", 255, true, false, "Adjusts the red coloring for a actuated key on the keypress overlay", 0, 255)
-	CreateClientConVar("tm_hud_keypressoverlay_actuated_g", 0, true, false, "Adjusts the green coloring for a actuated key on the keypress overlay", 0, 255)
-	CreateClientConVar("tm_hud_keypressoverlay_actuated_b", 0, true, false, "Adjusts the blue coloring for a actuated key on the keypress overlay", 0, 255)
-	CreateClientConVar("tm_hud_velocitycounter", 0, true, false, "Enable/disable a velocity counter", 0, 1)
-	CreateClientConVar("tm_hud_velocitycounter_x", 0, true, false, "Adjusts the X offset of the FPS and ping counter", 0, 1920)
-	CreateClientConVar("tm_hud_velocitycounter_y", 190, true, false, "Adjusts the Y offset of the FPS and ping counter", 0, 1080)
-	CreateClientConVar("tm_hud_velocitycounter_r", 255, true, false, "Adjusts the red coloring for the FPS and ping counter", 0, 255)
-	CreateClientConVar("tm_hud_velocitycounter_g", 255, true, false, "Adjusts the green coloring for the FPS and ping counter", 0, 255)
-	CreateClientConVar("tm_hud_velocitycounter_b", 255, true, false, "Adjusts the blue coloring for the FPS and ping counter", 0, 255)
-	CreateClientConVar("tm_hud_obj_scale", 1, true, false, "Adjusts the scale of the font used on objective-based HUD elements", 0.5, 3)
-	CreateClientConVar("tm_hud_obj_color_empty_r", 255, true, false, "Adjusts the red coloring for the objective object when empty", 0, 255)
-	CreateClientConVar("tm_hud_obj_color_empty_g", 255, true, false, "Adjusts the green coloring for the objective object when empty", 0, 255)
-	CreateClientConVar("tm_hud_obj_color_empty_b", 255, true, false, "Adjusts the blue coloring for the objective object when empty", 0, 255)
-	CreateClientConVar("tm_hud_obj_color_occupied_r", 255, true, false, "Adjusts the red coloring for the objective object when occupied", 0, 255)
-	CreateClientConVar("tm_hud_obj_color_occupied_g", 255, true, false, "Adjusts the green coloring for the objective object when occupied", 0, 255)
-	CreateClientConVar("tm_hud_obj_color_occupied_b", 0, true, false, "Adjusts the blue coloring for the objective object when occupied", 0, 255)
-	CreateClientConVar("tm_hud_obj_color_contested_r", 255, true, false, "Adjusts the red coloring for the objective object when contested", 0, 255)
-	CreateClientConVar("tm_hud_obj_color_contested_g", 0, true, false, "Adjusts the green coloring for the objective object when contested", 0, 255)
-	CreateClientConVar("tm_hud_obj_color_contested_b", 0, true, false, "Adjusts the blue coloring for the objective object when contested", 0, 255)
-	CreateClientConVar("tm_hud_crosshair", 1, true, false, "Enable/disable the crosshair", 0, 1)
-	CreateClientConVar("tm_hud_crosshair_style", 1, true, false, "Adjusts the crosshair style", 0, 1)
-	CreateClientConVar("tm_hud_crosshair_gap", 4, true, false, "Adjusts the crosshair gap", 0, 100)
-	CreateClientConVar("tm_hud_crosshair_size", 8, true, false, "Adjusts the crosshair size", 0, 100)
-	CreateClientConVar("tm_hud_crosshair_thickness", 2, true, false, "Adjusts the crosshair thickness", 0, 100)
-	CreateClientConVar("tm_hud_crosshair_dot", 0, true, false, "Enable/disable the crosshair dot", 0, 1)
-	CreateClientConVar("tm_hud_crosshair_outline", 0, true, false, "Enable/disable the crosshair outline", 0, 1)
-	CreateClientConVar("tm_hud_crosshair_opacity", 255, true, false, "Adjusts the crosshair opacity", 0, 255)
-	CreateClientConVar("tm_hud_crosshair_color_r", 255, true, false, "Adjusts the red coloring for the crosshair", 0, 255)
-	CreateClientConVar("tm_hud_crosshair_color_g", 255, true, false, "Adjusts the green coloring for the crosshair", 0, 255)
-	CreateClientConVar("tm_hud_crosshair_color_b", 255, true, false, "Adjusts the blue coloring for the crosshair", 0, 255)
-	CreateClientConVar("tm_hud_crosshair_outline_color_r", 0, true, false, "Adjusts the red coloring for the crosshair outline", 0, 255)
-	CreateClientConVar("tm_hud_crosshair_outline_color_g", 0, true, false, "Adjusts the green coloring for the crosshair outline", 0, 255)
-	CreateClientConVar("tm_hud_crosshair_outline_color_b", 0, true, false, "Adjusts the blue coloring for the crosshair outline", 0, 255)
-	CreateClientConVar("tm_hud_crosshair_show_t", 1, true, false, "Enable/disable the top of the crosshair", 0, 1)
-	CreateClientConVar("tm_hud_crosshair_show_b", 1, true, false, "Enable/disable the bottom of the crosshair", 0, 1)
-	CreateClientConVar("tm_hud_crosshair_show_l", 1, true, false, "Enable/disable the left of the crosshair", 0, 1)
-	CreateClientConVar("tm_hud_crosshair_show_r", 1, true, false, "Enable/disable the right of the crosshair", 0, 1)
-	CreateClientConVar("tm_hud_crosshair_sprint", 0, true, false, "Enable/disable the crosshair while sprinting", 0, 1)
-	CreateClientConVar("tm_hud_hitmarker", 1, true, false, "Enable/disable the hitmarker", 0, 1)
-	CreateClientConVar("tm_hud_hitmarker_gap", 8, true, false, "Adjusts the hitmarker gap", 0, 100)
-	CreateClientConVar("tm_hud_hitmarker_size", 8, true, false, "Adjusts the hitmarker size", 0, 100)
-	CreateClientConVar("tm_hud_hitmarker_thickness", 2, true, false, "Adjusts the hitmarker thickness", 0, 20)
-	CreateClientConVar("tm_hud_hitmarker_opacity", 200, true, false, "Adjusts the hitmarker opacity", 0, 255)
-	CreateClientConVar("tm_hud_hitmarker_duration", 2.5, true, false, "Adjusts the hitmarker opacity", 1, 5)
-	CreateClientConVar("tm_hud_hitmarker_color_hit_r", 255, true, false, "Adjusts the red coloring for the hitmarker", 0, 255)
-	CreateClientConVar("tm_hud_hitmarker_color_hit_g", 255, true, false, "Adjusts the green coloring for the hitmarker", 0, 255)
-	CreateClientConVar("tm_hud_hitmarker_color_hit_b", 255, true, false, "Adjusts the blue coloring for the hitmarker", 0, 255)
-	CreateClientConVar("tm_hud_hitmarker_color_head_r", 255, true, false, "Adjusts the red coloring for the hitmarker on a headshot", 0, 255)
-	CreateClientConVar("tm_hud_hitmarker_color_head_g", 0, true, false, "Adjusts the green coloring for the hitmarker on a headshot", 0, 255)
-	CreateClientConVar("tm_hud_hitmarker_color_head_b", 0, true, false, "Adjusts the blue coloring for the hitmarker on a headshot", 0, 255)
-	CreateClientConVar("tm_hud_notifications", 1, true, false, "Enable/disable HUD notifications", 0, 1)
-	CreateClientConVar("tm_hud_voiceindicator", 1, true, false, "Enable/disable the voice indicator", 0, 1)
-end
+cvars["hit_sfx_style"] = {
+	client = true,
+	default = 0,
+	min = 0,
+	max = 5
+}
+
+cvars["kill_sfx"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["kill_sfx_style"] = {
+	client = true,
+	default = 0,
+	min = 0,
+	max = 5
+}
+
+cvars["kill_headshot_sfx_style"] = {
+	client = true,
+	default = 0,
+	min = 0,
+	max = 5
+}
+
+cvars["music"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["music_volume"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["sensitivity_1x"] = {
+	client = true,
+	default = 80,
+	min = 0,
+	max = 200
+}
+
+cvars["sensitivity_2x"] = {
+	client = true,
+	default = 50,
+	min = 0,
+	max = 200
+}
+
+cvars["sensitivity_4x"] = {
+	client = true,
+	default = 25,
+	min = 0,
+	max = 200
+}
+
+cvars["sensitivity_5x"] = {
+	client = true,
+	default = 20,
+	min = 0,
+	max = 200
+}
+
+cvars["sensitivity_6x"] = {
+	client = true,
+	default = 12,
+	min = 0,
+	max = 200
+}
+
+cvars["sensitivity_transition"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["fov"] = {
+	client = true,
+	default = 0,
+	min = 0,
+	max = 1,
+	userinfo = true
+}
+
+cvars["fov_amount"] = {
+	client = true,
+	default = 100,
+	min = 100,
+	max = 144,
+	userinfo = true
+}
+
+cvars["fov_sprint"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1,
+	userinfo = true
+}
+
+cvars["autosprint"] = {
+	client = true,
+	default = 0,
+	min = 0,
+	max = 1,
+	userinfo = true
+}
+
+cvars["autosprint_delay"] = {
+	client = true,
+	default = 0,
+	min = 0,
+	max = 1,
+	userinfo = true
+}
+
+cvars["render_hands"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["deathcam"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1,
+	userinfo = true
+}
+
+cvars["lensflare"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["screenflashes"] = {
+	client = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+-- binds
+cvars["nade"] = {
+	bind = true,
+	default = KEY_4,
+	userinfo = true
+}
+
+cvars["grapple"] = {
+	bind = true,
+	default = KEY_Q,
+	userinfo = true
+}
+
+cvars["menu"] = {
+	bind = true,
+	default = KEY_M,
+	userinfo = true
+}
+
+cvars["primary"] = {
+	bind = true,
+	default = KEY_1,
+	userinfo = true
+}
+
+cvars["secondary"] = {
+	bind = true,
+	default = KEY_2,
+	userinfo = true
+}
+
+cvars["melee"] = {
+	bind = true,
+	default = KEY_3,
+	userinfo = true
+}
+
+-- hud
+cvars["enable"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["font"] = {
+	hud = true,
+	default = "Bender"
+}
+
+cvars["scale"] = {
+	hud = true,
+	default = 1,
+	min = 0.25,
+	max = 2
+}
+
+cvars["bounds_x"] = {
+	hud = true,
+	default = 10,
+	min = 0,
+	max = 480
+}
+
+cvars["bounds_y"] = {
+	hud = true,
+	default = 10,
+	min = 0,
+	max = 270
+}
+
+cvars["text_color_r"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["text_color_g"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["text_color_b"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["killfeed"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["health_size"] = {
+	hud = true,
+	default = 450,
+	min = 100,
+	max = 1000
+}
+
+cvars["health_offset_x"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1920
+}
+
+cvars["health_offset_y"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1080
+}
+
+cvars["equipment_offset_x"] = {
+	hud = true,
+	default = 525,
+	min = 0,
+	max = 1920
+}
+
+cvars["equipment_offset_y"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1080
+}
+
+cvars["equipment_anchor"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 2
+}
+
+cvars["killfeed_style"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1
+}
+
+cvars["killfeed_limit"] = {
+	hud = true,
+	default = 6,
+	min = 0,
+	max = 10
+}
+
+cvars["killfeed_offset_x"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1920
+}
+
+cvars["killfeed_offset_y"] = {
+	hud = true,
+	default = 40,
+	min = 0,
+	max = 1080
+}
+
+cvars["killfeed_opacity"] = {
+	hud = true,
+	default = 80,
+	min = 0,
+	max = 255
+}
+
+cvars["hints_loadout"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["killtracker"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1
+}
+
+cvars["keypressoverlay"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1
+}
+
+cvars["keypressoverlay_x"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1920
+}
+
+cvars["keypressoverlay_y"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1080
+}
+
+cvars["keypressoverlay_inactive_color_r"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["keypressoverlay_inactive_color_g"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["keypressoverlay_inactive_color_b"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["keypressoverlay_actuated_color_r"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["keypressoverlay_actuated_color_g"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["keypressoverlay_actuated_color_b"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["velocityoverlay"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1
+}
+
+cvars["velocityoverlay_x"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1920
+}
+
+cvars["velocityoverlay_y"] = {
+	hud = true,
+	default = 190,
+	min = 0,
+	max = 1080
+}
+
+cvars["obj_scale"] = {
+	hud = true,
+	default = 1,
+	min = 0.25,
+	max = 3
+}
+
+cvars["obj_empty_color_r"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["obj_empty_color_g"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["obj_empty_color_b"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["obj_empty_occupied_r"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["obj_empty_occupied_g"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["obj_empty_occupied_b"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["obj_empty_contested_r"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["obj_empty_contested_g"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["obj_empty_contested_b"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["crosshair"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["crosshair_style"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["crosshair_gap"] = {
+	hud = true,
+	default = 4,
+	min = 0,
+	max = 100
+}
+
+cvars["crosshair_size"] = {
+	hud = true,
+	default = 8,
+	min = 0,
+	max = 100
+}
+
+cvars["crosshair_thickness"] = {
+	hud = true,
+	default = 2,
+	min = 0,
+	max = 100
+}
+
+cvars["crosshair_dot"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1
+}
+
+cvars["crosshair_outline"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1
+}
+
+cvars["crosshair_opacity"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["crosshair_color_r"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["crosshair_color_g"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["crosshair_color_b"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["crosshair_outline_color_r"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["crosshair_outline_color_g"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["crosshair_outline_color_b"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["crosshair_show_t"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["crosshair_show_b"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["crosshair_show_l"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["crosshair_show_r"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["crosshair_sprint"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 1
+}
+
+cvars["hitmarker"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["hitmarker_gap"] = {
+	hud = true,
+	default = 8,
+	min = 0,
+	max = 100
+}
+
+cvars["hitmarker_size"] = {
+	hud = true,
+	default = 8,
+	min = 0,
+	max = 100
+}
+
+cvars["hitmarker_thickness"] = {
+	hud = true,
+	default = 2,
+	min = 0,
+	max = 100
+}
+
+cvars["hitmarker_opacity"] = {
+	hud = true,
+	default = 200,
+	min = 0,
+	max = 255
+}
+
+cvars["hitmarker_duration"] = {
+	hud = true,
+	default = 2.5,
+	min = 0.5,
+	max = 5
+}
+
+cvars["hitmarker_color_r"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["hitmarker_color_g"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["hitmarker_color_b"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["hitmarker_head_color_r"] = {
+	hud = true,
+	default = 255,
+	min = 0,
+	max = 255
+}
+
+cvars["hitmarker_head_color_g"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["hitmarker_head_color_b"] = {
+	hud = true,
+	default = 0,
+	min = 0,
+	max = 255
+}
+
+cvars["notifications"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
+
+cvars["voiceindicator"] = {
+	hud = true,
+	default = 1,
+	min = 0,
+	max = 1
+}
 
 local prefixClient = "tm_"
+local prefixBinds = "tm_bind_"
+local prefixHUD = "tm_hud_"
 local prefixServer = "sv_tm_"
 
 local cvarsClient = {}
+local cvarsBinds = {}
+local cvarsHUD = {}
 local cvarsServer = {}
 
 for cvar, data in pairs(cvars) do
 	if data.client and CLIENT then
 		local name = prefixClient .. cvar
 		table.insert(cvarsClient, name)
+		CreateClientConVar(name, data.default, data.save != false, data.userinfo, data.helptext, data.min, data.max)
+	elseif data.hud then
+		local name = prefixHUD .. cvar
+		table.insert(cvarsClient, name)
+		CreateClientConVar(name, data.default, data.save != false, data.userinfo, data.helptext, data.min, data.max)
+	elseif data.bind then
+		local name = prefixBinds .. cvar
+		table.insert(cvarsBinds, name)
 		CreateClientConVar(name, data.default, data.save != false, data.userinfo, data.helptext, data.min, data.max)
 	else
 		local name = prefixServer .. cvar
@@ -359,6 +984,20 @@ if CLIENT then
 		end
 	end
 	concommand.Add("tm_settings_reset", function() ResetSettingsClient() end)
+
+	local function ResetSettingsBinds()
+		for _, cvar in pairs(cvarsBinds) do
+			RunConsoleCommand(cvar, GetConVar(cvar):GetDefault())
+		end
+	end
+	concommand.Add("tm_binds_reset", function() ResetSettingsBinds() end)
+
+	local function ResetSettingsHUD()
+		for _, cvar in pairs(cvarsHUD) do
+			RunConsoleCommand(cvar, GetConVar(cvar):GetDefault())
+		end
+	end
+	concommand.Add("tm_hud_reset", function() ResetSettingsHUD() end)
 end
 
 local function ResetSettingsServer()

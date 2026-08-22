@@ -7,7 +7,7 @@ hook.Add("PlayerButtonDown", "TMBinds", function(ply, button)
 		if GetGlobalBool("tm_intermission") then return end
 
 		if TM.GAMEMODE != GAMEMODES.IDS.GUNGAME then
-			if button == ply:GetInfoNum("tm_primarybind", KEY_1) then
+			if button == ply:GetInfoNum("tm_bind_primary", KEY_1) then
 				local weapon = ply:GetWeapon(ply:GetNWString("loadoutPrimary"))
 
 				if weapon != NULL then
@@ -15,7 +15,7 @@ hook.Add("PlayerButtonDown", "TMBinds", function(ply, button)
 				end
 			end
 
-			if button == ply:GetInfoNum("tm_secondarybind", KEY_2) then
+			if button == ply:GetInfoNum("tm_bind_secondary", KEY_2) then
 				local weapon = ply:GetWeapon(ply:GetNWString("loadoutSecondary"))
 
 				if weapon != NULL then
@@ -23,7 +23,7 @@ hook.Add("PlayerButtonDown", "TMBinds", function(ply, button)
 				end
 			end
 
-			if button == ply:GetInfoNum("tm_meleebind", KEY_3) then
+			if button == ply:GetInfoNum("tm_bind_melee", KEY_3) then
 				local weapon = ply:GetWeapon(ply:GetNWString("loadoutMelee"))
 
 				if weapon != NULL then
@@ -31,7 +31,7 @@ hook.Add("PlayerButtonDown", "TMBinds", function(ply, button)
 				end
 			end
 		else
-			if button == ply:GetInfoNum("tm_primarybind", KEY_1) then
+			if button == ply:GetInfoNum("tm_bind_primary", KEY_1) then
 				local weapon = ply:GetWeapon(ggLadder[ply:GetNWInt("ladderPosition") + 1][1])
 
 				if weapon != NULL then
@@ -40,7 +40,7 @@ hook.Add("PlayerButtonDown", "TMBinds", function(ply, button)
 			end
 
 			if (ply:GetNWInt("ladderPosition") == (gunGameSize:GetInt() - 1)) == false then
-				if button == ply:GetInfoNum("tm_secondarybind", KEY_2) then
+				if button == ply:GetInfoNum("tm_bind_secondary", KEY_2) then
 					local weapon = ply:GetWeapon(ggLadder[ply:GetNWInt("ladderPosition") + 1][2])
 
 					if weapon != NULL then
@@ -48,7 +48,7 @@ hook.Add("PlayerButtonDown", "TMBinds", function(ply, button)
 					end
 				end
 
-				if button == ply:GetInfoNum("tm_meleebind", KEY_3) then
+				if button == ply:GetInfoNum("tm_bind_melee", KEY_3) then
 					local weapon = ply:GetWeapon(ggLadder[ply:GetNWInt("ladderPosition") + 1][2])
 
 					if weapon != NULL then
@@ -58,12 +58,12 @@ hook.Add("PlayerButtonDown", "TMBinds", function(ply, button)
 			end
 		end
 
-		if button == ply:GetInfoNum("tm_nadebind", KEY_4) then
+		if button == ply:GetInfoNum("tm_bind_nade", KEY_4) then
 			RunConsoleCommand("+quicknade")
 		end
 	end
 
-	if button == ply:GetInfoNum("tm_mainmenubind", KEY_M) then
+	if button == ply:GetInfoNum("tm_bind_menu", KEY_M) then
 		if !ply:Alive() then
 			net.Start("OpenMainMenu")
 				if timer.Exists(ply:SteamID() .. "respawnTime") then
@@ -92,7 +92,7 @@ hook.Add("PlayerButtonUp", "TMBindsUp", function(ply, button)
 	if (CLIENT or sp) and IsFirstTimePredicted() then
 		if GetGlobalBool("tm_intermission") then return end
 
-		if button == ply:GetInfoNum("tm_nadebind", KEY_4) then
+		if button == ply:GetInfoNum("tm_bind_nade", KEY_4) then
 			RunConsoleCommand("-quicknade")
 		end
 	end

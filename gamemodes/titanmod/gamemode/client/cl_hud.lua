@@ -6,175 +6,106 @@ local matchStartPopupSeen = false
 local feedArray = {}
 local chatArray = {}
 
-local crosshair = {}
-local hitmarker = {}
-local matchHUD = {}
-local healthHUD = {}
-local weaponHUD = {}
-local equipmentHUD = {}
-local feedHUD = {}
-local killdeathHUD = {}
-local kpoHUD = {}
-local velocityHUD = {}
-local objHUD = {}
-local sounds = {}
-local convars = {}
-local reloadBind = "Reload Bind"
+local hudEnable = GetConVar("tm_hud_enable"):GetBool()
+local hudScale = GetConVar("tm_hud_scale"):GetFloat()
+local hudX = GetConVar("tm_hud_bounds_x"):GetInt()
+local hudY = GetConVar("tm_hud_bounds_y"):GetInt()
+local hudTextR = GetConVar("tm_hud_text_color_r"):GetInt()
+local hudTextG = GetConVar("tm_hud_text_color_g"):GetInt()
+local hudTextB = GetConVar("tm_hud_text_color_b"):GetInt()
 
-function UpdateHUD()
-	crosshair = {
-		["enabled"] = GetConVar("tm_hud_crosshair"):GetInt(),
-		["style"] = GetConVar("tm_hud_crosshair_style"):GetInt(),
-		["gap"] = GetConVar("tm_hud_crosshair_gap"):GetInt(),
-		["size"] = GetConVar("tm_hud_crosshair_size"):GetInt(),
-		["thickness"] = GetConVar("tm_hud_crosshair_thickness"):GetInt(),
-		["dot"] = GetConVar("tm_hud_crosshair_dot"):GetInt(),
-		["outline"] = GetConVar("tm_hud_crosshair_outline"):GetInt(),
-		["opacity"] = GetConVar("tm_hud_crosshair_opacity"):GetInt(),
-		["r"] = GetConVar("tm_hud_crosshair_color_r"):GetInt(),
-		["g"] = GetConVar("tm_hud_crosshair_color_g"):GetInt(),
-		["b"] = GetConVar("tm_hud_crosshair_color_b"):GetInt(),
-		["outline_r"] = GetConVar("tm_hud_crosshair_outline_color_r"):GetInt(),
-		["outline_g"] = GetConVar("tm_hud_crosshair_outline_color_g"):GetInt(),
-		["outline_b"] = GetConVar("tm_hud_crosshair_outline_color_b"):GetInt(),
-		["show_t"] = GetConVar("tm_hud_crosshair_show_t"):GetInt(),
-		["show_b"] = GetConVar("tm_hud_crosshair_show_b"):GetInt(),
-		["show_l"] = GetConVar("tm_hud_crosshair_show_l"):GetInt(),
-		["show_r"] = GetConVar("tm_hud_crosshair_show_r"):GetInt(),
-		["sprint"] = GetConVar("tm_hud_crosshair_sprint"):GetInt()
-	}
+local music = GetConVar("tm_music"):GetBool()
+local musicVolume = GetConVar("tm_music_volume"):GetFloat()
 
-	hitmarker = {
-		["enabled"] = GetConVar("tm_hud_hitmarker"):GetInt(),
-		["gap"] = GetConVar("tm_hud_hitmarker_gap"):GetInt(),
-		["size"] = GetConVar("tm_hud_hitmarker_size"):GetInt(),
-		["thickness"] = GetConVar("tm_hud_hitmarker_thickness"):GetInt(),
-		["opacity"] = GetConVar("tm_hud_hitmarker_opacity"):GetInt(),
-		["duration"] = GetConVar("tm_hud_hitmarker_duration"):GetInt(),
-		["hit_r"] = GetConVar("tm_hud_hitmarker_color_hit_r"):GetInt(),
-		["hit_g"] = GetConVar("tm_hud_hitmarker_color_hit_g"):GetInt(),
-		["hit_b"] = GetConVar("tm_hud_hitmarker_color_hit_b"):GetInt(),
-		["head_r"] = GetConVar("tm_hud_hitmarker_color_head_r"):GetInt(),
-		["head_g"] = GetConVar("tm_hud_hitmarker_color_head_g"):GetInt(),
-		["head_b"] = GetConVar("tm_hud_hitmarker_color_head_b"):GetInt(),
-	}
+local crosshair = GetConVar("tm_hud_crosshair"):GetBool()
+local crosshairStyle = GetConVar("tm_hud_crosshair_style"):GetInt()
+local crosshairGap = GetConVar("tm_hud_crosshair_gap"):GetInt()
+local crosshairSize = GetConVar("tm_hud_crosshair_size"):GetInt()
+local crosshairThickness = GetConVar("tm_hud_crosshair_thickness"):GetInt()
+local crosshairDot = GetConVar("tm_hud_crosshair_dot"):GetBool()
+local crosshairOutline = GetConVar("tm_hud_crosshair_outline"):GetBool()
+local crosshairOpacity = GetConVar("tm_hud_crosshair_opacity"):GetInt()
+local crosshairR = GetConVar("tm_hud_crosshair_color_r"):GetInt()
+local crosshairG = GetConVar("tm_hud_crosshair_color_g"):GetInt()
+local crosshairB = GetConVar("tm_hud_crosshair_color_b"):GetInt()
+local crosshairOutlineR = GetConVar("tm_hud_crosshair_outline_color_r"):GetInt()
+local crosshairOutlineG = GetConVar("tm_hud_crosshair_outline_color_g"):GetInt()
+local crosshairOutlineB = GetConVar("tm_hud_crosshair_outline_color_b"):GetInt()
+local crosshairShowTop = GetConVar("tm_hud_crosshair_show_t"):GetBool()
+local crosshairShowBottom = GetConVar("tm_hud_crosshair_show_b"):GetBool()
+local crosshairShowLeft = GetConVar("tm_hud_crosshair_show_l"):GetBool()
+local crosshairShowRight = GetConVar("tm_hud_crosshair_show_r"):GetBool()
+local crosshairSprint = GetConVar("tm_hud_crosshair_sprint"):GetBool()
 
-	matchHUD = {
-		["y"] = TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt())
-	}
+local hitmarker = GetConVar("tm_hud_hitmarker"):GetBool()
+local hitmarkerGap = GetConVar("tm_hud_hitmarker_gap"):GetInt()
+local hitmarkerSize = GetConVar("tm_hud_hitmarker_size"):GetInt()
+local hitmarkerThickness = GetConVar("tm_hud_hitmarker_thickness"):GetInt()
+local hitmarkerOpacity = GetConVar("tm_hud_hitmarker_opacity"):GetInt()
+local hitmarkerDuration = GetConVar("tm_hud_hitmarker_duration"):GetFloat()
+local hitmarkerR = GetConVar("tm_hud_hitmarker_hit_color_r"):GetInt()
+local hitmarkerG = GetConVar("tm_hud_hitmarker_hit_color_g"):GetInt()
+local hitmarkerB = GetConVar("tm_hud_hitmarker_hit_color_b"):GetInt()
+local hitmarkerHeadR = GetConVar("tm_hud_hitmarker_head_color_r"):GetInt()
+local hitmarkerHeadG = GetConVar("tm_hud_hitmarker_head_color_g"):GetInt()
+local hitmarkerHeadB = GetConVar("tm_hud_hitmarker_head_color_b"):GetInt()
 
-	healthHUD = {
-		["size"] = TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()),
-		["x"] = TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()),
-		["y"] = TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()),
-		["barhigh_r"] = GetConVar("tm_hud_health_color_high_r"):GetInt(),
-		["barhigh_g"] = GetConVar("tm_hud_health_color_high_g"):GetInt(),
-		["barhigh_b"] = GetConVar("tm_hud_health_color_high_b"):GetInt(),
-		["barmid_r"] = GetConVar("tm_hud_health_color_mid_r"):GetInt(),
-		["barmid_g"] = GetConVar("tm_hud_health_color_mid_g"):GetInt(),
-		["barmid_b"] = GetConVar("tm_hud_health_color_mid_b"):GetInt(),
-		["barlow_r"] = GetConVar("tm_hud_health_color_low_r"):GetInt(),
-		["barlow_g"] = GetConVar("tm_hud_health_color_low_g"):GetInt(),
-		["barlow_b"] = GetConVar("tm_hud_health_color_low_b"):GetInt()
-	}
+local equipmentX = GetConVar("tm_hud_equipment_offset_x"):GetInt()
+local equipmentY = GetConVar("tm_hud_equipment_offset_y"):GetInt()
 
-	weaponHUD = {
-		["x"] = TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()),
-		["y"] = TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()),
-		["ammobar_r"] = GetConVar("tm_hud_ammo_bar_color_r"):GetInt(),
-		["ammobar_g"] = GetConVar("tm_hud_ammo_bar_color_g"):GetInt(),
-		["ammobar_b"] = GetConVar("tm_hud_ammo_bar_color_b"):GetInt()
-	}
+local killfeed = GetConVar("tm_hud_killfeed"):GetBool()
+local killfeedX = GetConVar("tm_hud_killfeed_offset_x"):GetInt()
+local killfeedY = GetConVar("tm_hud_killfeed_offset_y"):GetInt()
+local killfeedStyle = GetConVar("tm_hud_killfeed_style"):GetBool()
+local killfeedLimit = GetConVar("tm_hud_killfeed_limit"):GetInt()
+local killfeedOpacity = GetConVar("tm_hud_killfeed_opacity"):GetInt()
 
-	equipmentHUD = {
-		["x"] = TM.ScreenScale(GetConVar("tm_hud_equipment_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()),
-		["y"] = TM.ScreenScale(GetConVar("tm_hud_equipment_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()),
-	}
+local keyoverlay = GetConVar("tm_hud_keypressoverlay"):GetBool()
+local keyoverlayX = GetConVar("tm_hud_keypressoverlay_x"):GetInt()
+local keyoverlayY = GetConVar("tm_hud_keypressoverlay_y"):GetInt()
+local keyoverlayInactiveR = GetConVar("tm_hud_keypressoverlay_inactive_color_r"):GetInt()
+local keyoverlayInactiveG = GetConVar("tm_hud_keypressoverlay_inactive_color_g"):GetInt()
+local keyoverlayInactiveB = GetConVar("tm_hud_keypressoverlay_inactive_color_b"):GetInt()
+local keyoverlayActuatedR = GetConVar("tm_hud_keypressoverlay_actuated_color_r"):GetInt()
+local keyoverlayActuatedG = GetConVar("tm_hud_keypressoverlay_actuated_color_g"):GetInt()
+local keyoverlayActuatedB = GetConVar("tm_hud_keypressoverlay_actuated_color_b"):GetInt()
 
-	feedHUD = {
-		["x"] = TM.ScreenScale(GetConVar("tm_hud_killfeed_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()),
-		["y"] = TM.ScreenScale(GetConVar("tm_hud_killfeed_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()),
-		["opacity"] = GetConVar("tm_hud_killfeed_opacity"):GetInt()
-	}
+local velocityoverlay = GetConVar("tm_hud_velocityoverlay"):GetBool()
+local velocityoverlayX = GetConVar("tm_hud_velocityoverlay_x"):GetInt()
+local velocityoverlayY = GetConVar("tm_hud_velocityoverlay_y"):GetInt()
 
-	killdeathHUD = {
-		["x"] = TM.ScreenScale(GetConVar("tm_hud_killdeath_offset_x"):GetInt()),
-		["y"] = TM.ScreenScale(GetConVar("tm_hud_killdeath_offset_y"):GetInt()),
-		["killicon_r"] = GetConVar("tm_hud_kill_iconcolor_r"):GetInt(),
-		["killicon_g"] = GetConVar("tm_hud_kill_iconcolor_g"):GetInt(),
-		["killicon_b"] = GetConVar("tm_hud_kill_iconcolor_b"):GetInt()
-	}
+local objScale = GetConVar("tm_hud_obj_scale"):GetFloat()
+local objEmptyR = GetConVar("tm_hud_obj_empty_color_r"):GetInt()
+local objEmptyG = GetConVar("tm_hud_obj_empty_color_g"):GetInt()
+local objEmptyB = GetConVar("tm_hud_obj_empty_color_b"):GetInt()
+local objOccupiedR = GetConVar("tm_hud_obj_occupied_color_r"):GetInt()
+local objOccupiedG = GetConVar("tm_hud_obj_occupied_color_g"):GetInt()
+local objOccupiedB = GetConVar("tm_hud_obj_occupied_color_b"):GetInt()
+local objContestedR = GetConVar("tm_hud_obj_contested_color_r"):GetInt()
+local objContestedG = GetConVar("tm_hud_obj_contested_color_g"):GetInt()
+local objContestedB = GetConVar("tm_hud_obj_contested_color_b"):GetInt()
 
-	kpoHUD = {
-		["x"] = TM.ScreenScale(GetConVar("tm_hud_keypressoverlay_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()),
-		["y"] = TM.ScreenScale(GetConVar("tm_hud_keypressoverlay_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()),
-		["inactive_r"] = GetConVar("tm_hud_keypressoverlay_inactive_r"):GetInt(),
-		["inactive_g"] = GetConVar("tm_hud_keypressoverlay_inactive_g"):GetInt(),
-		["inactive_b"] = GetConVar("tm_hud_keypressoverlay_inactive_b"):GetInt(),
-		["actuated_r"] = GetConVar("tm_hud_keypressoverlay_actuated_r"):GetInt(),
-		["actuated_g"] = GetConVar("tm_hud_keypressoverlay_actuated_g"):GetInt(),
-		["actuated_b"] = GetConVar("tm_hud_keypressoverlay_actuated_b"):GetInt()
-	}
+local sfxHit = GetConVar("tm_hit_sfx"):GetBool()
+local sfxKill = GetConVar("tm_kill_sfx"):GetBool()
+local sfxHitStyle = GetConVar("tm_hit_sfx_style"):GetInt()
+local sfxKillStyle = GetConVar("tm_kill_sfx_style"):GetInt()
+local sfxKillHeadStyle = GetConVar("tm_kill_headshot_sfx_style"):GetInt()
 
-	velocityHUD = {
-		["x"] = TM.ScreenScale(GetConVar("tm_hud_velocitycounter_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()),
-		["y"] = TM.ScreenScale(GetConVar("tm_hud_velocitycounter_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt())
-	}
+local notifications = GetConVar("tm_hud_notifications"):GetBool()
 
-	objHUD = {
-		["scale"] = TM.ScreenScale(GetConVar("tm_hud_obj_scale"):GetInt()),
-		["obj_empty_r"] = GetConVar("tm_hud_obj_color_empty_r"):GetInt(),
-		["obj_empty_g"] = GetConVar("tm_hud_obj_color_empty_g"):GetInt(),
-		["obj_empty_b"] = GetConVar("tm_hud_obj_color_empty_b"):GetInt(),
-		["obj_occupied_r"] = GetConVar("tm_hud_obj_color_occupied_r"):GetInt(),
-		["obj_occupied_g"] = GetConVar("tm_hud_obj_color_occupied_g"):GetInt(),
-		["obj_occupied_b"] = GetConVar("tm_hud_obj_color_occupied_b"):GetInt(),
-		["obj_contested_r"] = GetConVar("tm_hud_obj_color_contested_r"):GetInt(),
-		["obj_contested_g"] = GetConVar("tm_hud_obj_color_contested_g"):GetInt(),
-		["obj_contested_b"] = GetConVar("tm_hud_obj_color_contested_b"):GetInt()
-	}
+local killtracker = GetConVar("tm_hud_killtracker"):GetBool()
 
-	notis = {
-		["x"] = TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()),
-		["y"] = TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt())
-	}
+local screenfx = GetConVar("tm_screenflashes"):GetBool()
 
-	sounds = {
-		["hit_enabled"] = GetConVar("tm_hitsounds"):GetInt(),
-		["kill_enabled"] = GetConVar("tm_killsound"):GetInt(),
-		["hit"] = GetConVar("tm_hitsoundtype"):GetInt(),
-		["kill"] = GetConVar("tm_killsoundtype"):GetInt(),
-		["hs_kill"] = GetConVar("tm_headshotkillsoundtype"):GetInt()
-	}
+local bindGrapple = GetConVar("tm_bind_grapple"):GetInt()
+local bindNade = GetConVar("tm_bind_nade"):GetInt()
+local bindMenu = GetConVar("tm_bind_menu"):GetInt()
 
-	convars = {
-		["text_r"] = GetConVar("tm_hud_text_color_r"):GetInt(),
-		["text_g"] = GetConVar("tm_hud_text_color_g"):GetInt(),
-		["text_b"] = GetConVar("tm_hud_text_color_b"):GetInt(),
-		["hud_enable"] = GetConVar("tm_hud_enable"):GetInt(),
-		["notif_enable"] = GetConVar("tm_hud_notifications"):GetInt(),
-		["ammo_style"] = GetConVar("tm_hud_ammo_style"):GetInt(),
-		["kill_tracker"] = GetConVar("tm_hud_killtracker"):GetInt(),
-		["reload_hints"] = GetConVar("tm_hud_reloadhint"):GetInt(),
-		["grapple_bind"] = GetConVar("tm_grapplebind"):GetInt(),
-		["nade_bind"] = GetConVar("tm_nadebind"):GetInt(),
-		["menu_bind"] = GetConVar("tm_mainmenubind"):GetInt(),
-		["keypress_overlay"] = GetConVar("tm_hud_keypressoverlay"):GetInt(),
-		["velocity_counter"] = GetConVar("tm_hud_velocitycounter"):GetInt(),
-		["killfeed_enable"] = GetConVar("tm_hud_enablekillfeed"):GetInt(),
-		["killfeed_limit"] = GetConVar("tm_hud_killfeed_limit"):GetInt(),
-		["screen_flashes"] = GetConVar("tm_screenflashes"):GetInt(),
-		["music_volume"] = GetConVar("tm_musicvolume"):GetFloat()
-	}
+local actuatedColor = Color(kpoHUD["actuated_r"], kpoHUD["actuated_g"], kpoHUD["actuated_b"])
+local inactiveColor = Color(kpoHUD["inactive_r"], kpoHUD["inactive_g"], kpoHUD["inactive_b"])
+local reloadBind = input.LookupBinding("+reload") or "Reload Bind"
 
-	actuatedColor = Color(kpoHUD["actuated_r"], kpoHUD["actuated_g"], kpoHUD["actuated_b"])
-	inactiveColor = Color(kpoHUD["inactive_r"], kpoHUD["inactive_g"], kpoHUD["inactive_b"])
-	if GetConVar("tm_hud_killfeed_style"):GetInt() == 0 then feedEntryPadding = TM.ScreenScale(-20) else feedEntryPadding = TM.ScreenScale(20) end
-	if GetConVar("tm_hud_equipment_anchor"):GetInt() == 0 then equipAnchor = "left" elseif GetConVar("tm_hud_equipment_anchor"):GetInt() == 1 then equipAnchor = "center" elseif GetConVar("tm_hud_equipment_anchor"):GetInt() == 2 then equipAnchor = "right" end
-
-	if input.LookupBinding("+reload") != nil then reloadBind = input.LookupBinding("+reload") end
-end
-UpdateHUD()
+local feedEntryPadding = !killfeedStyle and TM.ScreenScale(-20) or TM.ScreenScale(20)
 
 local keyMat = Material("icons/keyicon.png", "noclamp smooth")
 local keyMatMed = Material("icons/keyiconmedium.png", "noclamp smooth")
@@ -204,7 +135,6 @@ local hillEmptyMat = Material("icons/kothempty.png")
 local border = Material("overlay/objborder.png")
 
 local timeUntilSelfDestruct = 0
-local timeText = " ∞"
 
 local intermissionLength = GetConVar("sv_tm_intermission_length")
 local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
@@ -213,12 +143,13 @@ local voting = GetConVar("sv_tm_voting")
 
 local function MatchStartPopup()
 	if GetGlobalInt("tm_matchtime", 0) - CurTime() > (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()) then return end
-	if convars["hud_enable"] == 0 then return end
 
 	local gm = string.upper(GAMEMODES.MODES[TM.GAMEMODE].name)
 	local desc
 	local winCondition
+
 	matchStartPopupSeen = true
+
 	surface.SetFont("HUD_AmmoCountSmall")
 	local popupW, popupH = select(1, surface.GetTextSize(gm))
 
@@ -254,65 +185,79 @@ local function MatchStartPopup()
 		winCondition = "Get the most score to WIN"
 	end
 
-	if IsValid(GamemodePopup) then GamemodePopup:Remove() end
-	if IsValid(GamemodeDesc) then GamemodeDesc:Remove() end
+	if IsValid(gamemodePopup) then gamemodePopup:Remove() end
+	if IsValid(gamemodeInfo) then gamemodeInfo:Remove() end
 
-	GamemodePopup = vgui.Create("DFrame")
-	GamemodePopup:SetSize(popupW + TM.ScreenScale(8), 0)
-	GamemodePopup:SizeTo(popupW + TM.ScreenScale(8), popupH - TM.ScreenScale(8), 1, 0, 0.1)
-	GamemodePopup:SetX(ScrW() / 2 - (popupW / 2))
-	GamemodePopup:SetTitle("")
-	GamemodePopup:SetDraggable(false)
-	GamemodePopup:ShowCloseButton(false)
-	GamemodePopup.Paint = function(self, w, h)
-		BlurPanel(GamemodePopup, 5)
-		GamemodePopup:SetY(GamemodePopup:GetTall())
+	gamemodePopup = vgui.Create("DPanel", GetHUDPanel())
+	gamemodePopup:SetSize(popupW + TM.ScreenScale(8), 0)
+	gamemodePopup:SetX(ScrW() / 2 - (popupW / 2))
+	gamemodePopup:MoveToFront()
+
+	gamemodePopup:SizeTo(popupW + TM.ScreenScale(8), popupH - TM.ScreenScale(8), 1, 0, 0.1)
+
+	function gamemodePopup:Paint(w, h)
+		BlurPanel(gamemodePopup, 5)
+		gamemodePopup:SetY(gamemodePopup:GetTall())
+
 		surface.SetDrawColor(255, 255, 255, 128)
-		surface.DrawRect(0, 0, GamemodePopup:GetWide(), TM.ScreenScale(1))
-		draw.RoundedBox(0, 0, 0, GamemodePopup:GetWide(), GamemodePopup:GetTall(), Color(0, 0, 0, 75))
-		draw.SimpleText(gm, "HUD_AmmoCountSmall", w / 2, TM.ScreenScale(-2), white, TEXT_ALIGN_CENTER)
+		surface.DrawRect(0, 0, gamemodePopup:GetWide(), TM.ScreenScale(1))
+
+		surface.SetDrawColor(0, 0, 0, 75)
+		surface.DrawRect(0, 0, gamemodePopup:GetWide(), gamemodePopup:GetTall())
+
+		draw.DrawText(gm, "HUD_AmmoCountSmall", w / 2, TM.ScreenScale(-2), white, TEXT_ALIGN_CENTER)
 	end
 
-	local textW
+	local textW = 0
+
 	timer.Create("addAdditionalPopupInfo", 1.5, 1, function()
+		if !IsValid(gamemodePopup) then return end
+
 		surface.SetFont("HUD_Health")
 		local descTextW, descTextH = select(1, surface.GetTextSize(desc))
 		local winTextW, winTextH = select(1, surface.GetTextSize(winCondition))
+
 		textW = math.max(descTextW, winTextW)
 
-		GamemodeDesc = vgui.Create("DFrame")
-		GamemodeDesc:SetSize(0, descTextH + winTextH + TM.ScreenScale(2))
-		GamemodeDesc:SizeTo(textW + TM.ScreenScale(16), descTextH + winTextH + TM.ScreenScale(2), 0.75, 0, 0.1)
-		GamemodeDesc:SetY(GamemodePopup:GetTall() + popupH)
-		GamemodeDesc:SetTitle("")
-		GamemodeDesc:SetDraggable(false)
-		GamemodeDesc:ShowCloseButton(false)
-		GamemodeDesc.Paint = function(self, w, h)
-			BlurPanel(GamemodeDesc, 5)
-			GamemodeDesc:SetX(ScrW() / 2 - (textW / 2))
+		gamemodeInfo = vgui.Create("DPanel", GetHUDPanel())
+		gamemodeInfo:SetSize(0, descTextH + winTextH + TM.ScreenScale(2))
+		gamemodeInfo:SetY(gamemodePopup:GetTall() + popupH)
+
+		gamemodeInfo:SizeTo(textW + TM.ScreenScale(16), descTextH + winTextH + TM.ScreenScale(2), 0.75, 0, 0.1)
+
+		function gamemodeInfo:Paint(w, h)
+			BlurPanel(gamemodeInfo, 5)
+			gamemodeInfo:SetX(ScrW() / 2 - (textW / 2))
+
 			surface.SetDrawColor(255, 255, 255, 128)
-			surface.DrawRect(0, 0, GamemodeDesc:GetWide(), TM.ScreenScale(1))
-			draw.RoundedBox(0, 0, 0, GamemodeDesc:GetWide(), GamemodeDesc:GetTall(), Color(0, 0, 0, 75))
-			draw.SimpleText(desc, "HUD_Health", w / 2, 0, white, TEXT_ALIGN_CENTER)
-			draw.SimpleText(winCondition, "HUD_Health", w / 2, descTextH, white, TEXT_ALIGN_CENTER)
+			surface.DrawRect(0, 0, gamemodeInfo:GetWide(), TM.ScreenScale(1))
+
+			surface.SetDrawColor(0, 0, 0, 75)
+			surface.DrawRect(0, 0, gamemodeInfo:GetWide(), gamemodeInfo:GetTall())
+
+			draw.DrawText(desc, "HUD_Health", w / 2, 0, white, TEXT_ALIGN_CENTER)
+			draw.DrawText(winCondition, "HUD_Health", w / 2, descTextH, white, TEXT_ALIGN_CENTER)
 		end
 	end)
 
 	timer.Create("removeGamemodePopup", 6.5, 1, function()
-		GamemodePopup:SizeTo(popupW + TM.ScreenScale(8), 0, 0.75, 0, 0.1, function()
-			GamemodePopup:Remove()
+		if !IsValid(gamemodePopup) or !IsValid(gamemodeInfo) then return end
+
+		gamemodePopup:SizeTo(popupW + TM.ScreenScale(8), 0, 0.75, 0, 0.1, function()
+			gamemodePopup:Remove()
 		end)
 
-		GamemodeDesc:SizeTo(textW + TM.ScreenScale(16), 0, 0.25, 0, 0.1, function()
-			GamemodeDesc:Remove()
+		gamemodeInfo:SizeTo(textW + TM.ScreenScale(16), 0, 0.25, 0, 0.1, function()
+			gamemodeInfo:Remove()
 		end)
 	end)
 end
 
-net.Receive("PlayerSpawn", function(len, pl)
+net.Receive("PlayerSpawn", function(len)
 	RunConsoleCommand("r_cleardecals")
 
-	if convars["hud_enable"] == 0 then return end
+	if !IsValid(LocalPlayer()) then return end
+	if hudEnable then return end
 
 	if TM.GAMEMODE != GAMEMODES.IDS.GUNGAME and TM.GAMEMODE != GAMEMODES.IDS.FISTICUFFS then
 		ShowLoadoutOnSpawn()
@@ -340,15 +285,15 @@ hook.Add("RenderScreenspaceEffects", "IntermissionPostProcess", function()
 		["$pp_colour_colour"] = pp,
 	}
 
-	if ply:Alive() != true then return end
+	if LocalPlayer():Alive() != true then return end
 
 	DrawColorModify(intermissionpp)
 end )
 
 function HUDIntermission()
-	draw.SimpleText("Match begins in", "HUD_WepNameKill", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(110), white, TEXT_ALIGN_CENTER)
-	draw.SimpleText(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime()) - (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()), "HUD_IntermissionText", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(100), white, TEXT_ALIGN_CENTER)
-	draw.SimpleText("Press [" .. string.upper(input.GetKeyName(convars["menu_bind"])) .. "] to open menu", "HUD_WepNameKill", ScrW() / 2, ScrH() - TM.ScreenScale(200), white, TEXT_ALIGN_CENTER)
+	draw.DrawText("Match begins in", "HUD_WepNameKill", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(110), white, TEXT_ALIGN_CENTER)
+	draw.DrawText(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime()) - (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()), "HUD_IntermissionText", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(100), white, TEXT_ALIGN_CENTER)
+	draw.DrawText("[" .. string.upper(input.GetKeyName(bindMenu)) .. "] return to menu", "HUD_WepNameKill", ScrW() / 2, ScrH() - TM.ScreenScale(200), white, TEXT_ALIGN_CENTER)
 end
 
 local function CrosshairStateUpdate(wep)
@@ -356,15 +301,25 @@ local function CrosshairStateUpdate(wep)
 	local velocity = tostring(math.Round(LocalPlayer():GetVelocity():Length()))
 
 	if wep != NULL and type(wep.Primary.Spread) == "number" then
-		if wep:GetIronSights() and wep:GetStat("PointFiring") == true then
+		if wep:GetIronSights() and wep:GetStat("DrawCrosshairIS") == true then
 			return 0
 		else
 			gap = gap + wep:GetStat("Primary.Spread") * 300
-			if ply:KeyDown(IN_ATTACK) then gap = gap + 5 end
+
+			if LocalPlayer():KeyDown(IN_ATTACK) then
+				gap = gap + 5
+			end
 		end
 	end
-	if LocalPlayer():OnGround() and LocalPlayer():Crouching() or LocalPlayer():GetSliding() then return math.Clamp(math.Round(gap - 5), 0, 100) end
-	if !LocalPlayer():OnGround() then gap = gap + 7 end
+
+	if LocalPlayer():OnGround() and LocalPlayer():Crouching() or LocalPlayer():GetSliding() then
+		return math.Clamp(math.Round(gap - 5), 0, 100)
+	end
+
+	if !LocalPlayer():OnGround() then
+		gap = gap + 7
+	end
+
 	gap = gap + velocity / 55
 
 	return math.Clamp(math.Round(gap), 0, 100)
@@ -373,61 +328,69 @@ end
 local modeName = GAMEMODES.MODES[TM.GAMEMODE].name
 
 function HUDAlways()
-	timeText = string.FormattedTime(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1, "%2i:%02i")
-	draw.SimpleText(modeName .. " |" .. timeText, "HUD_Health", ScrW() / 2, TM.ScreenScale(-5) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+	local timeText = string.FormattedTime(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1, "%02i:%02i") or "00:00"
+	draw.DrawText(modeName .. " | " .. timeText, "HUD_Health", ScrW() / 2, TM.ScreenScale(-5) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 
 	if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
-		draw.SimpleText(gunGameSize:GetInt() - LocalPlayer():GetNWInt("ladderPosition") .. " kills left", "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+		draw.DrawText(gunGameSize:GetInt() - LocalPlayer():GetNWInt("ladderPosition") .. " kills left", "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 	elseif TM.GAMEMODE == GAMEMODES.IDS.FIESTA and (GetGlobalInt("FiestaTime", 0) - CurTime()) > 0 then
-		draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("FiestaTime", 0) - CurTime() + 0.5), "%2i:%02i"), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+		draw.DrawText(string.FormattedTime(math.Round(GetGlobalInt("FiestaTime", 0) - CurTime() + 0.5), "%02i:%02i"), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 	elseif TM.GAMEMODE == GAMEMODES.IDS.CRANKED and timeUntilSelfDestruct != 0 then
-		draw.SimpleText(timeUntilSelfDestruct, "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+		draw.DrawText(timeUntilSelfDestruct, "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 	elseif TM.GAMEMODE == GAMEMODES.IDS.KOTH then
 		if GetGlobalString("tm_hillstatus") == "Occupied" then
-			draw.SimpleText(GetGlobalEntity("tm_entonhill"):Nick(), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			draw.DrawText(GetGlobalEntity("tm_entonhill"):Nick(), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		else
-			draw.SimpleText(GetGlobalString("tm_hillstatus"), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			draw.DrawText(GetGlobalString("tm_hillstatus"), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		end
 	elseif TM.GAMEMODE == GAMEMODES.IDS.VIP then
 		if GetGlobalEntity("tm_vip") != NULL then
-			draw.SimpleText(GetGlobalEntity("tm_vip"):Nick(), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
-			if GetGlobalEntity("tm_vip") != LocalPlayer() then draw.SimpleText(math.Round(LocalPlayer():GetPos():Distance(GetGlobalEntity("tm_vip"):GetPos()) * 0.01905) .. "m", "HUD_Health", ScrW() / 2, TM.ScreenScale(105) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER) end
+			draw.DrawText(GetGlobalEntity("tm_vip"):Nick(), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+
+			if GetGlobalEntity("tm_vip") != LocalPlayer() then
+				draw.DrawText(math.Round(LocalPlayer():GetPos():Distance(GetGlobalEntity("tm_vip"):GetPos()) * 0.01905) .. "m", "HUD_Health", ScrW() / 2, TM.ScreenScale(105) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+			end
 		else
-			draw.SimpleText("No VIP", "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + matchHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			draw.DrawText("No VIP", "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		end
 	end
 
 	surface.SetFont("HUD_StreakText")
 	for k, v in pairs(feedArray) do
-		if v[2] == 1 and v[2] != nil then surface.SetDrawColor(150, 50, 50, feedHUD["opacity"]) else surface.SetDrawColor(50, 50, 50, feedHUD["opacity"]) end
+		if v[2] == 1 and v[2] != nil then
+			surface.SetDrawColor(150, 50, 50, killfeedOpacity)
+		else
+			surface.SetDrawColor(50, 50, 50, killfeedOpacity)
+		end
+
 		local nameLength = select(1, surface.GetTextSize(v[1]))
 
-		surface.DrawRect(feedHUD["x"], ScrH() - TM.ScreenScale(20) + ((k - 1) * feedEntryPadding) - feedHUD["y"], nameLength + TM.ScreenScale(5), TM.ScreenScale(20))
-		draw.SimpleText(v[1], "HUD_StreakText", TM.ScreenScale(2.5) + feedHUD["x"], ScrH() - TM.ScreenScale(22) + ((k - 1) * feedEntryPadding) - feedHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
+		surface.DrawRect(killfeedX, ScrH() - TM.ScreenScale(20) + ((k - 1) * feedEntryPadding) - killfeedY, nameLength + TM.ScreenScale(5), TM.ScreenScale(20))
+		draw.DrawText(v[1], "HUD_StreakText", TM.ScreenScale(2) + killfeedX, ScrH() - TM.ScreenScale(22) + ((k - 1) * feedEntryPadding) - killfeedY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT)
 	end
 
 	if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
 		if GetGlobalString("tm_hillstatus") == "Empty" then
-			hillColor = Color(objHUD["obj_empty_r"], objHUD["obj_empty_g"], objHUD["obj_empty_b"], 3)
-			objIndicatorColor = Color(objHUD["obj_empty_r"], objHUD["obj_empty_g"], objHUD["obj_empty_b"], 175)
+			hillColor = Color(objEmptyR, objEmptyG, objEmptyB, 3)
+			objIndicatorColor = Color(objEmptyR, objEmptyG, objEmptyB, 175)
 
 			surface.SetDrawColor(255, 255, 255, 100)
 			surface.SetMaterial(hillEmptyMat)
 		elseif GetGlobalString("tm_hillstatus") == "Occupied" then
-			hillColor = Color(objHUD["obj_occupied_r"], objHUD["obj_occupied_g"], objHUD["obj_occupied_b"], 3)
-			objIndicatorColor = Color(objHUD["obj_occupied_r"], objHUD["obj_occupied_g"], objHUD["obj_occupied_b"], 175)
+			hillColor = Color(objOccupiedR, objOccupiedG, objOccupiedB, 3)
+			objIndicatorColor = Color(objOccupiedR, objOccupiedG, objOccupiedB, 175)
 
-			surface.SetDrawColor(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 100)
+			surface.SetDrawColor(objOccupiedR, objOccupiedG, objOccupiedB, 100)
 			surface.SetMaterial(hillEmptyMat)
 		else
-			hillColor = Color(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 3)
-			objIndicatorColor = Color(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 175)
+			hillColor = Color(objContestedR, objContestedG, objContestedB, 3)
+			objIndicatorColor = Color(objContestedR, objContestedG, objContestedB, 175)
 
-			surface.SetDrawColor(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 100)
+			surface.SetDrawColor(objContestedR, objContestedG, objContestedB, 100)
 			surface.SetMaterial(hillEmptyMat)
 		end
 
-		surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(60) + matchHUD["y"], TM.ScreenScale(42), TM.ScreenScale(42))
+		surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(60) + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
 
 		surface.SetMaterial(border)
 		surface.SetDrawColor(objIndicatorColor)
@@ -437,21 +400,19 @@ function HUDAlways()
 		end
 	elseif TM.GAMEMODE == GAMEMODES.IDS.VIP then
 		surface.SetMaterial(border)
-		surface.SetDrawColor(objHUD["obj_occupied_r"], objHUD["obj_occupied_g"], objHUD["obj_occupied_b"], 175)
+		surface.SetDrawColor(objOccupiedR, objOccupiedG, objOccupiedB, 175)
 
 		if GetGlobalEntity("tm_vip", NULL) == LocalPlayer() then
 			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 		end
 
-		surface.SetDrawColor(objHUD["obj_occupied_r"], objHUD["obj_occupied_g"], objHUD["obj_occupied_b"], 225)
+		surface.SetDrawColor(objOccupiedR, objOccupiedG, objOccupiedB, 225)
 		surface.SetMaterial(hillEmptyMat)
-		surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(24), TM.ScreenScale(57) + matchHUD["y"], TM.ScreenScale(48), TM.ScreenScale(48))
+		surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(24), TM.ScreenScale(57) + hudY, TM.ScreenScale(48), TM.ScreenScale(48))
 	end
 end
 
-local health
 local weapon
-local ammo
 local adsFade = 1
 local dyn = 0
 local hitmarkerFade = 0
@@ -488,29 +449,20 @@ local function LerpHealth()
 	end
 end
 
-local smoothAmmo = 0
-local startAmmo = 0
-local newAmmo = 0
-local oldAmmo = 0
-local function LerpAmmo()
-	smoothAmmo = Lerp((SysTime() - startAmmo ) / 0.1, oldAmmo, newAmmo)
-
-	if newAmmo != ammo then
-		if (smoothAmmo != ammo) then newAmmo = smoothAmmo end
-		oldAmmo = newAmmo
-		startAmmo = SysTime()
-		newAmmo = ammo
-	end
-end
-
 function HUDAlive()
-	if LocalPlayer():Health() <= 0 then health = 0 else health = LocalPlayer():Health() end
+	local health = math.Clamp(LocalPlayer():Health(), 0, LocalPlayer():GetMaxHealth())
 	weapon = LocalPlayer():GetActiveWeapon()
+
 	LerpCrosshair()
 
-	if (type(weapon.GetIronSights) == "function" and weapon:GetIronSights() and weapon:GetStat("PointFiring") == false) or (type(weapon.GetCustomizing) == "function" and weapon:GetCustomizing()) or (LocalPlayer():IsSprinting() and LocalPlayer():OnGround() and crosshair["sprint"] == 0) then adsFade = math.Clamp(adsFade - 7 * RealFrameTime(), 0, 1) else adsFade = math.Clamp(adsFade + 4 * RealFrameTime(), 0, 1) end
+	if (type(weapon.GetIronSights) == "function" and weapon:GetIronSights() and weapon:GetStat("DrawCrosshairIS") == false) or (type(weapon.GetCustomizing) == "function" and weapon:GetCustomizing()) or (LocalPlayer():IsSprinting() and LocalPlayer():OnGround() and crosshairSprint == 0) then
+		adsFade = math.Clamp(adsFade - 7 * RealFrameTime(), 0, 1)
+	else
+		adsFade = math.Clamp(adsFade + 4 * RealFrameTime(), 0, 1)
+	end
+
 	-- crosshair
-	if crosshair["style"] == 1 then
+	if crosshairStyle then
 		dyn = CrosshairStateUpdate(weapon)
 		LerpCrosshair()
 	else
@@ -520,17 +472,19 @@ function HUDAlive()
 	local centerX = ScrW() / 2
 	local centerY = ScrH() / 2
 
-	if crosshair["enabled"] == 1 then
-		if crosshair["outline"] == 1 then
-			surface.SetDrawColor(Color(crosshair["outline_r"], crosshair["outline_g"], crosshair["outline_b"], crosshair["opacity"] * adsFade))
-			if crosshair["show_r"] == 1 then surface.DrawRect(centerX + (crosshair["gap"] + smoothDyn) - 1, centerY - math.floor(crosshair["thickness"] / 2) - 1, crosshair["size"] + 2,  crosshair["thickness"] + 2) end
-			if crosshair["show_l"] == 1 then surface.DrawRect(centerX - (crosshair["gap"] + smoothDyn) - crosshair["size"] + crosshair["thickness"] % 2 - 1, centerY - math.floor(crosshair["thickness"] / 2) - 1, crosshair["size"] + 2,  crosshair["thickness"] + 2) end
-			if crosshair["show_b"] == 1 then surface.DrawRect(centerX - math.floor(crosshair["thickness"] / 2) - 1, centerY + (crosshair["gap"] + smoothDyn) - 1, crosshair["thickness"] + 2, crosshair["size"] + 2) end
-			if crosshair["show_t"] == 1 then surface.DrawRect(centerX - math.floor(crosshair["thickness"] / 2) - 1, centerY - crosshair["size"] - (crosshair["gap"] + smoothDyn) + crosshair["thickness"] % 2 - 1, crosshair["thickness"] + 2, crosshair["size"] + 2) end
-			if crosshair["dot"] == 1 then surface.DrawRect(centerX - math.floor(crosshair["thickness"] / 2) - 1, centerY - math.floor(crosshair["thickness"] / 2) - 1, crosshair["thickness"] + 2, crosshair["thickness"] + 2) end
+	if crosshair then
+		if crosshairOutline then
+			surface.SetDrawColor(crosshairOutlineR, crosshairOutlineG, crosshairOutlineB, crosshairOpacity * adsFade)
+
+			if crosshairShowRight then surface.DrawRect(centerX + (crosshairGap + smoothDyn) - 1, centerY - math.floor(crosshairThickness / 2) - 1, crosshairSize + 2,  crosshairThickness + 2) end
+			if crosshairShowLeft == 1 then surface.DrawRect(centerX - (crosshairGap + smoothDyn) - crosshairSize + crosshairThickness % 2 - 1, centerY - math.floor(crosshairThickness / 2) - 1, crosshairSize + 2,  crosshairThickness + 2) end
+			if crosshairShowBottom == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2) - 1, centerY + (crosshairGap + smoothDyn) - 1, crosshairThickness + 2, crosshairSize + 2) end
+			if crosshairShowTop == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2) - 1, centerY - crosshairSize - (crosshairGap + smoothDyn) + crosshairThickness % 2 - 1, crosshairThickness + 2, crosshairSize + 2) end
+			if crosshairDot == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2) - 1, centerY - math.floor(crosshairThickness / 2) - 1, crosshairThickness + 2, crosshairThickness + 2) end
 		end
 
-		surface.SetDrawColor(Color(crosshair["r"], crosshair["g"], crosshair["b"], crosshair["opacity"] * adsFade))
+		surface.SetDrawColor(crosshairR, crosshairG, crosshairB, crosshair["opacity"] * adsFade)
+
 		if crosshair["show_r"] == 1 then surface.DrawRect(centerX + (crosshair["gap"] + smoothDyn), centerY - math.floor(crosshair["thickness"] / 2), crosshair["size"],  crosshair["thickness"]) end
 		if crosshair["show_l"] == 1 then surface.DrawRect(centerX - (crosshair["gap"] + smoothDyn) - crosshair["size"] + crosshair["thickness"] % 2, centerY - math.floor(crosshair["thickness"] / 2), crosshair["size"],  crosshair["thickness"]) end
 		if crosshair["show_b"] == 1 then surface.DrawRect(centerX - math.floor(crosshair["thickness"] / 2), centerY + (crosshair["gap"] + smoothDyn), crosshair["thickness"], crosshair["size"]) end
@@ -558,71 +512,41 @@ function HUDAlive()
 
 	if health <= (LocalPlayer():GetMaxHealth() / 1.5) then
 		if health <= (LocalPlayer():GetMaxHealth() / 3) then
-			surface.SetDrawColor(healthHUD["barlow_r"], healthHUD["barlow_g"], healthHUD["barlow_b"], 120)
+			surface.SetDrawColor(180, 100, 100, 120)
 		else
-			surface.SetDrawColor(healthHUD["barmid_r"], healthHUD["barmid_g"], healthHUD["barmid_b"], 120)
+			surface.SetDrawColor(180, 180, 100, 120)
 		end
 	else
-		surface.SetDrawColor(healthHUD["barhigh_r"], healthHUD["barhigh_g"], healthHUD["barhigh_b"], 120)
+		surface.SetDrawColor(100, 180, 100, 120)
 	end
 
 	surface.DrawRect(healthHUD["x"], ScrH() - TM.ScreenScale(30) - healthHUD["y"], healthHUD["size"] * (math.max(0, smoothHP) / LocalPlayer():GetMaxHealth()), TM.ScreenScale(30))
-	draw.SimpleText(health, "HUD_Health", healthHUD["size"] + healthHUD["x"] - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - healthHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
+	draw.SimpleText(health, "HUD_Health", healthHUD["size"] + healthHUD["x"] - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - healthHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
 
 	-- ammo/weapon
 	if weapon == NULL then return end
-	if convars["ammo_style"] == 0 then
-		-- numeric style
-		draw.SimpleText(weapon:GetPrintName(), "HUD_GunPrintName", ScrW() - weaponHUD["x"], ScrH() - TM.ScreenScale(50) - weaponHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
-		if convars["kill_tracker"] == 1 then draw.SimpleText(LocalPlayer():GetNWInt("killsWith_" .. weapon:GetClass()) .. " kills", "HUD_StreakText", ScrW() - TM.MenuScale(5) - weaponHUD["x"], ScrH() - TM.ScreenScale(170) - weaponHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
 
-		local ammoColor
-		local ammoText
-		if (weapon:Clip1() >= 0) then
-			if (weapon:Clip1() == 0) then
-				ammoColor = red
-				ammoText = 0
-			end
-			ammoColor = Color(convars["text_r"], convars["text_g"], convars["text_b"])
-			ammoText = weapon:Clip1()
-		elseif weapon:GetPrintName() == "M134 Minigun" or weapon:GetPrintName() == "Fists" or weapon:GetPrintName() == "Riot Shield" or weapon:GetPrintName() == "Flamethrower" or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
-			ammoColor = Color(convars["text_r"], convars["text_g"], convars["text_b"])
-			ammoText = "∞"
-		else
-			ammoColor = Color(convars["text_r"], convars["text_g"], convars["text_b"])
-			ammoText = "[" .. string.upper(reloadBind) .. "] THROW"
+	draw.SimpleText(weapon:GetPrintName(), "HUD_GunPrintName", ScrW() - weaponHUD["x"], ScrH() - TM.ScreenScale(50) - weaponHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
+	if convars["kill_tracker"] == 1 then draw.SimpleText(LocalPlayer():GetNWInt("killsWith_" .. weapon:GetClass()) .. " kills", "HUD_StreakText", ScrW() - TM.MenuScale(5) - weaponHUD["x"], ScrH() - TM.ScreenScale(170) - weaponHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT) end
+
+	local ammoColor
+	local ammoText
+	if (weapon:Clip1() >= 0) then
+		if (weapon:Clip1() == 0) then
+			ammoColor = red
+			ammoText = 0
 		end
-
-		draw.SimpleText(ammoText, "HUD_AmmoCount", ScrW() - weaponHUD["x"], ScrH() - TM.ScreenScale(165) - weaponHUD["y"], ammoColor, TEXT_ALIGN_RIGHT)
-	elseif convars["ammo_style"] == 1 then
-		-- bar style
-		draw.SimpleText(weapon:GetPrintName(), "HUD_GunPrintName", ScrW() - weaponHUD["x"], ScrH() - TM.ScreenScale(90) - weaponHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
-		if convars["kill_tracker"] == 1 then draw.SimpleText(LocalPlayer():GetNWInt("killsWith_" .. weapon:GetClass()) .. " kills", "HUD_StreakText", ScrW() - weaponHUD["x"], ScrH() - TM.ScreenScale(105) - weaponHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
-
-		if (weapon:Clip1() != 0) then
-			surface.SetDrawColor(weaponHUD["ammobar_r"] - 205, weaponHUD["ammobar_g"] - 205, weaponHUD["ammobar_b"] - 205, 80)
-			surface.DrawRect(ScrW() - TM.ScreenScale(400) - weaponHUD["x"], ScrH() - TM.ScreenScale(30) - weaponHUD["y"], TM.ScreenScale(400), TM.ScreenScale(30))
-		else
-			surface.SetDrawColor(255, 0, 0, 80)
-			surface.DrawRect(ScrW() - TM.ScreenScale(400) - weaponHUD["x"], ScrH() - TM.ScreenScale(30) - weaponHUD["y"], TM.ScreenScale(400), TM.ScreenScale(30))
-		end
-
-		surface.SetDrawColor(weaponHUD["ammobar_r"], weaponHUD["ammobar_g"], weaponHUD["ammobar_b"], 175)
-		if (weapon:Clip1() >= 0) then
-			ammo = weapon:Clip1()
-			LerpAmmo()
-			surface.DrawRect(ScrW() - TM.ScreenScale(400) - weaponHUD["x"], ScrH() - TM.ScreenScale(30) - weaponHUD["y"], TM.ScreenScale(400) * (math.Clamp(math.max(0, smoothAmmo) / weapon:GetMaxClip1(), 0, 1)), TM.ScreenScale(30))
-			draw.SimpleText(weapon:Clip1(), "HUD_Health", ScrW() - TM.ScreenScale(390) - weaponHUD["x"], ScrH() - TM.ScreenScale(30) - weaponHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
-		elseif weapon:GetPrintName() == "M134 Minigun" or weapon:GetPrintName() == "Fists" or weapon:GetPrintName() == "Riot Shield" or weapon:GetPrintName() == "Flamethrower" or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
-			surface.DrawRect(ScrW() - TM.ScreenScale(400) - weaponHUD["x"], ScrH() - TM.ScreenScale(30) - weaponHUD["y"], TM.ScreenScale(400), TM.ScreenScale(30))
-			draw.SimpleText("∞", "HUD_Health", ScrW() - TM.ScreenScale(390) - weaponHUD["x"], ScrH() - TM.ScreenScale(32) - weaponHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
-		else
-			surface.DrawRect(ScrW() - TM.ScreenScale(400) - weaponHUD["x"], ScrH() - TM.ScreenScale(30) - weaponHUD["y"], TM.ScreenScale(400), TM.ScreenScale(30))
-			draw.SimpleText("[" .. string.upper(reloadBind) .. "] THROW", "HUD_Health", ScrW() - TM.ScreenScale(390) - weaponHUD["x"], ScrH() - TM.ScreenScale(32) - weaponHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT)
-		end
+		ammoColor = Color(hudTextR, hudTextG, hudTextB)
+		ammoText = weapon:Clip1()
+	elseif weapon:GetPrintName() == "M134 Minigun" or weapon:GetPrintName() == "Fists" or weapon:GetPrintName() == "Riot Shield" or weapon:GetPrintName() == "Flamethrower" or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
+		ammoColor = Color(hudTextR, hudTextG, hudTextB)
+		ammoText = "∞"
+	else
+		ammoColor = Color(hudTextR, hudTextG, hudTextB)
+		ammoText = "[" .. string.upper(reloadBind) .. "] THROW"
 	end
 
-	if convars["reload_hints"] == 1 and weapon:Clip1() == 0 then draw.SimpleText("[RELOAD]", "HUD_WepNameKill", ScrW() / 2, ScrH() / 2 + TM.ScreenScale(185), red, TEXT_ALIGN_CENTER) end
+	draw.SimpleText(ammoText, "HUD_AmmoCount", ScrW() - weaponHUD["x"], ScrH() - TM.ScreenScale(165) - weaponHUD["y"], ammoColor, TEXT_ALIGN_RIGHT)
 
 	-- equipment
 	local grappleMat = Material("icons/grapplehudicon.png", "noclamp smooth")
@@ -639,12 +563,12 @@ function HUDAlive()
 			grappleText = math.floor(LocalPlayer():GetNWFloat("linat", CurTime()) - CurTime() + 1)
 		end
 		surface.DrawTexturedRect(equipmentHUD["x"] - TM.ScreenScale(45), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-		draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"] - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+		draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"] - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 
 		surface.SetMaterial(nadeMat)
 		surface.SetDrawColor(255,255,255,255)
 		surface.DrawTexturedRect(equipmentHUD["x"] + TM.ScreenScale(10), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-		draw.SimpleText(string.upper(input.GetKeyName(convars["nade_bind"])), "HUD_StreakText", equipmentHUD["x"] + TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+		draw.SimpleText(string.upper(input.GetKeyName(convars["nade_bind"])), "HUD_StreakText", equipmentHUD["x"] + TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 	else
 		surface.SetMaterial(grappleMat)
 		if Lerp((LocalPlayer():GetNWFloat("linat",CurTime()) - CurTime()) * 0.2,0,500) == 0 and !IsValid(LocalPlayer():SetNWEntity("lina", stando)) then
@@ -656,13 +580,13 @@ function HUDAlive()
 		end
 		if equipAnchor == "left" then
 			surface.DrawTexturedRect(equipmentHUD["x"] - TM.ScreenScale(45), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-			draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"] - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"] - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		elseif equipAnchor == "center" then
 			surface.DrawTexturedRect(equipmentHUD["x"] - TM.ScreenScale(17.5), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-			draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"], ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"], ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		else
 			surface.DrawTexturedRect(equipmentHUD["x"] + TM.ScreenScale(10), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-			draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"] + TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+			draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"] + TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		end
 	end
 
@@ -706,14 +630,14 @@ function HUDAlive()
 	end
 
 	-- velocity counter
-	if convars["velocity_counter"] == 1 then
-		draw.SimpleText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityHUD["x"], velocityHUD["y"], Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	if convars["velocity_overlay"] == 1 then
+		draw.SimpleText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityHUD["x"], velocityHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	end
 
 	-- disclaimer for players connecting during an active gamemode and map vote
 	if GetGlobalBool("tm_matchended") == true then
-		draw.SimpleText("Match has ended", "HUD_GunPrintName", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(104), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
-		draw.SimpleText("Sit tight, another match is about to begin!", "HUD_Health", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(18), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_CENTER)
+		draw.SimpleText("Match has ended", "HUD_GunPrintName", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(104), Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+		draw.SimpleText("Sit tight, another match is about to begin!", "HUD_Health", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(18), Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 	end
 end
 
@@ -1021,7 +945,7 @@ net.Receive("KillFeedUpdate", function(len, ply)
 		table.remove(feedArray, 1)
 	end)
 
-	if streak % 5 == 0 then
+	if streak % 5 == 0 and streak > 0 then
 		table.insert(feedArray, {attacker .. " is on a " .. streak .. " killstreak", 0})
 		if table.Count(feedArray) >= (convars["killfeed_limit"] + 1) then
 			table.remove(feedArray, 1)
@@ -1051,8 +975,8 @@ net.Receive("NotifyKill", function(len, ply)
 
 	KillNotif = vgui.Create("DFrame")
 	KillNotif:SetSize(ScrW(), 0)
-	KillNotif:SetX(killdeathHUD["x"])
-	KillNotif:SetY(ScrH() - killdeathHUD["y"])
+	KillNotif:SetX(0)
+	KillNotif:SetY(TM.ScreenScale(335))
 	KillNotif:SetTitle("")
 	KillNotif:SetDraggable(false)
 	KillNotif:ShowCloseButton(false)
@@ -1084,7 +1008,11 @@ net.Receive("NotifyKill", function(len, ply)
 		KillIcon:SetImage("icons/killicon.png")
 		KillIcon:SizeTo(TM.ScreenScale(50), TM.ScreenScale(50), 0.75, 0, 0.1)
 
-		if v == "1" then KillIcon:SetImageColor(red) else KillIcon:SetImageColor(Color(killdeathHUD["killicon_r"], killdeathHUD["killicon_g"], killdeathHUD["killicon_b"])) end
+		if v == "1" then
+			KillIcon:SetImageColor(red)
+		else
+			KillIcon:SetImageColor(white)
+		end
 	end
 
 	if LocalPlayer():Health() <= 15 then
@@ -1149,7 +1077,7 @@ net.Receive("NotifyKill", function(len, ply)
 
 	timer.Create("killNotification", 3.5, 1, function()
 		if IsValid(KillNotif) then
-			KillNotif:MoveTo(killdeathHUD["x"], ScrH(), 0.5, 0, 0.15)
+			KillNotif:MoveTo(0, ScrH(), 0.5, 0, 0.15)
 			KillNotif:SizeTo(ScrW(), 0, 0.5, 0, 0.1, function()
 				KillNotif:Remove()
 				table.Empty(multiArray)
@@ -1192,8 +1120,8 @@ net.Receive("NotifyDeath", function(len, ply)
 
 	DeathNotif = vgui.Create("DFrame")
 	DeathNotif:SetSize(ScrW(), TM.ScreenScale(300))
-	DeathNotif:SetX(killdeathHUD["x"])
-	DeathNotif:SetY(ScrH() - killdeathHUD["y"])
+	DeathNotif:SetX(0)
+	DeathNotif:SetY(ScrH() - TM.ScreenScale(335))
 	DeathNotif:SetTitle("")
 	DeathNotif:SetDraggable(false)
 	DeathNotif:ShowCloseButton(false)
@@ -1964,32 +1892,26 @@ net.Receive("EndOfGame", function(len, ply)
 				local weaponKills = weaponstatistics:AddSubMenu("Kills With")
 				weaponKills:SetMaxHeight(ScrH() / 1.5)
 
-				if v:GetInfoNum("tm_hidestatsfromothers", 0) == 0 or v == LocalPlayer() then
-					statistics:AddOption("Prestige " .. v:GetNWInt("playerPrestige") .. " Level " .. v:GetNWInt("playerLevel"))
-					statistics:AddOption("Score: " .. v:GetNWInt("playerScore"))
-					statistics:AddOption("Kills: " .. v:GetNWInt("playerKills"))
-					statistics:AddOption("Deaths: " .. v:GetNWInt("playerDeaths"))
-					statistics:AddOption("K/D Ratio: " .. math.Round(v:GetNWInt("playerKills") / v:GetNWInt("playerDeaths"), 3))
-					statistics:AddOption("Highest Killstreak: " .. v:GetNWInt("highestKillStreak"))
-					statistics:AddOption("Highest Kill Game: " .. v:GetNWInt("highestKillGame"))
-					statistics:AddOption("Farthest Kill: " .. v:GetNWInt("farthestKill") .. "m")
-					statistics:AddOption("Matches Played: " .. v:GetNWInt("matchesPlayed"))
-					statistics:AddOption("Matches Won: " .. v:GetNWInt("matchesWon"))
-					statistics:AddOption("W/L Ratio: " .. math.Round((v:GetNWInt("matchesWon") / v:GetNWInt("matchesPlayed")) * 100) .. "%")
-					accolades:AddOption("Headshot Kills: " .. v:GetNWInt("playerAccoladeHeadshot"))
-					accolades:AddOption("Smackdowns (Melee Kills): " .. v:GetNWInt("playerAccoladeSmackdown"))
-					accolades:AddOption("Clutches (Kills with less than 15 HP): " .. v:GetNWInt("playerAccoladeClutch"))
-					accolades:AddOption("Longshots: " .. v:GetNWInt("playerAccoladeLongshot"))
-					accolades:AddOption("Point Blanks: " .. v:GetNWInt("playerAccoladePointblank"))
-					accolades:AddOption("On Streaks (Kill Streaks Started): " .. v:GetNWInt("playerAccoladeOnStreak"))
-					accolades:AddOption("Buzz Kills (Kill Streaks Ended): " .. v:GetNWInt("playerAccoladeBuzzkill"))
-					for i = 1, #WEAPONS do
-						weaponKills:AddOption(WEAPONS[i][2] .. ": " .. v:GetNWInt("killsWith_" .. WEAPONS[i][1]))
-					end
-				else
-					statistics:AddOption("This player has their stats hidden.")
-					accolades:AddOption("This player has their stats hidden.")
-					weaponKills:AddOption("This player has their stats hidden.")
+				statistics:AddOption("Prestige " .. v:GetNWInt("playerPrestige") .. " Level " .. v:GetNWInt("playerLevel"))
+				statistics:AddOption("Score: " .. v:GetNWInt("playerScore"))
+				statistics:AddOption("Kills: " .. v:GetNWInt("playerKills"))
+				statistics:AddOption("Deaths: " .. v:GetNWInt("playerDeaths"))
+				statistics:AddOption("K/D Ratio: " .. math.Round(v:GetNWInt("playerKills") / v:GetNWInt("playerDeaths"), 3))
+				statistics:AddOption("Highest Killstreak: " .. v:GetNWInt("highestKillStreak"))
+				statistics:AddOption("Highest Kill Game: " .. v:GetNWInt("highestKillGame"))
+				statistics:AddOption("Farthest Kill: " .. v:GetNWInt("farthestKill") .. "m")
+				statistics:AddOption("Matches Played: " .. v:GetNWInt("matchesPlayed"))
+				statistics:AddOption("Matches Won: " .. v:GetNWInt("matchesWon"))
+				statistics:AddOption("W/L Ratio: " .. math.Round((v:GetNWInt("matchesWon") / v:GetNWInt("matchesPlayed")) * 100) .. "%")
+				accolades:AddOption("Headshot Kills: " .. v:GetNWInt("playerAccoladeHeadshot"))
+				accolades:AddOption("Smackdowns (Melee Kills): " .. v:GetNWInt("playerAccoladeSmackdown"))
+				accolades:AddOption("Clutches (Kills with less than 15 HP): " .. v:GetNWInt("playerAccoladeClutch"))
+				accolades:AddOption("Longshots: " .. v:GetNWInt("playerAccoladeLongshot"))
+				accolades:AddOption("Point Blanks: " .. v:GetNWInt("playerAccoladePointblank"))
+				accolades:AddOption("On Streaks (Kill Streaks Started): " .. v:GetNWInt("playerAccoladeOnStreak"))
+				accolades:AddOption("Buzz Kills (Kill Streaks Ended): " .. v:GetNWInt("playerAccoladeBuzzkill"))
+				for i = 1, #WEAPONS do
+					weaponKills:AddOption(WEAPONS[i][2] .. ": " .. v:GetNWInt("killsWith_" .. WEAPONS[i][1]))
 				end
 
 				Menu:AddSpacer()
@@ -2035,8 +1957,11 @@ net.Receive("NotifyCranked", function(len, ply)
 	end)
 end)
 
--- shows the players loadout on the bottom left hand side of their screen
+local loadoutHint = GetConVar("tm_hud_hints_loadout"):GetBool()
+
 function ShowLoadoutOnSpawn()
+	if !loadoutHint then return end
+
 	local primaryWeapon = ""
 	local secondaryWeapon = ""
 	local meleeWeapon = ""
@@ -2067,323 +1992,7 @@ function ShowLoadoutOnSpawn()
 	end)
 end
 
-cvars.AddChangeCallback("tm_hud_health_size", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_offset_x", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_offset_y", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_text_color_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_text_color_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_text_color_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_ammo_bar_color_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_ammo_bar_color_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_ammo_bar_color_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_color_high_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_color_high_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_color_high_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_color_mid_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_color_mid_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_color_mid_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_color_low_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_color_low_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_health_color_low_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_equipment_offset_x", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_equipment_offset_y", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_killfeed_offset_x", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_killfeed_offset_y", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_killfeed_opacity", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_killdeath_offset_x", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_killdeath_offset_y", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_kill_iconcolor_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_kill_iconcolor_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_kill_iconcolor_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_keypressoverlay_x", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_keypressoverlay_y", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_keypressoverlay_inactive_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_keypressoverlay_inactive_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_keypressoverlay_inactive_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_keypressoverlay_actuated_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_keypressoverlay_actuated_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_keypressoverlay_actuated_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_velocitycounter_x", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_velocitycounter_y", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_velocitycounter_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_velocitycounter_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_velocitycounter_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_scale", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_color_empty_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_color_empty_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_color_empty_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_color_occupied_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_color_occupied_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_color_occupied_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_color_contested_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_color_contested_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_obj_color_contested_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_killfeed_style", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_equipment_anchor", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hitsounds", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_killsound", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hitsoundtype", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_killsoundtype", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_headshotkillsoundtype", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_enable", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_notification", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_ammo_style", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_killtracker", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_reloadhint", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_grapplebind", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_nadebind", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_mainmenubind", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_keypressoverlay", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_velocitycounter", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_enablekillfeed", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_killfeed_limit", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_screenflashes", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_musicvolume", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_bounds_x", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
 cvars.AddChangeCallback("tm_hud_bounds_y", function(convar_name, value_old, value_new)
-	UpdateHUD()
 	if IsValid(KOTHPFP) then KOTHPFP:SetPos(ScrW() / 2 - 21, 60 + matchHUD["y"]) end
 	if IsValid(VIPPFP) then VIPPFP:SetPos(ScrW() / 2 - 21, 60 + matchHUD["y"]) end
-end)
-cvars.AddChangeCallback("tm_hud_crosshair", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_style", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_gap", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_size", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_thickness", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_dot", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_outline", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_opacity", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_color_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_color_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_color_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_outline_color_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_outline_color_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_outline_color_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_show_t", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_show_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_show_l", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_show_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_crosshair_sprint", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_gap", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_size", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_thickness", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_opacity", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_duration", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_color_hit_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_color_hit_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_color_hit_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_color_head_r", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_color_head_g", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_hitmarker_color_head_b", function(convar_name, value_old, value_new)
-	UpdateHUD()
-end)
-cvars.AddChangeCallback("tm_hud_scale", function(convar_name, value_old, value_new)
-	UpdateHUD()
 end)

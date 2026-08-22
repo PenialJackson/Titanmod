@@ -77,13 +77,13 @@ function GM:InitPostEntity()
 	net.SendToServer()
 end
 
-if GetConVar("tm_renderhands"):GetInt() == 0 then
+if GetConVar("tm_render_hands"):GetInt() == 0 then
 	hook.Add("PreDrawPlayerHands", "DisableHandRendering", function()
 		return true
 	end)
 end
 
-cvars.AddChangeCallback("tm_renderhands", function(_, _, new)
+cvars.AddChangeCallback("tm_render_hands", function(_, _, new)
 	if new == "1" then
 		hook.Remove("PreDrawPlayerHands", "DisableHandRendering")
 	else
