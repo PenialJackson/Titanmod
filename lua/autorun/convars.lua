@@ -465,13 +465,6 @@ cvars["killfeed"] = {
 	max = 1
 }
 
-cvars["health_size"] = {
-	hud = true,
-	default = 450,
-	min = 100,
-	max = 1000
-}
-
 cvars["health_offset_x"] = {
 	hud = true,
 	default = 0,
@@ -545,13 +538,6 @@ cvars["killfeed_opacity"] = {
 cvars["hints_loadout"] = {
 	hud = true,
 	default = 1,
-	min = 0,
-	max = 1
-}
-
-cvars["killtracker"] = {
-	hud = true,
-	default = 0,
 	min = 0,
 	max = 1
 }
@@ -881,7 +867,7 @@ cvars["hitmarker_opacity"] = {
 cvars["hitmarker_duration"] = {
 	hud = true,
 	default = 2.5,
-	min = 0.5,
+	min = 1,
 	max = 5
 }
 

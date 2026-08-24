@@ -1,6 +1,3 @@
-local white = Color(255, 255, 255, 255)
-local red = Color(255, 0, 0, 255)
-
 local gameEnded = false
 local matchStartPopupSeen = false
 local feedArray = {}
@@ -50,6 +47,9 @@ local hitmarkerHeadR = GetConVar("tm_hud_hitmarker_head_color_r"):GetInt()
 local hitmarkerHeadG = GetConVar("tm_hud_hitmarker_head_color_g"):GetInt()
 local hitmarkerHeadB = GetConVar("tm_hud_hitmarker_head_color_b"):GetInt()
 
+local healthX = GetConVar("tm_hud_health_offset_x"):GetInt()
+local healthY = GetConVar("tm_hud_health_offset_y"):GetInt()
+
 local equipmentX = GetConVar("tm_hud_equipment_offset_x"):GetInt()
 local equipmentY = GetConVar("tm_hud_equipment_offset_y"):GetInt()
 
@@ -63,12 +63,12 @@ local killfeedOpacity = GetConVar("tm_hud_killfeed_opacity"):GetInt()
 local keyoverlay = GetConVar("tm_hud_keypressoverlay"):GetBool()
 local keyoverlayX = GetConVar("tm_hud_keypressoverlay_x"):GetInt()
 local keyoverlayY = GetConVar("tm_hud_keypressoverlay_y"):GetInt()
-local keyoverlayInactiveR = GetConVar("tm_hud_keypressoverlay_inactive_color_r"):GetInt()
-local keyoverlayInactiveG = GetConVar("tm_hud_keypressoverlay_inactive_color_g"):GetInt()
-local keyoverlayInactiveB = GetConVar("tm_hud_keypressoverlay_inactive_color_b"):GetInt()
 local keyoverlayActuatedR = GetConVar("tm_hud_keypressoverlay_actuated_color_r"):GetInt()
 local keyoverlayActuatedG = GetConVar("tm_hud_keypressoverlay_actuated_color_g"):GetInt()
 local keyoverlayActuatedB = GetConVar("tm_hud_keypressoverlay_actuated_color_b"):GetInt()
+local keyoverlayInactiveR = GetConVar("tm_hud_keypressoverlay_inactive_color_r"):GetInt()
+local keyoverlayInactiveG = GetConVar("tm_hud_keypressoverlay_inactive_color_g"):GetInt()
+local keyoverlayInactiveB = GetConVar("tm_hud_keypressoverlay_inactive_color_b"):GetInt()
 
 local velocityoverlay = GetConVar("tm_hud_velocityoverlay"):GetBool()
 local velocityoverlayX = GetConVar("tm_hud_velocityoverlay_x"):GetInt()
@@ -93,33 +93,30 @@ local sfxKillHeadStyle = GetConVar("tm_kill_headshot_sfx_style"):GetInt()
 
 local notifications = GetConVar("tm_hud_notifications"):GetBool()
 
-local killtracker = GetConVar("tm_hud_killtracker"):GetBool()
-
 local screenfx = GetConVar("tm_screenflashes"):GetBool()
 
 local bindGrapple = GetConVar("tm_bind_grapple"):GetInt()
 local bindNade = GetConVar("tm_bind_nade"):GetInt()
 local bindMenu = GetConVar("tm_bind_menu"):GetInt()
 
-local actuatedColor = Color(kpoHUD["actuated_r"], kpoHUD["actuated_g"], kpoHUD["actuated_b"])
-local inactiveColor = Color(kpoHUD["inactive_r"], kpoHUD["inactive_g"], kpoHUD["inactive_b"])
 local reloadBind = input.LookupBinding("+reload") or "Reload Bind"
-
-local feedEntryPadding = !killfeedStyle and TM.ScreenScale(-20) or TM.ScreenScale(20)
 
 local keyMat = Material("icons/keyicon.png", "noclamp smooth")
 local keyMatMed = Material("icons/keyiconmedium.png", "noclamp smooth")
 local keyMatLong = Material("icons/keyiconlong.png", "noclamp smooth")
 
-local fColor = white
-local lColor = white
-local bColor = white
-local rColor = white
-local jColor = white
-local sColor = white
-local cColor = white
+local fColor = COLORS.white
+local lColor = COLORS.white
+local bColor = COLORS.white
+local rColor = COLORS.white
+local jColor = COLORS.white
+local sColor = COLORS.white
+local cColor = COLORS.white
 
 local function KPOKeyCheck()
+	local actuatedColor = Color(keyoverlayActuatedR, keyoverlayActuatedG, keyoverlayActuatedB)
+	local inactiveColor = Color(keyoverlayInactiveR, keyoverlayInactiveG, keyoverlayInactiveB)
+
 	if LocalPlayer():KeyDown(IN_FORWARD) then fColor = actuatedColor else fColor = inactiveColor end
 	if LocalPlayer():KeyDown(IN_MOVELEFT) then lColor = actuatedColor else lColor = inactiveColor end
 	if LocalPlayer():KeyDown(IN_BACK) then bColor = actuatedColor else bColor = inactiveColor end
@@ -205,7 +202,7 @@ local function MatchStartPopup()
 		surface.SetDrawColor(0, 0, 0, 75)
 		surface.DrawRect(0, 0, gamemodePopup:GetWide(), gamemodePopup:GetTall())
 
-		draw.DrawText(gm, "HUD_AmmoCountSmall", w / 2, TM.ScreenScale(-2), white, TEXT_ALIGN_CENTER)
+		draw.DrawText(gm, "HUD_AmmoCountSmall", w / 2, TM.ScreenScale(-2), COLORS.white, TEXT_ALIGN_CENTER)
 	end
 
 	local textW = 0
@@ -235,8 +232,8 @@ local function MatchStartPopup()
 			surface.SetDrawColor(0, 0, 0, 75)
 			surface.DrawRect(0, 0, gamemodeInfo:GetWide(), gamemodeInfo:GetTall())
 
-			draw.DrawText(desc, "HUD_Health", w / 2, 0, white, TEXT_ALIGN_CENTER)
-			draw.DrawText(winCondition, "HUD_Health", w / 2, descTextH, white, TEXT_ALIGN_CENTER)
+			draw.DrawText(desc, "HUD_Health", w / 2, 0, COLORS.white, TEXT_ALIGN_CENTER)
+			draw.DrawText(winCondition, "HUD_Health", w / 2, descTextH, COLORS.white, TEXT_ALIGN_CENTER)
 		end
 	end)
 
@@ -291,9 +288,9 @@ hook.Add("RenderScreenspaceEffects", "IntermissionPostProcess", function()
 end )
 
 function HUDIntermission()
-	draw.DrawText("Match begins in", "HUD_WepNameKill", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(110), white, TEXT_ALIGN_CENTER)
-	draw.DrawText(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime()) - (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()), "HUD_IntermissionText", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(100), white, TEXT_ALIGN_CENTER)
-	draw.DrawText("[" .. string.upper(input.GetKeyName(bindMenu)) .. "] return to menu", "HUD_WepNameKill", ScrW() / 2, ScrH() - TM.ScreenScale(200), white, TEXT_ALIGN_CENTER)
+	draw.DrawText("Match begins in", "HUD_WepNameKill", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(110), COLORS.white, TEXT_ALIGN_CENTER)
+	draw.DrawText(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime()) - (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()), "HUD_IntermissionText", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(100), COLORS.white, TEXT_ALIGN_CENTER)
+	draw.DrawText("[" .. string.upper(input.GetKeyName(bindMenu)) .. "] return to menu", "HUD_WepNameKill", ScrW() / 2, ScrH() - TM.ScreenScale(200), COLORS.white, TEXT_ALIGN_CENTER)
 end
 
 local function CrosshairStateUpdate(wep)
@@ -355,18 +352,21 @@ function HUDAlways()
 		end
 	end
 
-	surface.SetFont("HUD_StreakText")
-	for k, v in pairs(feedArray) do
-		if v[2] == 1 and v[2] != nil then
-			surface.SetDrawColor(150, 50, 50, killfeedOpacity)
-		else
-			surface.SetDrawColor(50, 50, 50, killfeedOpacity)
+	if killfeed then
+		surface.SetFont("HUD_StreakText")
+		for k, v in pairs(feedArray) do
+			if v[2] == 1 and v[2] != nil then
+				surface.SetDrawColor(150, 50, 50, killfeedOpacity)
+			else
+				surface.SetDrawColor(50, 50, 50, killfeedOpacity)
+			end
+
+			local nameLength = select(1, surface.GetTextSize(v[1]))
+			local feedEntryPadding = !killfeedStyle and TM.ScreenScale(-20) or TM.ScreenScale(20)
+
+			surface.DrawRect(killfeedX, ScrH() - TM.ScreenScale(20) + ((k - 1) * feedEntryPadding) - killfeedY, nameLength + TM.ScreenScale(5), TM.ScreenScale(20))
+			draw.DrawText(v[1], "HUD_StreakText", TM.ScreenScale(2) + killfeedX, ScrH() - TM.ScreenScale(22) + ((k - 1) * feedEntryPadding) - killfeedY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT)
 		end
-
-		local nameLength = select(1, surface.GetTextSize(v[1]))
-
-		surface.DrawRect(killfeedX, ScrH() - TM.ScreenScale(20) + ((k - 1) * feedEntryPadding) - killfeedY, nameLength + TM.ScreenScale(5), TM.ScreenScale(20))
-		draw.DrawText(v[1], "HUD_StreakText", TM.ScreenScale(2) + killfeedX, ScrH() - TM.ScreenScale(22) + ((k - 1) * feedEntryPadding) - killfeedY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT)
 	end
 
 	if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
@@ -416,7 +416,7 @@ local weapon
 local adsFade = 1
 local dyn = 0
 local hitmarkerFade = 0
-local hitColor = "hit"
+local hitType = false
 
 -- HUD lerp functinos
 local smoothDyn = 0
@@ -450,7 +450,8 @@ local function LerpHealth()
 end
 
 function HUDAlive()
-	local health = math.Clamp(LocalPlayer():Health(), 0, LocalPlayer():GetMaxHealth())
+	local maxHealth = LocalPlayer():GetMaxHealth()
+	local health = math.Clamp(LocalPlayer():Health(), 0, maxHealth)
 	weapon = LocalPlayer():GetActiveWeapon()
 
 	LerpCrosshair()
@@ -485,33 +486,38 @@ function HUDAlive()
 
 		surface.SetDrawColor(crosshairR, crosshairG, crosshairB, crosshair["opacity"] * adsFade)
 
-		if crosshair["show_r"] == 1 then surface.DrawRect(centerX + (crosshair["gap"] + smoothDyn), centerY - math.floor(crosshair["thickness"] / 2), crosshair["size"],  crosshair["thickness"]) end
-		if crosshair["show_l"] == 1 then surface.DrawRect(centerX - (crosshair["gap"] + smoothDyn) - crosshair["size"] + crosshair["thickness"] % 2, centerY - math.floor(crosshair["thickness"] / 2), crosshair["size"],  crosshair["thickness"]) end
-		if crosshair["show_b"] == 1 then surface.DrawRect(centerX - math.floor(crosshair["thickness"] / 2), centerY + (crosshair["gap"] + smoothDyn), crosshair["thickness"], crosshair["size"]) end
-		if crosshair["show_t"] == 1 then surface.DrawRect(centerX - math.floor(crosshair["thickness"] / 2), centerY - crosshair["size"] - (crosshair["gap"] + smoothDyn) + crosshair["thickness"] % 2, crosshair["thickness"], crosshair["size"]) end
-		if crosshair["dot"] == 1 then surface.DrawRect(centerX - math.floor(crosshair["thickness"] / 2), centerY - math.floor(crosshair["thickness"] / 2), crosshair["thickness"], crosshair["thickness"]) end
+		if crosshairShowRight == 1 then surface.DrawRect(centerX + (crosshairGap + smoothDyn), centerY - math.floor(crosshairThickness / 2), crosshairSize,  crosshairThickness) end
+		if crosshairShowLeft == 1 then surface.DrawRect(centerX - (crosshairGap + smoothDyn) - crosshairSize + crosshairThickness % 2, centerY - math.floor(crosshairThickness / 2), crosshairSize,  crosshairThickness) end
+		if crosshairShowBottom == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2), centerY + (crosshairGap + smoothDyn), crosshairThickness, crosshairSize) end
+		if crosshairShowTop == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2), centerY - crosshairSize - (crosshairGap + smoothDyn) + crosshairThickness % 2, crosshairThickness, crosshairSize) end
+		if crosshairDot == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2), centerY - math.floor(crosshairThickness / 2), crosshairThickness, crosshairThickness) end
 	end
 
-	-- hitmarkers
-	if hitmarker["enabled"] == 1 then
-		hitmarkerFade = math.Clamp(hitmarkerFade - 7 * RealFrameTime(), 0, hitmarker["duration"])
+	-- hitmarker
+	if hitmarker then
+		hitmarkerFade = math.Clamp(hitmarkerFade - 7 * RealFrameTime(), 0, hitmarkerDuration)
 
-		surface.SetDrawColor(hitmarker[hitColor .. "_r"], hitmarker[hitColor .. "_g"], hitmarker[hitColor .. "_b"], hitmarker["opacity"] * math.min(1, hitmarkerFade))
+		if !hitType then
+			surface.SetDrawColor(hitmarkerR, hitmarkerG, hitmarkerB, hitmarkerOpacity * math.min(1, hitmarkerFade))
+		else
+			surface.SetDrawColor(hitmarkerHeadR, hitmarkerHeadG, hitmarkerHeadB, hitmarkerOpacity * math.min(1, hitmarkerFade))
+		end
+
 		draw.NoTexture()
 
-		surface.DrawTexturedRectRotated(centerX - hitmarker["gap"], centerY - hitmarker["gap"], hitmarker["thickness"] * math.min(1, hitmarkerFade), hitmarker["size"], 45)
-		surface.DrawTexturedRectRotated(centerX + hitmarker["gap"], centerY- hitmarker["gap"], hitmarker["thickness"] * math.min(1, hitmarkerFade), hitmarker["size"], 135)
-		surface.DrawTexturedRectRotated(centerX + hitmarker["gap"], centerY + hitmarker["gap"], hitmarker["thickness"] * math.min(1, hitmarkerFade), hitmarker["size"], 225)
-		surface.DrawTexturedRectRotated(centerX - hitmarker["gap"], centerY + hitmarker["gap"], hitmarker["thickness"] * math.min(1, hitmarkerFade), hitmarker["size"], 315)
+		surface.DrawTexturedRectRotated(centerX - hitmarkerGap, centerY - hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 45)
+		surface.DrawTexturedRectRotated(centerX + hitmarkerGap, centerY- hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 135)
+		surface.DrawTexturedRectRotated(centerX + hitmarkerGap, centerY + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 225)
+		surface.DrawTexturedRectRotated(centerX - hitmarkerGap, centerY + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 315)
 	end
 
 	-- health
 	LerpHealth()
 	surface.SetDrawColor(50, 50, 50, 80)
-	surface.DrawRect(healthHUD["x"], ScrH() - TM.ScreenScale(30) - healthHUD["y"], healthHUD["size"], TM.ScreenScale(30))
+	surface.DrawRect(healthX + hudX, ScrH() - TM.ScreenScale(30) - healthY - hudY, TM.ScreenScale(450), TM.ScreenScale(30))
 
-	if health <= (LocalPlayer():GetMaxHealth() / 1.5) then
-		if health <= (LocalPlayer():GetMaxHealth() / 3) then
+	if health <= (maxHealth / 1.5) then
+		if health <= (maxHealth / 3) then
 			surface.SetDrawColor(180, 100, 100, 120)
 		else
 			surface.SetDrawColor(180, 180, 100, 120)
@@ -520,124 +526,136 @@ function HUDAlive()
 		surface.SetDrawColor(100, 180, 100, 120)
 	end
 
-	surface.DrawRect(healthHUD["x"], ScrH() - TM.ScreenScale(30) - healthHUD["y"], healthHUD["size"] * (math.max(0, smoothHP) / LocalPlayer():GetMaxHealth()), TM.ScreenScale(30))
-	draw.SimpleText(health, "HUD_Health", healthHUD["size"] + healthHUD["x"] - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - healthHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
+	surface.DrawRect(healthX + hudX, ScrH() - TM.ScreenScale(30) - healthY - hudY, TM.ScreenScale(450) * (math.max(0, smoothHP) / maxHealth), TM.ScreenScale(30))
+	draw.DrawText(health, "HUD_Health", TM.ScreenScale(450) + healthX + hudX - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - healthY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
 
 	-- ammo/weapon
-	if weapon == NULL then return end
+	if IsValid(weapon) then
+		draw.DrawText(weapon:GetPrintName(), "HUD_GunPrintName", ScrW() - hudX, ScrH() - TM.ScreenScale(50) - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
 
-	draw.SimpleText(weapon:GetPrintName(), "HUD_GunPrintName", ScrW() - weaponHUD["x"], ScrH() - TM.ScreenScale(50) - weaponHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
-	if convars["kill_tracker"] == 1 then draw.SimpleText(LocalPlayer():GetNWInt("killsWith_" .. weapon:GetClass()) .. " kills", "HUD_StreakText", ScrW() - TM.MenuScale(5) - weaponHUD["x"], ScrH() - TM.ScreenScale(170) - weaponHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT) end
+		local clip = weapon:Clip1()
 
-	local ammoColor
-	local ammoText
-	if (weapon:Clip1() >= 0) then
-		if (weapon:Clip1() == 0) then
-			ammoColor = red
-			ammoText = 0
+		if IsValid(clip) then
+			local ammoColor = Color(hudTextR, hudTextG, hudTextB)
+			local ammoText = tostring(clip)
+
+			if clip >= 0 then
+				if clip == 0 then
+					ammoColor = COLORS.red
+					ammoText = "0"
+				end
+			elseif (weapon:GetStat("InfiniteAmmo") and !weapon:GetStat("IsThrowable")) or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
+				ammoText = "∞"
+			else
+				ammoText = "[" .. string.upper(reloadBind) .. "] THROW"
+			end
+
+			draw.DrawText(ammoText, "HUD_AmmoCount", ScrW() - hudX, ScrH() - TM.ScreenScale(165) - hudY, ammoColor, TEXT_ALIGN_RIGHT)
 		end
-		ammoColor = Color(hudTextR, hudTextG, hudTextB)
-		ammoText = weapon:Clip1()
-	elseif weapon:GetPrintName() == "M134 Minigun" or weapon:GetPrintName() == "Fists" or weapon:GetPrintName() == "Riot Shield" or weapon:GetPrintName() == "Flamethrower" or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
-		ammoColor = Color(hudTextR, hudTextG, hudTextB)
-		ammoText = "∞"
-	else
-		ammoColor = Color(hudTextR, hudTextG, hudTextB)
-		ammoText = "[" .. string.upper(reloadBind) .. "] THROW"
 	end
 
-	draw.SimpleText(ammoText, "HUD_AmmoCount", ScrW() - weaponHUD["x"], ScrH() - TM.ScreenScale(165) - weaponHUD["y"], ammoColor, TEXT_ALIGN_RIGHT)
-
 	-- equipment
-	local grappleMat = Material("icons/grapplehudicon.png", "noclamp smooth")
-	local nadeMat = Material("icons/grenadehudicon.png", "noclamp smooth")
-	local grappleText
+	local grappleText = string.upper(input.GetKeyName(bindGrapple))
+	local nadeText = string.upper(input.GetKeyName(bindNade))
 
 	if LocalPlayer():GetAmmoCount("Grenade") > 0 then
-		surface.SetMaterial(grappleMat)
-		if Lerp((LocalPlayer():GetNWFloat("linat", CurTime()) - CurTime()) * 0.2, 0, 500) == 0 and !IsValid(LocalPlayer():SetNWEntity("lina", stando)) then
-			surface.SetDrawColor(255,255,255,255)
-			grappleText = string.upper(input.GetKeyName(convars["grapple_bind"]))
-		else
-			surface.SetDrawColor(255,200,200,100)
-			grappleText = math.floor(LocalPlayer():GetNWFloat("linat", CurTime()) - CurTime() + 1)
-		end
-		surface.DrawTexturedRect(equipmentHUD["x"] - TM.ScreenScale(45), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-		draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"] - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+		surface.SetMaterial(MATS.grappleIcon)
 
-		surface.SetMaterial(nadeMat)
-		surface.SetDrawColor(255,255,255,255)
-		surface.DrawTexturedRect(equipmentHUD["x"] + TM.ScreenScale(10), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-		draw.SimpleText(string.upper(input.GetKeyName(convars["nade_bind"])), "HUD_StreakText", equipmentHUD["x"] + TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
-	else
-		surface.SetMaterial(grappleMat)
-		if Lerp((LocalPlayer():GetNWFloat("linat",CurTime()) - CurTime()) * 0.2,0,500) == 0 and !IsValid(LocalPlayer():SetNWEntity("lina", stando)) then
-			surface.SetDrawColor(255,255,255,255)
-			grappleText = string.upper(input.GetKeyName(convars["grapple_bind"]))
+		if Lerp((LocalPlayer():GetNWFloat("linat", CurTime()) - CurTime()) * 0.2, 0, 500) == 0 and !IsValid(LocalPlayer():SetNWEntity("lina", stando)) then
+			surface.SetDrawColor(COLORS.white)
 		else
-			surface.SetDrawColor(255,200,200,100)
-			grappleText = math.floor(LocalPlayer():GetNWFloat("linat", CurTime()) - CurTime() + 1)
+			surface.SetDrawColor(255, 200, 200, 100)
+			grappleText = tostring(math.floor(LocalPlayer():GetNWFloat("linat", CurTime()) - CurTime() + 1))
 		end
-		if equipAnchor == "left" then
-			surface.DrawTexturedRect(equipmentHUD["x"] - TM.ScreenScale(45), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-			draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"] - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
-		elseif equipAnchor == "center" then
-			surface.DrawTexturedRect(equipmentHUD["x"] - TM.ScreenScale(17.5), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-			draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"], ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+
+		surface.DrawTexturedRect(equipmentX + hudX - TM.ScreenScale(45), ScrH() - TM.ScreenScale(40) - equipmentY - hudY, TM.ScreenScale(35), TM.ScreenScale(40))
+		draw.DrawText(grappleText, "HUD_StreakText", equipmentX + hudX - TM.ScreenScale(27), ScrH() - TM.ScreenScale(65) - equipmentY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+
+		surface.SetMaterial(MATS.nadeIcon)
+		surface.SetDrawColor(COLORS.white)
+		surface.DrawTexturedRect(equipmentX + hudX + TM.ScreenScale(10), ScrH() - TM.ScreenScale(40) - equipmentY - hudY, TM.ScreenScale(35), TM.ScreenScale(40))
+
+		draw.DrawText(nadeText, "HUD_StreakText", equipmentX + hudX + TM.ScreenScale(27), ScrH() - TM.ScreenScale(65) - equipmentY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+	else
+		surface.SetMaterial(MATS.grappleIcon)
+
+		if Lerp((LocalPlayer():GetNWFloat("linat", CurTime()) - CurTime()) * 0.2, 0, 500) == 0 and !IsValid(LocalPlayer():SetNWEntity("lina", stando)) then
+			surface.SetDrawColor(COLORS.white)
 		else
-			surface.DrawTexturedRect(equipmentHUD["x"] + TM.ScreenScale(10), ScrH() - TM.ScreenScale(40) - equipmentHUD["y"], TM.ScreenScale(35), TM.ScreenScale(40))
-			draw.SimpleText(grappleText, "HUD_StreakText", equipmentHUD["x"] + TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+			surface.SetDrawColor(255, 200, 200, 100)
+			grappleText = tostring(math.floor(LocalPlayer():GetNWFloat("linat", CurTime()) - CurTime() + 1))
+		end
+
+		if equipAnchor == "left" then
+			surface.DrawTexturedRect(equipmentX + hudX - TM.ScreenScale(45), ScrH() - TM.ScreenScale(40) - equipmentY - hudY, TM.ScreenScale(35), TM.ScreenScale(40))
+			draw.DrawText(grappleText, "HUD_StreakText", equipmentX + hudX - TM.ScreenScale(27.5), ScrH() - TM.ScreenScale(65) - equipmentY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+		elseif equipAnchor == "center" then
+			surface.DrawTexturedRect(equipmentX + hudX - TM.ScreenScale(17), ScrH() - TM.ScreenScale(40) - equipmentY - hudY, TM.ScreenScale(35), TM.ScreenScale(40))
+			draw.DrawText(grappleText, "HUD_StreakText", equipmentX + hudX, ScrH() - TM.ScreenScale(65) - equipmentY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+		else
+			surface.DrawTexturedRect(equipmentX + hudX + TM.ScreenScale(10), ScrH() - TM.ScreenScale(40) - equipmentY - hudY, TM.ScreenScale(35), TM.ScreenScale(40))
+			draw.DrawText(grappleText, "HUD_StreakText", equipmentX + hudX + TM.ScreenScale(27), ScrH() - TM.ScreenScale(65) - equipmentY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		end
 	end
 
 	-- keypress overlay
-	if convars["keypress_overlay"] == 1 then
+	if keyoverlay then
 		KPOKeyCheck()
-		surface.SetMaterial(keyMat)
-		surface.SetDrawColor(fColor)
-		surface.DrawTexturedRect(TM.ScreenScale(48) + kpoHUD["x"], 0 + kpoHUD["y"], TM.ScreenScale(42), TM.ScreenScale(42))
-		surface.SetDrawColor(lColor)
-		surface.DrawTexturedRect(0 + kpoHUD["x"], TM.ScreenScale(48) + kpoHUD["y"], TM.ScreenScale(42), TM.ScreenScale(42))
-		surface.SetDrawColor(bColor)
-		surface.DrawTexturedRect(TM.ScreenScale(48) + kpoHUD["x"], TM.ScreenScale(48) + kpoHUD["y"], TM.ScreenScale(42), TM.ScreenScale(42))
-		surface.SetDrawColor(rColor)
-		surface.DrawTexturedRect(TM.ScreenScale(96) + kpoHUD["x"], TM.ScreenScale(48) + kpoHUD["y"], TM.ScreenScale(42), TM.ScreenScale(42))
-		surface.SetMaterial(keyMatLong)
-		surface.SetDrawColor(jColor)
-		surface.DrawTexturedRect(0 + kpoHUD["x"], TM.ScreenScale(96) + kpoHUD["y"], TM.ScreenScale(138), TM.ScreenScale(42))
-		surface.SetMaterial(keyMatMed)
-		surface.SetDrawColor(sColor)
-		surface.DrawTexturedRect(0 + kpoHUD["x"], TM.ScreenScale(144) + kpoHUD["y"], TM.ScreenScale(66), TM.ScreenScale(42))
-		surface.SetDrawColor(cColor)
-		surface.DrawTexturedRect(TM.ScreenScale(72) + kpoHUD["x"], TM.ScreenScale(144) + kpoHUD["y"], TM.ScreenScale(66), TM.ScreenScale(42))
 
-		draw.SimpleText("W", "HUD_StreakText", TM.ScreenScale(69) + kpoHUD["x"], TM.ScreenScale(10) + kpoHUD["y"], fColor, TEXT_ALIGN_CENTER)
-		draw.SimpleText("A", "HUD_StreakText", TM.ScreenScale(21) + kpoHUD["x"], TM.ScreenScale(58) + kpoHUD["y"], lColor, TEXT_ALIGN_CENTER)
-		draw.SimpleText("S", "HUD_StreakText", TM.ScreenScale(69) + kpoHUD["x"], TM.ScreenScale(58) + kpoHUD["y"], bColor, TEXT_ALIGN_CENTER)
-		draw.SimpleText("D", "HUD_StreakText", TM.ScreenScale(117) + kpoHUD["x"], TM.ScreenScale(58) + kpoHUD["y"], rColor, TEXT_ALIGN_CENTER)
-		draw.SimpleText("JUMP", "HUD_StreakText", TM.ScreenScale(69) + kpoHUD["x"], TM.ScreenScale(106) + kpoHUD["y"], jColor, TEXT_ALIGN_CENTER)
-		draw.SimpleText("RUN", "HUD_StreakText", TM.ScreenScale(33) + kpoHUD["x"], TM.ScreenScale(154) + kpoHUD["y"], sColor, TEXT_ALIGN_CENTER)
-		draw.SimpleText("DUCK", "HUD_StreakText", TM.ScreenScale(105) + kpoHUD["x"], TM.ScreenScale(154) + kpoHUD["y"], cColor, TEXT_ALIGN_CENTER)
+		surface.SetMaterial(keyMat)
+
+		surface.SetDrawColor(fColor)
+		surface.DrawTexturedRect(TM.ScreenScale(48) + keyoverlayX + hudX, 0 + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
+
+		surface.SetDrawColor(lColor)
+		surface.DrawTexturedRect(0 + keyoverlayX + hudX, TM.ScreenScale(48) + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
+
+		surface.SetDrawColor(bColor)
+		surface.DrawTexturedRect(TM.ScreenScale(48) + keyoverlayX + hudX, TM.ScreenScale(48) + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
+
+		surface.SetDrawColor(rColor)
+		surface.DrawTexturedRect(TM.ScreenScale(96) + keyoverlayX + hudX, TM.ScreenScale(48) + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
+
+		surface.SetMaterial(keyMatLong)
+
+		surface.SetDrawColor(jColor)
+		surface.DrawTexturedRect(0 + keyoverlayX + hudX, TM.ScreenScale(96) + keyoverlayY + hudY, TM.ScreenScale(138), TM.ScreenScale(42))
+
+		surface.SetMaterial(keyMatMed)
+
+		surface.SetDrawColor(sColor)
+		surface.DrawTexturedRect(0 + keyoverlayX + hudX, TM.ScreenScale(144) + keyoverlayY + hudY, TM.ScreenScale(66), TM.ScreenScale(42))
+
+		surface.SetDrawColor(cColor)
+		surface.DrawTexturedRect(TM.ScreenScale(72) + keyoverlayX + hudX, TM.ScreenScale(144) + keyoverlayY + hudY, TM.ScreenScale(66), TM.ScreenScale(42))
+
+		draw.DrawText("W", "HUD_StreakText", TM.ScreenScale(69) + keyoverlayX + hudX, TM.ScreenScale(10) + keyoverlayY + hudY, fColor, TEXT_ALIGN_CENTER)
+		draw.DrawText("A", "HUD_StreakText", TM.ScreenScale(21) + keyoverlayX + hudX, TM.ScreenScale(58) + keyoverlayY + hudY, lColor, TEXT_ALIGN_CENTER)
+		draw.DrawText("S", "HUD_StreakText", TM.ScreenScale(69) + keyoverlayX + hudX, TM.ScreenScale(58) + keyoverlayY + hudY, bColor, TEXT_ALIGN_CENTER)
+		draw.DrawText("D", "HUD_StreakText", TM.ScreenScale(117) + keyoverlayX + hudX, TM.ScreenScale(58) + keyoverlayY + hudY, rColor, TEXT_ALIGN_CENTER)
+		draw.DrawText("JUMP", "HUD_StreakText", TM.ScreenScale(69) + keyoverlayX + hudX, TM.ScreenScale(106) + keyoverlayY + hudY, jColor, TEXT_ALIGN_CENTER)
+		draw.DrawText("RUN", "HUD_StreakText", TM.ScreenScale(33) + keyoverlayX + hudX, TM.ScreenScale(154) + keyoverlayY + hudY, sColor, TEXT_ALIGN_CENTER)
+		draw.DrawText("DUCK", "HUD_StreakText", TM.ScreenScale(105) + keyoverlayX + hudX, TM.ScreenScale(154) + keyoverlayY + hudY, cColor, TEXT_ALIGN_CENTER)
 	end
 
 	-- cranked Bar
 	if TM.GAMEMODE == GAMEMODES.IDS.CRANKED and timeUntilSelfDestruct != 0 then
 		surface.SetDrawColor(50, 50, 50, 80)
-		surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + matchHUD["y"], TM.ScreenScale(150), TM.ScreenScale(10))
+		surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + hudY, TM.ScreenScale(150), TM.ScreenScale(10))
 
-		surface.SetDrawColor(objHUD["obj_contested_r"], objHUD["obj_contested_g"], objHUD["obj_contested_b"], 80)
-		surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + matchHUD["y"], TM.ScreenScale(150) * (timeUntilSelfDestruct / crankedTime:GetInt()), TM.ScreenScale(10))
+		surface.SetDrawColor(objContestedR, objContestedG, objContestedB, 80)
+		surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + hudY, TM.ScreenScale(150) * (timeUntilSelfDestruct / crankedTime:GetInt()), TM.ScreenScale(10))
 	end
 
 	-- velocity counter
-	if convars["velocity_overlay"] == 1 then
-		draw.SimpleText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityHUD["x"], velocityHUD["y"], Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	if velocityoverlay then
+		draw.DrawText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityoverlayX + hudX, velocityoverlayY + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	end
 
 	-- disclaimer for players connecting during an active gamemode and map vote
 	if GetGlobalBool("tm_matchended") == true then
-		draw.SimpleText("Match has ended", "HUD_GunPrintName", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(104), Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
-		draw.SimpleText("Sit tight, another match is about to begin!", "HUD_Health", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(18), Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+		draw.DrawText("Match has ended", "HUD_GunPrintName", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(104), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.DrawText("Sit tight, another match is about to begin!", "HUD_Health", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(18), COLORS.white, TEXT_ALIGN_CENTER)
 	end
 end
 
@@ -841,9 +859,9 @@ net.Receive("SendNotification", function(len, ply)
 		draw.RoundedBox(0, 0, 0, Notif:GetWide(), Notif:GetTall(), notiColor)
 		draw.RoundedBox(0, 0, 0, TM.ScreenScale(42), TM.ScreenScale(42), notiSecondaryColor)
 		surface.SetMaterial(notiIcon)
-		surface.SetDrawColor(white)
+		surface.SetDrawColor(COLORS.white)
 		surface.DrawTexturedRect(TM.ScreenScale(3), TM.ScreenScale(3), TM.ScreenScale(36), TM.ScreenScale(36))
-		draw.SimpleText(notiText, "HUD_Health", TM.ScreenScale(52), TM.ScreenScale(5), white, TEXT_ALIGN_LEFT)
+		draw.SimpleText(notiText, "HUD_Health", TM.ScreenScale(52), TM.ScreenScale(5), COLORS.white, TEXT_ALIGN_LEFT)
 	end
 
 	Notif:Show()
@@ -914,17 +932,17 @@ net.Receive("SendHitmarker", function(len, pl)
 	local hit_reg_head = "hitsound/hit_head_" .. sounds["hit"] .. ".wav"
 
 	local hitgroup = net.ReadUInt(4)
-
-	hitmarkerFade = hitmarker["duration"]
-	hitColor = "hit"
-
-	local soundfile = hit_reg
+	local soundFile
 
 	if (hitgroup == HITGROUP_HEAD) then
-		hitColor = "head"
-		soundfile = hit_reg_head
+		hitType = true
+		soundFile = hit_reg_head
+	else
+		hitType = false
+		soundFile = hit_reg
 	end
 
+	hitmarkerFade = hitmarker["duration"]
 	surface.PlaySound(soundfile)
 end)
 
@@ -1009,9 +1027,9 @@ net.Receive("NotifyKill", function(len, ply)
 		KillIcon:SizeTo(TM.ScreenScale(50), TM.ScreenScale(50), 0.75, 0, 0.1)
 
 		if v == "1" then
-			KillIcon:SetImageColor(red)
+			KillIcon:SetImageColor(COLORS.red)
 		else
-			KillIcon:SetImageColor(white)
+			KillIcon:SetImageColor(COLORS.white)
 		end
 	end
 
@@ -1049,7 +1067,7 @@ net.Receive("NotifyKill", function(len, ply)
 
 	-- dynamic text color depending on the killstreak of the player
 	if killStreak <= 2 then
-		streakColor = white
+		streakColor = COLORS.white
 	elseif killStreak <= 4 then
 		streakColor = orangeColor
 	elseif killStreak <= 6 then
@@ -1062,8 +1080,8 @@ net.Receive("NotifyKill", function(len, ply)
 		rainbowColor = HSVToColor((CurTime() * rainbowSpeed) % 360, 1, 1)
 
 		if killStreak > 1 then draw.SimpleText(killStreak .. " Kills", "HUD_StreakText", w / 2, TM.ScreenScale(25), streakColor, TEXT_ALIGN_CENTER) end
-		draw.SimpleText(killedPlayer:Nick(), "HUD_PlayerNotiName", w / 2, TM.ScreenScale(100), white, TEXT_ALIGN_CENTER)
-		draw.SimpleText(string.sub(accoladeList, 1, -4), "HUD_StreakText", w / 2, TM.ScreenScale(160), white, TEXT_ALIGN_CENTER)
+		draw.SimpleText(killedPlayer:Nick(), "HUD_PlayerNotiName", w / 2, TM.ScreenScale(100), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.SimpleText(string.sub(accoladeList, 1, -4), "HUD_StreakText", w / 2, TM.ScreenScale(160), COLORS.white, TEXT_ALIGN_CENTER)
 	end
 
 	KillNotif:Show()
@@ -1133,25 +1151,25 @@ net.Receive("NotifyDeath", function(len, ply)
 		if !IsValid(killedBy) then DeathNotif:Remove() return end
 
 		if lastHitIn == 1 then
-			draw.SimpleText(killedFrom .. "m" .. " HS", "HUD_WepNameKill", w / 2 + TM.ScreenScale(10), TM.ScreenScale(151), red, TEXT_ALIGN_LEFT)
+			draw.SimpleText(killedFrom .. "m" .. " HS", "HUD_WepNameKill", w / 2 + TM.ScreenScale(10), TM.ScreenScale(151), COLORS.red, TEXT_ALIGN_LEFT)
 		else
-			draw.SimpleText(killedFrom .. "m", "HUD_WepNameKill", w / 2 + TM.ScreenScale(10), TM.ScreenScale(151), white, TEXT_ALIGN_LEFT)
+			draw.SimpleText(killedFrom .. "m", "HUD_WepNameKill", w / 2 + TM.ScreenScale(10), TM.ScreenScale(151), COLORS.white, TEXT_ALIGN_LEFT)
 		end
 
-		draw.SimpleText("Killed by", "HUD_StreakText", w / 2, TM.ScreenScale(-3), white, TEXT_ALIGN_CENTER)
-		draw.SimpleText("|", "HUD_PlayerDeathName", w / 2, TM.ScreenScale(117.5), white, TEXT_ALIGN_CENTER)
-		draw.SimpleText("|", "HUD_PlayerDeathName", w / 2, TM.ScreenScale(142), white, TEXT_ALIGN_CENTER)
-		draw.SimpleText(killedBy:Nick(), "HUD_PlayerDeathName", w / 2 - TM.ScreenScale(10), TM.ScreenScale(117.5), white, TEXT_ALIGN_RIGHT)
-		draw.SimpleText(killedWith, "HUD_PlayerDeathName", w / 2 + TM.ScreenScale(10), TM.ScreenScale(117.5), white, TEXT_ALIGN_LEFT)
+		draw.SimpleText("Killed by", "HUD_StreakText", w / 2, TM.ScreenScale(-3), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.SimpleText("|", "HUD_PlayerDeathName", w / 2, TM.ScreenScale(117.5), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.SimpleText("|", "HUD_PlayerDeathName", w / 2, TM.ScreenScale(142), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.SimpleText(killedBy:Nick(), "HUD_PlayerDeathName", w / 2 - TM.ScreenScale(10), TM.ScreenScale(117.5), COLORS.white, TEXT_ALIGN_RIGHT)
+		draw.SimpleText(killedWith, "HUD_PlayerDeathName", w / 2 + TM.ScreenScale(10), TM.ScreenScale(117.5), COLORS.white, TEXT_ALIGN_LEFT)
 
 		if killedBy:Health() <= 0 then
-			draw.SimpleText("DEAD", "HUD_WepNameKill", w / 2 - TM.ScreenScale(10), TM.ScreenScale(151), red, TEXT_ALIGN_RIGHT)
+			draw.SimpleText("DEAD", "HUD_WepNameKill", w / 2 - TM.ScreenScale(10), TM.ScreenScale(151), COLORS.red, TEXT_ALIGN_RIGHT)
 		else
-			draw.SimpleText(killedBy:Health() .. "HP", "HUD_WepNameKill", w / 2 - TM.ScreenScale(10), TM.ScreenScale(151), white, TEXT_ALIGN_RIGHT)
+			draw.SimpleText(killedBy:Health() .. "HP", "HUD_WepNameKill", w / 2 - TM.ScreenScale(10), TM.ScreenScale(151), COLORS.white, TEXT_ALIGN_RIGHT)
 		end
 
-		draw.SimpleText("Respawning in " .. respawnTimeLeft .. "s", "HUD_StreakText", w / 2 - TM.ScreenScale(10), TM.ScreenScale(192), white, TEXT_ALIGN_CENTER)
-		draw.SimpleText("Press [" .. string.upper(input.GetKeyName(convars["menu_bind"])) .. "] to open menu", "HUD_WepNameKill", w / 2, TM.ScreenScale(211), white, TEXT_ALIGN_CENTER)
+		draw.SimpleText("Respawning in " .. respawnTimeLeft .. "s", "HUD_StreakText", w / 2 - TM.ScreenScale(10), TM.ScreenScale(192), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.SimpleText("Press [" .. string.upper(input.GetKeyName(convars["menu_bind"])) .. "] to open menu", "HUD_WepNameKill", w / 2, TM.ScreenScale(211), COLORS.white, TEXT_ALIGN_CENTER)
 	end
 
 	KilledByCallingCard = vgui.Create("DImage", DeathNotif)
@@ -1321,7 +1339,7 @@ net.Receive("EndOfGame", function(len, ply)
 			surface.SetDrawColor(gradRColor)
 			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 
-			draw.SimpleText("LOADING NEXT MATCH", "QuoteText", w / 2, h / 2, white, TEXT_ALIGN_CENTER)
+			draw.SimpleText("LOADING NEXT MATCH", "QuoteText", w / 2, h / 2, COLORS.white, TEXT_ALIGN_CENTER)
 		end
 	end)
 
@@ -1376,8 +1394,8 @@ net.Receive("EndOfGame", function(len, ply)
 			textAnim = math.Clamp(textAnim - TM.MenuScale(1500) * FrameTime(), anchorAnim, ScrH())
 			MatchWinLoseText:SetY(textAnim)
 
-			draw.SimpleText("VICTORY", "MatchEndText", w / 2, h / 2 - TM.MenuScale(90), white, TEXT_ALIGN_CENTER)
-			draw.SimpleText(quote, "QuoteText", w / 2, h / 2 + TM.MenuScale(60), white, TEXT_ALIGN_CENTER)
+			draw.SimpleText("VICTORY", "MatchEndText", w / 2, h / 2 - TM.MenuScale(90), COLORS.white, TEXT_ALIGN_CENTER)
+			draw.SimpleText(quote, "QuoteText", w / 2, h / 2 + TM.MenuScale(60), COLORS.white, TEXT_ALIGN_CENTER)
 		end
 	else
 		LocalPlayer():ScreenFade(SCREENFADE.OUT, Color(50, 0, 0, 190), 1, 7)
@@ -1394,8 +1412,8 @@ net.Receive("EndOfGame", function(len, ply)
 			textAnim = math.Clamp(textAnim - TM.MenuScale(1500) * FrameTime(), anchorAnim, ScrH())
 			MatchWinLoseText:SetY(textAnim)
 
-			draw.SimpleText("DEFEAT", "MatchEndText", w / 2, h / 2 - TM.MenuScale(90), white, TEXT_ALIGN_CENTER)
-			draw.SimpleText(quote, "QuoteText", w / 2, h / 2 + TM.MenuScale(60), white, TEXT_ALIGN_CENTER)
+			draw.SimpleText("DEFEAT", "MatchEndText", w / 2, h / 2 - TM.MenuScale(90), COLORS.white, TEXT_ALIGN_CENTER)
+			draw.SimpleText(quote, "QuoteText", w / 2, h / 2 + TM.MenuScale(60), COLORS.white, TEXT_ALIGN_CENTER)
 		end
 	end
 
@@ -1416,10 +1434,10 @@ net.Receive("EndOfGame", function(len, ply)
 				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), TM.MenuScale(600), TM.MenuScale(15))
 				surface.SetDrawColor(255, 255, 255)
 				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), levelAnim * TM.MenuScale(600), TM.MenuScale(15))
-				draw.SimpleText(LocalPlayer():GetNWInt("playerLevel"), "StreakText", w / 2 - TM.MenuScale(300), TM.MenuScale(25), white, TEXT_ALIGN_LEFT)
-				draw.SimpleText(LocalPlayer():GetNWInt("playerLevel") + 1, "StreakText", w / 2 + TM.MenuScale(300), TM.MenuScale(25), white, TEXT_ALIGN_RIGHT)
-				draw.SimpleText(math.Round(xpCountUp) .. " / " .. LocalPlayer():GetNWInt("playerXPToNextLevel") .. "XP  ^", "StreakText", (w / 2 - TM.MenuScale(295)) + (levelAnim * TM.MenuScale(600)), TM.MenuScale(75), white, TEXT_ALIGN_RIGHT)
-				draw.SimpleText("Earned " .. LocalPlayer():GetNWInt("playerScoreMatch") .. "XP + " .. bonusXP .. "XP Bonus", "StreakText", w / 2, TM.MenuScale(100), white, TEXT_ALIGN_CENTER)
+				draw.SimpleText(LocalPlayer():GetNWInt("playerLevel"), "StreakText", w / 2 - TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_LEFT)
+				draw.SimpleText(LocalPlayer():GetNWInt("playerLevel") + 1, "StreakText", w / 2 + TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_RIGHT)
+				draw.SimpleText(math.Round(xpCountUp) .. " / " .. LocalPlayer():GetNWInt("playerXPToNextLevel") .. "XP  ^", "StreakText", (w / 2 - TM.MenuScale(295)) + (levelAnim * TM.MenuScale(600)), TM.MenuScale(75), COLORS.white, TEXT_ALIGN_RIGHT)
+				draw.SimpleText("Earned " .. LocalPlayer():GetNWInt("playerScoreMatch") .. "XP + " .. bonusXP .. "XP Bonus", "StreakText", w / 2, TM.MenuScale(100), COLORS.white, TEXT_ALIGN_CENTER)
 			else
 				levelAnim = math.Clamp(levelAnim + (1 / 1) * FrameTime(), 0, 1)
 
@@ -1427,8 +1445,8 @@ net.Receive("EndOfGame", function(len, ply)
 				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), TM.MenuScale(600), TM.MenuScale(15))
 				surface.SetDrawColor(255, 255, 255)
 				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), levelAnim * TM.MenuScale(600), TM.MenuScale(15))
-				draw.SimpleText("MAX LEVEL", "StreakText", w / 2, TM.MenuScale(25), white, TEXT_ALIGN_CENTER)
-				draw.SimpleText("Prestige at the Main Menu", "StreakText", w / 2, TM.MenuScale(65), white, TEXT_ALIGN_CENTER)
+				draw.SimpleText("MAX LEVEL", "StreakText", w / 2, TM.MenuScale(25), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.SimpleText("Prestige at the Main Menu", "StreakText", w / 2, TM.MenuScale(65), COLORS.white, TEXT_ALIGN_CENTER)
 			end
 		end
 	end
@@ -1447,14 +1465,14 @@ net.Receive("EndOfGame", function(len, ply)
 		BlurPanel(EndOfGameUI, 10)
 		draw.RoundedBox(0, 0, 0, w, h, Color(50, 50, 50, 225))
 		if timeUntilNextMatch > 10 then
-			draw.SimpleText("Voting ends in " .. timeUntilNextMatch - 10 .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(55), white, TEXT_ALIGN_LEFT)
-			draw.SimpleText("Match begins in " .. timeUntilNextMatch .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(30), white, TEXT_ALIGN_LEFT)
+			draw.SimpleText("Voting ends in " .. timeUntilNextMatch - 10 .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(55), COLORS.white, TEXT_ALIGN_LEFT)
+			draw.SimpleText("Match begins in " .. timeUntilNextMatch .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(30), COLORS.white, TEXT_ALIGN_LEFT)
 		else
-			draw.SimpleText("Match begins in " .. timeUntilNextMatch .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(30), white, TEXT_ALIGN_LEFT)
+			draw.SimpleText("Match begins in " .. timeUntilNextMatch .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(30), COLORS.white, TEXT_ALIGN_LEFT)
 		end
 		if VOIPActive == true then draw.DrawText("MIC ENABLED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(235), Color(0, 255, 0), TEXT_ALIGN_LEFT) else draw.DrawText("MIC DISABLED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(235), Color(255, 0, 0), TEXT_ALIGN_LEFT) end
 		if MuteActive == false then draw.DrawText("NOT MUTED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(260), Color(0, 255, 0), TEXT_ALIGN_LEFT) else draw.DrawText("MUTED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(260), Color(255, 0, 0), TEXT_ALIGN_LEFT) end
-		draw.SimpleText("Had fun?", "MainMenuLoadoutWeapons", TM.MenuScale(700), ScrH() - TM.MenuScale(55), white, TEXT_ALIGN_LEFT)
+		draw.SimpleText("Had fun?", "MainMenuLoadoutWeapons", TM.MenuScale(700), ScrH() - TM.MenuScale(55), COLORS.white, TEXT_ALIGN_LEFT)
 
 		surface.SetFont("MainMenuLoadoutWeapons")
 		for k, v in pairs(chatArray) do
@@ -1462,7 +1480,7 @@ net.Receive("EndOfGame", function(len, ply)
 			local textLength = select(1, surface.GetTextSize(v))
 
 			surface.DrawRect(TM.MenuScale(485), TM.MenuScale(50) + ((k - 1) * TM.MenuScale(35)), textLength + TM.MenuScale(5), TM.MenuScale(30))
-			draw.SimpleText(v, "MainMenuLoadoutWeapons", TM.MenuScale(487), TM.MenuScale(64) + ((k - 1) * TM.MenuScale(35)), white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+			draw.SimpleText(v, "MainMenuLoadoutWeapons", TM.MenuScale(487), TM.MenuScale(64) + ((k - 1) * TM.MenuScale(35)), COLORS.white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 		end
 	end
 
@@ -1485,7 +1503,7 @@ net.Receive("EndOfGame", function(len, ply)
 		MatchInformationPanel:SetSize(0, TM.MenuScale(50))
 		MatchInformationPanel.Paint = function(self, w, h)
 			draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 100))
-			draw.SimpleText("MATCH RESULTS", "GunPrintName", TM.MenuScale(237.5), TM.MenuScale(-3), white, TEXT_ALIGN_CENTER)
+			draw.SimpleText("MATCH RESULTS", "GunPrintName", TM.MenuScale(237.5), TM.MenuScale(-3), COLORS.white, TEXT_ALIGN_CENTER)
 		end
 
 		local modeOneVotes = 0
@@ -1507,15 +1525,15 @@ net.Receive("EndOfGame", function(len, ply)
 				if mapPicked == 1 then draw.RoundedBox(0, TM.MenuScale(10), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5), Color(50, 125, 50, 75)) end
 				if mapPicked == 2 then draw.RoundedBox(0, TM.MenuScale(165), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5), Color(50, 125, 50, 75)) end
 				if mapPicked == 3 then draw.RoundedBox(0, TM.MenuScale(320), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5), Color(50, 125, 50, 75)) end
-				draw.SimpleText("MAP VOTE", "GunPrintName", w / 2, TM.MenuScale(5), white, TEXT_ALIGN_CENTER)
+				draw.SimpleText("MAP VOTE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
 
-				draw.SimpleText(firstMapName, "MainMenuLoadoutWeapons", TM.MenuScale(10), TM.MenuScale(260), white, TEXT_ALIGN_LEFT)
-				draw.SimpleText(secondMapName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(260), white, TEXT_ALIGN_CENTER)
-				draw.SimpleText(thirdMapName, "MainMenuLoadoutWeapons", TM.MenuScale(465), TM.MenuScale(260), white, TEXT_ALIGN_RIGHT)
-				draw.SimpleText(mapOneVotes .. "% | " .. mapTwoVotes .. "% | " .. mapThreeVotes .. "%", "StreakText", w / 2, TM.MenuScale(55), white, TEXT_ALIGN_CENTER)
+				draw.SimpleText(firstMapName, "MainMenuLoadoutWeapons", TM.MenuScale(10), TM.MenuScale(260), COLORS.white, TEXT_ALIGN_LEFT)
+				draw.SimpleText(secondMapName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(260), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.SimpleText(thirdMapName, "MainMenuLoadoutWeapons", TM.MenuScale(465), TM.MenuScale(260), COLORS.white, TEXT_ALIGN_RIGHT)
+				draw.SimpleText(mapOneVotes .. "% | " .. mapTwoVotes .. "% | " .. mapThreeVotes .. "%", "StreakText", w / 2, TM.MenuScale(55), COLORS.white, TEXT_ALIGN_CENTER)
 			else
-				draw.SimpleText("NEXT MAP", "GunPrintName", w / 2, TM.MenuScale(5), white, TEXT_ALIGN_CENTER)
-				draw.SimpleText(decidedMapName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(255), white, TEXT_ALIGN_CENTER)
+				draw.SimpleText("NEXT MAP", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.SimpleText(decidedMapName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(255), COLORS.white, TEXT_ALIGN_CENTER)
 			end
 		end
 
@@ -1531,11 +1549,11 @@ net.Receive("EndOfGame", function(len, ply)
 				end
 				if gamemodePicked == 1 then draw.RoundedBox(0, TM.MenuScale(10), TM.MenuScale(62.5), TM.MenuScale(175), TM.MenuScale(9), Color(50, 125, 50, 75)) end
 				if gamemodePicked == 2 then draw.RoundedBox(0, TM.MenuScale(290), TM.MenuScale(62.5), TM.MenuScale(175), TM.MenuScale(9), Color(50, 125, 50, 75)) end
-				draw.SimpleText("GAMEMODE VOTE", "GunPrintName", w / 2, TM.MenuScale(5), white, TEXT_ALIGN_CENTER)
-				draw.SimpleText(modeOneVotes .. "% | " .. modeTwoVotes .. "%", "StreakText", w / 2, TM.MenuScale(72), white, TEXT_ALIGN_CENTER)
+				draw.SimpleText("GAMEMODE VOTE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.SimpleText(modeOneVotes .. "% | " .. modeTwoVotes .. "%", "StreakText", w / 2, TM.MenuScale(72), COLORS.white, TEXT_ALIGN_CENTER)
 			else
-				draw.SimpleText("NEXT MODE", "GunPrintName", w / 2, TM.MenuScale(5), white, TEXT_ALIGN_CENTER)
-				draw.SimpleText(decidedModeName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(65), white, TEXT_ALIGN_CENTER)
+				draw.SimpleText("NEXT MODE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.SimpleText(decidedModeName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(65), COLORS.white, TEXT_ALIGN_CENTER)
 			end
 		end
 
@@ -1814,11 +1832,11 @@ net.Receive("EndOfGame", function(len, ply)
 				if !IsValid(v) then return end
 				if k == 1 then draw.RoundedBox(0, 0, 0, w, h, Color(150, 150, 35, 40)) else draw.RoundedBox(0, 0, 0, w, h, Color(35, 35, 35, 40)) end
 
-				draw.SimpleText(name .. " | " .. "P" .. prestige .. " L" .. level, "Health", TM.MenuScale(10), 0, white, TEXT_ALIGN_LEFT)
+				draw.SimpleText(name .. " | " .. "P" .. prestige .. " L" .. level, "Health", TM.MenuScale(10), 0, COLORS.white, TEXT_ALIGN_LEFT)
 				draw.SimpleText(frags, "Health", TM.MenuScale(285), TM.MenuScale(35), Color(0, 255, 0), TEXT_ALIGN_LEFT)
 				draw.SimpleText(deaths, "Health", TM.MenuScale(285), TM.MenuScale(60), Color(255, 0, 0), TEXT_ALIGN_LEFT)
 				draw.SimpleText(ratioRounded .. "", "Health", TM.MenuScale(285), TM.MenuScale(85), Color(255, 255, 0), TEXT_ALIGN_LEFT)
-				draw.SimpleText(score, "Health", TM.MenuScale(427), TM.MenuScale(85), white, TEXT_ALIGN_RIGHT)
+				draw.SimpleText(score, "Health", TM.MenuScale(427), TM.MenuScale(85), COLORS.white, TEXT_ALIGN_RIGHT)
 
 				surface.SetFont("CaliberText")
 				local roleLength = 0

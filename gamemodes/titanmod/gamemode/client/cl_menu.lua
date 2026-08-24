@@ -4011,7 +4011,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 						draw.SimpleText("Notifications", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(105), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Damage Indicator", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(145), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Loadout Hints", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(225), white, TEXT_ALIGN_LEFT)
-						draw.SimpleText("Kill Tracker", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(265), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Keypress Overlay", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(305), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Velocity Counter", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(345), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("VOIP Indicator", "SettingsLabel", TM.MenuScale(55), TM.MenuScale(385), white, TEXT_ALIGN_LEFT)
@@ -4034,12 +4033,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					loadoutHintsToggle:SetConVar("tm_hud_hints_loadout")
 					loadoutHintsToggle:SetSize(TM.MenuScale(30), TM.MenuScale(30))
 					function loadoutHintsToggle:OnChange() TriggerSound("click") end
-
-					local killTrackerToggle = DockUI:Add("DCheckBox")
-					killTrackerToggle:SetPos(TM.MenuScale(20), TM.MenuScale(270))
-					killTrackerToggle:SetConVar("tm_hud_killtracker")
-					killTrackerToggle:SetSize(TM.MenuScale(30), TM.MenuScale(30))
-					function killTrackerToggle:OnChange() TriggerSound("click") end
 
 					local keypressOverlayToggle = DockUI:Add("DCheckBox")
 					keypressOverlayToggle:SetPos(TM.MenuScale(20), TM.MenuScale(310))
@@ -4416,7 +4409,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					hitmarkerDuration:SetPos(TM.MenuScale(-85), TM.MenuScale(270))
 					hitmarkerDuration:SetSize(TM.MenuScale(250), TM.MenuScale(30))
 					hitmarkerDuration:SetConVar("tm_hud_hitmarker_duration")
-					hitmarkerDuration:SetMin(0.5)
+					hitmarkerDuration:SetMin(1)
 					hitmarkerDuration:SetMax(5)
 					hitmarkerDuration:SetDecimals(1)
 					function hitmarkerDuration:OnValueChanged() end
@@ -4609,10 +4602,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					}
 					draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 0))
 					draw.SimpleText(wep, "HUD_GunPrintName", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(50) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
-					if GetConVar("tm_hud_killtracker"):GetInt() == 1 then draw.SimpleText(health .. " kills", "HUD_StreakText", ScrW() - TM.ScreenScale(5) - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(170) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT) end
 					draw.SimpleText(ammo, "HUD_AmmoCount", ScrW() - TM.ScreenScale(GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(165) - TM.ScreenScale(GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
 					surface.SetDrawColor(50, 50, 50, 80)
-					surface.DrawRect(TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + (GetConVar("tm_hud_bounds_x"):GetInt())), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + (GetConVar("tm_hud_bounds_y"):GetInt())), TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()), TM.ScreenScale(30))
+					surface.DrawRect(TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + (GetConVar("tm_hud_bounds_x"):GetInt())), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + (GetConVar("tm_hud_bounds_y"):GetInt())), TM.ScreenScale(450), TM.ScreenScale(30))
 					if health <= 66 then
 						if health <= 33 then
 							surface.SetDrawColor(180, 100, 100, 120)
@@ -4622,8 +4614,8 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					else
 						surface.SetDrawColor(100, 180, 100, 120)
 					end
-					surface.DrawRect(TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()) * (health / 100), TM.ScreenScale(30))
-					draw.SimpleText(health, "HUD_Health", TM.ScreenScale(GetConVar("tm_hud_health_size"):GetInt()) + TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
+					surface.DrawRect(TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), TM.ScreenScale(450) * (health / 100), TM.ScreenScale(30))
+					draw.SimpleText(health, "HUD_Health", TM.ScreenScale(450) + TM.ScreenScale(GetConVar("tm_hud_health_offset_x"):GetInt() + GetConVar("tm_hud_bounds_x"):GetInt()) - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - TM.ScreenScale(GetConVar("tm_hud_health_offset_y"):GetInt() + GetConVar("tm_hud_bounds_y"):GetInt()), Color(convars["text_r"], convars["text_g"], convars["text_b"]), TEXT_ALIGN_RIGHT)
 					local feedStyle
 					if GetConVar("tm_hud_killfeed_style"):GetInt() == 0 then
 						feedStyle = TM.ScreenScale(-20)
@@ -4838,21 +4830,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				HealthEditor.Paint = function(self, w, h)
 					draw.RoundedBox(0, 0, 0, w, h, Color(10, 10, 10, 160))
 					draw.SimpleText("HEALTH", "SettingsLabel", TM.MenuScale(20), TM.MenuScale(10), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("Bar Size", "Health", TM.MenuScale(165), TM.MenuScale(50), white, TEXT_ALIGN_LEFT)
 					draw.SimpleText("Bar X Offset", "Health", TM.MenuScale(165), TM.MenuScale(80), white, TEXT_ALIGN_LEFT)
 					draw.SimpleText("Bar Y Offset", "Health", TM.MenuScale(165), TM.MenuScale(110), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("High HP Color", "Health", TM.MenuScale(210), TM.MenuScale(145), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("Mid HP Color", "Health", TM.MenuScale(210), TM.MenuScale(225), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("Low HP Color", "Health", TM.MenuScale(210), TM.MenuScale(305), white, TEXT_ALIGN_LEFT)
 				end
-
-				local HealthBarSize = HealthEditor:Add("DNumSlider")
-				HealthBarSize:SetPos(TM.MenuScale(-85), TM.MenuScale(50))
-				HealthBarSize:SetSize(TM.MenuScale(250), TM.MenuScale(30))
-				HealthBarSize:SetConVar("tm_hud_health_size")
-				HealthBarSize:SetMin(100)
-				HealthBarSize:SetMax(1000)
-				HealthBarSize:SetDecimals(0)
 
 				local HealthBarX = HealthEditor:Add("DNumSlider")
 				HealthBarX:SetPos(TM.MenuScale(-85), TM.MenuScale(80))
@@ -5123,7 +5103,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					draw.SimpleText("VELOCITY COUNTER", "SettingsLabel", TM.MenuScale(20), TM.MenuScale(10), white, TEXT_ALIGN_LEFT)
 					draw.SimpleText("Counter X Offset", "Health", TM.MenuScale(165), TM.MenuScale(50), white, TEXT_ALIGN_LEFT)
 					draw.SimpleText("Counter Y Offset", "Health", TM.MenuScale(165), TM.MenuScale(80), white, TEXT_ALIGN_LEFT)
-					draw.SimpleText("Text Color", "Health", TM.MenuScale(210), TM.MenuScale(115), white, TEXT_ALIGN_LEFT)
 				end
 
 				local VelocityCounterX = VelocityCounter:Add("DNumSlider")
