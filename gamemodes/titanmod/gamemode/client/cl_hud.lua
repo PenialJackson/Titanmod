@@ -101,35 +101,8 @@ local bindMenu = GetConVar("tm_bind_menu"):GetInt()
 
 local reloadBind = input.LookupBinding("+reload") or "Reload Bind"
 
-local keyMat = Material("icons/keyicon.png", "noclamp smooth")
-local keyMatMed = Material("icons/keyiconmedium.png", "noclamp smooth")
-local keyMatLong = Material("icons/keyiconlong.png", "noclamp smooth")
-
-local fColor = COLORS.white
-local lColor = COLORS.white
-local bColor = COLORS.white
-local rColor = COLORS.white
-local jColor = COLORS.white
-local sColor = COLORS.white
-local cColor = COLORS.white
-
-local function KPOKeyCheck()
-	local actuatedColor = Color(keyoverlayActuatedR, keyoverlayActuatedG, keyoverlayActuatedB)
-	local inactiveColor = Color(keyoverlayInactiveR, keyoverlayInactiveG, keyoverlayInactiveB)
-
-	if LocalPlayer():KeyDown(IN_FORWARD) then fColor = actuatedColor else fColor = inactiveColor end
-	if LocalPlayer():KeyDown(IN_MOVELEFT) then lColor = actuatedColor else lColor = inactiveColor end
-	if LocalPlayer():KeyDown(IN_BACK) then bColor = actuatedColor else bColor = inactiveColor end
-	if LocalPlayer():KeyDown(IN_MOVERIGHT) then rColor = actuatedColor else rColor = inactiveColor end
-	if LocalPlayer():KeyDown(IN_JUMP) then jColor = actuatedColor else jColor = inactiveColor end
-	if LocalPlayer():KeyDown(IN_SPEED) then sColor = actuatedColor else sColor = inactiveColor end
-	if LocalPlayer():KeyDown(IN_DUCK) then cColor = actuatedColor else cColor = inactiveColor end
-end
-
 local hillColor
 local objIndicatorColor
-local hillEmptyMat = Material("icons/kothempty.png")
-local border = Material("overlay/objborder.png")
 
 local timeUntilSelfDestruct = 0
 
@@ -288,6 +261,9 @@ hook.Add("RenderScreenspaceEffects", "IntermissionPostProcess", function()
 end )
 
 function HUDIntermission()
+	if !LocalPlayer():Alive() then return end
+	if gameEnded then return end
+
 	draw.DrawText("Match begins in", "HUD_WepNameKill", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(110), COLORS.white, TEXT_ALIGN_CENTER)
 	draw.DrawText(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime()) - (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()), "HUD_IntermissionText", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(100), COLORS.white, TEXT_ALIGN_CENTER)
 	draw.DrawText("[" .. string.upper(input.GetKeyName(bindMenu)) .. "] return to menu", "HUD_WepNameKill", ScrW() / 2, ScrH() - TM.ScreenScale(200), COLORS.white, TEXT_ALIGN_CENTER)
@@ -324,7 +300,7 @@ end
 
 local modeName = GAMEMODES.MODES[TM.GAMEMODE].name
 
-function HUDAlways()
+local function RenderInfo()
 	local timeText = string.FormattedTime(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1, "%02i:%02i") or "00:00"
 	draw.DrawText(modeName .. " | " .. timeText, "HUD_Health", ScrW() / 2, TM.ScreenScale(-5) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 
@@ -352,54 +328,37 @@ function HUDAlways()
 		end
 	end
 
-	if killfeed then
-		surface.SetFont("HUD_StreakText")
-		for k, v in pairs(feedArray) do
-			if v[2] == 1 and v[2] != nil then
-				surface.SetDrawColor(150, 50, 50, killfeedOpacity)
-			else
-				surface.SetDrawColor(50, 50, 50, killfeedOpacity)
-			end
-
-			local nameLength = select(1, surface.GetTextSize(v[1]))
-			local feedEntryPadding = !killfeedStyle and TM.ScreenScale(-20) or TM.ScreenScale(20)
-
-			surface.DrawRect(killfeedX, ScrH() - TM.ScreenScale(20) + ((k - 1) * feedEntryPadding) - killfeedY, nameLength + TM.ScreenScale(5), TM.ScreenScale(20))
-			draw.DrawText(v[1], "HUD_StreakText", TM.ScreenScale(2) + killfeedX, ScrH() - TM.ScreenScale(22) + ((k - 1) * feedEntryPadding) - killfeedY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT)
-		end
-	end
-
 	if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
 		if GetGlobalString("tm_hillstatus") == "Empty" then
 			hillColor = Color(objEmptyR, objEmptyG, objEmptyB, 3)
 			objIndicatorColor = Color(objEmptyR, objEmptyG, objEmptyB, 175)
 
 			surface.SetDrawColor(255, 255, 255, 100)
-			surface.SetMaterial(hillEmptyMat)
+			surface.SetMaterial(MATS.hillEmpty)
 		elseif GetGlobalString("tm_hillstatus") == "Occupied" then
 			hillColor = Color(objOccupiedR, objOccupiedG, objOccupiedB, 3)
 			objIndicatorColor = Color(objOccupiedR, objOccupiedG, objOccupiedB, 175)
 
 			surface.SetDrawColor(objOccupiedR, objOccupiedG, objOccupiedB, 100)
-			surface.SetMaterial(hillEmptyMat)
+			surface.SetMaterial(MATS.hillEmpty)
 		else
 			hillColor = Color(objContestedR, objContestedG, objContestedB, 3)
 			objIndicatorColor = Color(objContestedR, objContestedG, objContestedB, 175)
 
 			surface.SetDrawColor(objContestedR, objContestedG, objContestedB, 100)
-			surface.SetMaterial(hillEmptyMat)
+			surface.SetMaterial(MATS.hillEmpty)
 		end
 
 		surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(60) + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
 
-		surface.SetMaterial(border)
+		surface.SetMaterial(MATS.hillBorder)
 		surface.SetDrawColor(objIndicatorColor)
 
 		if LocalPlayer():GetNWBool("onOBJ") then
 			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 		end
 	elseif TM.GAMEMODE == GAMEMODES.IDS.VIP then
-		surface.SetMaterial(border)
+		surface.SetMaterial(MATS.hillBorder)
 		surface.SetDrawColor(objOccupiedR, objOccupiedG, objOccupiedB, 175)
 
 		if GetGlobalEntity("tm_vip", NULL) == LocalPlayer() then
@@ -407,16 +366,43 @@ function HUDAlways()
 		end
 
 		surface.SetDrawColor(objOccupiedR, objOccupiedG, objOccupiedB, 225)
-		surface.SetMaterial(hillEmptyMat)
+		surface.SetMaterial(MATS.hillEmpty)
 		surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(24), TM.ScreenScale(57) + hudY, TM.ScreenScale(48), TM.ScreenScale(48))
+	end
+
+	if TM.GAMEMODE == GAMEMODES.IDS.CRANKED and timeUntilSelfDestruct != 0 and LocalPlayer():Alive() then
+		surface.SetDrawColor(50, 50, 50, 80)
+		surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + hudY, TM.ScreenScale(150), TM.ScreenScale(10))
+
+		surface.SetDrawColor(objContestedR, objContestedG, objContestedB, 80)
+		surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + hudY, TM.ScreenScale(150) * (timeUntilSelfDestruct / crankedTime:GetInt()), TM.ScreenScale(10))
+	end
+
+	if GetGlobalBool("tm_matchended") == true then
+		draw.DrawText("Match has ended", "HUD_GunPrintName", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(104), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.DrawText("Sit tight, another match is about to begin!", "HUD_Health", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(18), COLORS.white, TEXT_ALIGN_CENTER)
 	end
 end
 
-local weapon
+local function RenderKillFeed()
+	surface.SetFont("HUD_StreakText")
+	for k, v in pairs(feedArray) do
+		if v[2] == 1 and v[2] != nil then
+			surface.SetDrawColor(150, 50, 50, killfeedOpacity)
+		else
+			surface.SetDrawColor(50, 50, 50, killfeedOpacity)
+		end
+
+		local nameLength = select(1, surface.GetTextSize(v[1]))
+		local feedEntryPadding = !killfeedStyle and TM.ScreenScale(-20) or TM.ScreenScale(20)
+
+		surface.DrawRect(killfeedX, ScrH() - TM.ScreenScale(20) + ((k - 1) * feedEntryPadding) - killfeedY, nameLength + TM.ScreenScale(5), TM.ScreenScale(20))
+		draw.DrawText(v[1], "HUD_StreakText", TM.ScreenScale(2) + killfeedX, ScrH() - TM.ScreenScale(22) + ((k - 1) * feedEntryPadding) - killfeedY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT)
+	end
+end
+
 local adsFade = 1
 local dyn = 0
-local hitmarkerFade = 0
-local hitType = false
 
 -- HUD lerp functinos
 local smoothDyn = 0
@@ -449,10 +435,9 @@ local function LerpHealth()
 	end
 end
 
-function HUDAlive()
-	local maxHealth = LocalPlayer():GetMaxHealth()
-	local health = math.Clamp(LocalPlayer():Health(), 0, maxHealth)
-	weapon = LocalPlayer():GetActiveWeapon()
+local function RenderCrosshair()
+	local weapon = LocalPlayer():GetActiveWeapon()
+	if !IsValid(weapon) then return end
 
 	LerpCrosshair()
 
@@ -462,7 +447,6 @@ function HUDAlive()
 		adsFade = math.Clamp(adsFade + 4 * RealFrameTime(), 0, 1)
 	end
 
-	-- crosshair
 	if crosshairStyle then
 		dyn = CrosshairStateUpdate(weapon)
 		LerpCrosshair()
@@ -492,27 +476,34 @@ function HUDAlive()
 		if crosshairShowTop == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2), centerY - crosshairSize - (crosshairGap + smoothDyn) + crosshairThickness % 2, crosshairThickness, crosshairSize) end
 		if crosshairDot == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2), centerY - math.floor(crosshairThickness / 2), crosshairThickness, crosshairThickness) end
 	end
+end
 
-	-- hitmarker
-	if hitmarker then
-		hitmarkerFade = math.Clamp(hitmarkerFade - 7 * RealFrameTime(), 0, hitmarkerDuration)
+local hitmarkerFade = 0
+local hitType = false
 
-		if !hitType then
-			surface.SetDrawColor(hitmarkerR, hitmarkerG, hitmarkerB, hitmarkerOpacity * math.min(1, hitmarkerFade))
-		else
-			surface.SetDrawColor(hitmarkerHeadR, hitmarkerHeadG, hitmarkerHeadB, hitmarkerOpacity * math.min(1, hitmarkerFade))
-		end
+local function RenderHitmarkers()
+	hitmarkerFade = math.Clamp(hitmarkerFade - 7 * RealFrameTime(), 0, hitmarkerDuration)
 
-		draw.NoTexture()
-
-		surface.DrawTexturedRectRotated(centerX - hitmarkerGap, centerY - hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 45)
-		surface.DrawTexturedRectRotated(centerX + hitmarkerGap, centerY- hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 135)
-		surface.DrawTexturedRectRotated(centerX + hitmarkerGap, centerY + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 225)
-		surface.DrawTexturedRectRotated(centerX - hitmarkerGap, centerY + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 315)
+	if !hitType then
+		surface.SetDrawColor(hitmarkerR, hitmarkerG, hitmarkerB, hitmarkerOpacity * math.min(1, hitmarkerFade))
+	else
+		surface.SetDrawColor(hitmarkerHeadR, hitmarkerHeadG, hitmarkerHeadB, hitmarkerOpacity * math.min(1, hitmarkerFade))
 	end
 
-	-- health
+	draw.NoTexture()
+
+	surface.DrawTexturedRectRotated(centerX - hitmarkerGap, centerY - hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 45)
+	surface.DrawTexturedRectRotated(centerX + hitmarkerGap, centerY- hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 135)
+	surface.DrawTexturedRectRotated(centerX + hitmarkerGap, centerY + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 225)
+	surface.DrawTexturedRectRotated(centerX - hitmarkerGap, centerY + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 315)
+end
+
+local function RenderHealth()
+	local maxHealth = LocalPlayer():GetMaxHealth()
+	local health = math.Clamp(LocalPlayer():Health(), 0, maxHealth)
+
 	LerpHealth()
+
 	surface.SetDrawColor(50, 50, 50, 80)
 	surface.DrawRect(healthX + hudX, ScrH() - TM.ScreenScale(30) - healthY - hudY, TM.ScreenScale(450), TM.ScreenScale(30))
 
@@ -528,33 +519,34 @@ function HUDAlive()
 
 	surface.DrawRect(healthX + hudX, ScrH() - TM.ScreenScale(30) - healthY - hudY, TM.ScreenScale(450) * (math.max(0, smoothHP) / maxHealth), TM.ScreenScale(30))
 	draw.DrawText(health, "HUD_Health", TM.ScreenScale(450) + healthX + hudX - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - healthY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
+end
 
-	-- ammo/weapon
-	if IsValid(weapon) then
-		draw.DrawText(weapon:GetPrintName(), "HUD_GunPrintName", ScrW() - hudX, ScrH() - TM.ScreenScale(50) - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
+local function RenderLoadout()
+	local weapon = LocalPlayer():GetActiveWeapon()
+	if !IsValid(weapon) then return end
 
-		local clip = weapon:Clip1()
+	draw.DrawText(weapon:GetPrintName(), "HUD_GunPrintName", ScrW() - hudX, ScrH() - TM.ScreenScale(50) - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
 
-		if IsValid(clip) then
-			local ammoColor = Color(hudTextR, hudTextG, hudTextB)
-			local ammoText = tostring(clip)
+	local clip = weapon:Clip1()
 
-			if clip >= 0 then
-				if clip == 0 then
-					ammoColor = COLORS.red
-					ammoText = "0"
-				end
-			elseif (weapon:GetStat("InfiniteAmmo") and !weapon:GetStat("IsThrowable")) or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
-				ammoText = "∞"
-			else
-				ammoText = "[" .. string.upper(reloadBind) .. "] THROW"
+	if IsValid(clip) then
+		local ammoColor = Color(hudTextR, hudTextG, hudTextB)
+		local ammoText = tostring(clip)
+
+		if clip >= 0 then
+			if clip == 0 then
+				ammoColor = COLORS.red
+				ammoText = "0"
 			end
-
-			draw.DrawText(ammoText, "HUD_AmmoCount", ScrW() - hudX, ScrH() - TM.ScreenScale(165) - hudY, ammoColor, TEXT_ALIGN_RIGHT)
+		elseif (weapon:GetStat("InfiniteAmmo") and !weapon:GetStat("IsThrowable")) or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
+			ammoText = "∞"
+		else
+			ammoText = "[" .. string.upper(reloadBind) .. "] THROW"
 		end
+
+		draw.DrawText(ammoText, "HUD_AmmoCount", ScrW() - hudX, ScrH() - TM.ScreenScale(165) - hudY, ammoColor, TEXT_ALIGN_RIGHT)
 	end
 
-	-- equipment
 	local grappleText = string.upper(input.GetKeyName(bindGrapple))
 	local nadeText = string.upper(input.GetKeyName(bindNade))
 
@@ -597,213 +589,238 @@ function HUDAlive()
 			draw.DrawText(grappleText, "HUD_StreakText", equipmentX + hudX + TM.ScreenScale(27), ScrH() - TM.ScreenScale(65) - equipmentY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		end
 	end
-
-	-- keypress overlay
-	if keyoverlay then
-		KPOKeyCheck()
-
-		surface.SetMaterial(keyMat)
-
-		surface.SetDrawColor(fColor)
-		surface.DrawTexturedRect(TM.ScreenScale(48) + keyoverlayX + hudX, 0 + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
-
-		surface.SetDrawColor(lColor)
-		surface.DrawTexturedRect(0 + keyoverlayX + hudX, TM.ScreenScale(48) + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
-
-		surface.SetDrawColor(bColor)
-		surface.DrawTexturedRect(TM.ScreenScale(48) + keyoverlayX + hudX, TM.ScreenScale(48) + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
-
-		surface.SetDrawColor(rColor)
-		surface.DrawTexturedRect(TM.ScreenScale(96) + keyoverlayX + hudX, TM.ScreenScale(48) + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
-
-		surface.SetMaterial(keyMatLong)
-
-		surface.SetDrawColor(jColor)
-		surface.DrawTexturedRect(0 + keyoverlayX + hudX, TM.ScreenScale(96) + keyoverlayY + hudY, TM.ScreenScale(138), TM.ScreenScale(42))
-
-		surface.SetMaterial(keyMatMed)
-
-		surface.SetDrawColor(sColor)
-		surface.DrawTexturedRect(0 + keyoverlayX + hudX, TM.ScreenScale(144) + keyoverlayY + hudY, TM.ScreenScale(66), TM.ScreenScale(42))
-
-		surface.SetDrawColor(cColor)
-		surface.DrawTexturedRect(TM.ScreenScale(72) + keyoverlayX + hudX, TM.ScreenScale(144) + keyoverlayY + hudY, TM.ScreenScale(66), TM.ScreenScale(42))
-
-		draw.DrawText("W", "HUD_StreakText", TM.ScreenScale(69) + keyoverlayX + hudX, TM.ScreenScale(10) + keyoverlayY + hudY, fColor, TEXT_ALIGN_CENTER)
-		draw.DrawText("A", "HUD_StreakText", TM.ScreenScale(21) + keyoverlayX + hudX, TM.ScreenScale(58) + keyoverlayY + hudY, lColor, TEXT_ALIGN_CENTER)
-		draw.DrawText("S", "HUD_StreakText", TM.ScreenScale(69) + keyoverlayX + hudX, TM.ScreenScale(58) + keyoverlayY + hudY, bColor, TEXT_ALIGN_CENTER)
-		draw.DrawText("D", "HUD_StreakText", TM.ScreenScale(117) + keyoverlayX + hudX, TM.ScreenScale(58) + keyoverlayY + hudY, rColor, TEXT_ALIGN_CENTER)
-		draw.DrawText("JUMP", "HUD_StreakText", TM.ScreenScale(69) + keyoverlayX + hudX, TM.ScreenScale(106) + keyoverlayY + hudY, jColor, TEXT_ALIGN_CENTER)
-		draw.DrawText("RUN", "HUD_StreakText", TM.ScreenScale(33) + keyoverlayX + hudX, TM.ScreenScale(154) + keyoverlayY + hudY, sColor, TEXT_ALIGN_CENTER)
-		draw.DrawText("DUCK", "HUD_StreakText", TM.ScreenScale(105) + keyoverlayX + hudX, TM.ScreenScale(154) + keyoverlayY + hudY, cColor, TEXT_ALIGN_CENTER)
-	end
-
-	-- cranked Bar
-	if TM.GAMEMODE == GAMEMODES.IDS.CRANKED and timeUntilSelfDestruct != 0 then
-		surface.SetDrawColor(50, 50, 50, 80)
-		surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + hudY, TM.ScreenScale(150), TM.ScreenScale(10))
-
-		surface.SetDrawColor(objContestedR, objContestedG, objContestedB, 80)
-		surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + hudY, TM.ScreenScale(150) * (timeUntilSelfDestruct / crankedTime:GetInt()), TM.ScreenScale(10))
-	end
-
-	-- velocity counter
-	if velocityoverlay then
-		draw.DrawText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityoverlayX + hudX, velocityoverlayY + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	end
-
-	-- disclaimer for players connecting during an active gamemode and map vote
-	if GetGlobalBool("tm_matchended") == true then
-		draw.DrawText("Match has ended", "HUD_GunPrintName", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(104), COLORS.white, TEXT_ALIGN_CENTER)
-		draw.DrawText("Sit tight, another match is about to begin!", "HUD_Health", ScrW() / 2, ScrH() / 2 - TM.ScreenScale(18), COLORS.white, TEXT_ALIGN_CENTER)
-	end
 end
 
--- create the HUD hook depending on the gamemode being played
-function CreateHUDHook()
-	if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
-		-- KOTH rendering
-		local kothInfo = KOTHPOS[game.GetMap()]
-		local origin = kothInfo.origin
-		local size = kothInfo.size
+local fColor = COLORS.white
+local lColor = COLORS.white
+local bColor = COLORS.white
+local rColor = COLORS.white
+local jColor = COLORS.white
+local sColor = COLORS.white
+local cColor = COLORS.white
 
-		local playerAngle
-		local indiFade = 1
+local function KPOKeyCheck()
+	local actuatedColor = Color(keyoverlayActuatedR, keyoverlayActuatedG, keyoverlayActuatedB)
+	local inactiveColor = Color(keyoverlayInactiveR, keyoverlayInactiveG, keyoverlayInactiveB)
 
-		hook.Add("PostDrawTranslucentRenderables", "TitanmodKOTHBoxRendering", function()
-			if convars["hud_enable"] == 0 then return end
-			render.SetColorMaterial()
-			if LocalPlayer():GetNWBool("onOBJ") then
-				render.DrawBox(origin - Vector(0, 0, -2), angle_zero, -size, size - Vector(0, 0, size[3] * 2), hillColor)
-				return
-			end
-			render.DrawBox(origin, angle_zero, -size, size, hillColor)
+	if LocalPlayer():KeyDown(IN_FORWARD) then fColor = actuatedColor else fColor = inactiveColor end
+	if LocalPlayer():KeyDown(IN_MOVELEFT) then lColor = actuatedColor else lColor = inactiveColor end
+	if LocalPlayer():KeyDown(IN_BACK) then bColor = actuatedColor else bColor = inactiveColor end
+	if LocalPlayer():KeyDown(IN_MOVERIGHT) then rColor = actuatedColor else rColor = inactiveColor end
+	if LocalPlayer():KeyDown(IN_JUMP) then jColor = actuatedColor else jColor = inactiveColor end
+	if LocalPlayer():KeyDown(IN_SPEED) then sColor = actuatedColor else sColor = inactiveColor end
+	if LocalPlayer():KeyDown(IN_DUCK) then cColor = actuatedColor else cColor = inactiveColor end
+end
 
-			playerAngle = LocalPlayer():EyeAngles()
-			playerAngle:RotateAroundAxis(playerAngle:Forward(), 90)
-			playerAngle:RotateAroundAxis(playerAngle:Right(), 90)
+local function RenderKPO()
+	KPOKeyCheck()
 
-			cam.IgnoreZ(true)
-				cam.Start3D2D(origin, playerAngle, origin:Distance(LocalPlayer():GetPos()) * 0.0015 * objHUD["scale"])
-					if IsValid(weapon) and (type(weapon.GetIronSights) == "function" and weapon:GetIronSights()) then indiFade = math.Clamp(indiFade - 7 * RealFrameTime(), 0, 1) else indiFade = math.Clamp(indiFade + 4 * RealFrameTime(), 0, 1) end
-					draw.WordBox(0, TM.ScreenScale(8), TM.ScreenScale(-14), "Hill", "HUD_StreakText", Color(0, 0, 0, 10 * indiFade), Color(convars["text_r"], convars["text_g"], convars["text_b"], 255 * indiFade), TEXT_ALIGN_CENTER)
-					draw.WordBox(0, 0, TM.ScreenScale(11), math.Round(origin:Distance(LocalPlayer():GetPos()) * 0.01905, 0) .. "m", "HUD_Health", Color(0, 0, 0, 10 * indiFade), Color(convars["text_r"], convars["text_g"], convars["text_b"], 255 * indiFade), TEXT_ALIGN_CENTER)
-				cam.End3D2D()
-			cam.IgnoreZ(false)
-		end )
+	surface.SetMaterial(MATS.keyIcon)
 
-		if IsValid(KOTHPFP) then KOTHPFP:Remove() end
-		KOTHPFP = vgui.Create("AvatarImage", HUD)
-		KOTHPFP:SetPos(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(60) + matchHUD["y"])
-		KOTHPFP:SetSize(TM.ScreenScale(42), TM.ScreenScale(42))
-		KOTHPFP:Hide()
+	surface.SetDrawColor(fColor)
+	surface.DrawTexturedRect(TM.ScreenScale(48) + keyoverlayX + hudX, 0 + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
 
-		pfpUpdated = false
+	surface.SetDrawColor(lColor)
+	surface.DrawTexturedRect(0 + keyoverlayX + hudX, TM.ScreenScale(48) + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
 
-		function UpdateKOTHPFP()
-			if convars["hud_enable"] == 0 or !LocalPlayer():Alive() then KOTHPFP:Hide() return end
-			if GetGlobalString("tm_hillstatus") == "Empty" or GetGlobalString("tm_hillstatus") == "Contested" then
-				KOTHPFP:Hide()
-				pfpUpdated = false
+	surface.SetDrawColor(bColor)
+	surface.DrawTexturedRect(TM.ScreenScale(48) + keyoverlayX + hudX, TM.ScreenScale(48) + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
+
+	surface.SetDrawColor(rColor)
+	surface.DrawTexturedRect(TM.ScreenScale(96) + keyoverlayX + hudX, TM.ScreenScale(48) + keyoverlayY + hudY, TM.ScreenScale(42), TM.ScreenScale(42))
+
+	surface.SetMaterial(MATS.keyIconLong)
+
+	surface.SetDrawColor(jColor)
+	surface.DrawTexturedRect(0 + keyoverlayX + hudX, TM.ScreenScale(96) + keyoverlayY + hudY, TM.ScreenScale(138), TM.ScreenScale(42))
+
+	surface.SetMaterial(MATS.keyIconMed)
+
+	surface.SetDrawColor(sColor)
+	surface.DrawTexturedRect(0 + keyoverlayX + hudX, TM.ScreenScale(144) + keyoverlayY + hudY, TM.ScreenScale(66), TM.ScreenScale(42))
+
+	surface.SetDrawColor(cColor)
+	surface.DrawTexturedRect(TM.ScreenScale(72) + keyoverlayX + hudX, TM.ScreenScale(144) + keyoverlayY + hudY, TM.ScreenScale(66), TM.ScreenScale(42))
+
+	draw.DrawText("W", "HUD_StreakText", TM.ScreenScale(69) + keyoverlayX + hudX, TM.ScreenScale(10) + keyoverlayY + hudY, fColor, TEXT_ALIGN_CENTER)
+	draw.DrawText("A", "HUD_StreakText", TM.ScreenScale(21) + keyoverlayX + hudX, TM.ScreenScale(58) + keyoverlayY + hudY, lColor, TEXT_ALIGN_CENTER)
+	draw.DrawText("S", "HUD_StreakText", TM.ScreenScale(69) + keyoverlayX + hudX, TM.ScreenScale(58) + keyoverlayY + hudY, bColor, TEXT_ALIGN_CENTER)
+	draw.DrawText("D", "HUD_StreakText", TM.ScreenScale(117) + keyoverlayX + hudX, TM.ScreenScale(58) + keyoverlayY + hudY, rColor, TEXT_ALIGN_CENTER)
+	draw.DrawText("JUMP", "HUD_StreakText", TM.ScreenScale(69) + keyoverlayX + hudX, TM.ScreenScale(106) + keyoverlayY + hudY, jColor, TEXT_ALIGN_CENTER)
+	draw.DrawText("RUN", "HUD_StreakText", TM.ScreenScale(33) + keyoverlayX + hudX, TM.ScreenScale(154) + keyoverlayY + hudY, sColor, TEXT_ALIGN_CENTER)
+	draw.DrawText("DUCK", "HUD_StreakText", TM.ScreenScale(105) + keyoverlayX + hudX, TM.ScreenScale(154) + keyoverlayY + hudY, cColor, TEXT_ALIGN_CENTER)
+end
+
+local function RenderVelocity()
+	draw.DrawText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityoverlayX + hudX, velocityoverlayY + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+end
+
+local kothInfo = KOTHPOS[game.GetMap()] or {origin = Vector(0, 0, 0), size = Vector(0, 0, 0)}
+local origin = kothInfo.origin
+local size = kothInfo.size
+
+local playerAngle
+local indiFade = 1
+
+local function RenderKOTH()
+	local weapon = LocalPlayer():GetActiveWeapon()
+
+	render.SetColorMaterial()
+
+	if LocalPlayer():GetNWBool("onOBJ") then
+		render.DrawBox(origin - Vector(0, 0, -2), angle_zero, -size, size - Vector(0, 0, size[3] * 2), hillColor)
+
+		return
+	end
+
+	render.DrawBox(origin, angle_zero, -size, size, hillColor)
+
+	playerAngle = LocalPlayer():EyeAngles()
+	playerAngle:RotateAroundAxis(playerAngle:Forward(), 90)
+	playerAngle:RotateAroundAxis(playerAngle:Right(), 90)
+
+	cam.IgnoreZ(true)
+		cam.Start3D2D(origin, playerAngle, origin:Distance(LocalPlayer():GetPos()) * 0.0015 * objHUD["scale"])
+			if IsValid(weapon) and (type(weapon.GetIronSights) == "function" and weapon:GetIronSights()) then
+				indiFade = math.Clamp(indiFade - 7 * RealFrameTime(), 0, 1)
 			else
-				KOTHPFP:Show()
-				if !pfpUpdated then KOTHPFP:SetPlayer(GetGlobalEntity("tm_entonhill"), 184) end
-				pfpUpdated = true
-			end
-		end
-
-		hook.Add("HUDPaint", "DrawTMHUD", function()
-			if GetGlobalBool("tm_intermission") then
-				HUDIntermission()
-
-				return
+				indiFade = math.Clamp(indiFade + 4 * RealFrameTime(), 0, 1)
 			end
 
-			if convars["hud_enable"] == 0 then return end
+			draw.WordBox(0, TM.ScreenScale(8), TM.ScreenScale(-14), "Hill", "HUD_StreakText", Color(0, 0, 0, 10 * indiFade), Color(hudTextR, hudTextG, hudTextB, 255 * indiFade), TEXT_ALIGN_CENTER)
+			draw.WordBox(0, 0, TM.ScreenScale(11), math.Round(origin:Distance(LocalPlayer():GetPos()) * 0.01905, 0) .. "m", "HUD_Health", Color(0, 0, 0, 10 * indiFade), Color(hudTextR, hudTextG, hudTextB, 255 * indiFade), TEXT_ALIGN_CENTER)
+		cam.End3D2D()
+	cam.IgnoreZ(false)
+end
 
-			HUDAlways()
-			UpdateKOTHPFP()
+local kothPFP
+local kothPFPUpdated = false
 
-			if LocalPlayer():Alive() then
-				HUDAlive()
-			end
-		end)
-	elseif TM.GAMEMODE == GAMEMODES.IDS.VIP then
-		-- VIP rendering
-		if IsValid(VIPPFP) then VIPPFP:Remove() end
-		VIPPFP = vgui.Create("AvatarImage", HUD)
-		VIPPFP:SetPos(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(60) + matchHUD["y"])
-		VIPPFP:SetSize(TM.ScreenScale(42), TM.ScreenScale(42))
-		VIPPFP:Hide()
+local function InitKOTH()
+	if TM.GAMEMODE != GAMEMODES.IDS.KOTH then return end
+	if IsValid(kothPFP) then return end
 
-		local vip = GetGlobalEntity("tm_vip", NULL)
-		local setPly
-		function UpdateVIPPFP()
-			if convars["hud_enable"] == 0 or !LocalPlayer():Alive() then VIPPFP:Hide() return end
-			vip = GetGlobalEntity("tm_vip", NULL)
-			if vip == NULL then
-				VIPPFP:Hide()
-				setPly = NULL
-			else
-				VIPPFP:Show()
-				if setPly != vip then
-					VIPPFP:SetPlayer(vip, 184)
-					setPly = vip
-				end
-			end
-		end
+	kothPFP = vgui.Create("AvatarImage", GetHUDPanel())
+	kothPFP:SetPos(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(60) + hudY)
+	kothPFP:SetSize(TM.ScreenScale(42), TM.ScreenScale(42))
+	kothPFP:Hide()
+end
+InitKOTH()
 
-		hook.Add("HUDPaint", "DrawTMHUD", function()
-			if GetGlobalBool("tm_intermission") then
-				HUDIntermission()
+local function DrawKOTH()
+	if TM.GAMEMODE != GAMEMODES.IDS.KOTH then return end
+	if gameEnded then return end
+	if !hudEnable then return end
 
-				return
-			end
+	RenderKOTH()
+end
+hook.Add("PostDrawTranslucentRenderables", "DrawKOTH", DrawKOTH())
 
-			if convars["hud_enable"] == 0 then return end
+local function UpdateKOTH()
+	if TM.GAMEMODE != GAMEMODES.IDS.KOTH then return end
 
-			HUDAlways()
-			UpdateVIPPFP()
+	if GetGlobalBool("tm_intermission") or gameEnded or !hudEnable then
+		kothPFP:Hide()
 
-			if LocalPlayer():Alive() then
-				HUDAlive()
-			end
-		end)
+		return
+	end
+
+	kothPFP:SetY(TM.ScreenScale(60) + hudY)
+
+	local status = GetGlobalString("tm_hillstatus")
+
+	if status == "Empty" or status == "Contested" then
+		kothPFP:Hide()
+		kothPFPUpdated = false
 	else
-		hook.Add("HUDPaint", "DrawTMHUD", function()
-			if GetGlobalBool("tm_intermission") then
-				HUDIntermission()
+		if !kothPFPUpdated then
+			kothPFP:SetPlayer(GetGlobalEntity("tm_entonhill"), 184)
+		end
 
-				return
-			end
+		kothPFPUpdated = true
 
-			if convars["hud_enable"] == 0 then return end
-
-			HUDAlways()
-
-			if LocalPlayer():Alive() then
-				HUDAlive()
-			end
-		end)
+		kothPFP:Show()
 	end
 end
 
-function DeleteHUDHook()
-	hook.Remove("HUDPaint", "DrawTMHUD")
+local vipPFP
+local currentVIP = NULL
+
+local function InitVIP()
+	if TM.GAMEMODE != GAMEMODES.IDS.VIP then return end
+	if IsValid(vipPFP) then return end
+
+	vipPFP = vgui.Create("AvatarImage", GetHUDPanel())
+	vipPFP:SetPos(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(60) + hudY)
+	vipPFP:SetSize(TM.ScreenScale(42), TM.ScreenScale(42))
+	vipPFP:Hide()
+end
+InitVIP()
+
+local function UpdateVIP()
+	if TM.GAMEMODE != GAMEMODES.IDS.VIP then return end
+
+	if GetGlobalBool("tm_intermission") or gameEnded or !hudEnable then
+		vipPFP:Hide()
+
+		return
+	end
+
+	vipPFP:SetY(TM.ScreenScale(60) + hudY)
+
+	local vip = GetGlobalEntity("tm_vip", NULL)
+
+	if vip == NULL then
+		vipPFP:Hide()
+		currentVIP = vip
+	else
+		if currentVIP != vip then
+			vipPFP:SetPlayer(vip, 184)
+		end
+
+		vipPFP:Show()
+	end
 end
 
-local notiClock = Material("icons/noti_clock.png", "noclamp smooth")
-local notiLevel = Material("icons/noti_level.png", "noclamp smooth")
-local notiKnife = Material("icons/noti_knife.png", "noclamp smooth")
-local notiWarning = Material("icons/noti_warning.png", "noclamp smooth")
-local notiSuccess = Material("icons/noti_success.png", "noclamp smooth")
+local function DrawHUD()
+	UpdateKOTH()
+	UpdateVIP()
 
-net.Receive("SendNotification", function(len, ply)
-	if convars["notif_enable"] == 0 then return end
-	if convars["hud_enable"] == 0 then return end
+	if gameEnded then return end
+	if !hudEnable then return end
+
+	if GetGlobalBool("tm_intermission") then
+		HUDIntermission()
+
+		return
+	end
+
+	-- always
+	RenderInfo()
+	if killfeed then RenderKillFeed() end
+
+	-- gamemodes
+	if TM.GAMEMODE == GAMEMODES.IDS.KOTH then RenderKOTH() end
+
+	-- alive
+	if LocalPlayer():Alive() then
+		if crosshair then RenderCrosshair() end
+		if hitmarker then RenderHitmarkers() end
+		RenderHealth()
+		RenderLoadout()
+		if keyoverlay then RenderKPO() end
+		if velocityoverlay then RenderVelocity() end
+	end
+end
+hook.Add("HUDPaint", "DrawHUD", DrawHUD)
+
+net.Receive("SendNotification", function(len)
+	if !notifications then return end
+	if !hudEnable then return end
 
 	local notiText = net.ReadString()
 	local notiType = net.ReadString()
+
 	surface.SetFont("HUD_Health")
 	local textLength = select(1, surface.GetTextSize(notiText))
 
@@ -813,68 +830,72 @@ net.Receive("SendNotification", function(len, ply)
 
 	if notiType == "time" then
 		surface.PlaySound("tmui/timenotif.wav")
-		notiIcon = notiClock
+		notiIcon = MATS.notiClockIcon
 		notiColor = Color(100, 0, 0, 125)
 		notiSecondaryColor = Color(255, 0, 0, 50)
 	elseif notiType == "level" then
-		if convars["screen_flashes"] == 1 then LocalPlayer():ScreenFade(SCREENFADE.IN, Color(255, 255, 0, 25), 0.3, 0) end
+		if convars["screen_flashes"] == 1 then
+			LocalPlayer():ScreenFade(SCREENFADE.IN, Color(255, 255, 0, 25), 0.3, 0)
+		end
+
 		surface.PlaySound("tmui/levelup.wav")
-		notiIcon = notiLevel
+		notiIcon = MATS.notiLevelIcon
 		notiColor = Color(100, 100, 0, 125)
 		notiSecondaryColor = Color(255, 255, 0, 50)
 	elseif notiType == "gungame" then
 		surface.PlaySound("tmui/timenotif.wav")
-		notiIcon = notiKnife
+		notiIcon = MATS.notiKnifeIcon
 		notiColor = Color(100, 0, 100, 125)
 		notiSecondaryColor = Color(255, 0, 255, 50)
 	elseif notiType == "warning" then
 		surface.PlaySound("tmui/warning.wav")
-		notiIcon = notiWarning
+		notiIcon = MATS.notiWarningIcon
 		notiColor = Color(100, 0, 0, 125)
 		notiSecondaryColor = Color(255, 0, 0, 50)
 	elseif notiType == "success" then
 		surface.PlaySound("tmui/success.wav")
-		notiIcon = notiSuccess
+		notiIcon = MATS.notiSuccessIcon
 		notiColor = Color(0, 100, 0, 125)
 		notiSecondaryColor = Color(0, 255, 0, 50)
 	end
 
-	if IsValid(Notif) then Notif:Remove() end
+	if IsValid(notif) then notif:Remove() end
 
-	Notif = vgui.Create("DFrame")
-	Notif:SetSize(0, TM.ScreenScale(42))
-	Notif:SizeTo(textLength + TM.ScreenScale(64), TM.ScreenScale(42), 1, 0, 0.1)
-	Notif:SetY(notis["y"])
-	Notif:SetTitle("")
-	Notif:SetDraggable(false)
-	Notif:ShowCloseButton(false)
-	Notif.Paint = function(self, w, h)
-		BlurPanel(Notif, 3)
-		Notif:SetX(ScrW() - Notif:GetWide() - notis["x"])
+	notif = vgui.Create("DPanel", GetHUDPanel())
+	notif:SetSize(0, TM.ScreenScale(42))
+	notif:SizeTo(textLength + TM.ScreenScale(64), TM.ScreenScale(42), 1, 0, 0.1)
+	notif:SetY(hudY)
+
+	function notif:Paint(w, h)
+		BlurPanel(self, 3)
+
+		self:SetX(ScrW() - self:GetWide() - hudX)
+
 		surface.SetDrawColor(Color(255, 255, 255, 155))
 		surface.DrawRect(0, 0, w, TM.ScreenScale(1))
 		surface.DrawRect(0, h - TM.ScreenScale(1), w, TM.ScreenScale(1))
 		surface.DrawRect(0, 0, TM.ScreenScale(1), h)
 		surface.DrawRect(w - TM.ScreenScale(1), 0, TM.ScreenScale(1), h)
-		draw.RoundedBox(0, 0, 0, Notif:GetWide(), Notif:GetTall(), notiColor)
-		draw.RoundedBox(0, 0, 0, TM.ScreenScale(42), TM.ScreenScale(42), notiSecondaryColor)
+
+		surface.SetDrawColor(notiColor)
+		surface.DrawRect(0, 0, self:GetWide(), self:GetTall())
+
+		surface.SetDrawColor(notiSecondaryColor)
+		surface.DrawRect(0, 0, TM.ScreenScale(42), TM.ScreenScale(42))
+
 		surface.SetMaterial(notiIcon)
 		surface.SetDrawColor(COLORS.white)
 		surface.DrawTexturedRect(TM.ScreenScale(3), TM.ScreenScale(3), TM.ScreenScale(36), TM.ScreenScale(36))
-		draw.SimpleText(notiText, "HUD_Health", TM.ScreenScale(52), TM.ScreenScale(5), COLORS.white, TEXT_ALIGN_LEFT)
+
+		draw.DrawText(notiText, "HUD_Health", TM.ScreenScale(52), TM.ScreenScale(5), COLORS.white, TEXT_ALIGN_LEFT)
 	end
 
-	Notif:Show()
-	Notif:MakePopup()
-	Notif:SetMouseInputEnabled(false)
-	Notif:SetKeyboardInputEnabled(false)
-
 	timer.Create("removeNotification", 6.5, 1, function()
-		Notif:SizeTo(textLength + TM.ScreenScale(64), 0, 0.75, 0, 0.1, function()
-			Notif:Remove()
+		notif:SizeTo(textLength + TM.ScreenScale(64), 0, 0.75, 0, 0.1, function()
+			notif:Remove()
 		end)
 	end)
-end )
+end)
 
 function DrawTarget()
 	return false
@@ -905,18 +926,18 @@ function HideHUD(name)
 end
 hook.Add("HUDShouldDraw", "HideDefaultHUD", HideHUD)
 
-local micIcon = Material("icons/microphoneicon.png", "noclamp smooth")
 local function VoiceIcon()
 	surface.SetDrawColor(Color(255, 255, 255, 155))
 	surface.DrawRect(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(115) + matchHUD["y"], TM.ScreenScale(42), TM.ScreenScale(1))
 
 	surface.SetDrawColor(65, 155, 80, 115)
-	surface.SetMaterial(micIcon)
+	surface.SetMaterial(MATS.micIcon)
 	surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(21), TM.ScreenScale(115) + matchHUD["y"], TM.ScreenScale(42), TM.ScreenScale(42))
 end
 
 hook.Add("PlayerStartVoice", "ImageOnVoice", function(voipPly)
 	if LocalPlayer() != voipPly then return true end
+
 	hook.Add("HUDPaint", "VoiceIndicator", VoiceIcon)
 	return true
 end)
@@ -925,11 +946,11 @@ hook.Add("PlayerEndVoice", "ImageOnVoice", function()
 	hook.Remove("HUDPaint", "VoiceIndicator")
 end)
 
-net.Receive("SendHitmarker", function(len, pl)
-	if sounds["hit_enabled"] == 0 then return end
+net.Receive("SendHitmarker", function(len)
+	if !hitmarker then return end
 
-	local hit_reg = "hitsound/hit_" .. sounds["hit"] .. ".wav"
-	local hit_reg_head = "hitsound/hit_head_" .. sounds["hit"] .. ".wav"
+	local hit_reg = "hitsound/hit_" .. sfxHit .. ".wav"
+	local hit_reg_head = "hitsound/hit_head_" .. sfxHit .. ".wav"
 
 	local hitgroup = net.ReadUInt(4)
 	local soundFile
@@ -942,12 +963,12 @@ net.Receive("SendHitmarker", function(len, pl)
 		soundFile = hit_reg
 	end
 
-	hitmarkerFade = hitmarker["duration"]
-	surface.PlaySound(soundfile)
+	hitmarkerFade = hitmarkerDuration
+	surface.PlaySound(soundFile)
 end)
 
-net.Receive("KillFeedUpdate", function(len, ply)
-	if convars["killfeed_enable"] == 0 then return end
+net.Receive("KillFeedUpdate", function(len)
+	if !killfeed then return end
 
 	local playersInAction = net.ReadString()
 	local victimLastHitIn = net.ReadInt(5)
@@ -955,7 +976,8 @@ net.Receive("KillFeedUpdate", function(len, ply)
 	local streak = net.ReadInt(10)
 
 	table.insert(feedArray, {playersInAction, victimLastHitIn})
-	if table.Count(feedArray) >= (convars["killfeed_limit"] + 1) then
+
+	if table.Count(feedArray) >= (killfeedLimit + 1) then
 		table.remove(feedArray, 1)
 	end
 
@@ -965,7 +987,8 @@ net.Receive("KillFeedUpdate", function(len, ply)
 
 	if streak % 5 == 0 and streak > 0 then
 		table.insert(feedArray, {attacker .. " is on a " .. streak .. " killstreak", 0})
-		if table.Count(feedArray) >= (convars["killfeed_limit"] + 1) then
+
+		if table.Count(feedArray) >= (killfeedLimit + 1) then
 			table.remove(feedArray, 1)
 		end
 
@@ -975,11 +998,12 @@ net.Receive("KillFeedUpdate", function(len, ply)
 	end
 end)
 
--- displays after a player kills another player
 local multiArray = {}
-net.Receive("NotifyKill", function(len, ply)
-	if convars["hud_enable"] == 0 then return end
+
+net.Receive("NotifyKill", function(len)
+	if !hudEnable then return end
 	if gameEnded then return end
+
 	local killedPlayer = net.ReadEntity()
 	local killedWith = net.ReadString()
 	local killedFrom = net.ReadFloat()
@@ -988,45 +1012,41 @@ net.Receive("NotifyKill", function(len, ply)
 
 	local accoladeList = ""
 
-	if IsValid(KillNotif) then KillNotif:Remove() end
+	if IsValid(killNotif) then killNotif:Remove() end
 	if IsValid(DeathNotif) then DeathNotif:Remove() end
 
-	KillNotif = vgui.Create("DFrame")
-	KillNotif:SetSize(ScrW(), 0)
-	KillNotif:SetX(0)
-	KillNotif:SetY(TM.ScreenScale(335))
-	KillNotif:SetTitle("")
-	KillNotif:SetDraggable(false)
-	KillNotif:ShowCloseButton(false)
-	KillNotif:SizeTo(ScrW(), TM.ScreenScale(200), 0.5, 0, 0.1)
+	killNotif = vgui.Create("DPanel", GetHUDPanel())
+	killNotif:SetSize(ScrW(), 0)
+	killNotif:SetX(0)
+	killNotif:SetY(TM.ScreenScale(335))
 
-	local SkullHolder = vgui.Create("DFrame", KillNotif)
-	SkullHolder:SetTitle("")
-	SkullHolder:SetDraggable(false)
-	SkullHolder:ShowCloseButton(false)
-	SkullHolder:Center()
+	killNotif:SizeTo(ScrW(), TM.ScreenScale(200), 0.5, 0, 0.1)
 
-	SkullHolder.Paint = function(self, w, h) end
+	local skullHolder = vgui.Create("DPanel", killNotif)
+	skullHolder:Center()
+	skullHolder:SetPaintBackgroundEnabled(false)
 
-	-- displays the Accolades that the player accomplished during the kill, this is a very bad system, and I don't plan on reworking it, gg
 	if lastHitIn == 1 then
 		accoladeList = accoladeList .. "Headshot +20 | "
-		table.insert(multiArray, "1")
+
+		table.insert(multiArray, 1)
 	else
-		table.insert(multiArray, "0")
+
+		table.insert(multiArray, 0)
 	end
 
 	for k, v in pairs(multiArray) do
-		SkullHolder:SetSize(k * TM.ScreenScale(55), TM.ScreenScale(50))
-		SkullHolder:Center()
-		SkullHolder:SetY(TM.ScreenScale(55))
-		KillIcon = vgui.Create("DImage", SkullHolder)
+		skullHolder:SetSize(k * TM.ScreenScale(55), TM.ScreenScale(50))
+		skullHolder:SetY(TM.ScreenScale(55))
+		skullHolder:Center()
+
+		KillIcon = vgui.Create("DImage", skullHolder)
 		KillIcon:SetPos((k - 1) * TM.ScreenScale(55) + TM.ScreenScale(2.5), 0)
 		KillIcon:SetSize(TM.ScreenScale(50), 0)
 		KillIcon:SetImage("icons/killicon.png")
 		KillIcon:SizeTo(TM.ScreenScale(50), TM.ScreenScale(50), 0.75, 0, 0.1)
 
-		if v == "1" then
+		if v == 1 then
 			KillIcon:SetImageColor(COLORS.red)
 		else
 			KillIcon:SetImageColor(COLORS.white)
@@ -1074,8 +1094,8 @@ net.Receive("NotifyKill", function(len, ply)
 		streakColor = redColor
 	end
 
-	KillNotif.Paint = function(self, w, h)
-		if !IsValid(killedPlayer) then KillNotif:Remove() return end
+	killNotif.Paint = function(self, w, h)
+		if !IsValid(killedPlayer) then killNotif:Remove() return end
 		if killStreak >= 7 then streakColor = rainbowColor end
 		rainbowColor = HSVToColor((CurTime() * rainbowSpeed) % 360, 1, 1)
 
@@ -1084,20 +1104,20 @@ net.Receive("NotifyKill", function(len, ply)
 		draw.SimpleText(string.sub(accoladeList, 1, -4), "HUD_StreakText", w / 2, TM.ScreenScale(160), COLORS.white, TEXT_ALIGN_CENTER)
 	end
 
-	KillNotif:Show()
-	KillNotif:MakePopup()
-	KillNotif:SetMouseInputEnabled(false)
-	KillNotif:SetKeyboardInputEnabled(false)
+	killNotif:Show()
+	killNotif:MakePopup()
+	killNotif:SetMouseInputEnabled(false)
+	killNotif:SetKeyboardInputEnabled(false)
 
 	if sounds["kill_enabled"] == 1 then
 		if lastHitIn == 1 then surface.PlaySound("hitsound/kill_" .. sounds["hs_kill"] .. ".wav") else surface.PlaySound("hitsound/kill_" .. sounds["kill"] .. ".wav") end
 	end
 
 	timer.Create("killNotification", 3.5, 1, function()
-		if IsValid(KillNotif) then
-			KillNotif:MoveTo(0, ScrH(), 0.5, 0, 0.15)
-			KillNotif:SizeTo(ScrW(), 0, 0.5, 0, 0.1, function()
-				KillNotif:Remove()
+		if IsValid(killNotif) then
+			killNotif:MoveTo(0, ScrH(), 0.5, 0, 0.15)
+			killNotif:SizeTo(ScrW(), 0, 0.5, 0, 0.1, function()
+				killNotif:Remove()
 				table.Empty(multiArray)
 			end)
 			KillIcon:SizeTo(TM.ScreenScale(50), 0, 0.25, 0, 0.1, function()
@@ -1108,9 +1128,7 @@ net.Receive("NotifyKill", function(len, ply)
 end )
 
 -- displays after a player dies to another player
-net.Receive("NotifyDeath", function(len, ply)
-	hook.Remove("Tick", "KeyOverlayTracking")
-	if timer.Exists("CounterUpdate") then timer.Remove("CounterUpdate") end
+net.Receive("NotifyDeath", function(len)
 	if timer.Exists("CrankedTimeUntilDeath") then hook.Remove("Think", "CrankedTimeLeft") end
 	timeUntilSelfDestruct = 0
 	if convars["hud_enable"] == 0 then return end
@@ -1122,7 +1140,7 @@ net.Receive("NotifyDeath", function(len, ply)
 	local lastHitIn = net.ReadInt(5)
 	local respawnTimeLeft = 4
 
-	if IsValid(KillNotif) then KillNotif:Remove() end
+	if IsValid(killNotif) then killNotif:Remove() end
 	if IsValid(DeathNotif) then DeathNotif:Remove() end
 
 	table.Empty(multiArray)
@@ -1193,10 +1211,8 @@ net.Receive("NotifyDeath", function(len, ply)
 end)
 
 -- displays to all players when a map vote begins
-net.Receive("EndOfGame", function(len, ply)
+net.Receive("EndOfGame", function(len)
 	gameEnded = true
-
-	DeleteHUDHook()
 
 	local winningPlayer
 	local wonMatch = false
@@ -1211,15 +1227,15 @@ net.Receive("EndOfGame", function(len, ply)
 	local MuteActive = false
 	local bonusXP = 750
 
-	net.Receive("MapVoteSkipped", function(len, ply)
+	net.Receive("MapVoteSkipped", function(len)
 		decidedMap = net.ReadString()
 		decidedMode = net.ReadInt(5)
 	end)
 
-	if IsValid(KillNotif) then KillNotif:Remove() end
+	if IsValid(killNotif) then killNotif:Remove() end
 	if IsValid(DeathNotif) then DeathNotif:Remove() end
 	if IsValid(EndOfGameUI) then EndOfGameUI:Remove() end
-	if IsValid(KOTHPFP) then KOTHPFP:Remove() end
+	if IsValid(kothPFP) then kothPFP:Remove() end
 	if IsValid(VIPPFP) then VIPPFP:Remove() end
 
 	hook.Remove("Think", "UpdateKOTHPFP")
@@ -1297,9 +1313,6 @@ net.Receive("EndOfGame", function(len, ply)
 		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end)
 	end
 
-	local gradientL = Material("overlay/gradient_c.png", "noclamp smooth")
-	local gradientR = Material("overlay/gradient_c2.png", "noclamp smooth")
-
 	local gradLColor
 	local gradRColor
 
@@ -1331,11 +1344,11 @@ net.Receive("EndOfGame", function(len, ply)
 			surface.SetDrawColor(35, 35, 35, 165)
 			surface.DrawRect(0, 0, LoadingPrompt:GetWide(), LoadingPrompt:GetTall())
 
-			surface.SetMaterial(gradientL)
+			surface.SetMaterial(MATS.gradientL)
 			surface.SetDrawColor(gradLColor)
 			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 
-			surface.SetMaterial(gradientR)
+			surface.SetMaterial(MATS.gradientR)
 			surface.SetDrawColor(gradRColor)
 			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 
@@ -1702,7 +1715,7 @@ net.Receive("EndOfGame", function(len, ply)
 			MapVoteCompleted()
 		end
 
-		net.Receive("MapVoteCompleted", function(len, ply)
+		net.Receive("MapVoteCompleted", function(len)
 			decidedMap = net.ReadString()
 			decidedMode = net.ReadInt(5)
 			MapVoteCompleted()
@@ -1955,13 +1968,13 @@ net.Receive("EndOfGame", function(len, ply)
 	gui.EnableScreenClicker(true)
 end )
 
-net.Receive("SendChatMessage", function(len, ply)
+net.Receive("SendChatMessage", function(len)
 	local text = net.ReadString()
 	table.insert(chatArray, text)
 end)
 
 -- updates the players time until self destruct on Cranked
-net.Receive("NotifyCranked", function(len, ply)
+net.Receive("NotifyCranked", function(len)
 	timeUntilSelfDestruct = crankedTime:GetInt()
 
 	timer.Create("CrankedTimeUntilDeath", crankedTime:GetInt(), 1, function()
@@ -2009,8 +2022,3 @@ function ShowLoadoutOnSpawn()
 		notification.Kill("LoadoutText")
 	end)
 end
-
-cvars.AddChangeCallback("tm_hud_bounds_y", function(convar_name, value_old, value_new)
-	if IsValid(KOTHPFP) then KOTHPFP:SetPos(ScrW() / 2 - 21, 60 + matchHUD["y"]) end
-	if IsValid(VIPPFP) then VIPPFP:SetPos(ScrW() / 2 - 21, 60 + matchHUD["y"]) end
-end)

@@ -465,6 +465,7 @@ end
 
 net.Receive("CloseMainMenu", function(len, ply)
 	ply:SetNWBool("mainmenu", false)
+
 	if not timer.Exists(ply:SteamID() .. "respawnTime") then
 		ply:Spawn()
 	end

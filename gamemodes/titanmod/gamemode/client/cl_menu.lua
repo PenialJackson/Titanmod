@@ -32,8 +32,9 @@ local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 
 local MainMenu
 
-net.Receive("OpenMainMenu", function(len, ply)
+net.Receive("OpenMainMenu", function(len)
 	local respawnTimeLeft = net.ReadFloat()
+
 	if respawnTimeLeft != 0 then
 		timer.Create("respawnTimeLeft", respawnTimeLeft, 1, function() end)
 	end
@@ -46,8 +47,6 @@ net.Receive("OpenMainMenu", function(len, ply)
 			MainMenu:Hide()
 		end
 	end)
-
-	DeleteHUDHook()
 
 	local mapID
 	local mapName
@@ -389,7 +388,7 @@ net.Receive("OpenMainMenu", function(len, ply)
 				end
 			end
 
-			net.Receive("SendLeaderboardData", function(len, ply)
+			net.Receive("SendLeaderboardData", function(len)
 				ReceivedBoard = net.ReadTable()
 				ProfilesHolder:Clear()
 
@@ -702,7 +701,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				if timer.Exists("respawnTimeLeft") then return end
 
 				TriggerSound("click")
-				CreateHUDHook()
 
 				MainMenu:AlphaTo(0, 0.05, 0, function()
 					MainMenu:Remove()
@@ -4723,7 +4721,6 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					MainPanel:Show()
 					MainPanel:AlphaTo(255, 0.05, 0.025)
 					timer.Remove("previewLoop")
-					hook.Remove("Tick", "KeyOverlayTracking")
 					UpdateHUD()
 				end
 
