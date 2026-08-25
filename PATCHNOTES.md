@@ -122,6 +122,8 @@
 
 - Heavy optimization across the entire gamemodes code
 
+- Death information now shows the attackers health at the moment of killing you instead of updating in real time
+
 - Fixed Coonan .357 and various melee weapons not being able to fire underwater
 
 - Fixed Coonan .357 having spread while ADSing

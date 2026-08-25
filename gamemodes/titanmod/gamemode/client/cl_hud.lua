@@ -1012,7 +1012,7 @@ net.Receive("NotifyKill", function(len)
 	local accoladeList = ""
 
 	if IsValid(killNotif) then killNotif:Remove() end
-	if IsValid(DeathNotif) then DeathNotif:Remove() end
+	if IsValid(deathNotif) then deathNotif:Remove() end
 
 	killNotif = vgui.Create("DPanel", GetHUDPanel())
 	killNotif:SetSize(ScrW(), 0)
@@ -1039,16 +1039,16 @@ net.Receive("NotifyKill", function(len)
 		skullHolder:SetY(TM.ScreenScale(55))
 		skullHolder:Center()
 
-		KillIcon = vgui.Create("DImage", skullHolder)
-		KillIcon:SetPos((k - 1) * TM.ScreenScale(55) + TM.ScreenScale(2.5), 0)
-		KillIcon:SetSize(TM.ScreenScale(50), 0)
-		KillIcon:SetImage("icons/killicon.png")
-		KillIcon:SizeTo(TM.ScreenScale(50), TM.ScreenScale(50), 0.75, 0, 0.1)
+		killIcon = vgui.Create("DImage", skullHolder)
+		killIcon:SetPos((k - 1) * TM.ScreenScale(55) + TM.ScreenScale(2.5), 0)
+		killIcon:SetSize(TM.ScreenScale(50), 0)
+		killIcon:SetImage("icons/killicon.png")
+		killIcon:SizeTo(TM.ScreenScale(50), TM.ScreenScale(50), 0.75, 0, 0.1)
 
 		if v == 1 then
-			KillIcon:SetImageColor(COLORS.red)
+			killIcon:SetImageColor(COLORS.red)
 		else
-			KillIcon:SetImageColor(COLORS.white)
+			killIcon:SetImageColor(COLORS.white)
 		end
 	end
 
@@ -1069,68 +1069,78 @@ net.Receive("NotifyKill", function(len)
 	end
 
 	if killStreak >= 3 then
-		onstreakScore = 10 * killStreak
+		local onstreakScore = 10 * killStreak
 		accoladeList = accoladeList .. "On Streak +" .. onstreakScore .. " | "
 	end
 
 	if killedPlayer:GetNWInt("killStreak") >= 3 then
-		buzzkillScore = 10 * killedPlayer:GetNWInt("killStreak")
+		local buzzkillScore = 10 * killedPlayer:GetNWInt("killStreak")
 		accoladeList = accoladeList ..  "Buzz Kill +" .. buzzkillScore .. " | "
 	end
 
 	local streakColor
-	local orangeColor = Color(255, 200, 100)
-	local redColor = Color(255, 50, 50)
 	local rainbowSpeed = 160
 	local rainbowColor = HSVToColor((CurTime() * rainbowSpeed) % 360, 1, 1)
 
-	-- dynamic text color depending on the killstreak of the player
 	if killStreak <= 2 then
 		streakColor = COLORS.white
 	elseif killStreak <= 4 then
-		streakColor = orangeColor
+		streakColor = COLORS.streakOrange
 	elseif killStreak <= 6 then
-		streakColor = redColor
+		streakColor = COLORS.streakRed
 	end
 
-	killNotif.Paint = function(self, w, h)
+	local killedName = killedPlayer:Nick()
+
+	function killNotif:Paint(w, h)
 		if !IsValid(killedPlayer) then killNotif:Remove() return end
-		if killStreak >= 7 then streakColor = rainbowColor end
+
+		if killStreak >= 7 then
+			streakColor = rainbowColor
+		end
+
 		rainbowColor = HSVToColor((CurTime() * rainbowSpeed) % 360, 1, 1)
 
-		if killStreak > 1 then draw.SimpleText(killStreak .. " Kills", "HUD_StreakText", w / 2, TM.ScreenScale(25), streakColor, TEXT_ALIGN_CENTER) end
-		draw.SimpleText(killedPlayer:Nick(), "HUD_PlayerNotiName", w / 2, TM.ScreenScale(100), COLORS.white, TEXT_ALIGN_CENTER)
-		draw.SimpleText(string.sub(accoladeList, 1, -4), "HUD_StreakText", w / 2, TM.ScreenScale(160), COLORS.white, TEXT_ALIGN_CENTER)
+		if killStreak > 1 then
+			draw.DrawText(killStreak .. " KILLS", "HUD_StreakText", w / 2, TM.ScreenScale(25), streakColor, TEXT_ALIGN_CENTER)
+		end
+
+		draw.DrawText(killedName, "HUD_PlayerNotiName", w / 2, TM.ScreenScale(100), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.DrawText(string.sub(accoladeList, 1, -4), "HUD_StreakText", w / 2, TM.ScreenScale(160), COLORS.white, TEXT_ALIGN_CENTER)
 	end
 
-	killNotif:Show()
-	killNotif:MakePopup()
-	killNotif:SetMouseInputEnabled(false)
-	killNotif:SetKeyboardInputEnabled(false)
-
-	if sounds["kill_enabled"] == 1 then
-		if lastHitIn == 1 then surface.PlaySound("hitsound/kill_" .. sounds["hs_kill"] .. ".wav") else surface.PlaySound("hitsound/kill_" .. sounds["kill"] .. ".wav") end
+	if sfxKill then
+		if lastHitIn == 1 then
+			surface.PlaySound("hitsound/kill_" .. sfxKillHeadStyle .. ".wav")
+		else
+			surface.PlaySound("hitsound/kill_" .. sfxKillStyle .. ".wav")
+		end
 	end
 
 	timer.Create("killNotification", 3.5, 1, function()
 		if IsValid(killNotif) then
 			killNotif:MoveTo(0, ScrH(), 0.5, 0, 0.15)
+
 			killNotif:SizeTo(ScrW(), 0, 0.5, 0, 0.1, function()
 				killNotif:Remove()
 				table.Empty(multiArray)
 			end)
-			KillIcon:SizeTo(TM.ScreenScale(50), 0, 0.25, 0, 0.1, function()
-				KillIcon:Remove()
+
+			killIcon:SizeTo(TM.ScreenScale(50), 0, 0.25, 0, 0.1, function()
+				killIcon:Remove()
 			end)
 		end
 	end)
 end)
 
--- displays after a player dies to another player
 net.Receive("NotifyDeath", function(len)
-	if timer.Exists("CrankedTimeUntilDeath") then hook.Remove("Think", "CrankedTimeLeft") end
+	if timer.Exists("CrankedTimeUntilDeath") then
+		hook.Remove("Think", "CrankedTimeLeft")
+	end
+
 	timeUntilSelfDestruct = 0
-	if convars["hud_enable"] == 0 then return end
+
+	if !hudEnable then return end
 	if gameEnded then return end
 
 	local killedBy = net.ReadEntity()
@@ -1140,76 +1150,76 @@ net.Receive("NotifyDeath", function(len)
 	local respawnTimeLeft = 4
 
 	if IsValid(killNotif) then killNotif:Remove() end
-	if IsValid(DeathNotif) then DeathNotif:Remove() end
+	if IsValid(deathNotif) then deathNotif:Remove() end
 
 	table.Empty(multiArray)
 
-
-
 	timer.Create("respawnTimeHideHud", 4, 1, function()
-		DeathNotif:Remove()
+		deathNotif:Remove()
+
 		hook.Remove("Think", "ShowRespawnTime")
 	end)
 
-	hook.Add("Think", "ShowRespawnTime", function() if timer.Exists("respawnTimeHideHud") then respawnTimeLeft = math.Round(timer.TimeLeft("respawnTimeHideHud"), 1) end end)
+	hook.Add("Think", "ShowRespawnTime", function()
+		if timer.Exists("respawnTimeHideHud") then
+			respawnTimeLeft = math.Round(timer.TimeLeft("respawnTimeHideHud"), 1)
+		end
+	end)
 
-	DeathNotif = vgui.Create("DFrame")
-	DeathNotif:SetSize(ScrW(), TM.ScreenScale(300))
-	DeathNotif:SetX(0)
-	DeathNotif:SetY(ScrH() - TM.ScreenScale(335))
-	DeathNotif:SetTitle("")
-	DeathNotif:SetDraggable(false)
-	DeathNotif:ShowCloseButton(false)
-	DeathNotif:SetAlpha(0)
+	deathNotif = vgui.Create("DPanel", GetHUDPanel())
+	deathNotif:SetSize(ScrW(), TM.ScreenScale(300))
+	deathNotif:SetX(0)
+	deathNotif:SetY(ScrH() - TM.ScreenScale(335))
 
-	DeathNotif:AlphaTo(255, 0.05, 0)
+	local killerName = killedBy:Nick()
+	local killerHP = killedBy:Health()
 
-	DeathNotif.Paint = function(self, w, h)
-		if !IsValid(killedBy) then DeathNotif:Remove() return end
+	function deathNotif:Paint(w, h)
+		if !IsValid(killedBy) then deathNotif:Remove() return end
 
 		if lastHitIn == 1 then
-			draw.SimpleText(killedFrom .. "m" .. " HS", "HUD_WepNameKill", w / 2 + TM.ScreenScale(10), TM.ScreenScale(151), COLORS.red, TEXT_ALIGN_LEFT)
+			draw.DrawText(killedFrom .. "m" .. " HS", "HUD_WepNameKill", w / 2 + TM.ScreenScale(10), TM.ScreenScale(151), COLORS.red, TEXT_ALIGN_LEFT)
 		else
-			draw.SimpleText(killedFrom .. "m", "HUD_WepNameKill", w / 2 + TM.ScreenScale(10), TM.ScreenScale(151), COLORS.white, TEXT_ALIGN_LEFT)
+			draw.DrawText(killedFrom .. "m", "HUD_WepNameKill", w / 2 + TM.ScreenScale(10), TM.ScreenScale(151), COLORS.white, TEXT_ALIGN_LEFT)
 		end
 
-		draw.SimpleText("Killed by", "HUD_StreakText", w / 2, TM.ScreenScale(-3), COLORS.white, TEXT_ALIGN_CENTER)
-		draw.SimpleText("|", "HUD_PlayerDeathName", w / 2, TM.ScreenScale(117.5), COLORS.white, TEXT_ALIGN_CENTER)
-		draw.SimpleText("|", "HUD_PlayerDeathName", w / 2, TM.ScreenScale(142), COLORS.white, TEXT_ALIGN_CENTER)
-		draw.SimpleText(killedBy:Nick(), "HUD_PlayerDeathName", w / 2 - TM.ScreenScale(10), TM.ScreenScale(117.5), COLORS.white, TEXT_ALIGN_RIGHT)
-		draw.SimpleText(killedWith, "HUD_PlayerDeathName", w / 2 + TM.ScreenScale(10), TM.ScreenScale(117.5), COLORS.white, TEXT_ALIGN_LEFT)
+		draw.DrawText("ELIMINATED", "HUD_StreakText", w / 2, TM.ScreenScale(-3), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.DrawText("|", "HUD_PlayerDeathName", w / 2, TM.ScreenScale(117), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.DrawText("|", "HUD_PlayerDeathName", w / 2, TM.ScreenScale(142), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.DrawText(killerName, "HUD_PlayerDeathName", w / 2 - TM.ScreenScale(10), TM.ScreenScale(117), COLORS.white, TEXT_ALIGN_RIGHT)
+		draw.DrawText(killedWith, "HUD_PlayerDeathName", w / 2 + TM.ScreenScale(10), TM.ScreenScale(117), COLORS.white, TEXT_ALIGN_LEFT)
 
-		if killedBy:Health() <= 0 then
-			draw.SimpleText("DEAD", "HUD_WepNameKill", w / 2 - TM.ScreenScale(10), TM.ScreenScale(151), COLORS.red, TEXT_ALIGN_RIGHT)
+		if killerHP <= 0 then
+			draw.DrawText("DEAD", "HUD_WepNameKill", w / 2 - TM.ScreenScale(10), TM.ScreenScale(151), COLORS.red, TEXT_ALIGN_RIGHT)
 		else
-			draw.SimpleText(killedBy:Health() .. "HP", "HUD_WepNameKill", w / 2 - TM.ScreenScale(10), TM.ScreenScale(151), COLORS.white, TEXT_ALIGN_RIGHT)
+			draw.DrawText(killerHP .. "HP", "HUD_WepNameKill", w / 2 - TM.ScreenScale(10), TM.ScreenScale(151), COLORS.white, TEXT_ALIGN_RIGHT)
 		end
 
-		draw.SimpleText("Respawning in " .. respawnTimeLeft .. "s", "HUD_StreakText", w / 2 - TM.ScreenScale(10), TM.ScreenScale(192), COLORS.white, TEXT_ALIGN_CENTER)
-		draw.SimpleText("Press [" .. string.upper(input.GetKeyName(convars["menu_bind"])) .. "] to open menu", "HUD_WepNameKill", w / 2, TM.ScreenScale(211), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.DrawText("Respawning in " .. respawnTimeLeft .. "s", "HUD_StreakText", w / 2 - TM.ScreenScale(10), TM.ScreenScale(192), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.DrawText("[" .. string.upper(input.GetKeyName(bindMenu)) .. "] MENU", "HUD_WepNameKill", w / 2, TM.ScreenScale(211), COLORS.white, TEXT_ALIGN_CENTER)
 	end
 
-	KilledByCallingCard = vgui.Create("DImage", DeathNotif)
-	KilledByCallingCard:SetPos(ScrW() / 2 - TM.ScreenScale(120), TM.ScreenScale(20))
-	KilledByCallingCard:SetSize(TM.ScreenScale(240), TM.ScreenScale(80))
-	if IsValid(killedBy) then KilledByCallingCard:SetImage(killedBy:GetNWString("chosenPlayercard"), "cards/color/black.png") end
+	local killedByCallingCard = vgui.Create("DImage", deathNotif)
+	killedByCallingCard:SetPos(ScrW() / 2 - TM.ScreenScale(120), TM.ScreenScale(20))
+	killedByCallingCard:SetSize(TM.ScreenScale(240), TM.ScreenScale(80))
 
-	KilledByPlayerProfilePicture = vgui.Create("AvatarImage", KilledByCallingCard)
-	KilledByPlayerProfilePicture:SetPos(TM.ScreenScale(5), TM.ScreenScale(5))
-	KilledByPlayerProfilePicture:SetSize(TM.ScreenScale(70), TM.ScreenScale(70))
-	KilledByPlayerProfilePicture:SetPlayer(killedBy, 184)
+	if IsValid(killedBy) then
+		killedByCallingCard:SetImage(killedBy:GetNWString("chosenPlayercard"), "cards/color/black.png")
+	end
 
-	if convars["screen_flashes"] == 1 then
+	local killedByPlayerProfilePicture = vgui.Create("AvatarImage", killedByCallingCard)
+	killedByPlayerProfilePicture:SetPos(TM.ScreenScale(5), TM.ScreenScale(5))
+	killedByPlayerProfilePicture:SetSize(TM.ScreenScale(70), TM.ScreenScale(70))
+
+	if IsValid(killedBy) then
+		killedByPlayerProfilePicture:SetPlayer(killedBy, 184)
+	end
+
+	if screenfx then
 		LocalPlayer():ScreenFade(SCREENFADE.IN, Color(255, 0, 0, 45), 0.3, 0)
 	end
-
-	DeathNotif:Show()
-	DeathNotif:MakePopup()
-	DeathNotif:SetMouseInputEnabled(false)
-	DeathNotif:SetKeyboardInputEnabled(false)
 end)
 
--- displays to all players when a map vote begins
 net.Receive("EndOfGame", function(len)
 	gameEnded = true
 
@@ -1222,8 +1232,8 @@ net.Receive("EndOfGame", function(len)
 	local gamemodeDecided = false
 	local decidedMap
 	local decidedMode
-	local VOIPActive = false
-	local MuteActive = false
+	local voipActive = false
+	local muteActive = false
 	local bonusXP = 750
 
 	net.Receive("MapVoteSkipped", function(len)
@@ -1232,25 +1242,13 @@ net.Receive("EndOfGame", function(len)
 	end)
 
 	if IsValid(killNotif) then killNotif:Remove() end
-	if IsValid(DeathNotif) then DeathNotif:Remove() end
-	if IsValid(EndOfGameUI) then EndOfGameUI:Remove() end
+	if IsValid(deathNotif) then deathNotif:Remove() end
+	if IsValid(endOfGameUI) then endOfGameUI:Remove() end
 	if IsValid(kothPFP) then kothPFP:Remove() end
-	if IsValid(VIPPFP) then VIPPFP:Remove() end
+	if IsValid(vipPFP) then vipPFP:Remove() end
 
-	hook.Remove("Think", "UpdateKOTHPFP")
-	hook.Remove("Think", "UpdateVIPPFP")
 	hook.Remove("PlayerStartVoice", "ImageOnVoice")
 	hook.Remove("PlayerEndVoice", "ImageOnVoice")
-
-	hook.Add("Think", "RenderEORBehindPauseMenu", function()
-		if !IsValid(EndOfGameUI) then return end
-
-		if !gui.IsGameUIVisible() then
-			EndOfGameUI:Show()
-		else
-			EndOfGameUI:Hide()
-		end
-	end)
 
 	local firstMap = net.ReadString()
 	local secondMap = net.ReadString()
@@ -1302,7 +1300,7 @@ net.Receive("EndOfGame", function(len)
 	end
 
 	local timeUntilNextMatch = 33
-	local VotingActive = false
+	local votingActive = false
 
 	local connectedPlayers = player.GetHumans()
 
@@ -1324,24 +1322,15 @@ net.Receive("EndOfGame", function(len)
 	end
 
 	timer.Create("timeUntilNextMatch", 32, 1, function()
-		hook.Add("Think", "RenderBehindPauseMenu", function()
-			if !IsValid(LoadingPrompt) then return end
-			if !gui.IsGameUIVisible() then LoadingPrompt:Show() else LoadingPrompt:Hide() end
-		end)
+		local loadingPrompt = vgui.Create("DPanel", GetHUDPanel())
+		loadingPrompt:SetSize(ScrW(), ScrH())
+		loadingPrompt:Center()
 
-		LoadingPrompt = vgui.Create("DFrame")
-		LoadingPrompt:SetSize(ScrW(), ScrH())
-		LoadingPrompt:Center()
-		LoadingPrompt:SetTitle("")
-		LoadingPrompt:SetDraggable(false)
-		LoadingPrompt:ShowCloseButton(false)
-		LoadingPrompt:SetDeleteOnClose(false)
-		LoadingPrompt:MakePopup()
+		function loadingPrompt:Paint(w, h)
+			BlurPanel(loadingPrompt, 10)
 
-		LoadingPrompt.Paint = function(self, w, h)
-			BlurPanel(LoadingPrompt, 10)
 			surface.SetDrawColor(35, 35, 35, 165)
-			surface.DrawRect(0, 0, LoadingPrompt:GetWide(), LoadingPrompt:GetTall())
+			surface.DrawRect(0, 0, loadingPrompt:GetWide(), loadingPrompt:GetTall())
 
 			surface.SetMaterial(MATS.gradientL)
 			surface.SetDrawColor(gradLColor)
@@ -1351,13 +1340,10 @@ net.Receive("EndOfGame", function(len)
 			surface.SetDrawColor(gradRColor)
 			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 
-			draw.SimpleText("LOADING NEXT MATCH", "QuoteText", w / 2, h / 2, COLORS.white, TEXT_ALIGN_CENTER)
+			draw.DrawText("LOADING NEXT MATCH", "QuoteText", w / 2, h / 2, COLORS.white, TEXT_ALIGN_CENTER)
 		end
 	end)
 
-	timer.Create("ShowVotingMenu", 8, 1, function() StartVotingPhase() end)
-
-	-- determine who won the match
 	for k, v in ipairs(connectedPlayers) do
 		if k == 1 then
 			winningPlayer = v
@@ -1372,150 +1358,176 @@ net.Receive("EndOfGame", function(len)
 	local expandTime = 4
 
 	local anchorAnim = ScrH() / 2 - TM.MenuScale(110)
-	timer.Create("ExpandDetails", expandTime, 1, function()
-		anchorAnim = ScrH() / 2 - TM.MenuScale(220)
-		ExpandDetails()
-	end)
 
-	function HideHudPostGame(name)
-		for _, v in pairs({"CHudHealth", "CHudBattery", "CHudAmmo", "CHudSecondaryAmmo", "CHudZoom", "CHudVoiceStatus", "CHudDamageIndicator", "CHUDQuickInfo", "CHudCrosshair"}) do
-			if name == v then return false end
-		end
-	end
-	hook.Add("HUDShouldDraw", "HideDefaultHudPostGame", HideHudPostGame)
-
-	local MatchEndMusic
+	local matchEndMusic
 	local textAnim = ScrH()
 	local textAnimTwo = ScrH()
 	local levelAnim = 0
 	local xpCountUp = 0
 	local quote = QUOTES[math.random(#QUOTES)]
 
+	local matchWinLoseText
+
 	if wonMatch == true then
 		LocalPlayer():ScreenFade(SCREENFADE.OUT, Color(50, 50, 0, 190), 1, 7)
-		MatchEndMusic = CreateSound(LocalPlayer(), "music/matchvictory_" .. math.random(1, 3) .. ".mp3")
-		MatchEndMusic:Play()
-		MatchEndMusic:ChangeVolume(convars["music_volume"] * 0.75)
 
-		MatchWinLoseText = vgui.Create("DPanel")
-		MatchWinLoseText:SetSize(TM.MenuScale(800), TM.MenuScale(220))
-		MatchWinLoseText:SetPos(ScrW() / 2 - TM.MenuScale(400), ScrH())
-		MatchWinLoseText:MakePopup()
-		MatchWinLoseText.Paint = function(self, w, h)
-			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 0))
+		matchEndMusic = CreateSound(LocalPlayer(), "music/matchvictory_" .. math.random(1, 3) .. ".mp3")
+		matchEndMusic:Play()
+		matchEndMusic:ChangeVolume(musicVolume)
+
+		matchWinLoseText = vgui.Create("DPanel", GetHUDPanel())
+		matchWinLoseText:SetSize(TM.MenuScale(800), TM.MenuScale(220))
+		matchWinLoseText:SetPos(ScrW() / 2 - TM.MenuScale(400), ScrH())
+
+		function matchWinLoseText:Paint(w, h)
 			textAnim = math.Clamp(textAnim - TM.MenuScale(1500) * FrameTime(), anchorAnim, ScrH())
-			MatchWinLoseText:SetY(textAnim)
+			matchWinLoseText:SetY(textAnim)
 
-			draw.SimpleText("VICTORY", "MatchEndText", w / 2, h / 2 - TM.MenuScale(90), COLORS.white, TEXT_ALIGN_CENTER)
-			draw.SimpleText(quote, "QuoteText", w / 2, h / 2 + TM.MenuScale(60), COLORS.white, TEXT_ALIGN_CENTER)
+			draw.DrawText("VICTORY", "MatchEndText", w / 2, h / 2 - TM.MenuScale(90), COLORS.white, TEXT_ALIGN_CENTER)
+			draw.DrawText(quote, "QuoteText", w / 2, h / 2 + TM.MenuScale(60), COLORS.white, TEXT_ALIGN_CENTER)
 		end
 	else
 		LocalPlayer():ScreenFade(SCREENFADE.OUT, Color(50, 0, 0, 190), 1, 7)
-		MatchEndMusic = CreateSound(LocalPlayer(), "music/matchdefeat_" .. math.random(1, 3) .. ".mp3")
-		MatchEndMusic:Play()
-		MatchEndMusic:ChangeVolume(convars["music_volume"])
 
-		MatchWinLoseText = vgui.Create("DPanel")
-		MatchWinLoseText:SetSize(TM.MenuScale(800), TM.MenuScale(220))
-		MatchWinLoseText:SetPos(ScrW() / 2 - TM.MenuScale(400), ScrH())
-		MatchWinLoseText:MakePopup()
-		MatchWinLoseText.Paint = function(self, w, h)
-			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 0))
+		matchEndMusic = CreateSound(LocalPlayer(), "music/matchdefeat_" .. math.random(1, 3) .. ".mp3")
+		matchEndMusic:Play()
+		matchEndMusic:ChangeVolume(musicVolume)
+
+		matchWinLoseText = vgui.Create("DPanel", GetHUDPanel())
+		matchWinLoseText:SetSize(TM.MenuScale(800), TM.MenuScale(220))
+		matchWinLoseText:SetPos(ScrW() / 2 - TM.MenuScale(400), ScrH())
+
+		function matchWinLoseText:Paint(w, h)
 			textAnim = math.Clamp(textAnim - TM.MenuScale(1500) * FrameTime(), anchorAnim, ScrH())
-			MatchWinLoseText:SetY(textAnim)
+			matchWinLoseText:SetY(textAnim)
 
-			draw.SimpleText("DEFEAT", "MatchEndText", w / 2, h / 2 - TM.MenuScale(90), COLORS.white, TEXT_ALIGN_CENTER)
-			draw.SimpleText(quote, "QuoteText", w / 2, h / 2 + TM.MenuScale(60), COLORS.white, TEXT_ALIGN_CENTER)
+			draw.DrawText("DEFEAT", "MatchEndText", w / 2, h / 2 - TM.MenuScale(90), COLORS.white, TEXT_ALIGN_CENTER)
+			draw.DrawText(quote, "QuoteText", w / 2, h / 2 + TM.MenuScale(60), COLORS.white, TEXT_ALIGN_CENTER)
 		end
 	end
 
-	function ExpandDetails()
-		DetailsPanel = vgui.Create("DPanel")
-		DetailsPanel:SetSize(TM.MenuScale(800), TM.MenuScale(220))
-		DetailsPanel:SetPos(ScrW() / 2 - TM.MenuScale(400), ScrH())
-		DetailsPanel:MakePopup()
-		DetailsPanel.Paint = function(self, w, h)
-			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 0))
+	local detailsPanel
+
+	local function ExpandDetails()
+		detailsPanel = vgui.Create("DPanel", GetHUDPanel())
+		detailsPanel:SetSize(TM.MenuScale(800), TM.MenuScale(220))
+		detailsPanel:SetPos(ScrW() / 2 - TM.MenuScale(400), ScrH())
+
+		function detailsPanel:Paint(w, h)
 			textAnimTwo = math.Clamp(textAnimTwo - TM.MenuScale(3000) * FrameTime(), ScrH() / 2, ScrH())
-			DetailsPanel:SetY(textAnimTwo)
+			detailsPanel:SetY(textAnimTwo)
+
 			if LocalPlayer():GetNWInt("playerLevel") != 60 then
 				levelAnim = math.Clamp(levelAnim + (LocalPlayer():GetNWInt("playerXP") / LocalPlayer():GetNWInt("playerXPToNextLevel")) * FrameTime(), 0, LocalPlayer():GetNWInt("playerXP") / LocalPlayer():GetNWInt("playerXPToNextLevel"))
 				xpCountUp = math.Clamp(xpCountUp + LocalPlayer():GetNWInt("playerXP") * FrameTime(), 0, LocalPlayer():GetNWInt("playerXP"))
 
 				surface.SetDrawColor(30, 30, 30, 150)
 				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), TM.MenuScale(600), TM.MenuScale(15))
+
 				surface.SetDrawColor(255, 255, 255)
 				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), levelAnim * TM.MenuScale(600), TM.MenuScale(15))
-				draw.SimpleText(LocalPlayer():GetNWInt("playerLevel"), "StreakText", w / 2 - TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_LEFT)
-				draw.SimpleText(LocalPlayer():GetNWInt("playerLevel") + 1, "StreakText", w / 2 + TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_RIGHT)
-				draw.SimpleText(math.Round(xpCountUp) .. " / " .. LocalPlayer():GetNWInt("playerXPToNextLevel") .. "XP  ^", "StreakText", (w / 2 - TM.MenuScale(295)) + (levelAnim * TM.MenuScale(600)), TM.MenuScale(75), COLORS.white, TEXT_ALIGN_RIGHT)
-				draw.SimpleText("Earned " .. LocalPlayer():GetNWInt("playerScoreMatch") .. "XP + " .. bonusXP .. "XP Bonus", "StreakText", w / 2, TM.MenuScale(100), COLORS.white, TEXT_ALIGN_CENTER)
+
+				draw.DrawText(LocalPlayer():GetNWInt("playerLevel"), "StreakText", w / 2 - TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_LEFT)
+				draw.DrawText(LocalPlayer():GetNWInt("playerLevel") + 1, "StreakText", w / 2 + TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_RIGHT)
+				draw.DrawText(math.Round(xpCountUp) .. " / " .. LocalPlayer():GetNWInt("playerXPToNextLevel") .. "XP  ^", "StreakText", (w / 2 - TM.MenuScale(295)) + (levelAnim * TM.MenuScale(600)), TM.MenuScale(75), COLORS.white, TEXT_ALIGN_RIGHT)
+				draw.DrawText("Earned " .. LocalPlayer():GetNWInt("playerScoreMatch") .. "XP + " .. bonusXP .. "XP Bonus", "StreakText", w / 2, TM.MenuScale(100), COLORS.white, TEXT_ALIGN_CENTER)
 			else
 				levelAnim = math.Clamp(levelAnim + (1 / 1) * FrameTime(), 0, 1)
 
 				surface.SetDrawColor(30, 30, 30, 150)
 				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), TM.MenuScale(600), TM.MenuScale(15))
+
 				surface.SetDrawColor(255, 255, 255)
 				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), levelAnim * TM.MenuScale(600), TM.MenuScale(15))
-				draw.SimpleText("MAX LEVEL", "StreakText", w / 2, TM.MenuScale(25), COLORS.white, TEXT_ALIGN_CENTER)
-				draw.SimpleText("Prestige at the Main Menu", "StreakText", w / 2, TM.MenuScale(65), COLORS.white, TEXT_ALIGN_CENTER)
+
+				draw.DrawText("MAX LEVEL", "StreakText", w / 2, TM.MenuScale(25), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.DrawText("Prestige at the Main Menu", "StreakText", w / 2, TM.MenuScale(65), COLORS.white, TEXT_ALIGN_CENTER)
 			end
 		end
 	end
 
-	hook.Add("Think", "VotingTimerUpdate", function() if timer.Exists("timeUntilNextMatch") then timeUntilNextMatch = math.Round(timer.TimeLeft("timeUntilNextMatch")) end end)
+	timer.Create("ExpandDetails", expandTime, 1, function()
+		anchorAnim = ScrH() / 2 - TM.MenuScale(220)
+		ExpandDetails()
+	end)
 
-	EndOfGameUI = vgui.Create("DFrame")
-	EndOfGameUI:SetSize(ScrW(), ScrH())
-	EndOfGameUI:SetPos(0, 0)
-	EndOfGameUI:SetTitle("")
-	EndOfGameUI:SetDraggable(false)
-	EndOfGameUI:ShowCloseButton(false)
-	EndOfGameUI:MakePopup()
-	EndOfGameUI.Paint = function(self, w, h)
-		if VotingActive == false then return end
-		BlurPanel(EndOfGameUI, 10)
-		draw.RoundedBox(0, 0, 0, w, h, Color(50, 50, 50, 225))
-		if timeUntilNextMatch > 10 then
-			draw.SimpleText("Voting ends in " .. timeUntilNextMatch - 10 .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(55), COLORS.white, TEXT_ALIGN_LEFT)
-			draw.SimpleText("Match begins in " .. timeUntilNextMatch .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(30), COLORS.white, TEXT_ALIGN_LEFT)
-		else
-			draw.SimpleText("Match begins in " .. timeUntilNextMatch .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(30), COLORS.white, TEXT_ALIGN_LEFT)
+	hook.Add("Think", "VotingTimerUpdate", function()
+		if timer.Exists("timeUntilNextMatch") then
+			timeUntilNextMatch = math.Round(timer.TimeLeft("timeUntilNextMatch"))
 		end
-		if VOIPActive == true then draw.DrawText("MIC ENABLED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(235), Color(0, 255, 0), TEXT_ALIGN_LEFT) else draw.DrawText("MIC DISABLED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(235), Color(255, 0, 0), TEXT_ALIGN_LEFT) end
-		if MuteActive == false then draw.DrawText("NOT MUTED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(260), Color(0, 255, 0), TEXT_ALIGN_LEFT) else draw.DrawText("MUTED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(260), Color(255, 0, 0), TEXT_ALIGN_LEFT) end
-		draw.SimpleText("Had fun?", "MainMenuLoadoutWeapons", TM.MenuScale(700), ScrH() - TM.MenuScale(55), COLORS.white, TEXT_ALIGN_LEFT)
+	end)
+
+	endOfGameUI = vgui.Create("DPanel", GetHUDPanel())
+	endOfGameUI:SetSize(ScrW(), ScrH())
+	endOfGameUI:SetPos(0, 0)
+
+	function endOfGameUI.Paint(w, h)
+		if !votingActive  then return end
+
+		BlurPanel(endOfGameUI, 10)
+
+		surface.SetDrawColor(50, 50, 50, 225)
+		surface.DrawRect(0, 0, w, h)
+
+		if timeUntilNextMatch > 10 then
+			draw.DrawText("Voting ends in " .. timeUntilNextMatch - 10 .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(55), COLORS.white, TEXT_ALIGN_LEFT)
+			draw.DrawText("Match begins in " .. timeUntilNextMatch .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(30), COLORS.white, TEXT_ALIGN_LEFT)
+		else
+			draw.DrawText("Match begins in " .. timeUntilNextMatch .. "s", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(30), COLORS.white, TEXT_ALIGN_LEFT)
+		end
+
+		if voipActive == true then
+			draw.DrawText("MIC ENABLED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(235), Color(0, 255, 0), TEXT_ALIGN_LEFT)
+		else
+			draw.DrawText("MIC DISABLED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(235), Color(255, 0, 0), TEXT_ALIGN_LEFT)
+		end
+
+		if muteActive == false then
+			draw.DrawText("NOT MUTED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(260), Color(0, 255, 0), TEXT_ALIGN_LEFT)
+		else
+			draw.DrawText("MUTED", "MainMenuLoadoutWeapons", TM.MenuScale(485), ScrH() - TM.MenuScale(260), Color(255, 0, 0), TEXT_ALIGN_LEFT)
+		end
+
+		draw.DrawText("HAD FUN?", "MainMenuLoadoutWeapons", TM.MenuScale(700), ScrH() - TM.MenuScale(55), COLORS.white, TEXT_ALIGN_LEFT)
 
 		surface.SetFont("MainMenuLoadoutWeapons")
+
 		for k, v in pairs(chatArray) do
-			surface.SetDrawColor(25, 25, 25, 100)
 			local textLength = select(1, surface.GetTextSize(v))
 
+			surface.SetDrawColor(25, 25, 25, 100)
 			surface.DrawRect(TM.MenuScale(485), TM.MenuScale(50) + ((k - 1) * TM.MenuScale(35)), textLength + TM.MenuScale(5), TM.MenuScale(30))
-			draw.SimpleText(v, "MainMenuLoadoutWeapons", TM.MenuScale(487), TM.MenuScale(64) + ((k - 1) * TM.MenuScale(35)), COLORS.white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
+			draw.DrawText(v, "MainMenuLoadoutWeapons", TM.MenuScale(487), TM.MenuScale(64) + ((k - 1) * TM.MenuScale(35)), COLORS.white, TEXT_ALIGN_LEFT)
 		end
 	end
 
-	function StartVotingPhase()
-		if IsValid(MatchWinLoseText) then MatchWinLoseText:Remove() end
-		if IsValid(DetailsPanel) then DetailsPanel:Remove() end
+	local function StartVotingPhase()
+		if IsValid(matchWinLoseText) then matchWinLoseText:Remove() end
+		if IsValid(detailsPanel) then detailsPanel:Remove() end
 
 		LocalPlayer():SetDSP(0)
-		MatchEndMusic:ChangeVolume(0.2)
-		VotingActive = true
+		matchEndMusic:ChangeVolume(0.2)
 
-		local EndOfGamePanel = vgui.Create("DPanel", EndOfGameUI)
-		EndOfGamePanel:SetSize(TM.MenuScale(475), ScrH())
-		EndOfGamePanel.Paint = function(self, w, h)
-			draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 100))
+		votingActive = true
+
+		local endOfGamePanel = vgui.Create("DPanel", endOfGameUI)
+		endOfGamePanel:SetSize(TM.MenuScale(475), ScrH())
+
+		function endOfGamePanel:Paint(w, h)
+			surface.SetDrawColor(25, 25, 25, 100)
+			surface.DrawRect(0, 0, w, h)
 		end
 
-		local MatchInformationPanel = vgui.Create("DPanel", EndOfGamePanel)
-		MatchInformationPanel:Dock(TOP)
-		MatchInformationPanel:SetSize(0, TM.MenuScale(50))
-		MatchInformationPanel.Paint = function(self, w, h)
-			draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 100))
-			draw.SimpleText("MATCH RESULTS", "GunPrintName", TM.MenuScale(237.5), TM.MenuScale(-3), COLORS.white, TEXT_ALIGN_CENTER)
+		local matchInformationPanel = vgui.Create("DPanel", endOfGamePanel)
+		matchInformationPanel:Dock(TOP)
+		matchInformationPanel:SetSize(0, TM.MenuScale(50))
+
+		function matchInformationPanel:Paint(w, h)
+			surface.SetDrawColor(25, 25, 25, 100)
+			surface.DrawRect(0, 0, w, h)
+
+			draw.DrawText("MATCH RESULTS", "GunPrintName", TM.MenuScale(237), TM.MenuScale(-3), COLORS.white, TEXT_ALIGN_CENTER)
 		end
 
 		local modeOneVotes = 0
@@ -1523,64 +1535,93 @@ net.Receive("EndOfGame", function(len)
 		local mapOneVotes = 0
 		local mapTwoVotes = 0
 		local mapThreeVotes = 0
-		local VotingPanel = vgui.Create("DPanel", EndOfGamePanel)
-		VotingPanel:Dock(BOTTOM)
-		VotingPanel:SetSize(0, TM.MenuScale(290))
-		VotingPanel.Paint = function(self, w, h)
-			draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 100))
-			if mapDecided == false then
+
+		local votingPanel = vgui.Create("DPanel", endOfGamePanel)
+		votingPanel:Dock(BOTTOM)
+		votingPanel:SetSize(0, TM.MenuScale(290))
+
+		function votingPanel:Paint(w, h)
+			surface.SetDrawColor(25, 25, 25, 100)
+			surface.DrawRect(0, 0, w, h)
+
+			if !mapDecided then
 				if GetGlobalInt("VotesOnMapOne", 0) != 0 or GetGlobalInt("VotesOnMapTwo", 0) != 0 or GetGlobalInt("VotesOnMapThree", 0) != 0 then
 					mapOneVotes = math.Round(GetGlobalInt("VotesOnMapOne", 0) / (GetGlobalInt("VotesOnMapOne", 0) + GetGlobalInt("VotesOnMapTwo", 0) + GetGlobalInt("VotesOnMapThree", 0)) * 100)
 					mapTwoVotes = math.Round(GetGlobalInt("VotesOnMapTwo") / (GetGlobalInt("VotesOnMapTwo", 0) + GetGlobalInt("VotesOnMapOne", 0) + GetGlobalInt("VotesOnMapThree", 0)) * 100)
 					mapThreeVotes = math.Round(GetGlobalInt("VotesOnMapThree") / (GetGlobalInt("VotesOnMapThree", 0) + GetGlobalInt("VotesOnMapOne", 0) + GetGlobalInt("VotesOnMapTwo", 0)) * 100)
 				end
-				if mapPicked == 1 then draw.RoundedBox(0, TM.MenuScale(10), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5), Color(50, 125, 50, 75)) end
-				if mapPicked == 2 then draw.RoundedBox(0, TM.MenuScale(165), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5), Color(50, 125, 50, 75)) end
-				if mapPicked == 3 then draw.RoundedBox(0, TM.MenuScale(320), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5), Color(50, 125, 50, 75)) end
-				draw.SimpleText("MAP VOTE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
 
-				draw.SimpleText(firstMapName, "MainMenuLoadoutWeapons", TM.MenuScale(10), TM.MenuScale(260), COLORS.white, TEXT_ALIGN_LEFT)
-				draw.SimpleText(secondMapName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(260), COLORS.white, TEXT_ALIGN_CENTER)
-				draw.SimpleText(thirdMapName, "MainMenuLoadoutWeapons", TM.MenuScale(465), TM.MenuScale(260), COLORS.white, TEXT_ALIGN_RIGHT)
-				draw.SimpleText(mapOneVotes .. "% | " .. mapTwoVotes .. "% | " .. mapThreeVotes .. "%", "StreakText", w / 2, TM.MenuScale(55), COLORS.white, TEXT_ALIGN_CENTER)
+				surface.SetDrawColor(50, 125, 50, 75)
+
+				if mapPicked == 1 then
+					surface.DrawRect(TM.MenuScale(10), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5))
+				end
+
+				if mapPicked == 2 then
+					surface.DrawRect(TM.MenuScale(165), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5))
+				end
+
+				if mapPicked == 3 then
+					surface.DrawRect(TM.MenuScale(320), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5))
+				end
+
+				draw.DrawText("MAP VOTE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
+
+				draw.DrawText(firstMapName, "MainMenuLoadoutWeapons", TM.MenuScale(10), TM.MenuScale(260), COLORS.white, TEXT_ALIGN_LEFT)
+				draw.DrawText(secondMapName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(260), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.DrawText(thirdMapName, "MainMenuLoadoutWeapons", TM.MenuScale(465), TM.MenuScale(260), COLORS.white, TEXT_ALIGN_RIGHT)
+				draw.DrawText(mapOneVotes .. "% | " .. mapTwoVotes .. "% | " .. mapThreeVotes .. "%", "StreakText", w / 2, TM.MenuScale(55), COLORS.white, TEXT_ALIGN_CENTER)
 			else
-				draw.SimpleText("NEXT MAP", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
-				draw.SimpleText(decidedMapName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(255), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.DrawText("NEXT MAP", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.DrawText(decidedMapName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(255), COLORS.white, TEXT_ALIGN_CENTER)
 			end
 		end
 
-		local GamemodePanel = vgui.Create("DPanel", EndOfGamePanel)
-		GamemodePanel:Dock(BOTTOM)
-		GamemodePanel:SetSize(0, TM.MenuScale(100))
-		GamemodePanel.Paint = function(self, w, h)
-			draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 100))
-			if gamemodeDecided == false then
+		local gamemodePanel = vgui.Create("DPanel", endOfGamePanel)
+		gamemodePanel:Dock(BOTTOM)
+		gamemodePanel:SetSize(0, TM.MenuScale(100))
+
+		function gamemodePanel:Paint(w, h)
+			surface.SetDrawColor(25, 25, 25, 100)
+			surface.DrawRect(0, 0, w, h)
+
+			if !gamemodeDecided then
 				if GetGlobalInt("VotesOnModeOne", 0) != 0 or GetGlobalInt("VotesOnModeTwo", 0) != 0 then
 					modeOneVotes = math.Round(GetGlobalInt("VotesOnModeOne", 0) / (GetGlobalInt("VotesOnModeOne", 0) + GetGlobalInt("VotesOnModeTwo", 0)) * 100)
 					modeTwoVotes = math.Round(GetGlobalInt("VotesOnModeTwo") / (GetGlobalInt("VotesOnModeTwo", 0) + GetGlobalInt("VotesOnModeOne", 0)) * 100)
 				end
-				if gamemodePicked == 1 then draw.RoundedBox(0, TM.MenuScale(10), TM.MenuScale(62.5), TM.MenuScale(175), TM.MenuScale(9), Color(50, 125, 50, 75)) end
-				if gamemodePicked == 2 then draw.RoundedBox(0, TM.MenuScale(290), TM.MenuScale(62.5), TM.MenuScale(175), TM.MenuScale(9), Color(50, 125, 50, 75)) end
-				draw.SimpleText("GAMEMODE VOTE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
-				draw.SimpleText(modeOneVotes .. "% | " .. modeTwoVotes .. "%", "StreakText", w / 2, TM.MenuScale(72), COLORS.white, TEXT_ALIGN_CENTER)
+
+				surface.SetDrawColor(50, 125, 50, 75)
+
+				if gamemodePicked == 1 then
+					surface.DrawRect(TM.MenuScale(10), TM.MenuScale(62), TM.MenuScale(175), TM.MenuScale(9))
+				end
+
+				if gamemodePicked == 2 then
+					surface.DrawRect(TM.MenuScale(290), TM.MenuScale(62), TM.MenuScale(175), TM.MenuScale(9))
+				end
+
+				draw.DrawText("GAMEMODE VOTE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.DrawText(modeOneVotes .. "% | " .. modeTwoVotes .. "%", "StreakText", w / 2, TM.MenuScale(72), COLORS.white, TEXT_ALIGN_CENTER)
 			else
-				draw.SimpleText("NEXT MODE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
-				draw.SimpleText(decidedModeName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(65), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.DrawText("NEXT MODE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.DrawText(decidedModeName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(65), COLORS.white, TEXT_ALIGN_CENTER)
 			end
 		end
 
-		local MapChoice = vgui.Create("DImageButton", VotingPanel)
-		local MapChoiceTwo = vgui.Create("DImageButton", VotingPanel)
-		local MapChoiceThree = vgui.Create("DImageButton", VotingPanel)
-		local ModeChoice = vgui.Create("DButton", GamemodePanel)
-		local ModeChoiceTwo = vgui.Create("DButton", GamemodePanel)
+		local mapChoice = vgui.Create("DImageButton", votingPanel)
+		local mapChoiceTwo = vgui.Create("DImageButton", votingPanel)
+		local mapChoiceThree = vgui.Create("DImageButton", votingPanel)
+		local modeChoice = vgui.Create("DButton", gamemodePanel)
+		local modeChoiceTwo = vgui.Create("DButton", gamemodePanel)
 
-		MapChoice:SetPos(TM.MenuScale(10), TM.MenuScale(85))
-		MapChoice:SetText("")
-		MapChoice:SetSize(TM.MenuScale(145), TM.MenuScale(175))
-		MapChoice:SetImage(firstMapThumb)
-		MapChoice:SetDepressImage(false)
-		MapChoice.DoClick = function()
+		mapChoice:SetPos(TM.MenuScale(10), TM.MenuScale(85))
+		mapChoice:SetText("")
+		mapChoice:SetSize(TM.MenuScale(145), TM.MenuScale(175))
+		mapChoice:SetImage(firstMapThumb)
+		mapChoice:SetDepressImage(false)
+
+		function mapChoice:DoClick()
 			net.Start("ReceiveMapVote")
 				net.WriteString(firstMap)
 				net.WriteString(mapPickedName)
@@ -1593,17 +1634,18 @@ net.Receive("EndOfGame", function(len)
 
 			surface.PlaySound("buttons/button15.wav")
 
-			MapChoice:SetEnabled(false)
-			MapChoiceTwo:SetEnabled(true)
-			MapChoiceThree:SetEnabled(true)
+			self:SetEnabled(false)
+			mapChoiceTwo:SetEnabled(true)
+			mapChoiceThree:SetEnabled(true)
 		end
 
-		MapChoiceTwo:SetPos(TM.MenuScale(165), TM.MenuScale(85))
-		MapChoiceTwo:SetText("")
-		MapChoiceTwo:SetSize(TM.MenuScale(145), TM.MenuScale(175))
-		MapChoiceTwo:SetImage(secondMapThumb)
-		MapChoiceTwo:SetDepressImage(false)
-		MapChoiceTwo.DoClick = function()
+		mapChoiceTwo:SetPos(TM.MenuScale(165), TM.MenuScale(85))
+		mapChoiceTwo:SetText("")
+		mapChoiceTwo:SetSize(TM.MenuScale(145), TM.MenuScale(175))
+		mapChoiceTwo:SetImage(secondMapThumb)
+		mapChoiceTwo:SetDepressImage(false)
+
+		function mapChoiceTwo:DoClick()
 			net.Start("ReceiveMapVote")
 				net.WriteString(secondMap)
 				net.WriteString(mapPickedName)
@@ -1616,17 +1658,18 @@ net.Receive("EndOfGame", function(len)
 
 			surface.PlaySound("buttons/button15.wav")
 
-			MapChoice:SetEnabled(true)
-			MapChoiceTwo:SetEnabled(false)
-			MapChoiceThree:SetEnabled(true)
+			mapChoice:SetEnabled(true)
+			self:SetEnabled(false)
+			mapChoiceThree:SetEnabled(true)
 		end
 
-		MapChoiceThree:SetPos(TM.MenuScale(320), TM.MenuScale(85))
-		MapChoiceThree:SetText("")
-		MapChoiceThree:SetSize(TM.MenuScale(145), TM.MenuScale(175))
-		MapChoiceThree:SetImage(thirdMapThumb)
-		MapChoiceThree:SetDepressImage(false)
-		MapChoiceThree.DoClick = function()
+		mapChoiceThree:SetPos(TM.MenuScale(320), TM.MenuScale(85))
+		mapChoiceThree:SetText("")
+		mapChoiceThree:SetSize(TM.MenuScale(145), TM.MenuScale(175))
+		mapChoiceThree:SetImage(thirdMapThumb)
+		mapChoiceThree:SetDepressImage(false)
+
+		function mapChoiceThree:DoClick()
 			net.Start("ReceiveMapVote")
 				net.WriteString(thirdMap)
 				net.WriteString(mapPickedName)
@@ -1639,16 +1682,17 @@ net.Receive("EndOfGame", function(len)
 
 			surface.PlaySound("buttons/button15.wav")
 
-			MapChoice:SetEnabled(true)
-			MapChoiceTwo:SetEnabled(true)
-			MapChoiceThree:SetEnabled(false)
+			mapChoice:SetEnabled(true)
+			mapChoiceTwo:SetEnabled(true)
+			self:SetEnabled(false)
 		end
 
-		ModeChoice:SetPos(TM.MenuScale(10), TM.MenuScale(70))
-		ModeChoice:SetText(firstModeName)
-		ModeChoice:SetSize(TM.MenuScale(175), TM.MenuScale(30))
-		ModeChoice:SetTooltip(firstModeDesc)
-		ModeChoice.DoClick = function()
+		modeChoice:SetPos(TM.MenuScale(10), TM.MenuScale(70))
+		modeChoice:SetText(firstModeName)
+		modeChoice:SetSize(TM.MenuScale(175), TM.MenuScale(30))
+		modeChoice:SetTooltip(firstModeDesc)
+
+		function modeChoice:DoClick()
 			net.Start("ReceiveModeVote")
 				net.WriteInt(firstMode, 5)
 				net.WriteInt(secondMode, 5)
@@ -1659,15 +1703,16 @@ net.Receive("EndOfGame", function(len)
 
 			surface.PlaySound("buttons/button15.wav")
 
-			ModeChoice:SetEnabled(false)
-			ModeChoiceTwo:SetEnabled(true)
+			self:SetEnabled(false)
+			modeChoiceTwo:SetEnabled(true)
 		end
 
-		ModeChoiceTwo:SetPos(TM.MenuScale(290), TM.MenuScale(70))
-		ModeChoiceTwo:SetText(secondModeName)
-		ModeChoiceTwo:SetSize(TM.MenuScale(175), TM.MenuScale(30))
-		ModeChoiceTwo:SetTooltip(secondModeDesc)
-		ModeChoiceTwo.DoClick = function()
+		modeChoiceTwo:SetPos(TM.MenuScale(290), TM.MenuScale(70))
+		modeChoiceTwo:SetText(secondModeName)
+		modeChoiceTwo:SetSize(TM.MenuScale(175), TM.MenuScale(30))
+		modeChoiceTwo:SetTooltip(secondModeDesc)
+
+		function modeChoiceTwo:DoClick()
 			net.Start("ReceiveModeVote")
 				net.WriteInt(secondMode, 5)
 				net.WriteInt(firstMode, 5)
@@ -1678,11 +1723,11 @@ net.Receive("EndOfGame", function(len)
 
 			surface.PlaySound("buttons/button15.wav")
 
-			ModeChoice:SetEnabled(true)
-			ModeChoiceTwo:SetEnabled(false)
+			modeChoice:SetEnabled(true)
+			self:SetEnabled(false)
 		end
 
-		function MapVoteCompleted()
+		local function MapVoteCompleted()
 			for _, m in ipairs(MAPS) do
 				if decidedMap == m[1] then
 					decidedMapName = m[2]
@@ -1698,16 +1743,17 @@ net.Receive("EndOfGame", function(len)
 
 			mapDecided = true
 			gamemodeDecided = true
-			MapChoice:Remove()
-			MapChoiceTwo:Remove()
-			MapChoiceThree:Remove()
-			ModeChoice:Remove()
-			ModeChoiceTwo:Remove()
 
-			local DecidedMapThumb = vgui.Create("DImage", VotingPanel)
-			DecidedMapThumb:SetPos(TM.MenuScale(150), TM.MenuScale(70))
-			DecidedMapThumb:SetSize(TM.MenuScale(175), TM.MenuScale(175))
-			DecidedMapThumb:SetImage(decidedMapThumb)
+			mapChoice:Remove()
+			mapChoiceTwo:Remove()
+			mapChoiceThree:Remove()
+			modeChoice:Remove()
+			modeChoiceTwo:Remove()
+
+			local decidedMapThumbPanel = vgui.Create("DImage", votingPanel)
+			decidedMapThumbPanel:SetPos(TM.MenuScale(150), TM.MenuScale(70))
+			decidedMapThumbPanel:SetSize(TM.MenuScale(175), TM.MenuScale(175))
+			decidedMapThumbPanel:SetImage(decidedMapThumb)
 		end
 
 		if !voting:GetBool() then
@@ -1717,42 +1763,52 @@ net.Receive("EndOfGame", function(len)
 		net.Receive("MapVoteCompleted", function(len)
 			decidedMap = net.ReadString()
 			decidedMode = net.ReadInt(5)
+
 			MapVoteCompleted()
 		end)
 
-		local DiscordButton = vgui.Create("DButton", EndOfGameUI)
-		DiscordButton:SetPos(TM.MenuScale(700), ScrH() - TM.MenuScale(35))
-		DiscordButton:SetText("")
-		DiscordButton:SetSize(TM.MenuScale(255), TM.MenuScale(100))
+		local discordButton = vgui.Create("DButton", endOfGameUI)
+		discordButton:SetPos(TM.MenuScale(700), ScrH() - TM.MenuScale(35))
+		discordButton:SetText("")
+		discordButton:SetSize(TM.MenuScale(255), TM.MenuScale(100))
+
 		local textAnim = 0
-		DiscordButton.Paint = function()
-			if DiscordButton:IsHovered() then
+
+		function discordButton:Paint()
+			if discordButton:IsHovered() then
 				textAnim = math.Clamp(textAnim + TM.MenuScale(200) * FrameTime(), 0, TM.MenuScale(20))
 			else
 				textAnim = math.Clamp(textAnim - TM.MenuScale(200) * FrameTime(), 0, TM.MenuScale(20))
 			end
+
 			draw.DrawText("JOIN THE DISCORD!", "MainMenuLoadoutWeapons", textAnim, TM.MenuScale(5), Color(114, 137, 218), TEXT_ALIGN_LEFT)
 		end
-		DiscordButton.DoClick = function()
+
+		function discordButton:DoClick()
 			surface.PlaySound("tmui/buttonclick.wav")
+
 			gui.OpenURL("https://discord.gg/GRfvt27uGF")
 		end
 
-		local VOIPButton = vgui.Create("DImageButton", EndOfGameUI)
-		VOIPButton:SetPos(TM.MenuScale(485), ScrH() - TM.MenuScale(205))
-		VOIPButton:SetImage("icons/mutedmicrophoneicon.png")
-		VOIPButton:SetSize(TM.MenuScale(80), TM.MenuScale(80))
-		VOIPButton:SetTooltip("Toggle Microphone")
-		VOIPButton.DoClick = function()
+		local voipButton = vgui.Create("DImageButton", endOfGameUI)
+		voipButton:SetPos(TM.MenuScale(485), ScrH() - TM.MenuScale(205))
+		voipButton:SetImage("icons/mutedmicrophoneicon.png")
+		voipButton:SetSize(TM.MenuScale(80), TM.MenuScale(80))
+		voipButton:SetTooltip("Toggle Microphone")
+
+		function voipButton:DoClick()
 			surface.PlaySound("tmui/buttonclick.wav")
-			if permissions.IsGranted("voicerecord") == true then
-				if (VOIPActive == false) then
-					VOIPActive = true
-					VOIPButton:SetImage("icons/microphoneicon.png")
+
+			if permissions.IsGranted("voicerecord") then
+				if !voipActive then
+					voipActive = true
+					voipButton:SetImage("icons/microphoneicon.png")
+
 					permissions.EnableVoiceChat(true)
 				else
-					VOIPActive = false
-					VOIPButton:SetImage("icons/mutedmicrophoneicon.png")
+					voipActive = false
+					voipButton:SetImage("icons/mutedmicrophoneicon.png")
+
 					permissions.EnableVoiceChat(false)
 				end
 			else
@@ -1760,23 +1816,25 @@ net.Receive("EndOfGame", function(len)
 			end
 		end
 
-		local MuteButton = vgui.Create("DImageButton", EndOfGameUI)
-		MuteButton:SetPos(TM.MenuScale(575), ScrH() - TM.MenuScale(205))
-		MuteButton:SetImage("icons/muteicon.png")
-		MuteButton:SetSize(TM.MenuScale(80), TM.MenuScale(80))
-		MuteButton:SetTooltip("Toggle Mute")
-		MuteButton.DoClick = function()
+		local muteButton = vgui.Create("DImageButton", endOfGameUI)
+		muteButton:SetPos(TM.MenuScale(575), ScrH() - TM.MenuScale(205))
+		muteButton:SetImage("icons/muteicon.png")
+		muteButton:SetSize(TM.MenuScale(80), TM.MenuScale(80))
+		muteButton:SetTooltip("Toggle Mute")
+
+		function muteButton:DoClick()
 			surface.PlaySound("tmui/buttonclick.wav")
-			if (MuteActive == false) then
-				MuteActive = true
-				MuteButton:SetImage("icons/mutedmuteicon.png")
+
+			if !muteActive then
+				muteActive = true
+				muteButton:SetImage("icons/mutedmuteicon.png")
 
 				net.Start("ReceivePostGameMute")
 					net.WriteBool(true)
 				net.SendToServer()
 			else
-				MuteActive = false
-				MuteButton:SetImage("icons/muteicon.png")
+				muteActive = false
+				muteButton:SetImage("icons/muteicon.png")
 
 				net.Start("ReceivePostGameMute")
 					net.WriteBool(false)
@@ -1784,37 +1842,42 @@ net.Receive("EndOfGame", function(len)
 			end
 		end
 
-		local ChatTextBox = vgui.Create("DTextEntry", EndOfGameUI)
-		ChatTextBox:SetPos(TM.MenuScale(485), TM.MenuScale(5))
-		ChatTextBox:SetSize(TM.MenuScale(200), TM.MenuScale(35))
-		ChatTextBox:SetPlaceholderText("Press ENTER to send message")
-		ChatTextBox.OnEnter = function(self)
+		local chatTextBox = vgui.Create("DTextEntry", endOfGameUI)
+		chatTextBox:SetPos(TM.MenuScale(485), TM.MenuScale(5))
+		chatTextBox:SetSize(TM.MenuScale(200), TM.MenuScale(35))
+		chatTextBox:SetPlaceholderText("Press ENTER to send message")
+
+		function chatTextBox:OnEnter()
 			if self:GetValue() == "" then return end
+
 			RunConsoleCommand("say", self:GetValue())
 		end
 
-		local PlayerScrollPanel = vgui.Create("DScrollPanel", EndOfGamePanel)
-		PlayerScrollPanel:Dock(FILL)
-		PlayerScrollPanel:SetSize(EndOfGamePanel:GetWide(), 0)
-		PlayerScrollPanel.Paint = function(self, w, h)
-			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 0))
-		end
+		local playerScrollPanel = vgui.Create("DScrollPanel", endOfGamePanel)
+		playerScrollPanel:Dock(FILL)
+		playerScrollPanel:SetSize(endOfGamePanel:GetWide(), 0)
+		playerScrollPanel:SetPaintBackgroundEnabled(false)
 
-		local sbar = PlayerScrollPanel:GetVBar()
+		local sbar = playerScrollPanel:GetVBar()
+
 		sbar:SetHideButtons(true)
+
 		function sbar:Paint(w, h)
-			draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 100))
-		end
-		function sbar.btnGrip:Paint(w, h)
-			draw.RoundedBox(0, TM.MenuScale(5), TM.MenuScale(8), TM.MenuScale(5), h - TM.MenuScale(16), Color(255, 255, 255, 175))
+			surface.SetDrawColor(25, 25, 25, 100)
+			surface.DrawRect(0, 0, w, h)
 		end
 
-		PlayerList = vgui.Create("DListLayout", PlayerScrollPanel)
-		PlayerList:SetSize(PlayerScrollPanel:GetWide(), PlayerScrollPanel:GetTall())
+		function sbar.btnGrip:Paint(w, h)
+			surface.SetDrawColor(255, 255, 255, 175)
+			surface.DrawRect(TM.MenuScale(5), TM.MenuScale(8), TM.MenuScale(5), h - TM.MenuScale(16))
+		end
+
+		local playerList = vgui.Create("DListLayout", playerScrollPanel)
+		playerList:SetSize(playerScrollPanel:GetWide(), playerScrollPanel:GetTall())
 
 		for k, v in ipairs(connectedPlayers) do
-			-- constants for basic player information, much more optimized than checking every frame
 			if !IsValid(v) then return end
+
 			local name = v:Nick()
 			local prestige = v:GetNWInt("playerPrestige")
 			local level = v:GetNWInt("playerLevel")
@@ -1826,99 +1889,107 @@ net.Receive("EndOfGame", function(len)
 			surface.SetFont("Health")
 			local nameLength = select(1, surface.GetTextSize(name .. " | " .. "P" .. prestige .. " L" .. level))
 
-			-- format the K/D Ratio of a player, stops it from displaying INF when the player has gotten a kill, but has also not died yet
-			if v:Frags() <= 0 then
+			if frags <= 0 then
 				ratio = 0
-			elseif v:Frags() >= 1 and v:Deaths() == 0 then
-				ratio = v:Frags()
+			elseif frags >= 1 and deaths == 0 then
+				ratio = frags
 			else
-				ratio = v:Frags() / v:Deaths()
+				ratio = frags / deaths
 			end
 
 			local ratioRounded = math.Round(ratio, 2)
 
-			local PlayerPanel = vgui.Create("DPanel", PlayerList)
-			PlayerPanel:SetSize(PlayerList:GetWide(), TM.MenuScale(125))
-			PlayerPanel:SetPos(0, 0)
-			PlayerPanel.Paint = function(self, w, h)
+			local playerPanel = vgui.Create("DPanel", playerList)
+			playerPanel:SetSize(playerList:GetWide(), TM.MenuScale(125))
+			playerPanel:SetPos(0, 0)
+
+			function playerPanel:Paint(w, h)
 				if !IsValid(v) then return end
-				if k == 1 then draw.RoundedBox(0, 0, 0, w, h, Color(150, 150, 35, 40)) else draw.RoundedBox(0, 0, 0, w, h, Color(35, 35, 35, 40)) end
 
-				draw.SimpleText(name .. " | " .. "P" .. prestige .. " L" .. level, "Health", TM.MenuScale(10), 0, COLORS.white, TEXT_ALIGN_LEFT)
-				draw.SimpleText(frags, "Health", TM.MenuScale(285), TM.MenuScale(35), Color(0, 255, 0), TEXT_ALIGN_LEFT)
-				draw.SimpleText(deaths, "Health", TM.MenuScale(285), TM.MenuScale(60), Color(255, 0, 0), TEXT_ALIGN_LEFT)
-				draw.SimpleText(ratioRounded .. "", "Health", TM.MenuScale(285), TM.MenuScale(85), Color(255, 255, 0), TEXT_ALIGN_LEFT)
-				draw.SimpleText(score, "Health", TM.MenuScale(427), TM.MenuScale(85), COLORS.white, TEXT_ALIGN_RIGHT)
+				if k == 1 then
+					surface.SetDrawColor(150, 150, 35, 40)
+				else
+					surface.SetDrawColor(35, 35, 35, 40)
+				end
 
-				surface.SetFont("CaliberText")
+				surface.DrawRect(0, 0, w, h)
+
+				draw.DrawText(name .. " | " .. "P" .. prestige .. " L" .. level, "Health", TM.MenuScale(10), 0, COLORS.white, TEXT_ALIGN_LEFT)
+				draw.DrawText(frags, "Health", TM.MenuScale(285), TM.MenuScale(35), Color(0, 255, 0), TEXT_ALIGN_LEFT)
+				draw.DrawText(deaths, "Health", TM.MenuScale(285), TM.MenuScale(60), Color(255, 0, 0), TEXT_ALIGN_LEFT)
+				draw.DrawText(ratioRounded .. "", "Health", TM.MenuScale(285), TM.MenuScale(85), Color(255, 255, 0), TEXT_ALIGN_LEFT)
+				draw.DrawText(score, "Health", TM.MenuScale(427), TM.MenuScale(85), COLORS.white, TEXT_ALIGN_RIGHT)
+
 				local roleLength = 0
 				local mutedLength = 0
+				surface.SetFont("CaliberText")
 
 				if usergroup == "dev" then
-					draw.SimpleText("(dev)", "CaliberText", nameLength + TM.MenuScale(15), TM.MenuScale(5), Color(205, 255, 0), TEXT_ALIGN_LEFT)
+					draw.DrawText("(dev)", "CaliberText", nameLength + TM.MenuScale(15), TM.MenuScale(5), Color(205, 255, 0), TEXT_ALIGN_LEFT)
 					roleLength = select(1, surface.GetTextSize("(dev)"))
 				elseif usergroup == "mod" then
-					draw.SimpleText("(mod)", "CaliberText", nameLength + TM.MenuScale(15), TM.MenuScale(5), Color(255, 0, 100), TEXT_ALIGN_LEFT)
+					draw.DrawText("(mod)", "CaliberText", nameLength + TM.MenuScale(15), TM.MenuScale(5), Color(255, 0, 100), TEXT_ALIGN_LEFT)
 					roleLength = select(1, surface.GetTextSize("(mod)"))
 				elseif usergroup == "contributor" then
-					draw.SimpleText("(contributor)", "CaliberText", nameLength + TM.MenuScale(15), TM.MenuScale(5), Color(0, 110, 255), TEXT_ALIGN_LEFT)
+					draw.DrawText("(contributor)", "CaliberText", nameLength + TM.MenuScale(15), TM.MenuScale(5), Color(0, 110, 255), TEXT_ALIGN_LEFT)
 					roleLength = select(1, surface.GetTextSize("(contributor)"))
 				end
 
 				if v:IsMuted() then
-					draw.SimpleText("(muted)", "CaliberText", nameLength + roleLength + TM.MenuScale(15), TM.MenuScale(5), Color(255, 0, 0), TEXT_ALIGN_LEFT)
+					draw.DrawText("(muted)", "CaliberText", nameLength + roleLength + TM.MenuScale(15), TM.MenuScale(5), Color(255, 0, 0), TEXT_ALIGN_LEFT)
 					mutedLength = select(1, surface.GetTextSize("(muted)"))
 				end
 
 				if v:GetFriendStatus() == "friend" then
-					draw.SimpleText("(friend)", "CaliberText", nameLength + roleLength + mutedLength + TM.MenuScale(15), TM.MenuScale(5), Color(0, 255, 0), TEXT_ALIGN_LEFT)
+					draw.DrawText("(friend)", "CaliberText", nameLength + roleLength + mutedLength + TM.MenuScale(15), TM.MenuScale(5), Color(0, 255, 0), TEXT_ALIGN_LEFT)
 					mutedLength = select(1, surface.GetTextSize("(friend)"))
 				end
 			end
 
-			local KillsIcon = vgui.Create("DImage", PlayerPanel)
-			KillsIcon:SetPos(TM.MenuScale(260), TM.MenuScale(42))
-			KillsIcon:SetSize(TM.MenuScale(20), TM.MenuScale(20))
-			KillsIcon:SetImage("icons/killicon.png")
+			local killsIcon = vgui.Create("DImage", playerPanel)
+			killsIcon:SetPos(TM.MenuScale(260), TM.MenuScale(42))
+			killsIcon:SetSize(TM.MenuScale(20), TM.MenuScale(20))
+			killsIcon:SetImage("icons/killicon.png")
 
-			local DeathsIcon = vgui.Create("DImage", PlayerPanel)
-			DeathsIcon:SetPos(TM.MenuScale(260), TM.MenuScale(67))
-			DeathsIcon:SetSize(TM.MenuScale(20), TM.MenuScale(20))
-			DeathsIcon:SetImage("icons/deathicon.png")
+			local deathsIcon = vgui.Create("DImage", playerPanel)
+			deathsIcon:SetPos(TM.MenuScale(260), TM.MenuScale(67))
+			deathsIcon:SetSize(TM.MenuScale(20), TM.MenuScale(20))
+			deathsIcon:SetImage("icons/deathicon.png")
 
-			local KDIcon = vgui.Create("DImage", PlayerPanel)
-			KDIcon:SetPos(TM.MenuScale(260), TM.MenuScale(92))
-			KDIcon:SetSize(TM.MenuScale(20), TM.MenuScale(20))
-			KDIcon:SetImage("icons/ratioicon.png")
+			local kdIcon = vgui.Create("DImage", playerPanel)
+			kdIcon:SetPos(TM.MenuScale(260), TM.MenuScale(92))
+			kdIcon:SetSize(TM.MenuScale(20), TM.MenuScale(20))
+			kdIcon:SetImage("icons/ratioicon.png")
 
-			local ScoreIcon = vgui.Create("DImage", PlayerPanel)
-			ScoreIcon:SetPos(TM.MenuScale(432), TM.MenuScale(92))
-			ScoreIcon:SetSize(TM.MenuScale(20), TM.MenuScale(20))
-			ScoreIcon:SetImage("icons/scoreicon.png")
+			local scoreIcon = vgui.Create("DImage", playerPanel)
+			scoreIcon:SetPos(TM.MenuScale(432), TM.MenuScale(92))
+			scoreIcon:SetSize(TM.MenuScale(20), TM.MenuScale(20))
+			scoreIcon:SetImage("icons/scoreicon.png")
 
-			local PlayerCallingCard = vgui.Create("DImage", PlayerPanel)
-			PlayerCallingCard:SetPos(TM.MenuScale(10), TM.MenuScale(35))
-			PlayerCallingCard:SetSize(TM.MenuScale(240), TM.MenuScale(80))
+			local playerCallingCard = vgui.Create("DImage", playerPanel)
+			playerCallingCard:SetPos(TM.MenuScale(10), TM.MenuScale(35))
+			playerCallingCard:SetSize(TM.MenuScale(240), TM.MenuScale(80))
 
-			if IsValid(v) then PlayerCallingCard:SetImage(v:GetNWString("chosenPlayercard"), "cards/color/black.png") end
+			if IsValid(v) then
+				playerCallingCard:SetImage(v:GetNWString("chosenPlayercard"), "cards/color/black.png")
+			end
 
-			local PlayerProfilePicture = vgui.Create("AvatarImage", PlayerPanel)
-			PlayerProfilePicture:SetPos(TM.MenuScale(15), TM.MenuScale(40))
-			PlayerProfilePicture:SetSize(TM.MenuScale(70), TM.MenuScale(70))
-			PlayerProfilePicture:SetPlayer(v, 184)
+			local playerProfilePicture = vgui.Create("AvatarImage", playerPanel)
+			playerProfilePicture:SetPos(TM.MenuScale(15), TM.MenuScale(40))
+			playerProfilePicture:SetSize(TM.MenuScale(70), TM.MenuScale(70))
+			playerProfilePicture:SetPlayer(v, 184)
 
-			-- allows the players profile to be clicked to display various options revolving around the specific player
-			PlayerProfilePicture.OnMousePressed = function()
-				local Menu = DermaMenu()
+			function PlayerProfilePicture:OnMousePressed()
+				local dropdown = DermaMenu()
 
-				local profileButton = Menu:AddOption("Open Steam Profile", function() gui.OpenURL("http://steamcommunity.com/profiles/" .. v:SteamID64()) end)
+				local profileButton = dropdown:AddOption("Open Steam Profile", function() gui.OpenURL("http://steamcommunity.com/profiles/" .. v:SteamID64()) end)
 				profileButton:SetIcon("icon16/page_find.png")
 
-				Menu:AddSpacer()
+				dropdown:AddSpacer()
 
-				local statistics = Menu:AddSubMenu("View Stats")
-				local accolades = Menu:AddSubMenu("View Accolades")
-				local weaponstatistics = Menu:AddSubMenu("View Weapon Stats")
+				local statistics = dropdown:AddSubMenu("View Stats")
+				local accolades = dropdown:AddSubMenu("View Accolades")
+				local weaponstatistics = dropdown:AddSubMenu("View Weapon Stats")
 				local weaponKills = weaponstatistics:AddSubMenu("Kills With")
 				weaponKills:SetMaxHeight(ScrH() / 1.5)
 
@@ -1940,31 +2011,45 @@ net.Receive("EndOfGame", function(len)
 				accolades:AddOption("Point Blanks: " .. v:GetNWInt("playerAccoladePointblank"))
 				accolades:AddOption("On Streaks (Kill Streaks Started): " .. v:GetNWInt("playerAccoladeOnStreak"))
 				accolades:AddOption("Buzz Kills (Kill Streaks Ended): " .. v:GetNWInt("playerAccoladeBuzzkill"))
+
 				for i = 1, #WEAPONS do
 					weaponKills:AddOption(WEAPONS[i][2] .. ": " .. v:GetNWInt("killsWith_" .. WEAPONS[i][1]))
 				end
 
-				Menu:AddSpacer()
+				dropdown:AddSpacer()
 
-				local copyMenu = Menu:AddSubMenu("Copy...")
+				local copyMenu = dropdown:AddSubMenu("Copy...")
 				copyMenu:AddOption("Copy Name", function() SetClipboardText(v:Nick()) end):SetIcon("icon16/cut.png")
 				copyMenu:AddOption("Copy SteamID64", function() SetClipboardText(v:SteamID64()) end):SetIcon("icon16/cut.png")
 
 				if v != LocalPlayer() then
-					local muteToggle = Menu:AddOption("Mute Player", function(self)
-						if v:IsMuted() then v:SetMuted(false) else v:SetMuted(true) end
+					local muteToggle = dropdown:AddOption("Mute Player", function()
+						if v:IsMuted() then
+							v:SetMuted(false)
+						else
+							v:SetMuted(true)
+						end
 					end)
 
-					if v:IsMuted() then muteToggle:SetIcon("icon16/sound.png") muteToggle:SetText("Unmute Player") else muteToggle:SetIcon("icon16/sound_mute.png") muteToggle:SetText("Mute Player") end
+					if v:IsMuted() then
+						muteToggle:SetIcon("icon16/sound.png")
+						muteToggle:SetText("Unmute Player")
+					else
+						muteToggle:SetIcon("icon16/sound_mute.png")
+						muteToggle:SetText("Mute Player")
+					end
 				end
 
-				Menu:Open()
+				dropdown:Open()
 			end
 		end
 	end
 
-	EndOfGameUI:Show()
-	gui.EnableScreenClicker(true)
+	timer.Create("ShowVotingMenu", 8, 1, function()
+		StartVotingPhase()
+	end)
+
+	endOfGameUI:Show()
 end)
 
 net.Receive("SendChatMessage", function(len)

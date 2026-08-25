@@ -39,15 +39,6 @@ net.Receive("OpenMainMenu", function(len)
 		timer.Create("respawnTimeLeft", respawnTimeLeft, 1, function() end)
 	end
 
-	hook.Add("Think", "RenderBehindPauseMenu", function()
-		if !IsValid(MainMenu) then return end
-		if !gui.IsGameUIVisible() then
-			MainMenu:Show()
-		else
-			MainMenu:Hide()
-		end
-	end)
-
 	local mapID
 	local mapName
 
@@ -63,7 +54,7 @@ net.Receive("OpenMainMenu", function(len)
 	if input.LookupBinding("+menu_context") != nil then ContextBind = input.LookupBinding("+menu_context") end
 
 	if !IsValid(MainMenu) then
-		MainMenu = vgui.Create("DFrame")
+		MainMenu = vgui.Create("DFrame", GetHUDPanel())
 		MainMenu:SetSize(ScrW(), ScrH())
 		MainMenu:Center()
 		MainMenu:SetTitle("")

@@ -6,6 +6,9 @@ COLORS.transparent = Color(0, 0, 0, 0)
 
 COLORS.red = Color(255, 0, 0, 255)
 
+COLORS.streakOrange = Color(255, 200, 100)
+COLORS.streakRed = Color(255, 50, 50)
+
 -- materials
 MATS = {}
 
