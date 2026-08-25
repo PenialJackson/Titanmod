@@ -407,7 +407,7 @@ net.Receive("OpenMainMenu", function(len)
 
 				LeaderboardProfiles:SetSize(TM.MenuScale(45), math.max(table.Count(ReceivedBoard) * TM.MenuScale(41.25) + TM.MenuScale(5), TM.MenuScale(870)))
 				SelectedBoard = ReceivedBoard
-			end )
+			end)
 
 			local SpectatePanel = vgui.Create("DPanel", MainPanel)
 			SpectatePanel:SetSize(TM.MenuScale(170), 0)
@@ -4415,9 +4415,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local hitmarkerMixer = vgui.Create("DColorMixer", DockHitmarker)
 					hitmarkerMixer:SetPos(TM.MenuScale(20), TM.MenuScale(310))
 					hitmarkerMixer:SetSize(TM.MenuScale(215), TM.MenuScale(110))
-					hitmarkerMixer:SetConVarR("tm_hud_hitmarker_color_hit_r")
-					hitmarkerMixer:SetConVarG("tm_hud_hitmarker_color_hit_g")
-					hitmarkerMixer:SetConVarB("tm_hud_hitmarker_color_hit_b")
+					hitmarkerMixer:SetConVarR("tm_hud_hitmarker_color_r")
+					hitmarkerMixer:SetConVarG("tm_hud_hitmarker_color_g")
+					hitmarkerMixer:SetConVarB("tm_hud_hitmarker_color_b")
 					hitmarkerMixer:SetAlphaBar(false)
 					hitmarkerMixer:SetPalette(false)
 					hitmarkerMixer:SetWangs(true)
@@ -4425,9 +4425,9 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local hitmarkerHeadMixer = vgui.Create("DColorMixer", DockHitmarker)
 					hitmarkerHeadMixer:SetPos(TM.MenuScale(20), TM.MenuScale(430))
 					hitmarkerHeadMixer:SetSize(TM.MenuScale(215), TM.MenuScale(110))
-					hitmarkerHeadMixer:SetConVarR("tm_hud_hitmarker_color_head_r")
-					hitmarkerHeadMixer:SetConVarG("tm_hud_hitmarker_color_head_g")
-					hitmarkerHeadMixer:SetConVarB("tm_hud_hitmarker_color_head_b")
+					hitmarkerHeadMixer:SetConVarR("tm_hud_hitmarker_head_color_r")
+					hitmarkerHeadMixer:SetConVarG("tm_hud_hitmarker_head_color_g")
+					hitmarkerHeadMixer:SetConVarB("tm_hud_hitmarker_head_color_b")
 					hitmarkerHeadMixer:SetAlphaBar(false)
 					hitmarkerHeadMixer:SetPalette(false)
 					hitmarkerHeadMixer:SetWangs(true)
@@ -5307,7 +5307,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				gui.OpenURL("https://github.com/PikachuPenial/Titanmod/blob/main/PATCHNOTES.md")
 			end
 	end
-end )
+end)
 
 PANEL = {}
 function PANEL:Init()

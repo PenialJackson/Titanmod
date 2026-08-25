@@ -124,7 +124,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
 	hook.Add("InitPostEntity", "KOTHSpawn", function()
 		local kothOBJ = ents.Create("tm_koth_obj")
 		kothOBJ:Spawn()
-	end )
+	end)
 
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then

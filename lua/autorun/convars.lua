@@ -654,42 +654,42 @@ cvars["obj_empty_color_b"] = {
 	max = 255
 }
 
-cvars["obj_empty_occupied_r"] = {
+cvars["obj_occupied_color_r"] = {
 	hud = true,
 	default = 255,
 	min = 0,
 	max = 255
 }
 
-cvars["obj_empty_occupied_g"] = {
+cvars["obj_occupied_color_g"] = {
 	hud = true,
 	default = 255,
 	min = 0,
 	max = 255
 }
 
-cvars["obj_empty_occupied_b"] = {
+cvars["obj_occupied_color_b"] = {
 	hud = true,
 	default = 0,
 	min = 0,
 	max = 255
 }
 
-cvars["obj_empty_contested_r"] = {
+cvars["obj_contested_color_r"] = {
 	hud = true,
 	default = 255,
 	min = 0,
 	max = 255
 }
 
-cvars["obj_empty_contested_g"] = {
+cvars["obj_contested_color_g"] = {
 	hud = true,
 	default = 0,
 	min = 0,
 	max = 255
 }
 
-cvars["obj_empty_contested_b"] = {
+cvars["obj_contested_color_b"] = {
 	hud = true,
 	default = 0,
 	min = 0,

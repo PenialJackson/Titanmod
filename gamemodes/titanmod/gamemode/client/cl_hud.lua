@@ -40,9 +40,9 @@ local hitmarkerSize = GetConVar("tm_hud_hitmarker_size"):GetInt()
 local hitmarkerThickness = GetConVar("tm_hud_hitmarker_thickness"):GetInt()
 local hitmarkerOpacity = GetConVar("tm_hud_hitmarker_opacity"):GetInt()
 local hitmarkerDuration = GetConVar("tm_hud_hitmarker_duration"):GetFloat()
-local hitmarkerR = GetConVar("tm_hud_hitmarker_hit_color_r"):GetInt()
-local hitmarkerG = GetConVar("tm_hud_hitmarker_hit_color_g"):GetInt()
-local hitmarkerB = GetConVar("tm_hud_hitmarker_hit_color_b"):GetInt()
+local hitmarkerR = GetConVar("tm_hud_hitmarker_color_r"):GetInt()
+local hitmarkerG = GetConVar("tm_hud_hitmarker_color_g"):GetInt()
+local hitmarkerB = GetConVar("tm_hud_hitmarker_color_b"):GetInt()
 local hitmarkerHeadR = GetConVar("tm_hud_hitmarker_head_color_r"):GetInt()
 local hitmarkerHeadG = GetConVar("tm_hud_hitmarker_head_color_g"):GetInt()
 local hitmarkerHeadB = GetConVar("tm_hud_hitmarker_head_color_b"):GetInt()
@@ -258,7 +258,7 @@ hook.Add("RenderScreenspaceEffects", "IntermissionPostProcess", function()
 	if LocalPlayer():Alive() != true then return end
 
 	DrawColorModify(intermissionpp)
-end )
+end)
 
 function HUDIntermission()
 	if !LocalPlayer():Alive() then return end
@@ -410,7 +410,7 @@ local startDyn = 0
 local newDyn = 0
 local oldDyn = 0
 local function LerpCrosshair()
-	smoothDyn = Lerp((SysTime() - startDyn ) / 0.07, oldDyn, newDyn)
+	smoothDyn = Lerp((SysTime() - startDyn) / 0.07, oldDyn, newDyn)
 
 	if newDyn != dyn then
 		if (smoothDyn != dyn) then newDyn = smoothDyn end
@@ -425,7 +425,10 @@ local startHP = 0
 local newHP = 0
 local oldHP = 0
 local function LerpHealth()
-	smoothHP = Lerp((SysTime() - startHP ) / 0.1, oldHP, newHP)
+	local maxHealth = LocalPlayer():GetMaxHealth()
+	local health = math.Clamp(LocalPlayer():Health(), 0, maxHealth)
+
+	smoothHP = Lerp((SysTime() - startHP) / 0.1, oldHP, newHP)
 
 	if newHP != health then
 		if (smoothHP != health) then newHP = smoothHP end
@@ -433,6 +436,8 @@ local function LerpHealth()
 		startHP = SysTime()
 		newHP = health
 	end
+
+	return maxHealth, health
 end
 
 local function RenderCrosshair()
@@ -454,27 +459,24 @@ local function RenderCrosshair()
 		dyn = 0
 	end
 
-	local centerX = ScrW() / 2
-	local centerY = ScrH() / 2
-
 	if crosshair then
 		if crosshairOutline then
 			surface.SetDrawColor(crosshairOutlineR, crosshairOutlineG, crosshairOutlineB, crosshairOpacity * adsFade)
 
-			if crosshairShowRight then surface.DrawRect(centerX + (crosshairGap + smoothDyn) - 1, centerY - math.floor(crosshairThickness / 2) - 1, crosshairSize + 2,  crosshairThickness + 2) end
-			if crosshairShowLeft == 1 then surface.DrawRect(centerX - (crosshairGap + smoothDyn) - crosshairSize + crosshairThickness % 2 - 1, centerY - math.floor(crosshairThickness / 2) - 1, crosshairSize + 2,  crosshairThickness + 2) end
-			if crosshairShowBottom == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2) - 1, centerY + (crosshairGap + smoothDyn) - 1, crosshairThickness + 2, crosshairSize + 2) end
-			if crosshairShowTop == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2) - 1, centerY - crosshairSize - (crosshairGap + smoothDyn) + crosshairThickness % 2 - 1, crosshairThickness + 2, crosshairSize + 2) end
-			if crosshairDot == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2) - 1, centerY - math.floor(crosshairThickness / 2) - 1, crosshairThickness + 2, crosshairThickness + 2) end
+			if crosshairShowRight then surface.DrawRect(ScrW() / 2 + (crosshairGap + smoothDyn) - 1, ScrH() / 2 - math.floor(crosshairThickness / 2) - 1, crosshairSize + 2,  crosshairThickness + 2) end
+			if crosshairShowLeft then surface.DrawRect(ScrW() / 2 - (crosshairGap + smoothDyn) - crosshairSize + crosshairThickness % 2 - 1, ScrH() / 2 - math.floor(crosshairThickness / 2) - 1, crosshairSize + 2,  crosshairThickness + 2) end
+			if crosshairShowBottom then surface.DrawRect(ScrW() / 2 - math.floor(crosshairThickness / 2) - 1, ScrH() / 2 + (crosshairGap + smoothDyn) - 1, crosshairThickness + 2, crosshairSize + 2) end
+			if crosshairShowTop then surface.DrawRect(ScrW() / 2 - math.floor(crosshairThickness / 2) - 1, ScrH() / 2 - crosshairSize - (crosshairGap + smoothDyn) + crosshairThickness % 2 - 1, crosshairThickness + 2, crosshairSize + 2) end
+			if crosshairDot then surface.DrawRect(ScrW() / 2 - math.floor(crosshairThickness / 2) - 1, ScrH() / 2 - math.floor(crosshairThickness / 2) - 1, crosshairThickness + 2, crosshairThickness + 2) end
 		end
 
-		surface.SetDrawColor(crosshairR, crosshairG, crosshairB, crosshair["opacity"] * adsFade)
+		surface.SetDrawColor(crosshairR, crosshairG, crosshairB, crosshairOpacity * adsFade)
 
-		if crosshairShowRight == 1 then surface.DrawRect(centerX + (crosshairGap + smoothDyn), centerY - math.floor(crosshairThickness / 2), crosshairSize,  crosshairThickness) end
-		if crosshairShowLeft == 1 then surface.DrawRect(centerX - (crosshairGap + smoothDyn) - crosshairSize + crosshairThickness % 2, centerY - math.floor(crosshairThickness / 2), crosshairSize,  crosshairThickness) end
-		if crosshairShowBottom == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2), centerY + (crosshairGap + smoothDyn), crosshairThickness, crosshairSize) end
-		if crosshairShowTop == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2), centerY - crosshairSize - (crosshairGap + smoothDyn) + crosshairThickness % 2, crosshairThickness, crosshairSize) end
-		if crosshairDot == 1 then surface.DrawRect(centerX - math.floor(crosshairThickness / 2), centerY - math.floor(crosshairThickness / 2), crosshairThickness, crosshairThickness) end
+		if crosshairShowRight then surface.DrawRect(ScrW() / 2 + (crosshairGap + smoothDyn), ScrH() / 2 - math.floor(crosshairThickness / 2), crosshairSize,  crosshairThickness) end
+		if crosshairShowLeft then surface.DrawRect(ScrW() / 2 - (crosshairGap + smoothDyn) - crosshairSize + crosshairThickness % 2, ScrH() / 2 - math.floor(crosshairThickness / 2), crosshairSize,  crosshairThickness) end
+		if crosshairShowBottom then surface.DrawRect(ScrW() / 2 - math.floor(crosshairThickness / 2), ScrH() / 2 + (crosshairGap + smoothDyn), crosshairThickness, crosshairSize) end
+		if crosshairShowTop then surface.DrawRect(ScrW() / 2 - math.floor(crosshairThickness / 2), ScrH() / 2 - crosshairSize - (crosshairGap + smoothDyn) + crosshairThickness % 2, crosshairThickness, crosshairSize) end
+		if crosshairDot then surface.DrawRect(ScrW() / 2 - math.floor(crosshairThickness / 2), ScrH() / 2 - math.floor(crosshairThickness / 2), crosshairThickness, crosshairThickness) end
 	end
 end
 
@@ -492,17 +494,14 @@ local function RenderHitmarkers()
 
 	draw.NoTexture()
 
-	surface.DrawTexturedRectRotated(centerX - hitmarkerGap, centerY - hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 45)
-	surface.DrawTexturedRectRotated(centerX + hitmarkerGap, centerY- hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 135)
-	surface.DrawTexturedRectRotated(centerX + hitmarkerGap, centerY + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 225)
-	surface.DrawTexturedRectRotated(centerX - hitmarkerGap, centerY + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 315)
+	surface.DrawTexturedRectRotated(ScrW() / 2 - hitmarkerGap, ScrH() / 2 - hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 45)
+	surface.DrawTexturedRectRotated(ScrW() / 2 + hitmarkerGap, ScrH() / 2- hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 135)
+	surface.DrawTexturedRectRotated(ScrW() / 2 + hitmarkerGap, ScrH() / 2 + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 225)
+	surface.DrawTexturedRectRotated(ScrW() / 2 - hitmarkerGap, ScrH() / 2 + hitmarkerGap, hitmarkerThickness * math.min(1, hitmarkerFade), hitmarkerSize, 315)
 end
 
 local function RenderHealth()
-	local maxHealth = LocalPlayer():GetMaxHealth()
-	local health = math.Clamp(LocalPlayer():Health(), 0, maxHealth)
-
-	LerpHealth()
+	local maxHealth, health = LerpHealth()
 
 	surface.SetDrawColor(50, 50, 50, 80)
 	surface.DrawRect(healthX + hudX, ScrH() - TM.ScreenScale(30) - healthY - hudY, TM.ScreenScale(450), TM.ScreenScale(30))
@@ -518,7 +517,7 @@ local function RenderHealth()
 	end
 
 	surface.DrawRect(healthX + hudX, ScrH() - TM.ScreenScale(30) - healthY - hudY, TM.ScreenScale(450) * (math.max(0, smoothHP) / maxHealth), TM.ScreenScale(30))
-	draw.DrawText(health, "HUD_Health", TM.ScreenScale(450) + healthX + hudX - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - healthY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
+	draw.DrawText(tostring(health), "HUD_Health", TM.ScreenScale(450) + healthX + hudX - TM.ScreenScale(10), ScrH() - TM.ScreenScale(30) - healthY - hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_RIGHT)
 end
 
 local function RenderLoadout()
@@ -529,7 +528,7 @@ local function RenderLoadout()
 
 	local clip = weapon:Clip1()
 
-	if IsValid(clip) then
+	if clip then
 		local ammoColor = Color(hudTextR, hudTextG, hudTextB)
 		local ammoText = tostring(clip)
 
@@ -714,7 +713,7 @@ local function DrawKOTH()
 
 	RenderKOTH()
 end
-hook.Add("PostDrawTranslucentRenderables", "DrawKOTH", DrawKOTH())
+hook.Add("PostDrawTranslucentRenderables", "DrawKOTH", DrawKOTH)
 
 local function UpdateKOTH()
 	if TM.GAMEMODE != GAMEMODES.IDS.KOTH then return end
@@ -1125,7 +1124,7 @@ net.Receive("NotifyKill", function(len)
 			end)
 		end
 	end)
-end )
+end)
 
 -- displays after a player dies to another player
 net.Receive("NotifyDeath", function(len)
@@ -1719,7 +1718,7 @@ net.Receive("EndOfGame", function(len)
 			decidedMap = net.ReadString()
 			decidedMode = net.ReadInt(5)
 			MapVoteCompleted()
-		end )
+		end)
 
 		local DiscordButton = vgui.Create("DButton", EndOfGameUI)
 		DiscordButton:SetPos(TM.MenuScale(700), ScrH() - TM.MenuScale(35))
@@ -1966,7 +1965,7 @@ net.Receive("EndOfGame", function(len)
 
 	EndOfGameUI:Show()
 	gui.EnableScreenClicker(true)
-end )
+end)
 
 net.Receive("SendChatMessage", function(len)
 	local text = net.ReadString()
