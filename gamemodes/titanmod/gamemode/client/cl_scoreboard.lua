@@ -7,7 +7,7 @@ function GM:ScoreboardShow()
 	local LocalPlayer = LocalPlayer()
 	if not IsValid(ScoreboardDerma) then
 
-		ScoreboardDerma = vgui.Create("DFrame")
+		ScoreboardDerma = vgui.Create("DFrame", GetHUDPanel())
 		if player.GetCount() < 5 then ScoreboardDerma:SizeTo(TM.MenuScale(640), TM.MenuScale(64) + (player.GetCount() * TM.MenuScale(100)), 0.5, 0, 0.1) else ScoreboardDerma:SizeTo(TM.MenuScale(640), TM.MenuScale(564), 0.5, 0, 0.1) end
 		ScoreboardDerma:SetTitle("")
 		ScoreboardDerma:MakePopup()
@@ -24,7 +24,7 @@ function GM:ScoreboardShow()
 			BlurPanel(ScoreboardDerma, 5)
 
 			draw.RoundedBox(0, 0, 0, ScoreboardDerma:GetWide(), ScoreboardDerma:GetTall(), Color(35, 35, 35, 150))
-			draw.SimpleTextOutlined("TITANMOD", "TitleText", TM.MenuScale(15), TM.MenuScale(0), white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0.5, Color(0, 0, 0, 100))
+			draw.SimpleTextOutlined("TITANMOD", "TitleText", TM.MenuScale(5), 0, white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), Color(0, 0, 100, 100))
 
 			surface.SetDrawColor(Color(255, 255, 255, 155))
 			surface.DrawRect(0, 0, w, TM.MenuScale(1))

@@ -972,8 +972,8 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							gear.Paint = function(self, w, h)
 								draw.RoundedBox(0, 0, 0, w, h, previewGreen)
 
-								draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 205))
-								draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+								draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+								draw.DrawText("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT)
 							end
 
 							DefaultGearList:Add(gear)
@@ -1016,12 +1016,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								gear.Paint = function(self, w, h)
 									draw.RoundedBox(0, 0, 0, w, h, previewGreen)
 
-									draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-									draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+									draw.DrawText("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT)
 
-									draw.SimpleTextOutlined("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
-									draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-									draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. GEAR[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.DrawText("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT)
+									draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+									draw.DrawText("Total Levels: " .. playerTotalLevel .. "/" .. GEAR[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT)
 								end
 
 								ProgressionGearList:Add(gear)
@@ -1063,12 +1063,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							gear.Paint = function(self, w, h)
 								draw.RoundedBox(0, 0, 0, w, h, previewRed)
 
-								draw.SimpleTextOutlined(string.upper(lockedGear[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-								draw.SimpleTextOutlined("Locked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidRed, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+								draw.SimpleTextOutlined(string.upper(lockedGear[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+								draw.DrawText("Locked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidRed, TEXT_ALIGN_LEFT)
 
-								draw.SimpleTextOutlined("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. lockedGear[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidRed, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
-								draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-								draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. lockedGear[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidRed, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+								draw.DrawText("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. lockedGear[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidRed, TEXT_ALIGN_RIGHT)
+								draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+								draw.DrawText("Total Levels: " .. playerTotalLevel .. "/" .. lockedGear[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidRed, TEXT_ALIGN_RIGHT)
 							end
 
 							ProgressionGearList:Add(gear)
@@ -1108,8 +1108,8 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 							gear.Paint = function(self, w, h)
 								draw.RoundedBox(0, 0, 0, w, h, previewGreen)
 
-								draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-								draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+								draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+								draw.DrawText("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT)
 							end
 
 							DefaultGearList:Add(gear)
@@ -1152,12 +1152,12 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 								gear.Paint = function(self, w, h)
 									draw.RoundedBox(0, 0, 0, w, h, previewGreen)
 
-									draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-									draw.SimpleTextOutlined("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.SimpleTextOutlined(string.upper(GEAR[i][2]), "PlayerNotiName", TM.MenuScale(5), 0, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+									draw.DrawText("Unlocked", "PlayerNotiName", TM.MenuScale(5), TM.MenuScale(50), solidGreen, TEXT_ALIGN_LEFT)
 
-									draw.SimpleTextOutlined("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
-									draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-									draw.SimpleTextOutlined("Total Levels: " .. playerTotalLevel .. "/" .. GEAR[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 0, Color(0, 0, 0, 205))
+									draw.DrawText("Melee Kills: " .. LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. GEAR[i][5], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(25), solidGreen, TEXT_ALIGN_RIGHT)
+									draw.SimpleTextOutlined("OR", "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+									draw.DrawText("Total Levels: " .. playerTotalLevel .. "/" .. GEAR[i][6], "MainMenuDescription", TM.MenuScale(625), TM.MenuScale(65), solidGreen, TEXT_ALIGN_RIGHT)
 								end
 
 								ProgressionGearList:Add(gear)
@@ -2793,8 +2793,8 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 										surface.DrawRect(0, 0, TM.MenuScale(1), h)
 										surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
 
-										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-										draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+										draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 
 									end
 								end
@@ -2868,23 +2868,23 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 											surface.DrawRect(0, 0, TM.MenuScale(1), h)
 											surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
 
-											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 
 											if newModelUnlockType == "kills" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "streak" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("HIGHEST STREAK", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("HIGHEST STREAK", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "matches" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("MATCHES PLAYED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("MATCHES PLAYED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "wins" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("MATCHES WON", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("MATCHES WON", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											end
 
-											draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(105), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(105), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										end
 									end
 
@@ -2957,32 +2957,32 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 											surface.DrawRect(0, 0, TM.MenuScale(1), h)
 											surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
 
-											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 
 											if newModelUnlockType == "headshot" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("HEADSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("HEADSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "smackdown" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("MELEE KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("MELEE KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "clutch" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("CLUTCHES", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("CLUTCHES", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "longshot" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("LONGSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("LONGSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "pointblank" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("POINT BLANKS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("POINT BLANKS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "killstreaks" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("STREAKS STARTED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("STREAKS STARTED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "buzzkills" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("BUZZKILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("BUZZKILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											end
 
-											draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(105), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(105), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										end
 									end
 
@@ -3057,20 +3057,20 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 										surface.DrawRect(0, 0, TM.MenuScale(1), h)
 										surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
 
-										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 
 										if newModelUnlockType == "kills" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
-											draw.SimpleTextOutlined("KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										elseif newModelUnlockType == "streak" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
-											draw.SimpleTextOutlined("HIGHEST STREAK", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("HIGHEST STREAK", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										elseif newModelUnlockType == "matches" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
-											draw.SimpleTextOutlined("MATCHES PLAYED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("MATCHES PLAYED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										elseif newModelUnlockType == "wins" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
-											draw.SimpleTextOutlined("MATCHES WON", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("MATCHES WON", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										end
 									end
 								end
@@ -3141,29 +3141,29 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 										surface.DrawRect(0, 0, TM.MenuScale(1), h)
 										surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
 
-										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 
 										if newModelUnlockType == "headshot" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
-											draw.SimpleTextOutlined("HEADSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("HEADSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										elseif newModelUnlockType == "smackdown" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
-											draw.SimpleTextOutlined("MELEE KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("MELEE KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										elseif newModelUnlockType == "clutch" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
-											draw.SimpleTextOutlined("CLUTCHES", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("CLUTCHES", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										elseif newModelUnlockType == "longshot" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(2550, 0, 0, 15))
-											draw.SimpleTextOutlined("LONGSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("LONGSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										elseif newModelUnlockType == "pointblank" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(2550, 0, 0, 15))
-											draw.SimpleTextOutlined("POINT BLANKS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("POINT BLANKS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										elseif newModelUnlockType == "killstreaks" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(2550, 0, 0, 15))
-											draw.SimpleTextOutlined("STREAKS STARTED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("STREAKS STARTED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										elseif newModelUnlockType == "buzzkills" then
-											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(255, 0, 0, 15))
-											draw.SimpleTextOutlined("BUZZKILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineRed)
+											draw.SimpleTextOutlined("BUZZKILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										end
 									end
 								end
@@ -3240,8 +3240,8 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 										surface.DrawRect(0, 0, TM.MenuScale(1), h)
 										surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
 
-										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
-										draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+										draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
+										draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 
 									end
 								end
@@ -3313,23 +3313,23 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 											surface.DrawRect(0, 0, TM.MenuScale(1), h)
 											surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
 
-											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 
 											if newModelUnlockType == "kills" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerKills") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "streak" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("HIGHEST STREAK", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("highestKillStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("HIGHEST STREAK", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "matches" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("MATCHES PLAYED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesPlayed") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("MATCHES PLAYED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "wins" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("MATCHES WON", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("matchesWon") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("MATCHES WON", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											end
 
-											draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(105), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(105), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										end
 									end
 
@@ -3391,32 +3391,32 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 											surface.DrawRect(0, 0, TM.MenuScale(1), h)
 											surface.DrawRect(w - TM.MenuScale(1), 0, TM.MenuScale(1), h)
 
-											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined(string.upper(newModelName), "PlayerNotiName", w / 2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 
 											if newModelUnlockType == "headshot" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("HEADSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeHeadshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("HEADSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "smackdown" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("MELEE KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeSmackdown") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("MELEE KILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "clutch" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("CLUTCHES", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeClutch") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("CLUTCHES", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "longshot" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("LONGSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeLongshot") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("LONGSHOTS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "pointblank" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("POINT BLANKS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladePointblank") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("POINT BLANKS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "killstreaks" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("STREAKS STARTED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeOnStreak") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("STREAKS STARTED", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											elseif newModelUnlockType == "buzzkills" then
-												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 255, 0, 15))
-												draw.SimpleTextOutlined("BUZZKILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+												draw.SimpleTextOutlined(LocalPlayer():GetNWInt("playerAccoladeBuzzkill") .. "/" .. newModelUnlockValue, "Health", w / 2, TM.MenuScale(45), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineGreen)
+												draw.SimpleTextOutlined("BUZZKILLS", "Health", w / 2, TM.MenuScale(75), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 											end
 
-											draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(105), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScale(1), Color(0, 0, 0, 205))
+											draw.SimpleTextOutlined("click to equip", "StreakText", w / 2, TM.MenuScale(105), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, TM.MenuScaleRounded(1), COLORS.outlineBlack)
 										end
 									end
 
@@ -4840,7 +4840,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 				local EquipmentEditor = vgui.Create("DPanel", EditorScroller)
 				EquipmentEditor:Dock(TOP)
-				EquipmentEditor:SetSize(TM.MenuScale(0), TM.MenuScale(150))
+				EquipmentEditor:SetSize(0, TM.MenuScale(150))
 				EquipmentEditor.Paint = function(self, w, h)
 					draw.RoundedBox(0, 0, 0, w, h, Color(10, 10, 10, 160))
 					draw.SimpleText("EQUIPMENT UI", "SettingsLabel", TM.MenuScale(20), TM.MenuScale(10), white, TEXT_ALIGN_LEFT)

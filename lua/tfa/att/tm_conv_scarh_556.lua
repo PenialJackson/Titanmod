@@ -24,15 +24,6 @@ ATTACHMENT.WeaponTable = {
 		["KickHorizontal"] = function(wep, stat) return stat * 0.6 end,
 		["Sound"] = function(wep, stat) return Sound("TFA_INS2.SCAR_SSR.Fire.CONV") end,
 		["SilencedSound"] = function(wep, stat) return Sound("TFA_INS2.SCAR_SSR.Fire_Suppressed.CONV") end
-	},
-	["SequenceRateOverride"] = {
-		["iron_fire"] = 5,
-		["iron_fire_a"] = 5,
-		["iron_fire_b"] = 5,
-		["iron_fire_c"] = 5,
-		["iron_fire_d"] = 5,
-		["iron_fire_e"] = 5,
-		["iron_fire_f"] = 5
 	}
 }
 

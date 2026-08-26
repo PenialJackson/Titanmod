@@ -5,6 +5,9 @@ COLORS.white = Color(255, 255, 255, 255)
 COLORS.transparent = Color(0, 0, 0, 0)
 
 COLORS.red = Color(255, 0, 0, 255)
+COLORS.outlineBlack = Color(10, 10, 10, 255)
+COLORS.outlineGreen = Color(0, 255, 0, 15)
+COLORS.outlineRed = Color(255, 0, 0, 15)
 
 COLORS.streakOrange = Color(255, 200, 100)
 COLORS.streakRed = Color(255, 50, 50)

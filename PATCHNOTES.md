@@ -89,6 +89,9 @@
 *Flamethrower*
 - Increased damage to 30 (previously 15)
 
+*G36A1*
+- Reduced RPM to 750 (previously 800)
+
 *Howa Type 64*
 - Reduced vertical recoil to 60 (previously 83)
 
@@ -133,6 +136,8 @@
 - Fixed various misalligned sights across all weapons
 
 - Fixed missing iron sight firing animations across numerous weapons
+
+- Fixed incorrect rendering on outlined text
 
 - Fixed usages of deprecated classes and hooks
 
