@@ -127,15 +127,21 @@
 
 - Death information now shows the attackers health at the moment of killing you instead of updating in real time
 
+- Attachments are now sorted and categorized in a standardized manner across all weapons
+
+- Weapon types now display the slot of a weapon and the classifcation in regards to Titanmod instead of a general description
+
+- Most optic attachments have had their names simplified
+
 - Fixed Coonan .357 and various melee weapons not being able to fire underwater
 
-- Fixed Coonan .357 having spread while ADSing
+- Fixed Crossbow and Coonan .357 having spread while ADSing
 
 - Fixed Kar98k having an incorrect auto switch weighting
 
-- Fixed various misalligned sights across all weapons
+- Fixed various misalligned ADS positions across all weapons
 
-- Fixed missing iron sight firing animations across numerous weapons
+- Fixed missing ADS firing animations across numerous weapons
 
 - Fixed incorrect rendering on outlined text
 
