@@ -85,11 +85,12 @@ if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
 	table.Shuffle(ggWeaponArray)
 
 	for _, v in ipairs(ggWeaponArray) do
-		if (v[3] == "primary" or v[3] == "secondary") and v[1] != "st_stim_pistol" and v[1] != "swat_shield" and v[1] != "tfa_ins2_ak400" and v[1] != "tfa_ins2_cq300" and v[1] != "tfa_ins2_ump45" and v[1] != "tfa_ins2_eftm4a1" and v[1] != "tfa_howa_type_64" and v[1] != "rust_bow" and v[1] != "rust_crossbow" and itemsAdded < (gunGameSize:GetInt() - 1) then
+		if (v[3] == "primary" or v[3] == "secondary") and v[1] != "st_stim_pistol" and v[1] != "swat_shield" and v[1] != "tfa_ins2_cq300" and v[1] != "tfa_ins2_ump45" and v[1] != "tfa_howa_type_64" and v[1] != "tfa_jw_tti_mpx" and v[1] != "tfa_codww2_flamethrower" and itemsAdded < (gunGameSize:GetInt() - 1) then
 			table.insert(ggLadder, {v[1], ggRandMelee[math.random(#ggRandMelee)]})
 			itemsAdded = itemsAdded + 1
 		end
 	end
+
 	table.insert(ggLadder, {ggRandMelee[math.random(#ggRandMelee)]})
 end
 

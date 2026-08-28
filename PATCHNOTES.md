@@ -1,5 +1,8 @@
 # --- (##/##/##)
 **>GAMEPLAY**
+*NEW WEAPONS*
+- **SCAR-L** (Primary, Rifle)
+
 *MOBILITY*
 - Mobility is no longer set on a per weapon basis, with every weapon now having identical base mobility (said base mobility being 100%)
 
@@ -24,6 +27,7 @@
 - Renamed Glock 18 to Glock 17
 - Renamed Mac 10 to MAC-10
 - Renamed Remington MSR to MSR
+- Removed the AK-400 and the M1911 from the weapon pool
 
 *NEW CONVAR SETTINGS*
 - Individual speed values for each state instead of one global multiplier
@@ -100,6 +104,10 @@
 *Flamethrower*
 - Increased damage to 30 (previously 15)
 
+*G28*
+- Reduced vertical recoil to 50 (previously 110)
+- Reduced horizontal recoil to 15 (previously 30)
+
 *G36A1*
 - Reduced RPM to 750 (previously 800)
 
@@ -116,6 +124,9 @@
 *MSR*
 - Increased damage to 113 (previously 120)
 - Increased spread to 50 (previously 33)
+
+*SKS*
+- Reduced horizontal recoil to 20 (previously 35)
 
 *WA-2000*
 - Reduced vertical recoil to 70 (previously 200)

@@ -4,9 +4,9 @@ if not ATTACHMENT then
 	ATTACHMENT = {}
 end
 
-ATTACHMENT.Name        = "Flechette Shells"
-ATTACHMENT.ShortName   = "FLECH"
-ATTACHMENT.Icon        = "entities/flechetterounds.png"
+ATTACHMENT.Name = "Flechette Shells"
+ATTACHMENT.ShortName = "FLECH"
+ATTACHMENT.Icon = "entities/flechetterounds.png"
 
 ATTACHMENT.Description = {
     TFA.AttachmentColors["+"], "25% less spread",

@@ -4,9 +4,9 @@ if not ATTACHMENT then
 	ATTACHMENT = {}
 end
 
-ATTACHMENT.Name        = "Dragon's Breath Shells"
-ATTACHMENT.ShortName   = "DRGN"
-ATTACHMENT.Icon        = "entities/dragon_breach_shell.png"
+ATTACHMENT.Name = "Dragon's Breath Shells"
+ATTACHMENT.ShortName = "DRGN"
+ATTACHMENT.Icon = "entities/dragon_breach_shell.png"
 
 ATTACHMENT.Description = {
     TFA.Attachments.Colors["+"], "6 additional pellets",
