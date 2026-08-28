@@ -82,6 +82,17 @@
 - Improved player clipping
 
 **>BALANCE**
+*Compensator Attachment*
+- Removed ADS speed penalty (previously 5%)
+
+*Muzzle Brake Attachment*
+- Removed ADS speed penalty (previously 5%)
+
+*Suppressor Attachment*
+- Removed damage penalty (previously 5%)
+- Removed vertical recoil reduction (previously 5%)
+- Increased spread penalty to 10% (previously 5% spread bonus)
+
 *ACR*
 - Reduced vertical recoil to 15 (previously 30)
 - Reduced horizontal recoil to 6 (previously 15)
