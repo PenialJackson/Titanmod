@@ -24,8 +24,12 @@
 
 *WEAPON ADJUSTMENTS*
 - Renamed Dual Mac 10s to Dual MAC-10s
+- Renamed FG 42 to FG42
 - Renamed Glock 18 to Glock 17
 - Renamed Mac 10 to MAC-10
+- Renamed MG 34 to MG34
+- Renamed MG 42 to MG42
+- Renamed MP 40 to MP40
 - Renamed Remington MSR to MSR
 - Removed the AK-400 and the M1911 from the weapon pool
 
@@ -101,6 +105,29 @@
 - Reduced vertical recoil to 15 (previously 30)
 - Reduced horizontal recoil to 6 (previously 15)
 
+*Bow*
+- Removed the slight random deviation in the arrows travel path
+
+*Crossbow*
+- Removed the slight random deviation in the arrows travel path
+
+*Dual MAC-10s*
+- Increased RPM to 2222 (previously 1375)
+- Increased spread to 28 (previously 23)
+- Reduced damage to 18 (previously 20)
+- Reduced vertical recoil to 40 (previously 50)
+- Reduced horizontal recoil to 8 (previously 9)
+
+*Dual Skorpions*
+- Increased damage to 20 (previously 18)
+- Reduced RPM to 1800 (previously 2400)
+- Reduced spread to 23 (previously 28)
+- Reduced horizontal recoil to 10 (previously 20)
+
+*FG42*
+- Reduced vertical recoil to 55 (previously 65)
+- Reduced horizontal recoil to 20 (previously 23)
+
 *Flamethrower*
 - Increased damage to 30 (previously 15)
 
@@ -114,12 +141,27 @@
 *Howa Type 64*
 - Reduced vertical recoil to 60 (previously 83)
 
+*Lewis Gun*
+- Reduced vertical recoil to 30 (previously 35)
+- Reduced horizontal recoil to 15 (previously 20)
+
 *M134 Minigun*
 - Increased damage to 12 (previously 10)
+
+*M3 Grease Gun*
+- Increased damage to 33 (previously 30)
+- Reduced RPM to 450 (previously 500)
 
 *Mas 38*
 - Reduced vertical recoil to 18 (previously 25)
 - Reduced horizontal recoil to 5 (previously 10)
+
+*MG34*
+- Reduced vertical recoil to 20 (previously 35)
+- Reduced horizontal recoil to 10 (previously 20)
+
+*MP40*
+- Reduced vertical recoil to 20 (previously 32)
 
 *MSR*
 - Increased damage to 113 (previously 120)

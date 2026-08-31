@@ -209,8 +209,8 @@ function SWEP:Throw()
 			local ent = ents.Create(self:GetStat("Primary.Projectile"))
 			local ang = self:GetOwner():EyeAngles()
 
-			ang:RotateAroundAxis(ang:Right(), math.Rand(0, 0.5) - 0.25)
-			ang:RotateAroundAxis(ang:Up(), math.Rand(0, 0.5) - 0.25)
+			-- ang:RotateAroundAxis(ang:Right(), math.Rand(0, 0.5) - 0.25)
+			-- ang:RotateAroundAxis(ang:Up(), math.Rand(0, 0.5) - 0.25)
 
 			local dir = ang:Forward()
 
@@ -220,21 +220,21 @@ function SWEP:Throw()
 				ent:SetModel(self:GetStat("Primary.ProjectileModel"))
 				ent:SetPhysicsAttacker(self:GetOwner())
 				ent:SetOwner(self:GetOwner())
-				ent.damage = 500*self.DMGMultiplier
+				ent.damage = 500 * self.DMGMultiplier
 				ent.spinny = self:GetStat("Primary.ProjectileSpin")
 				ent.ProjMass = self.ProjectileMass
 				ent.GravityMultiplier = self.ProjectileGravityMultiplier
 				ent:Spawn()
 
 				local phys = ent:GetPhysicsObject()
-				local vel = self:GetStat("Primary.ProjectileVelocity")*self.DMGMultiplier
+				local vel = self:GetStat("Primary.ProjectileVelocity") * self.DMGMultiplier
 
 				if IsValid(phys) then
 					phys:SetVelocity(dir * vel)
 				end
 
 				self:GetOwner():SetAnimation(PLAYER_ATTACK1)
-				ent:SetLocalAngularVelocity(Angle(100,200,50))
+				ent:SetLocalAngularVelocity(Angle(100, 200, 50))
 				self:TakePrimaryAmmo(1)
 
 				if self.Primary.Ammo == "none" then
@@ -246,6 +246,7 @@ function SWEP:Throw()
 						ParticleEffectAttach("rust_fire", PATTACH_POINT_FOLLOW, ent, 1)
 					end
 				end
+
 				if vel >= 2000 then
 					ent.trail = util.SpriteTrail(ent, 0, Color(255, 255, 255), false, 12, 0, 0.15, 1/12 * 0.5, "trails/laser")
 				else
