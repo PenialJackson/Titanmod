@@ -79,23 +79,24 @@ MAPS = {
 	[1] = {"tm_arctic", "Arctic", "maps/thumb/tm_arctic.png", true, 0},
 	[2] = {"tm_bridge", "Bridge", "maps/thumb/tm_bridge.png", true, 0},
 	[3] = {"tm_corrugated", "Corrugated", "maps/thumb/tm_corrugated.png", true, 0},
-	[4] = {"tm_disequilibrium", "Disequilibrium", "maps/thumb/tm_disequilibrium.png", true, 0},
-	[5] = {"tm_grid", "Grid", "maps/thumb/tm_grid.png", true, 0},
-	[6] = {"tm_initial", "Initial", "maps/thumb/tm_initial.png", true, 5},
-	[7] = {"tm_legacy", "Legacy", "maps/thumb/tm_legacy.png", true, 5},
-	[8] = {"tm_liminal_pool", "Liminal Pool", "maps/thumb/tm_liminal_pool.png", true, 0},
-	[9] = {"tm_mall", "Mall", "maps/thumb/tm_mall.png", true, 0},
-	[10] = {"tm_mephitic", "Mephitic", "maps/thumb/tm_mephitic.png", true, 0},
-	[11] = {"tm_nuketown", "Nuketown", "maps/thumb/tm_nuketown.png", true, 5},
-	[12] = {"tm_oxide", "Oxide", "maps/thumb/tm_oxide.png", true, 0},
-	[13] = {"tm_rig", "Rig", "maps/thumb/tm_rig.png", true, 0},
-	[14] = {"tm_rust", "Rust", "maps/thumb/tm_rust.png", true, 5},
-	[15] = {"tm_sanctuary", "Sanctuary", "maps/thumb/tm_sanctuary.png", true, 0},
-	[16] = {"tm_shipment", "Shipment", "maps/thumb/tm_shipment.png", true, 5},
-	[17] = {"tm_shoot_house", "Shoot House", "maps/thumb/tm_shoot_house.png", true, 5},
-	[18] = {"tm_station", "Station", "maps/thumb/tm_station.png", true, 0},
-	[19] = {"tm_villa", "Villa", "maps/thumb/tm_villa.png", true, 0},
-	[20] = {"tm_wreck", "Wreck", "maps/thumb/tm_wreck.png", true, 0}
+	[4] = {"tm_cradle", "Cradle", "maps/thumb/tm_cradle.png", true, 0},
+	[5] = {"tm_disequilibrium", "Disequilibrium", "maps/thumb/tm_disequilibrium.png", true, 0},
+	[6] = {"tm_grid", "Grid", "maps/thumb/tm_grid.png", true, 0},
+	[7] = {"tm_initial", "Initial", "maps/thumb/tm_initial.png", true, 5},
+	[8] = {"tm_legacy", "Legacy", "maps/thumb/tm_legacy.png", true, 5},
+	[9] = {"tm_liminal_pool", "Liminal Pool", "maps/thumb/tm_liminal_pool.png", true, 0},
+	[10] = {"tm_mall", "Mall", "maps/thumb/tm_mall.png", true, 0},
+	[11] = {"tm_mephitic", "Mephitic", "maps/thumb/tm_mephitic.png", true, 0},
+	[12] = {"tm_nuketown", "Nuketown", "maps/thumb/tm_nuketown.png", true, 5},
+	[13] = {"tm_oxide", "Oxide", "maps/thumb/tm_oxide.png", true, 0},
+	[14] = {"tm_rig", "Rig", "maps/thumb/tm_rig.png", true, 0},
+	[15] = {"tm_rust", "Rust", "maps/thumb/tm_rust.png", true, 5},
+	[16] = {"tm_sanctuary", "Sanctuary", "maps/thumb/tm_sanctuary.png", true, 0},
+	[17] = {"tm_shipment", "Shipment", "maps/thumb/tm_shipment.png", true, 5},
+	[18] = {"tm_shoot_house", "Shoot House", "maps/thumb/tm_shoot_house.png", true, 5},
+	[19] = {"tm_station", "Station", "maps/thumb/tm_station.png", true, 0},
+	[20] = {"tm_villa", "Villa", "maps/thumb/tm_villa.png", true, 0},
+	[21] = {"tm_wreck", "Wreck", "maps/thumb/tm_wreck.png", true, 0}
 }
 
 AVAILABLEMAPS = {}
@@ -117,6 +118,11 @@ KOTHPOS = {
 	["tm_corrugated"] = {
 		origin = Vector(192, 516, 188),
 		size = Vector(64, 252, 60)
+	},
+
+	["tm_cradle"] = {
+		origin = Vector(0, 0, 0),
+		size = Vector(64, 256, 64)
 	},
 
 	["tm_disequilibrium"] = {
@@ -920,5 +926,6 @@ QUOTES = {
 	'"i need my payday too" -Tired Swiss',
 	'"i went to the butcher and they didnt have any wobblemeat" -goldie',
 	'"" -saul t. nuts',
-	'"buy a cake and eat it" -waddlechud'
+	'"buy a cake and eat it" -waddlechud',
+	'"when is loosenmod coming out?! amirite!?!" -styamage'
 }
