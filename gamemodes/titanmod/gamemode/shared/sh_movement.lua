@@ -163,12 +163,12 @@ local function SlideSurfaceSound(ply, pos)
 	trace_tbl.filter = ply
 	local tr = util.TraceLine(trace_tbl)
 	local sndtable = slide_sounds[tr.MatType] or slide_sounds[0]
-	ply:EmitSound(sndtable[math.random(#sndtable)], math.random(40, 50), math.random(90, 110) + math.random(-4, 4))
+	ply:EmitSound(table.SeqRandom(sndtable), math.random(40, 50), math.random(90, 110) + math.random(-4, 4))
 	ply:EmitSound("datae/fol_sprint_rustle_0" .. math.random(1, 5) .. ".wav")
 
 	if ply:WaterLevel() > 0 then
 		sndtable = slide_sounds[MAT_SLOSH]
-		ply:EmitSound(sndtable[math.random(#sndtable)])
+		ply:EmitSound(table.SeqRandom(sndtable))
 	end
 end
 

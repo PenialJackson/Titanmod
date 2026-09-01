@@ -665,385 +665,6 @@ timer.Create("HealthRegenTick", hpRegenIntervalCVar:GetFloat(), 0, function()
 	end
 end)
 
-if table.HasValue(AVAILABLEMAPS, game.GetMap()) then
-	local mapVoteOpen = false
-	local mapVotes = {}
-	local modeVotes = {}
-	local playersVoted = {}
-	local playersVotedMode = {}
-	local firstMap
-	local secondMap
-	local thirdMap
-	local firstMode
-	local secondMode
-
-	-- begins the process of ending a match
-	function EndMatch()
-		SetGlobalInt("VotesOnModeOne", 0)
-		SetGlobalInt("VotesOnModeTwo", 0)
-		SetGlobalInt("VotesOnMapOne", 0)
-		SetGlobalInt("VotesOnMapTwo", 0)
-		SetGlobalInt("VotesOnMapThree", 0)
-		SetGlobalBool("tm_matchended", true)
-		timer.Remove("matchStatusCheck")
-
-		hook.Remove("PlayerCanHearPlayersVoice", "ProxVOIP")
-
-		hook.Add("PlayerCanHearPlayersVoice", "ProxVOIPPostMatch", function(listener,talker)
-			if listener:GetNWBool("PostGameMute") == true then
-				return false, false
-			else
-				return true, false
-			end
-		end)
-
-		net.Receive("ReceivePostGameMute", function(len, ply)
-			ply:SetNWBool("PostGameMute", net.ReadBool())
-		end)
-
-		hook.Add("PlayerSay", "SendToEORChat", function(ply, text)
-			net.Start("SendChatMessage")
-				net.WriteString(ply:Nick() .. " | " .. text)
-			net.Broadcast()
-		end)
-
-		mapVotes = {}
-		playersVoted = {}
-		modeVotes = {}
-		playersVotedMode = {}
-
-		for k, v in RandomPairs(AVAILABLEMAPS) do
-			table.insert(mapVotes, 0)
-		end
-
-		for i = 1, #GAMEMODES.MODES, 1 do
-			table.insert(modeVotes, 0)
-		end
-
-		mapVoteOpen = true
-
-		local mapPool = {}
-		local mapPoolSecondary = {}
-		local modePool = {}
-		local modePoolSecondary = {}
-
-		-- primary map pool will only contain maps suitable for the current player count
-		-- secondary map pool will contain every map in the game
-
-		-- primary mode pool will only contain modes that are simplistic in nature
-		-- secondary mode pool will only contain modes with complicated elements (objectives, weird modifiers, etc)
-
-		-- makes sure that the map currently being played is not added to the map pool, and check if maps are allowed to be added to the map pool
-		for _, v in RandomPairs(AVAILABLEMAPS) do
-			if game.GetMap() != v then
-				table.insert(mapPool, v)
-			end
-		end
-
-		for _, v in RandomPairs(AVAILABLEMAPS) do
-			if game.GetMap() != v then
-				table.insert(mapPoolSecondary, v)
-			end
-		end
-
-		-- remove maps from primary map pool if they are not fit for current player count
-		for _, v in ipairs(MAPS) do
-			if player.GetCount() > 5 and v[5] != 0 then
-				table.RemoveByValue(mapPool, v[1])
-			end
-
-			if player.GetCount() <= 5 and v[5] == 0 then
-				table.RemoveByValue(mapPool, v[1])
-			end
-		end
-
-		for id, info in RandomPairs(GAMEMODES.MODES) do
-			if TM.GAMEMODE != id then
-				if info.special == true then
-					table.insert(modePoolSecondary, id)
-				else
-					table.insert(modePool, id)
-				end
-			end
-		end
-
-		firstMap = mapPool[1]
-		table.RemoveByValue(mapPoolSecondary, firstMap) -- make sure that the same map isnt on both votes
-		secondMap = mapPoolSecondary[1]
-		table.RemoveByValue(mapPoolSecondary, secondMap) -- you'd never guess
-		thirdMap = mapPoolSecondary[1]
-
-		firstMode = modePool[1]
-		secondMode = modePoolSecondary[2]
-
-		hook.Add("PlayerDisconnected", "ServerEmptyDuringVoteCheck", function()
-			timer.Create("DelayBeforeEmptyCheck", 5, 1, function()
-				if player.GetCount() == 0 then
-					RunConsoleCommand("changelevel", firstMap)
-				end
-			end)
-		end)
-
-		if player.GetCount() == 0 then
-			RunConsoleCommand("changelevel", firstMap)
-
-			return
-		end
-
-		for _, v in ipairs(player.GetAll()) do
-			v:SetLaggedMovementValue(0.2)
-			v:SetNWBool("PostGameMute", false)
-		end
-
-		-- failsafe in case map votes are just not generated
-		if firstMap == nil then firstMap = "tm_arctic" end
-		if secondMap == nil then secondMap = "tm_mall" end
-		if thirdMap == nil then thirdMap = "tm_station" end
-
-		net.Start("EndOfGame")
-			net.WriteString(firstMap)
-			net.WriteString(secondMap)
-			net.WriteString(thirdMap)
-			net.WriteInt(firstMode, 5)
-			net.WriteInt(secondMode, 5)
-		net.Broadcast()
-
-		timer.Create("killAfterDelay", 8, 1, function()
-			for _, v in ipairs(player.GetAll()) do
-				v:KillSilent()
-			end
-		end)
-
-		local connectedPlayers = player.GetHumans()
-
-		if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
-			table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end) else table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end)
-		end
-
-		for k, v in ipairs(connectedPlayers) do
-			if player.GetCount() > 1 then
-				v:SetNWInt("matchesPlayed", v:GetNWInt("matchesPlayed") + 1)
-
-				if v:Frags() >= v:GetNWInt("highestKillGame") then
-					v:SetNWInt("highestKillGame", v:Frags())
-				end
-
-				if k == 1 then
-					v:SetNWInt("matchesWon", v:GetNWInt("matchesWon") + 1)
-					v:SetNWInt("playerXP", v:GetNWInt("playerXP") + (1500 * xpMultCVar:GetFloat()))
-					CheckForPlayerLevel(v)
-				else
-					v:SetNWInt("playerXP", v:GetNWInt("playerXP") + (750 * xpMultCVar:GetFloat()))
-					CheckForPlayerLevel(v)
-				end
-			end
-		end
-
-		local newMap
-		local newMode
-
-		if voting:GetBool() then
-			timer.Create("mapVoteStatus", 22, 1, function()
-				local newMapTable = {}
-				local newModeTable = {}
-				local maxMapVotes = 0
-				local maxModeVotes = 0
-
-				for _, v in pairs(mapVotes) do
-					if v > maxMapVotes then
-						maxMapVotes = v
-					end
-				end
-
-				for k, v in ipairs(AVAILABLEMAPS) do
-					if mapVotes[k] == maxMapVotes then
-						table.insert(newMapTable, v)
-					end
-				end
-
-				for _, v in pairs(modeVotes) do
-					if v > maxModeVotes then
-						maxModeVotes = v
-					end
-				end
-
-				for id, _ in ipairs(GAMEMODES.MODES) do
-					if modeVotes[id] == maxModeVotes then
-						table.insert(newModeTable, id)
-					end
-				end
-
-				mapVoteOpen = false
-				newMap = newMapTable[math.random(#newMapTable)]
-				newMode = newModeTable[math.random(#newModeTable)]
-
-				net.Start("MapVoteCompleted")
-					net.WriteString(newMap)
-					net.WriteInt(newMode, 5)
-				net.Broadcast()
-			end)
-		else
-			mapVoteOpen = false
-			newMap = mapPoolSecondary[1]
-
-			if math.random(0, 1) == 0 then
-				newMode = modePool[1]
-			else
-				newMode = modePoolSecondary[1]
-			end
-
-			net.Start("MapVoteSkipped")
-				net.WriteString(newMap)
-				net.WriteInt(newMode, 5)
-			net.Broadcast()
-		end
-
-		timer.Create("newMapCooldown", 33, 1, function()
-			RunConsoleCommand("changelevel", newMap)
-			RunConsoleCommand("tm_gamemode", newMode)
-		end)
-	end
-
-	-- calls for a match end once the match timer has concluded
-	local function MatchStatusCheck()
-		local ct = CurTime()
-		local currentTime = math.Round(GetGlobalInt("tm_matchtime", 0) - ct)
-
-		if ct > GetGlobalInt("tm_matchtime", 0) then
-			EndMatch()
-		end
-
-		if currentTime == 300 or currentTime == 60 or currentTime == 10 then
-			net.Start("SendNotification")
-				net.WriteString(string.FormattedTime(currentTime, "%i:%02i") .. " remaining in the match!")
-				net.WriteString("time")
-			net.Broadcast()
-		end
-	end
-
-	-- checking the match time periodically to determine when a match should end
-	timer.Create("matchStatusCheck", 1, 0, MatchStatusCheck)
-
-	net.Receive("ReceiveMapVote", function(len, ply)
-		if mapVoteOpen == false then return end
-
-		local votedMap = net.ReadString()
-		local unvotedMap = net.ReadString()
-		local mapIndex = net.ReadUInt(3)
-		local unvotedMapIndex = net.ReadUInt(3)
-		local unvotedMapInt = ""
-		local revote = false
-
-		if playersVoted != nil then
-			for _, v in pairs(playersVoted) do
-				if v == ply then revote = true end
-			end
-		end
-
-		if revote == false then
-			for k, v in ipairs(AVAILABLEMAPS) do
-				if v == votedMap then
-					mapVotes[k] = mapVotes[k] + 1
-					table.insert(playersVoted, ply)
-
-					if mapIndex	== 1 then
-						SetGlobalInt("VotesOnMapOne", GetGlobalInt("VotesOnMapOne", 0) + 1)
-					elseif mapIndex == 2 then
-						SetGlobalInt("VotesOnMapTwo", GetGlobalInt("VotesOnMapTwo", 0) + 1)
-					elseif mapIndex == 3 then
-						SetGlobalInt("VotesOnMapThree", GetGlobalInt("VotesOnMapThree", 0) + 1)
-					end
-				end
-			end
-		else
-			if unvotedMapIndex == 1 then
-				unvotedMapInt = "VotesOnMapOne"
-			elseif unvotedMapIndex == 2 then
-				unvotedMapInt = "VotesOnMapTwo"
-			elseif unvotedMapIndex == 3 then
-				unvotedMapInt = "VotesOnMapThree"
-			end
-
-			for k, v in ipairs(AVAILABLEMAPS) do
-				if v == votedMap then
-					mapVotes[k] = mapVotes[k] + 1
-					if mapIndex	== 1 then
-						SetGlobalInt("VotesOnMapOne", GetGlobalInt("VotesOnMapOne", 0) + 1)
-						SetGlobalInt(unvotedMapInt, GetGlobalInt(unvotedMapInt, 0) - 1)
-					elseif mapIndex == 2 then
-						SetGlobalInt("VotesOnMapTwo", GetGlobalInt("VotesOnMapTwo", 0) + 1)
-						SetGlobalInt(unvotedMapInt, GetGlobalInt(unvotedMapInt, 0) - 1)
-					elseif mapIndex == 3 then
-						SetGlobalInt("VotesOnMapThree", GetGlobalInt("VotesOnMapThree", 0) + 1)
-						SetGlobalInt(unvotedMapInt, GetGlobalInt(unvotedMapInt, 0) - 1)
-					end
-				end
-
-				if v == unvotedMap then
-					mapVotes[k] = mapVotes[k] - 1
-				end
-			end
-		end
-	end)
-
-	net.Receive("ReceiveModeVote", function(len, ply)
-		if mapVoteOpen == false then return end
-
-		local votedMode = net.ReadInt(5)
-		local unvotedMode = net.ReadInt(5)
-		local modeIndex = net.ReadUInt(2)
-		local revote = false
-
-		if playersVotedMode != nil then
-			for _, v in pairs(playersVotedMode) do
-				if v == ply then
-					revote = true
-				end
-			end
-		end
-
-		if revote == false then
-			for id, _ in ipairs(GAMEMODES.MODES) do
-				if id == votedMode then
-					modeVotes[id] = modeVotes[id] + 1
-					table.insert(playersVotedMode, ply)
-
-					if modeIndex == 1 then
-						SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) + 1)
-					elseif modeIndex == 2 then
-						SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) + 1)
-					end
-				end
-			end
-		else
-			for id, _ in ipairs(GAMEMODES.MODES) do
-				if id == votedMode then
-					modeVotes[id] = modeVotes[id] + 1
-
-					if modeIndex == 1 then
-						SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) + 1)
-						SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) - 1)
-					elseif modeIndex == 2 then
-						SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) + 1)
-						SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) - 1)
-					end
-				end
-
-				if id == unvotedMode then
-					modeVotes[id] = modeVotes[id] - 1
-				end
-			end
-		end
-	end)
-
-	function ForceEndMatchCommand(ply, cmd, args)
-		if !ply:IsAdmin() then return end
-
-		EndMatch()
-	end
-	concommand.Add("tm_forceendmatch", ForceEndMatchCommand)
-end
-
 function AddMatchTimeCommand(ply, cmd, args)
 	if !ply:IsAdmin() then return end
 
@@ -1073,3 +694,370 @@ hook.Add("CanPlayerSuicide", "IntermissionBlocksSuicide", function(ply)
 		return false
 	end
 end)
+
+if MAPS[game.GetMap()] == nil then return end
+
+local mapVoteOpen = false
+local mapVotes = {}
+local modeVotes = {}
+local playersVoted = {}
+local playersVotedMode = {}
+local firstMap
+local secondMap
+local thirdMap
+local firstMode
+local secondMode
+
+-- begins the process of ending a match
+function EndMatch()
+	SetGlobalInt("VotesOnModeOne", 0)
+	SetGlobalInt("VotesOnModeTwo", 0)
+	SetGlobalInt("VotesOnMapOne", 0)
+	SetGlobalInt("VotesOnMapTwo", 0)
+	SetGlobalInt("VotesOnMapThree", 0)
+	SetGlobalBool("tm_matchended", true)
+	timer.Remove("matchStatusCheck")
+
+	hook.Remove("PlayerCanHearPlayersVoice", "ProxVOIP")
+
+	hook.Add("PlayerCanHearPlayersVoice", "ProxVOIPPostMatch", function(listener,talker)
+		if listener:GetNWBool("PostGameMute") == true then
+			return false, false
+		else
+			return true, false
+		end
+	end)
+
+	net.Receive("ReceivePostGameMute", function(len, ply)
+		ply:SetNWBool("PostGameMute", net.ReadBool())
+	end)
+
+	hook.Add("PlayerSay", "SendToEORChat", function(ply, text)
+		net.Start("SendChatMessage")
+			net.WriteString(ply:Nick() .. " | " .. text)
+		net.Broadcast()
+	end)
+
+	mapVotes = {0, 0, 0}
+	playersVoted = {}
+	modeVotes = {0, 0, 0}
+	playersVotedMode = {}
+
+	for i = 1, #GAMEMODES.MODES, 1 do
+		table.insert(modeVotes, 0)
+	end
+
+	mapVoteOpen = true
+
+	local mapPool = {}
+	local mapPoolSecondary = {}
+	local modePool = {}
+	local modePoolSecondary = {}
+
+	-- primary map pool will only contain maps suitable for the current player count
+	-- secondary map pool will contain every map in the game
+
+	-- primary mode pool will only contain modes that are simplistic in nature
+	-- secondary mode pool will only contain modes with complicated elements (objectives, weird modifiers, etc)
+
+	-- makes sure that the map currently being played is not added to the map pool, and check if maps are allowed to be added to the map pool
+
+	local plyCount = player.GetCount()
+	local curMap = game.GetMap()
+
+	for map, info in pairs(MAPS) do
+		if curMap == map then continue end
+		if plyCount > 4 and info.compact then continue end
+		if plyCount <= 4 and !info.compact then continue end
+
+		table.insert(mapPool, map)
+	end
+
+	for map, _ in pairs(MAPS) do
+		if curMap == map then continue end
+
+		table.insert(mapPoolSecondary, map)
+	end
+
+	table.Shuffle(mapPool)
+	table.Shuffle(mapPoolSecondary)
+
+	for id, info in RandomPairs(GAMEMODES.MODES) do
+		if TM.GAMEMODE != id then
+			if info.special == true then
+				table.insert(modePoolSecondary, id)
+			else
+				table.insert(modePool, id)
+			end
+		end
+	end
+
+	firstMap = mapPool[1]
+	table.RemoveByValue(mapPoolSecondary, firstMap) -- make sure that the same map isnt on both votes
+	secondMap = mapPoolSecondary[1]
+	table.RemoveByValue(mapPoolSecondary, secondMap) -- you'd never guess
+	thirdMap = mapPoolSecondary[1]
+
+	firstMode = modePool[1]
+	secondMode = modePoolSecondary[2]
+
+	hook.Add("PlayerDisconnected", "ServerEmptyDuringVoteCheck", function()
+		timer.Create("DelayBeforeEmptyCheck", 5, 1, function()
+			if player.GetCount() == 0 then
+				RunConsoleCommand("changelevel", firstMap)
+			end
+		end)
+	end)
+
+	if player.GetCount() == 0 then
+		RunConsoleCommand("changelevel", firstMap)
+
+		return
+	end
+
+	for _, v in ipairs(player.GetAll()) do
+		v:SetLaggedMovementValue(0.2)
+		v:SetNWBool("PostGameMute", false)
+	end
+
+	-- failsafe in case map votes are just not generated
+	if firstMap == nil then firstMap = "tm_arctic" end
+	if secondMap == nil then secondMap = "tm_mall" end
+	if thirdMap == nil then thirdMap = "tm_station" end
+
+	net.Start("EndOfGame")
+		net.WriteString(firstMap)
+		net.WriteString(secondMap)
+		net.WriteString(thirdMap)
+		net.WriteInt(firstMode, 5)
+		net.WriteInt(secondMode, 5)
+	net.Broadcast()
+
+	timer.Create("killAfterDelay", 8, 1, function()
+		for _, v in ipairs(player.GetAll()) do
+			v:KillSilent()
+		end
+	end)
+
+	local connectedPlayers = player.GetHumans()
+
+	if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
+		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end) else table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end)
+	end
+
+	for k, v in ipairs(connectedPlayers) do
+		if player.GetCount() > 1 then
+			v:SetNWInt("matchesPlayed", v:GetNWInt("matchesPlayed") + 1)
+
+			if v:Frags() >= v:GetNWInt("highestKillGame") then
+				v:SetNWInt("highestKillGame", v:Frags())
+			end
+
+			if k == 1 then
+				v:SetNWInt("matchesWon", v:GetNWInt("matchesWon") + 1)
+				v:SetNWInt("playerXP", v:GetNWInt("playerXP") + (1500 * xpMultCVar:GetFloat()))
+				CheckForPlayerLevel(v)
+			else
+				v:SetNWInt("playerXP", v:GetNWInt("playerXP") + (750 * xpMultCVar:GetFloat()))
+				CheckForPlayerLevel(v)
+			end
+		end
+	end
+
+	local newMap
+	local newMode
+
+	if voting:GetBool() then
+		timer.Create("mapVoteStatus", 22, 1, function()
+			local newMapTable = {}
+			local newModeTable = {}
+			local maxMapVotes = 0
+			local maxModeVotes = 0
+
+			for _, v in pairs(mapVotes) do
+				if v > maxMapVotes then
+					maxMapVotes = v
+				end
+			end
+
+			if mapVotes[1] == maxMapVotes then
+				table.insert(newMapTable, firstMap)
+			end
+
+			if mapVotes[2] == maxMapVotes then
+				table.insert(newMapTable, secondMap)
+			end
+
+			if mapVotes[3] == maxMapVotes then
+				table.insert(newMapTable, thirdMap)
+			end
+
+			for _, v in pairs(modeVotes) do
+				if v > maxModeVotes then
+					maxModeVotes = v
+				end
+			end
+
+			for id, _ in ipairs(GAMEMODES.MODES) do
+				if modeVotes[id] == maxModeVotes then
+					table.insert(newModeTable, id)
+				end
+			end
+
+			mapVoteOpen = false
+			newMap = table.SeqRandom(newMapTable)
+			newMode = table.SeqRandom(newModeTable)
+
+			net.Start("MapVoteCompleted")
+				net.WriteString(newMap)
+				net.WriteInt(newMode, 5)
+			net.Broadcast()
+		end)
+	else
+		mapVoteOpen = false
+		newMap = mapPoolSecondary[1]
+
+		if math.random(0, 1) == 0 then
+			newMode = modePool[1]
+		else
+			newMode = modePoolSecondary[1]
+		end
+
+		net.Start("MapVoteSkipped")
+			net.WriteString(newMap)
+			net.WriteInt(newMode, 5)
+		net.Broadcast()
+	end
+
+	timer.Create("newMapCooldown", 33, 1, function()
+		RunConsoleCommand("changelevel", newMap)
+		RunConsoleCommand("tm_gamemode", newMode)
+	end)
+end
+
+-- calls for a match end once the match timer has concluded
+local function MatchStatusCheck()
+	local ct = CurTime()
+	local currentTime = math.Round(GetGlobalInt("tm_matchtime", 0) - ct)
+
+	if ct > GetGlobalInt("tm_matchtime", 0) then
+		EndMatch()
+	end
+
+	if currentTime == 300 or currentTime == 60 or currentTime == 10 then
+		net.Start("SendNotification")
+			net.WriteString(string.FormattedTime(currentTime, "%i:%02i") .. " remaining in the match!")
+			net.WriteString("time")
+		net.Broadcast()
+	end
+end
+
+-- checking the match time periodically to determine when a match should end
+timer.Create("matchStatusCheck", 1, 0, MatchStatusCheck)
+
+net.Receive("ReceiveMapVote", function(len, ply)
+	if mapVoteOpen == false then return end
+
+	local mapIndex = net.ReadUInt(3)
+	local unvotedMapIndex = net.ReadUInt(3)
+	local unvotedMapInt = ""
+	local revote = false
+
+	if playersVoted != nil then
+		for _, v in pairs(playersVoted) do
+			if v == ply then revote = true end
+		end
+	end
+
+	if revote == false then
+		table.insert(playersVoted, ply)
+		mapVotes[mapIndex] = mapVotes[mapIndex] + 1
+
+		if mapIndex	== 1 then
+			SetGlobalInt("VotesOnMapOne", GetGlobalInt("VotesOnMapOne", 0) + 1)
+		elseif mapIndex == 2 then
+			SetGlobalInt("VotesOnMapTwo", GetGlobalInt("VotesOnMapTwo", 0) + 1)
+		elseif mapIndex == 3 then
+			SetGlobalInt("VotesOnMapThree", GetGlobalInt("VotesOnMapThree", 0) + 1)
+		end
+	else
+		if unvotedMapIndex == 1 then
+			unvotedMapInt = "VotesOnMapOne"
+		elseif unvotedMapIndex == 2 then
+			unvotedMapInt = "VotesOnMapTwo"
+		elseif unvotedMapIndex == 3 then
+			unvotedMapInt = "VotesOnMapThree"
+		end
+
+		mapVotes[mapIndex] = mapVotes[mapIndex] + 1
+		mapVotes[unvotedMapIndex] = mapVotes[unvotedMapIndex] - 1
+
+		if mapIndex	== 1 then
+			SetGlobalInt("VotesOnMapOne", GetGlobalInt("VotesOnMapOne", 0) + 1)
+			SetGlobalInt(unvotedMapInt, GetGlobalInt(unvotedMapInt, 0) - 1)
+		elseif mapIndex == 2 then
+			SetGlobalInt("VotesOnMapTwo", GetGlobalInt("VotesOnMapTwo", 0) + 1)
+			SetGlobalInt(unvotedMapInt, GetGlobalInt(unvotedMapInt, 0) - 1)
+		elseif mapIndex == 3 then
+			SetGlobalInt("VotesOnMapThree", GetGlobalInt("VotesOnMapThree", 0) + 1)
+			SetGlobalInt(unvotedMapInt, GetGlobalInt(unvotedMapInt, 0) - 1)
+		end
+	end
+end)
+
+net.Receive("ReceiveModeVote", function(len, ply)
+	if mapVoteOpen == false then return end
+
+	local votedMode = net.ReadInt(5)
+	local unvotedMode = net.ReadInt(5)
+	local modeIndex = net.ReadUInt(2)
+	local revote = false
+
+	if playersVotedMode != nil then
+		for _, v in pairs(playersVotedMode) do
+			if v == ply then
+				revote = true
+			end
+		end
+	end
+
+	if revote == false then
+		for id, _ in ipairs(GAMEMODES.MODES) do
+			if id == votedMode then
+				modeVotes[id] = modeVotes[id] + 1
+				table.insert(playersVotedMode, ply)
+
+				if modeIndex == 1 then
+					SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) + 1)
+				elseif modeIndex == 2 then
+					SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) + 1)
+				end
+			end
+		end
+	else
+		for id, _ in ipairs(GAMEMODES.MODES) do
+			if id == votedMode then
+				modeVotes[id] = modeVotes[id] + 1
+
+				if modeIndex == 1 then
+					SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) + 1)
+					SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) - 1)
+				elseif modeIndex == 2 then
+					SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) + 1)
+					SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) - 1)
+				end
+			end
+
+			if id == unvotedMode then
+				modeVotes[id] = modeVotes[id] - 1
+			end
+		end
+	end
+end)
+
+function ForceEndMatchCommand(ply, cmd, args)
+	if !ply:IsAdmin() then return end
+
+	EndMatch()
+end
+concommand.Add("tm_forceendmatch", ForceEndMatchCommand)

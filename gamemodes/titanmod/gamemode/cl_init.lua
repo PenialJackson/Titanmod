@@ -91,25 +91,6 @@ cvars.AddChangeCallback("tm_render_hands", function(_, _, new)
 	end
 end)
 
-local blurMat = Material("pp/blurscreen")
-
-function BlurPanel(panel, strength, steps)
-	if panel == nil or !ispanel(panel) then return end
-
-	local blurX, blurY = panel:LocalToScreen(0, 0)
-	local newStrength = strength * 0.33
-
-	surface.SetMaterial(blurMat)
-	surface.SetDrawColor(255, 255, 255, 255)
-
-	for i = 1, steps or 3 do
-		blurMat:SetFloat("$blur", i * newStrength)
-		blurMat:Recompute()
-		if render then render.UpdateScreenEffectTexture() end
-		surface.DrawTexturedRect(blurX * -1, blurY * -1, ScrW(), ScrH())
-	end
-end
-
 function UpdatePopOutPos(panel, sideH, sideV, x, y)
 	if sideH == true then
 		panel:SetX(math.Clamp(x + 15, 10, ScrW() - panel:GetWide() - 10))

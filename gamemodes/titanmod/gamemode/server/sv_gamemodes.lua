@@ -40,17 +40,17 @@ if TM.GAMEMODE == GAMEMODES.IDS.FIESTA then
 		end
 	end
 
-	fiestaPrimary = randPrimary[math.random(#randPrimary)]
-	fiestaSecondary = randSecondary[math.random(#randSecondary)]
-	fiestaMelee = randMelee[math.random(#randMelee)]
+	fiestaPrimary = table.SeqRandom(randPrimary)
+	fiestaSecondary = table.SeqRandom(randSecondary)
+	fiestaMelee = table.SeqRandom(randMelee)
 
 	SetGlobalInt("FiestaTime", fiestaTime:GetInt() + intermissionLength:GetInt())
 
 	function ShuffleFiestaLoadout()
 		SetGlobalInt("FiestaTime", fiestaTime:GetInt() + GetGlobalInt("FiestaTime"))
-		fiestaPrimary = randPrimary[math.random(#randPrimary)]
-		fiestaSecondary = randSecondary[math.random(#randSecondary)]
-		fiestaMelee = randMelee[math.random(#randMelee)]
+		fiestaPrimary = table.SeqRandom(randPrimary)
+		fiestaSecondary = table.SeqRandom(randSecondary)
+		fiestaMelee = table.SeqRandom(randMelee)
 
 		for k, v in ipairs(player.GetHumans()) do
 			v:SetNWString("loadoutPrimary", fiestaPrimary)
@@ -86,12 +86,12 @@ if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
 
 	for _, v in ipairs(ggWeaponArray) do
 		if (v[3] == "primary" or v[3] == "secondary") and v[1] != "st_stim_pistol" and v[1] != "swat_shield" and v[1] != "tfa_ins2_cq300" and v[1] != "tfa_ins2_ump45" and v[1] != "tfa_howa_type_64" and v[1] != "tfa_jw_tti_mpx" and v[1] != "tfa_codww2_flamethrower" and itemsAdded < (gunGameSize:GetInt() - 1) then
-			table.insert(ggLadder, {v[1], ggRandMelee[math.random(#ggRandMelee)]})
+			table.insert(ggLadder, {v[1], table.SeqRandom(ggRandMelee)})
 			itemsAdded = itemsAdded + 1
 		end
 	end
 
-	table.insert(ggLadder, {ggRandMelee[math.random(#ggRandMelee)]})
+	table.insert(ggLadder, {table.SeqRandom(ggRandMelee)})
 end
 
 if TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPERS then
@@ -237,8 +237,8 @@ end
 -- FFA, Shotty Snipers & KOTH
 if TM.GAMEMODE == GAMEMODES.IDS.FFA or TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPERS or TM.GAMEMODE == GAMEMODES.IDS.KOTH then
 	function HandlePlayerInitialSpawn(ply)
-		ply:SetNWString("loadoutPrimary", randPrimary[math.random(#randPrimary)])
-		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
+		ply:SetNWString("loadoutPrimary", table.SeqRandom(randPrimary))
+		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 	end
 
@@ -255,8 +255,8 @@ if TM.GAMEMODE == GAMEMODES.IDS.FFA or TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPER
 	end
 
 	function HandlePlayerDeath(ply, weaponName)
-		ply:SetNWString("loadoutPrimary", randPrimary[math.random(#randPrimary)])
-		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
+		ply:SetNWString("loadoutPrimary", table.SeqRandom(randPrimary))
+		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 	end
 end
@@ -345,8 +345,8 @@ if TM.GAMEMODE == GAMEMODES.IDS.CRANKED then
 	local crankedMult = GetConVar("sv_tm_mode_cranked_state_buff_mult")
 
 	function HandlePlayerInitialSpawn(ply)
-		ply:SetNWString("loadoutPrimary", randPrimary[math.random(#randPrimary)])
-		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
+		ply:SetNWString("loadoutPrimary", table.SeqRandom(randPrimary))
+		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 	end
 
@@ -391,8 +391,8 @@ if TM.GAMEMODE == GAMEMODES.IDS.CRANKED then
 	end
 
 	function HandlePlayerDeath(ply, weaponName)
-		ply:SetNWString("loadoutPrimary", randPrimary[math.random(#randPrimary)])
-		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
+		ply:SetNWString("loadoutPrimary", table.SeqRandom(randPrimary))
+		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 
 		if timer.Exists(ply:SteamID() .. "CrankedTimer") then
@@ -404,7 +404,7 @@ end
 -- Quickdraw
 if TM.GAMEMODE == GAMEMODES.IDS.QUICKDRAW then
 	function HandlePlayerInitialSpawn(ply)
-		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
+		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 	end
 
@@ -420,7 +420,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.QUICKDRAW then
 	end
 
 	function HandlePlayerDeath(ply, weaponName)
-		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
+		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 	end
 end
@@ -428,8 +428,8 @@ end
 -- VIP
 if TM.GAMEMODE == GAMEMODES.IDS.VIP then
 	function HandlePlayerInitialSpawn(ply)
-		ply:SetNWString("loadoutPrimary", randPrimary[math.random(#randPrimary)])
-		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
+		ply:SetNWString("loadoutPrimary", table.SeqRandom(randPrimary))
+		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 	end
 
@@ -460,8 +460,8 @@ if TM.GAMEMODE == GAMEMODES.IDS.VIP then
 			SetGlobalEntity("tm_vip", connectedPlayers[1])
 		end
 
-		ply:SetNWString("loadoutPrimary", randPrimary[math.random(#randPrimary)])
-		ply:SetNWString("loadoutSecondary", randSecondary[math.random(#randSecondary)])
+		ply:SetNWString("loadoutPrimary", table.SeqRandom(randPrimary))
+		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 	end
 end

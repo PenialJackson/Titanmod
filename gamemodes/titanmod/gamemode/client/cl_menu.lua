@@ -39,10 +39,8 @@ net.Receive("OpenMainMenu", function(len)
 		timer.Create("respawnTimeLeft", respawnTimeLeft, 1, function() end)
 	end
 
-	local mapID
-	local mapName
-
-	local modeName = GAMEMODES.MODES[TM.GAMEMODE].name
+	local mapName = MAPS[game.GetMap()].name or game.GetMap()
+	local modeName = GAMEMODES.MODES[TM.GAMEMODE].name or "UNKNOWN"
 
 	local canPrestige
 	if LocalPlayer():GetNWInt("playerLevel") != 60 then canPrestige = false else canPrestige = true end
@@ -65,13 +63,6 @@ net.Receive("OpenMainMenu", function(len)
 		MainMenu:SetAlpha(0)
 
 		MainMenu:AlphaTo(255, 0.1, 0)
-
-		for i = 1, #MAPS do
-			if game.GetMap() == MAPS[i][1] then
-				mapID = MAPS[i][1]
-				mapName = MAPS[i][2]
-			end
-		end
 
 		MainMenu.Paint = function()
 			BlurPanel(MainMenu, 10)
@@ -123,11 +114,7 @@ net.Receive("OpenMainMenu", function(len)
 					draw.SimpleText("+ " .. math.Round(LocalPlayer():GetNWInt("playerXP"), 0) .. "XP", "StreakText", TM.MenuScale(535), TM.MenuScale(55), white, TEXT_ALIGN_LEFT)
 				end
 
-				if mapID == nil then
-					draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. game.GetMap()), "StreakText", TM.MenuScale(5 + spawnTextAnim), ScrH() / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
-				else
-					draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. mapName), "StreakText", TM.MenuScale(10 + spawnTextAnim), ScrH() / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
-				end
+				draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. mapName), "StreakText", TM.MenuScale(10 + spawnTextAnim), ScrH() / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
 			end
 
 			if canPrestige == true then
@@ -4263,7 +4250,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					crosshairPreviewImage.DoClick = function()
 						local imagePool = table.Copy(previewPool)
 						table.RemoveByValue(imagePool, previewImg)
-						previewImg = imagePool[math.random(#imagePool)]
+						previewImg = table.SeqRandom(imagePool)
 						crosshairPreviewImage:SetImage(previewImg)
 					end
 
@@ -4570,7 +4557,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local border = Material("overlay/objborder.png")
 				local timeText = " ∞"
 				timer.Create("previewLoop", 1, 0, function()
-					mode = modePool[math.random(#modePool)]
+					mode = table.SeqRandom(modePool)
 					modeTime = math.random(1, 45)
 					modeTimeText = "0:" .. modeTime
 					ggGuns = math.random(1, ggGuns)

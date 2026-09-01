@@ -48,7 +48,7 @@ hook.Add("PlayerSelectSpawn", "HideoutSpawning", function(_)
 	if possibleSpawns[1] == nil then return false end
 
 	for i = 1, #possibleSpawns do
-		local spawn = possibleSpawns[math.random(#possibleSpawns)]
+		local spawn = table.SeqRandom(possibleSpawns)
 		local entities = ents.FindInSphere(spawn:GetPos(), 512)
 		local blocked = false
 
@@ -67,7 +67,7 @@ hook.Add("PlayerSelectSpawn", "HideoutSpawning", function(_)
 	local maxMinDistance = -1
 
 	for i = 1, #possibleSpawns do
-		local spawn = possibleSpawns[math.random(#possibleSpawns)]
+		local spawn = table.SeqRandom(possibleSpawns)
 		local minDistance = math.huge
 
 		for _, ply in ipairs(plys) do

@@ -1226,7 +1226,6 @@ net.Receive("EndOfGame", function(len)
 	local winningPlayer
 	local wonMatch = false
 	local mapPicked = 0
-	local mapPickedName = ""
 	local gamemodePicked
 	local mapDecided = false
 	local gamemodeDecided = false
@@ -1256,12 +1255,12 @@ net.Receive("EndOfGame", function(len)
 	local firstMode = net.ReadInt(5)
 	local secondMode = net.ReadInt(5)
 
-	local firstMapName
-	local firstMapThumb
-	local secondMapName
-	local secondMapThumb
-	local thirdMapName
-	local thirdMapThumb
+	local firstMapName = MAPS[firstMap].name
+	local firstMapThumb = MAPS[firstMap].thumbnail
+	local secondMapName = MAPS[secondMap].name
+	local secondMapThumb = MAPS[secondMap].thumbnail
+	local thirdMapName = MAPS[thirdMap].name
+	local thirdMapThumb = MAPS[thirdMap].thumbnail
 	local decidedMapName
 	local decidedMapThumb
 	local firstModeName
@@ -1269,23 +1268,6 @@ net.Receive("EndOfGame", function(len)
 	local secondModeName
 	local secondModeDesc
 	local decidedModeName
-
-	for _, t in ipairs(MAPS) do
-		if firstMap == t[1] then
-			firstMapName = t[2]
-			firstMapThumb = t[3]
-		end
-
-		if secondMap == t[1] then
-			secondMapName = t[2]
-			secondMapThumb = t[3]
-		end
-
-		if thirdMap == t[1] then
-			thirdMapName = t[2]
-			thirdMapThumb = t[3]
-		end
-	end
 
 	for id, info in ipairs(GAMEMODES.MODES) do
 		if firstMode == id then
@@ -1364,7 +1346,7 @@ net.Receive("EndOfGame", function(len)
 	local textAnimTwo = ScrH()
 	local levelAnim = 0
 	local xpCountUp = 0
-	local quote = QUOTES[math.random(#QUOTES)]
+	local quote = table.SeqRandom(QUOTES)
 
 	local matchWinLoseText
 
@@ -1622,15 +1604,12 @@ net.Receive("EndOfGame", function(len)
 		mapChoice:SetDepressImage(false)
 
 		function mapChoice:DoClick()
+			mapPicked = 1
+
 			net.Start("ReceiveMapVote")
-				net.WriteString(firstMap)
-				net.WriteString(mapPickedName)
 				net.WriteUInt(1, 3)
 				net.WriteUInt(mapPicked, 3)
 			net.SendToServer()
-
-			mapPicked = 1
-			mapPickedName = firstMap
 
 			surface.PlaySound("buttons/button15.wav")
 
@@ -1646,15 +1625,12 @@ net.Receive("EndOfGame", function(len)
 		mapChoiceTwo:SetDepressImage(false)
 
 		function mapChoiceTwo:DoClick()
+			mapPicked = 2
+
 			net.Start("ReceiveMapVote")
-				net.WriteString(secondMap)
-				net.WriteString(mapPickedName)
 				net.WriteUInt(2, 3)
 				net.WriteUInt(mapPicked, 3)
 			net.SendToServer()
-
-			mapPicked = 2
-			mapPickedName = secondMap
 
 			surface.PlaySound("buttons/button15.wav")
 
@@ -1670,15 +1646,12 @@ net.Receive("EndOfGame", function(len)
 		mapChoiceThree:SetDepressImage(false)
 
 		function mapChoiceThree:DoClick()
+			mapPicked = 3
+
 			net.Start("ReceiveMapVote")
-				net.WriteString(thirdMap)
-				net.WriteString(mapPickedName)
 				net.WriteUInt(3, 3)
 				net.WriteUInt(mapPicked, 3)
 			net.SendToServer()
-
-			mapPicked = 3
-			mapPickedName = thirdMap
 
 			surface.PlaySound("buttons/button15.wav")
 
@@ -1728,12 +1701,14 @@ net.Receive("EndOfGame", function(len)
 		end
 
 		local function MapVoteCompleted()
-			for _, m in ipairs(MAPS) do
-				if decidedMap == m[1] then
-					decidedMapName = m[2]
-					decidedMapThumb = m[3]
-				end
-			end
+			mapChoice:Remove()
+			mapChoiceTwo:Remove()
+			mapChoiceThree:Remove()
+			modeChoice:Remove()
+			modeChoiceTwo:Remove()
+
+			decidedMapName = MAPS[decidedMap].name
+			decidedMapThumb = MAPS[decidedMap].thumbnail
 
 			for id, info in ipairs(GAMEMODES.MODES) do
 				if decidedMode == id then
@@ -1743,12 +1718,6 @@ net.Receive("EndOfGame", function(len)
 
 			mapDecided = true
 			gamemodeDecided = true
-
-			mapChoice:Remove()
-			mapChoiceTwo:Remove()
-			mapChoiceThree:Remove()
-			modeChoice:Remove()
-			modeChoiceTwo:Remove()
 
 			local decidedMapThumbPanel = vgui.Create("DImage", votingPanel)
 			decidedMapThumbPanel:SetPos(TM.MenuScale(150), TM.MenuScale(70))
