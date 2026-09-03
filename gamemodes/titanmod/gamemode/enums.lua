@@ -79,234 +79,169 @@ MAPS = {
 	["tm_arctic"] = {
 		name = "Arctic",
 		thumbnail = "maps/thumb/tm_arctic.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(504, 384, 320),
+		kothSize = Vector(120, 112, 64)
 	},
 
 	["tm_bridge"] = {
 		name = "Bridge",
 		thumbnail = "maps/thumb/tm_bridge.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(-3552, 96, 484),
+		kothSize = Vector(224, 288, 64)
 	},
 
 	["tm_corrugated"] = {
 		name = "Corrugated",
 		thumbnail = "maps/thumb/tm_corrugated.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(192, 516, 188),
+		kothSize = Vector(64, 252, 60)
 	},
 
 	["tm_cradle"] = {
 		name = "Cradle",
 		thumbnail = "maps/thumb/tm_cradle.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(0, 0, 0),
+		kothSize = Vector(64, 256, 64)
 	},
 
 	["tm_disequilibrium"] = {
 		name = "Disequilibrium",
 		thumbnail = "maps/thumb/tm_disequilibrium.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(-280, 1940, 1064),
+		kothSize = Vector(96, 100, 72)
 	},
 
 	["tm_grid"] = {
 		name = "Grid",
 		thumbnail = "maps/thumb/tm_grid.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(0, -1408, -560),
+		kothSize = Vector(128, 256, 112)
 	},
 
 	["tm_initial"] = {
 		name = "Initial",
 		thumbnail = "maps/thumb/tm_initial.png",
-		compact = true
+		compact = true,
+		kothOrigin = Vector(-136, 0, 68),
+		kothSize = Vector(104, 128, 68)
 	},
 
 	["tm_legacy"] = {
 		name = "Legacy",
 		thumbnail = "maps/thumb/tm_legacy.png",
-		compact = true
+		compact = true,
+		kothOrigin = Vector(-352, -416, 512),
+		kothSize = Vector(148, 148, 64)
 	},
 
 	["tm_liminal_pool"] = {
 		name = "Liminal Pool",
 		thumbnail = "maps/thumb/tm_liminal_pool.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(0, 1184, 144),
+		kothSize = Vector(128, 176, 80)
 	},
 
 	["tm_mall"] = {
 		name = "Mall",
 		thumbnail = "maps/thumb/tm_mall.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(2180, 1536, 72),
+		kothSize = Vector(108, 216, 64)
 	},
 
 	["tm_mephitic"] = {
 		name = "Mephitic",
 		thumbnail = "maps/thumb/tm_mephitic.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(960, -320, 2748),
+		kothSize = Vector(96, 96, 60)
 	},
 
 	["tm_nuketown"] = {
 		name = "Nuketown",
 		thumbnail = "maps/thumb/tm_nuketown.png",
-		compact = true
+		compact = true,
+		kothOrigin = Vector(-89, 238, 128),
+		kothSize = Vector(108, 120, 64)
 	},
 
 	["tm_oxide"] = {
 		name = "Oxide",
 		thumbnail = "maps/thumb/tm_oxide.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(550, 1800, -176),
+		kothSize = Vector(192, 144, 64)
 	},
 
 	["tm_rig"] = {
 		name = "Rig",
 		thumbnail = "maps/thumb/tm_rig.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(-1024, -1024, -584),
+		kothSize = Vector(256, 256, 128)
 	},
 
 	["tm_rust"] = {
 		name = "Rust",
 		thumbnail = "maps/thumb/tm_rust.png",
-		compact = true
+		compact = true,
+		kothOrigin = Vector(608, 1252, -196),
+		kothSize = Vector(164, 144, 128)
 	},
 
 	["tm_sanctuary"] = {
 		name = "Sanctuary",
 		thumbnail = "maps/thumb/tm_sanctuary.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(-472, 888, 10),
+		kothSize = Vector(152, 168, 90)
 	},
 
 	["tm_shipment"] = {
 		name = "Shipment",
 		thumbnail = "maps/thumb/tm_shipment.png",
-		compact = true
+		compact = true,
+		kothOrigin = Vector(0, 0, 64),
+		kothSize = Vector(64, 64, 64)
 	},
 
 	["tm_shoot_house"] = {
 		name = "Shoot House",
 		thumbnail = "maps/thumb/tm_shoot_house.png",
-		compact = true
+		compact = true,
+		kothOrigin = Vector(-168, -437, 192),
+		kothSize = Vector(168, 116.5, 63.5)
 	},
 
 	["tm_station"] = {
 		name = "Station",
 		thumbnail = "maps/thumb/tm_station.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(-300, 496, 468),
+		kothSize = Vector(108, 264, 62)
 	},
 
 	["tm_villa"] = {
 		name = "Villa",
 		thumbnail = "maps/thumb/tm_villa.png",
-		compact = false
+		compact = false,
+		kothOrigin = Vector(128, -880, -64),
+		kothSize = Vector(128, 112, 64)
 	},
 
 	["tm_wreck"] = {
 		name = "Wreck",
 		thumbnail = "maps/thumb/tm_wreck.png",
-		compact = false
-	}
-}
-
-KOTHPOS = {
-	["tm_arctic"] = {
-		origin = Vector(504, 384, 320),
-		size = Vector(120, 112, 64)
-	},
-
-	["tm_bridge"] = {
-		origin = Vector(-3552, 96, 484),
-		size = Vector(224, 288, 64)
-	},
-
-	["tm_corrugated"] = {
-		origin = Vector(192, 516, 188),
-		size = Vector(64, 252, 60)
-	},
-
-	["tm_cradle"] = {
-		origin = Vector(0, 0, 0),
-		size = Vector(64, 256, 64)
-	},
-
-	["tm_disequilibrium"] = {
-		origin = Vector(-280, 1940, 1064),
-		size = Vector(96, 100, 72)
-	},
-
-	["tm_grid"] = {
-		origin = Vector(0, -1408, -560),
-		size = Vector(128, 256, 112)
-	},
-
-	["tm_initial"] = {
-		origin = Vector(-136, 0, 68),
-		size = Vector(104, 128, 68)
-	},
-
-	["tm_legacy"] = {
-		origin = Vector(-352, -416, 512),
-		size = Vector(148, 148, 64)
-	},
-
-	["tm_liminal_pool"] = {
-		origin = Vector(0, 1184, 144),
-		size = Vector(128, 176, 80)
-	},
-
-	["tm_mall"] = {
-		origin = Vector(2180, 1536, 72),
-		size = Vector(108, 216, 64)
-	},
-
-	["tm_mephitic"] = {
-		origin = Vector(960, -320, 2748),
-		size = Vector(96, 96, 60)
-	},
-
-	["tm_nuketown"] = {
-		origin = Vector(-89, 238, 128),
-		size = Vector(108, 120, 64)
-	},
-
-	["tm_oxide"] = {
-		origin = Vector(550, 1800, -176),
-		size = Vector(192, 144, 64)
-	},
-
-	["tm_rig"] = {
-		origin = Vector(-1024, -1024, -584),
-		size = Vector(256, 256, 128)
-	},
-
-	["tm_rust"] = {
-		origin = Vector(608, 1252, -196),
-		size = Vector(164, 144, 128)
-	},
-
-	["tm_sanctuary"] = {
-		origin = Vector(-472, 888, 10),
-		size = Vector(152, 168, 90)
-	},
-
-	["tm_shipment"] = {
-		origin = Vector(0, 0, 64),
-		size = Vector(64, 64, 64)
-	},
-
-	["tm_shoot_house"] = {
-		origin = Vector(-168, -437, 192),
-		size = Vector(168, 116.5, 63.5)
-	},
-
-	["tm_station"] = {
-		origin = Vector(-300, 496, 468),
-		size = Vector(108, 264, 62)
-	},
-
-	["tm_villa"] = {
-		origin = Vector(128, -880, -64),
-		size = Vector(128, 112, 64)
-	},
-
-	["tm_wreck"] = {
-		origin = Vector(244, -192, 8),
-		size = Vector(140, 112, 80)
+		compact = false,
+		kothOrigin = Vector(244, -192, 8),
+		kothSize = Vector(140, 112, 80)
 	}
 }
 

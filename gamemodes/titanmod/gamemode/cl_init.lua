@@ -1,10 +1,10 @@
+include("enums.lua")
 include("shared.lua")
 
 TM.CLIENT = TM.CLIENT or {}
 
-include("config.lua")
-include("enums.lua")
 include("util.lua")
+include("config.lua")
 
 local ogLocalPlayer = LocalPlayer
 local lcply = ogLocalPlayer()

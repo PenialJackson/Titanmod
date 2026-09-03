@@ -1,11 +1,14 @@
 ENT.Base = "base_brush"
 ENT.Type = "brush"
 
-local kothInfo = KOTHPOS[game.GetMap()]
-if kothInfo == nil then return end
+local curMap = game.GetMap()
+if MAPS[curMap] == nil then return end
 
-ENT.Origin = kothInfo.origin
-ENT.Size = kothInfo.size
+local kothOrigin = MAPS[curMap].kothOrigin or Vector(0, 0, 0)
+local kothSize = MAPS[curMap].kothSize or Vector(128, 128, 128)
+
+ENT.Origin = kothOrigin
+ENT.Size = kothSize
 
 if SERVER then
     function ENT:Initialize()

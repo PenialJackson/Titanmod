@@ -654,9 +654,9 @@ local function RenderVelocity()
 	draw.DrawText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityoverlayX + hudX, velocityoverlayY + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 end
 
-local kothInfo = KOTHPOS[game.GetMap()] or {origin = Vector(0, 0, 0), size = Vector(0, 0, 0)}
-local origin = kothInfo.origin
-local size = kothInfo.size
+local curMap = game.GetMap()
+local kothOrigin = MAPS[curMap].kothOrigin or Vector(0, 0, 0)
+local kothSize = MAPS[curMap].kothSize or Vector(128, 128, 128)
 
 local playerAngle
 local indiFade = 1
@@ -667,27 +667,27 @@ local function RenderKOTH()
 	render.SetColorMaterial()
 
 	if LocalPlayer():GetNWBool("onOBJ") then
-		render.DrawBox(origin - Vector(0, 0, -2), angle_zero, -size, size - Vector(0, 0, size[3] * 2), hillColor)
+		render.DrawBox(kothOrigin - Vector(0, 0, -2), angle_zero, -kothSize, kothSize - Vector(0, 0, kothSize[3] * 2), hillColor)
 
 		return
 	end
 
-	render.DrawBox(origin, angle_zero, -size, size, hillColor)
+	render.DrawBox(kothOrigin, angle_zero, -kothSize, kothSize, hillColor)
 
 	playerAngle = LocalPlayer():EyeAngles()
 	playerAngle:RotateAroundAxis(playerAngle:Forward(), 90)
 	playerAngle:RotateAroundAxis(playerAngle:Right(), 90)
 
 	cam.IgnoreZ(true)
-		cam.Start3D2D(origin, playerAngle, origin:Distance(LocalPlayer():GetPos()) * 0.0015 * objHUD["scale"])
+		cam.Start3D2D(kothOrigin, playerAngle, kothOrigin:Distance(LocalPlayer():GetPos()) * 0.0015 * objHUD["scale"])
 			if IsValid(weapon) and (type(weapon.GetIronSights) == "function" and weapon:GetIronSights()) then
 				indiFade = math.Clamp(indiFade - 7 * RealFrameTime(), 0, 1)
 			else
 				indiFade = math.Clamp(indiFade + 4 * RealFrameTime(), 0, 1)
 			end
 
-			draw.WordBox(0, TM.ScreenScale(8), TM.ScreenScale(-14), "Hill", "HUD_StreakText", Color(0, 0, 0, 10 * indiFade), Color(hudTextR, hudTextG, hudTextB, 255 * indiFade), TEXT_ALIGN_CENTER)
-			draw.WordBox(0, 0, TM.ScreenScale(11), math.Round(origin:Distance(LocalPlayer():GetPos()) * 0.01905, 0) .. "m", "HUD_Health", Color(0, 0, 0, 10 * indiFade), Color(hudTextR, hudTextG, hudTextB, 255 * indiFade), TEXT_ALIGN_CENTER)
+			draw.WordBox(0, TM.ScreenScale(8), TM.ScreenScale(-14), "HILL", "HUD_StreakText", Color(0, 0, 0, 10 * indiFade), Color(hudTextR, hudTextG, hudTextB, 255 * indiFade), TEXT_ALIGN_CENTER)
+			draw.WordBox(0, 0, TM.ScreenScale(11), math.Round(kothOrigin:Distance(LocalPlayer():GetPos()) * 0.01905, 0) .. "m", "HUD_Health", Color(0, 0, 0, 10 * indiFade), Color(hudTextR, hudTextG, hudTextB, 255 * indiFade), TEXT_ALIGN_CENTER)
 		cam.End3D2D()
 	cam.IgnoreZ(false)
 end

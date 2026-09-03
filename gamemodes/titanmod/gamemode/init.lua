@@ -1,14 +1,14 @@
+AddCSLuaFile("enums.lua")
+include("enums.lua")
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 TM.SERVER = TM.SERVER or {}
 
-AddCSLuaFile("config.lua")
-include("config.lua")
-AddCSLuaFile("enums.lua")
-include("enums.lua")
 AddCSLuaFile("util.lua")
 include("util.lua")
+AddCSLuaFile("config.lua")
+include("config.lua")
 
 for _, f in ipairs(file.Find("gamemodes/titanmod/gamemode/shared/*.lua", "GAME", "nameasc")) do
 	AddCSLuaFile("shared/" .. f)
