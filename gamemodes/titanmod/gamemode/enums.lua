@@ -1,78 +1,93 @@
-GAMEMODES = {}
-
-GAMEMODES.MODES = {
-	[1] = {
+GAMEMODES = {
+	["ffa"] = {
+		id = 1,
 		name = "FFA",
-		desc = "Kill others with randomly generated loadouts.",
-		special = false
+		desc = "Kill others with randomly generated loadouts",
+		special = false,
+		popupDesc = "Eliminate other players",
+		popupWinCondition = "Get the most score to WIN"
 	},
 
-	[2] = {
+	["cranked"] = {
+		id = 2,
 		name = "Cranked",
-		desc = "Kills grant increased movement capabilities.",
-		special = true
+		desc = "Kills grant increased movement capabilities",
+		special = true,
+		popupDesc = "Eliminate other players, movement boost on kill",
+		popupWinCondition = "Get the most score to WIN"
 	},
 
-	[3] = {
+	["gun_game"] = {
+		id = 3,
 		name = "Gun Game",
-		desc = "Progress throguh a ladder of weapons.",
-		special = false
+		desc = "Progress throguh a ladder of weapons",
+		special = false,
+		popupDesc = "Eliminate other players to advance to the next weapon",
+		popupWinCondition = "Get a kill with every each to WIN"
 	},
 
-	[4] = {
+	["shotty_snipers"] = {
+		id = 4,
 		name = "Shotty Snipers",
-		desc = "Loadouts always consisting of a sniper and a shotgun.",
-		special = true
+		desc = "Loadouts always consisting of a sniper and a shotgun",
+		special = true,
+		popupDesc = "Eliminate other players with snipers and shotguns",
+		popupWinCondition = "Get the most score to WIN"
 	},
 
-	[5] = {
+	["fiesta"] = {
+		id = 5,
 		name = "Fiesta",
-		desc = "Everyone shares the same loadout, with a new loadout being given periodically.",
-		special = false
+		desc = "Everyone shares the same loadout, with a new loadout being given periodically",
+		special = false,
+		popupDesc = "Eliminate other players with constantly changing loadouts",
+		popupWinCondition = "Get the most score to WIN"
 	},
 
-	[6] = {
+	["quickdraw"] = {
+		id = 6,
 		name = "Quickdraw",
-		desc = "Secondary weapons only.",
-		special = false
+		desc = "Secondary weapons only",
+		special = false,
+		popupDesc = "Eliminate other players with secondaries",
+		popupWinCondition = "Get the most score to WIN"
 	},
 
-	[7] = {
+	["koth"] = {
+		id = 7,
 		name = "KOTH",
-		desc = "Stand on the hill to periodically earn extra score.",
-		special = true
+		desc = "Stand on the hill to periodically earn extra score",
+		special = true,
+		popupDesc = "Capture and defend the objective",
+		popupWinCondition = "Get the most score to WIN"
 	},
 
-	[8] = {
+	["vip"] = {
+		id = 8,
 		name = "VIP",
-		desc = "Fight over the VIP status, earning extra score.",
-		special = true
+		desc = "Fight over the VIP status, earning extra score",
+		special = true,
+		popupDesc = "Track down and kill the VIP to take the crown",
+		popupWinCondition = "Get the most score to WIN"
 	},
 
-	[9] = {
+	["overkill"] = {
+		id = 9,
 		name = "Overkill",
-		desc = "No traditional loadout restrictions.",
-		special = false
+		desc = "No traditional loadout restrictions",
+		special = false,
+		popupDesc = "Eliminate other players with no loadout restrictions",
+		popupWinCondition = "Get the most score to WIN"
 	},
 
-	[10] = {
+	["fisticuffs"] = {
+		id = 10,
 		name = "Fisticuffs",
-		desc = "Melee weapons only.",
-		special = true
+		desc = "Melee weapons only",
+		special = true,
+		popupDesc = "Eliminate other players with melee weapons",
+		popupWinCondition = "Get the most score to WIN"
 	}
-}
-
-GAMEMODES.IDS = {
-	FFA = 1,
-	CRANKED = 2,
-	GUNGAME = 3,
-	SHOTTYSNIPERS = 4,
-	FIESTA = 5,
-	QUICKDRAW = 6,
-	KOTH = 7,
-	VIP = 8,
-	OVERKILL = 9,
-	FISTICUFFS = 10
 }
 
 MAPS = {

@@ -32,7 +32,7 @@ end
 SetGlobalBool("tm_matchended", false)
 
 hook.Add("Initialize", "TMInitialized", function()
-	print("Titanmod initialized, playing on " .. game.GetMap() .. " (" .. GAMEMODES.MODES[TM.GAMEMODE].name .. ") at Unix time " .. os.time())
+	print("Titanmod initialized, playing on " .. game.GetMap() .. " (" .. GAMEMODES[TM.GAMEMODE].name .. ") at Unix time " .. os.time())
 
 	RunConsoleCommand("sv_accelerate", "16")
 	RunConsoleCommand("sv_airaccelerate", "1000")
@@ -60,7 +60,7 @@ function GM:InitPostEntity()
 				ply:Freeze(false)
 			end
 
-			if TM.GAMEMODE == GAMEMODES.IDS.FIESTA then
+			if TM.GAMEMODE == "fiesta" then
 				CreateFiestaTimer()
 			end
 
@@ -493,26 +493,26 @@ net.Receive("PlayerGearChange", function(len, ply)
 			if unlockAll:GetBool() then
 				ply:SetNWString("chosenMelee", gearID)
 
-				if TM.GAMEMODE != GAMEMODES.IDS.GUNGAME and TM.GAMEMODE != GAMEMODES.IDS.FIESTA then
+				if TM.GAMEMODE != "gun_game" and TM.GAMEMODE != "fiesta" then
 					ply:SetNWString("loadoutMelee", gearID)
 				end
 			else
 				if gearUnlock == "default" then
 					ply:SetNWString("chosenMelee", gearID)
 
-					if TM.GAMEMODE != GAMEMODES.IDS.GUNGAME and TM.GAMEMODE != GAMEMODES.IDS.FIESTA then
+					if TM.GAMEMODE != "gun_game" and TM.GAMEMODE != "fiesta" then
 						ply:SetNWString("loadoutMelee", gearID)
 					end
 				elseif gearUnlock == "melee" and ply:GetNWInt("playerAccoladeSmackdown") >= gearKills then
 					ply:SetNWString("chosenMelee", gearID)
 
-					if TM.GAMEMODE != GAMEMODES.IDS.GUNGAME and TM.GAMEMODE != GAMEMODES.IDS.FIESTA then
+					if TM.GAMEMODE != "gun_game" and TM.GAMEMODE != "fiesta" then
 						ply:SetNWString("loadoutMelee", gearID)
 					end
 				elseif gearUnlock == "melee" and playerTotalLevel >= gearLevel then
 					ply:SetNWString("chosenMelee", gearID)
 
-					if TM.GAMEMODE != GAMEMODES.IDS.GUNGAME and TM.GAMEMODE != GAMEMODES.IDS.FIESTA then
+					if TM.GAMEMODE != "gun_game" and TM.GAMEMODE != "fiesta" then
 						ply:SetNWString("loadoutMelee", gearID)
 					end
 				end
@@ -707,14 +707,17 @@ local secondMap
 local thirdMap
 local firstMode
 local secondMode
+local thirdMode
 
 -- begins the process of ending a match
 function EndMatch()
-	SetGlobalInt("VotesOnModeOne", 0)
-	SetGlobalInt("VotesOnModeTwo", 0)
 	SetGlobalInt("VotesOnMapOne", 0)
 	SetGlobalInt("VotesOnMapTwo", 0)
 	SetGlobalInt("VotesOnMapThree", 0)
+	SetGlobalInt("VotesOnModeOne", 0)
+	SetGlobalInt("VotesOnModeTwo", 0)
+	SetGlobalInt("VotesOnModeThree", 0)
+
 	SetGlobalBool("tm_matchended", true)
 	timer.Remove("matchStatusCheck")
 
@@ -743,24 +746,16 @@ function EndMatch()
 	modeVotes = {0, 0, 0}
 	playersVotedMode = {}
 
-	for i = 1, #GAMEMODES.MODES, 1 do
-		table.insert(modeVotes, 0)
-	end
-
 	mapVoteOpen = true
 
 	local mapPool = {}
 	local mapPoolSecondary = {}
 	local modePool = {}
 	local modePoolSecondary = {}
+	local modePoolTertiary = {}
 
 	-- primary map pool will only contain maps suitable for the current player count
 	-- secondary map pool will contain every map in the game
-
-	-- primary mode pool will only contain modes that are simplistic in nature
-	-- secondary mode pool will only contain modes with complicated elements (objectives, weird modifiers, etc)
-
-	-- makes sure that the map currently being played is not added to the map pool, and check if maps are allowed to be added to the map pool
 
 	local plyCount = player.GetCount()
 	local curMap = game.GetMap()
@@ -782,24 +777,39 @@ function EndMatch()
 	table.Shuffle(mapPool)
 	table.Shuffle(mapPoolSecondary)
 
-	for id, info in RandomPairs(GAMEMODES.MODES) do
-		if TM.GAMEMODE != id then
-			if info.special == true then
-				table.insert(modePoolSecondary, id)
-			else
-				table.insert(modePool, id)
-			end
-		end
-	end
-
 	firstMap = mapPool[1]
 	table.RemoveByValue(mapPoolSecondary, firstMap) -- make sure that the same map isnt on both votes
 	secondMap = mapPoolSecondary[1]
 	table.RemoveByValue(mapPoolSecondary, secondMap) -- you'd never guess
 	thirdMap = mapPoolSecondary[1]
 
+	-- primary mode pool will only contain modes that are simplistic in nature
+	-- secondary mode pool will only contain modes with complicated elements (objectives, weird modifiers, etc)
+	-- third mode pool contains all modes
+
+	local curMode = TM.GAMEMODE
+
+	for mode, info in pairs(GAMEMODES) do
+		if curMode == mode then continue end
+
+		if !info.special then
+			table.insert(modePool, mode)
+		else
+			table.insert(modePoolSecondary, mode)
+		end
+
+		table.insert(modePoolTertiary, mode)
+	end
+
+	table.Shuffle(modePool)
+	table.Shuffle(modePoolSecondary)
+	table.Shuffle(modePoolTertiary)
+
 	firstMode = modePool[1]
-	secondMode = modePoolSecondary[2]
+	table.RemoveByValue(modePoolTertiary, firstMode)
+	secondMode = modePoolSecondary[1]
+	table.RemoveByValue(modePoolTertiary, secondMode)
+	thirdMode = modePoolTertiary[1]
 
 	hook.Add("PlayerDisconnected", "ServerEmptyDuringVoteCheck", function()
 		timer.Create("DelayBeforeEmptyCheck", 5, 1, function()
@@ -811,8 +821,6 @@ function EndMatch()
 
 	if player.GetCount() == 0 then
 		RunConsoleCommand("changelevel", firstMap)
-
-		return
 	end
 
 	for _, v in ipairs(player.GetAll()) do
@@ -820,17 +828,19 @@ function EndMatch()
 		v:SetNWBool("PostGameMute", false)
 	end
 
-	-- failsafe in case map votes are just not generated
+	-- failsafe in case votes are just not generated
 	if firstMap == nil then firstMap = "tm_arctic" end
 	if secondMap == nil then secondMap = "tm_mall" end
 	if thirdMap == nil then thirdMap = "tm_station" end
+	if firstMode == nil then firstMode = "ffa" end
+	if secondMode == nil then secondMode = "gun_game" end
+	if thirdMode == nil then thirdMode = "cranked" end
 
 	net.Start("EndOfGame")
 		net.WriteString(firstMap)
 		net.WriteString(secondMap)
-		net.WriteString(thirdMap)
-		net.WriteInt(firstMode, 5)
-		net.WriteInt(secondMode, 5)
+		net.WriteString(firstMode)
+		net.WriteString(secondMode)
 	net.Broadcast()
 
 	timer.Create("killAfterDelay", 8, 1, function()
@@ -841,8 +851,10 @@ function EndMatch()
 
 	local connectedPlayers = player.GetHumans()
 
-	if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
-		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end) else table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end)
+	if TM.GAMEMODE != "gun_game" then
+		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end)
+	else
+		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end)
 	end
 
 	for k, v in ipairs(connectedPlayers) do
@@ -874,7 +886,7 @@ function EndMatch()
 			local maxMapVotes = 0
 			local maxModeVotes = 0
 
-			for _, v in pairs(mapVotes) do
+			for _, v in ipairs(mapVotes) do
 				if v > maxMapVotes then
 					maxMapVotes = v
 				end
@@ -892,16 +904,22 @@ function EndMatch()
 				table.insert(newMapTable, thirdMap)
 			end
 
-			for _, v in pairs(modeVotes) do
+			for _, v in ipairs(modeVotes) do
 				if v > maxModeVotes then
 					maxModeVotes = v
 				end
 			end
 
-			for id, _ in ipairs(GAMEMODES.MODES) do
-				if modeVotes[id] == maxModeVotes then
-					table.insert(newModeTable, id)
-				end
+			if modeVotes[1] == maxModeVotes then
+				table.insert(newModeTable, firstMode)
+			end
+
+			if modeVotes[2] == maxModeVotes then
+				table.insert(newModeTable, secondMode)
+			end
+
+			if modeVotes[3] == maxModeVotes then
+				table.insert(newModeTable, thirdMode)
 			end
 
 			mapVoteOpen = false
@@ -910,7 +928,7 @@ function EndMatch()
 
 			net.Start("MapVoteCompleted")
 				net.WriteString(newMap)
-				net.WriteInt(newMode, 5)
+				net.WriteString(newMode)
 			net.Broadcast()
 		end)
 	else
@@ -925,13 +943,13 @@ function EndMatch()
 
 		net.Start("MapVoteSkipped")
 			net.WriteString(newMap)
-			net.WriteInt(newMode, 5)
+			net.WriteString(newMode)
 		net.Broadcast()
 	end
 
 	timer.Create("newMapCooldown", 33, 1, function()
+		RunConsoleCommand("tm_gamemode", GAMEMODES[newMode].id)
 		RunConsoleCommand("changelevel", newMap)
-		RunConsoleCommand("tm_gamemode", newMode)
 	end)
 end
 
@@ -964,12 +982,14 @@ net.Receive("ReceiveMapVote", function(len, ply)
 	local revote = false
 
 	if playersVoted != nil then
-		for _, v in pairs(playersVoted) do
-			if v == ply then revote = true end
+		for _, v in ipairs(playersVoted) do
+			if v == ply then
+				revote = true
+			end
 		end
 	end
 
-	if revote == false then
+	if !revote then
 		table.insert(playersVoted, ply)
 		mapVotes[mapIndex] = mapVotes[mapIndex] + 1
 
@@ -1008,49 +1028,51 @@ end)
 net.Receive("ReceiveModeVote", function(len, ply)
 	if mapVoteOpen == false then return end
 
-	local votedMode = net.ReadInt(5)
-	local unvotedMode = net.ReadInt(5)
-	local modeIndex = net.ReadUInt(2)
+	local modeIndex = net.ReadUInt(3)
+	local unvotedModeIndex = net.ReadUInt(3)
+	local unvotedModeInt = ""
 	local revote = false
 
 	if playersVotedMode != nil then
-		for _, v in pairs(playersVotedMode) do
+		for _, v in ipairs(playersVotedMode) do
 			if v == ply then
 				revote = true
 			end
 		end
 	end
 
-	if revote == false then
-		for id, _ in ipairs(GAMEMODES.MODES) do
-			if id == votedMode then
-				modeVotes[id] = modeVotes[id] + 1
-				table.insert(playersVotedMode, ply)
+	if !revote then
+		table.insert(playersVotedMode, ply)
+		modeVotes[modeIndex] = modeVotes[modeIndex] + 1
 
-				if modeIndex == 1 then
-					SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) + 1)
-				elseif modeIndex == 2 then
-					SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) + 1)
-				end
-			end
+		if modeIndex	== 1 then
+			SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) + 1)
+		elseif modeIndex == 2 then
+			SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) + 1)
+		elseif modeIndex == 3 then
+			SetGlobalInt("VotesOnModeThree", GetGlobalInt("VotesOnModeThree", 0) + 1)
 		end
 	else
-		for id, _ in ipairs(GAMEMODES.MODES) do
-			if id == votedMode then
-				modeVotes[id] = modeVotes[id] + 1
+		if unvotedModeIndex == 1 then
+			unvotedModeInt = "VotesOnModeOne"
+		elseif unvotedModeIndex == 2 then
+			unvotedModeInt = "VotesOnModeTwo"
+		elseif unvotedModeIndex == 3 then
+			unvotedModeInt = "VotesOnModeThree"
+		end
 
-				if modeIndex == 1 then
-					SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) + 1)
-					SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) - 1)
-				elseif modeIndex == 2 then
-					SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) + 1)
-					SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) - 1)
-				end
-			end
+		modeVotes[modeIndex] = modeVotes[modeIndex] + 1
+		modeVotes[unvotedModeIndex] = modeVotes[unvotedModeIndex] - 1
 
-			if id == unvotedMode then
-				modeVotes[id] = modeVotes[id] - 1
-			end
+		if modeIndex == 1 then
+			SetGlobalInt("VotesOnModeOne", GetGlobalInt("VotesOnModeOne", 0) + 1)
+			SetGlobalInt(unvotedModeInt, GetGlobalInt(unvotedModeInt, 0) - 1)
+		elseif modeIndex == 2 then
+			SetGlobalInt("VotesOnModeTwo", GetGlobalInt("VotesOnModeTwo", 0) + 1)
+			SetGlobalInt(unvotedModeInt, GetGlobalInt(unvotedModeInt, 0) - 1)
+		elseif modeIndex == 3 then
+			SetGlobalInt("VotesOnModeThree", GetGlobalInt("VotesOnModeThree", 0) + 1)
+			SetGlobalInt(unvotedModeInt, GetGlobalInt(unvotedModeInt, 0) - 1)
 		end
 	end
 end)

@@ -1,4 +1,4 @@
-DEBUG = CreateConVar("sv_tm_developer", "0", FCVAR_ARCHIVE + FCVAR_REPLICATED + FCVAR_NOTIFY, "Enables Sandbox features on server start and enables certain debugging tools, having this enabled will disable progression for all players", 0, 1)
+DEBUG = CreateConVar("sv_tm_developer", "0", FCVAR_ARCHIVE + FCVAR_REPLICATED, "Enables Sandbox features on server start and enables certain debugging tools, having this enabled will disable progression for all players", 0, 1)
 
 if DEBUG:GetBool() then
 	DeriveGamemode("sandbox")

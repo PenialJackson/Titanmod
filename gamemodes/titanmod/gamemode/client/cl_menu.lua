@@ -11,6 +11,7 @@ local gradientR = Material("overlay/gradient_c2.png", "noclamp smooth")
 
 local gradLColor
 local gradRColor
+
 if math.random(0, 1) == 0 then
 	gradLColor = Color(100, 0, 255, 6)
 	gradRColor = Color(100, 255, 255, 12)
@@ -21,14 +22,29 @@ end
 
 local function TriggerSound(type)
 	if GetConVar("tm_menu_sfx"):GetInt() == 0 then return end
-	if type == "click" then surface.PlaySound("tmui/click" .. math.random(1, 3) .. ".wav") end
-	if type == "forward" then surface.PlaySound("tmui/clickforward.wav") end
-	if type == "back" then surface.PlaySound("tmui/clickback.wav") end
-	if type == "hover" then surface.PlaySound("tmui/hover.wav") end
+
+	if type == "click" then
+		surface.PlaySound("tmui/click" .. math.random(1, 3) .. ".wav")
+	end
+
+	if type == "forward" then
+		surface.PlaySound("tmui/clickforward.wav")
+	end
+
+	if type == "back" then
+		surface.PlaySound("tmui/clickback.wav")
+	end
+
+	if type == "hover" then
+		surface.PlaySound("tmui/hover.wav")
+	end
 end
 
 local unlockAllCVar = GetConVar("sv_tm_unlock_all")
 local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
+
+local mapName = MAPS[game.GetMap()].name or game.GetMap()
+local modeName = GAMEMODES[TM.GAMEMODE].name or "UNKNOWN"
 
 local MainMenu
 
@@ -38,9 +54,6 @@ net.Receive("OpenMainMenu", function(len)
 	if respawnTimeLeft != 0 then
 		timer.Create("respawnTimeLeft", respawnTimeLeft, 1, function() end)
 	end
-
-	local mapName = MAPS[game.GetMap()].name or game.GetMap()
-	local modeName = GAMEMODES.MODES[TM.GAMEMODE].name or "UNKNOWN"
 
 	local canPrestige
 	if LocalPlayer():GetNWInt("playerLevel") != 60 then canPrestige = false else canPrestige = true end
@@ -653,10 +666,10 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 
 					draw.DrawText("SPAWN", "AmmoCountSmall", TM.MenuScale(5) + TM.MenuScale(spawnTextAnim), TM.MenuScale(5), white, TEXT_ALIGN_LEFT)
 
-					for i = 1, #WEAPONS do
-						if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
-							draw.SimpleText(LocalPlayer():GetNWInt("ladderPosition") .. " / " .. gunGameSize:GetInt() .. " kills", "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
-						else
+					if TM.GAMEMODE == "gun_game" then
+						draw.SimpleText(LocalPlayer():GetNWInt("ladderPosition") .. " / " .. gunGameSize:GetInt() .. " kills", "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
+					else
+						for i = 1, #WEAPONS do
 							if WEAPONS[i][1] == LocalPlayer():GetNWString("loadoutPrimary") then
 								draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
 							end
@@ -675,6 +688,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					draw.DrawText("" .. math.Round(timer.TimeLeft("respawnTimeLeft"), 2), "AmmoCountSmall", TM.MenuScale(350) + TM.MenuScale(spawnTextAnim), TM.MenuScale(5), white, TEXT_ALIGN_LEFT)
 				end
 			end
+
 			SpawnButton.DoClick = function()
 				if timer.Exists("respawnTimeLeft") then return end
 

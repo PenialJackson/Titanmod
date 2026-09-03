@@ -9,31 +9,31 @@ DEFINE_BASECLASS("tm_gun_base")
 SWEP.DrawCrosshair = false
 SWEP.Primary.Automatic = true
 SWEP.Secondary.Automatic = true
-SWEP.Primary.RPM = 127 --Primary Slashs per minute
-SWEP.Secondary.RPM = 87 --Secondary stabs per minute
-SWEP.Primary.Delay = 0.12 --Delay for hull (primary)
-SWEP.Secondary.Delay = 0.12 --Delay for hull (secondary)
+SWEP.Primary.RPM = 127
+SWEP.Secondary.RPM = 87
+SWEP.Primary.Delay = 0.12
+SWEP.Secondary.Delay = 0.12
 SWEP.Primary.Damage = 65
 SWEP.Secondary.Damage = 65
 SWEP.Primary.Length = 80
 SWEP.Secondary.Length = 80
-SWEP.Primary.Sound = Sound("Weapon_Knife.Slash") --Sounds
-SWEP.KnifeShink = "Weapon_Knife.HitWall" --Sounds
-SWEP.KnifeSlash = "Weapon_Knife.Hit" --Sounds
-SWEP.KnifeStab = "Weapon_Knife.Slash" --Sounds
-SWEP.SlashTable = {"midslash1", "midslash2"} --Table of possible hull sequences
-SWEP.StabTable = {"stab"} --Table of possible hull sequences
-SWEP.StabMissTable = {"stab_miss"} --Table of possible hull sequences
-SWEP.DisableIdleAnimations = false --Enable idles
+SWEP.Primary.Sound = Sound("Weapon_Knife.Slash")
+SWEP.KnifeShink = "Weapon_Knife.HitWall"
+SWEP.KnifeSlash = "Weapon_Knife.Hit"
+SWEP.KnifeStab = "Weapon_Knife.Slash"
+SWEP.SlashTable = {"midslash1", "midslash2"}
+SWEP.StabTable = {"stab"}
+SWEP.StabMissTable = {"stab_miss"}
+SWEP.DisableIdleAnimations = false
 
 SWEP.DamageType = DMG_SLASH
-SWEP.MuzzleFlashEffect = "" --No muzzle
-SWEP.DoMuzzleFlash = false --No muzzle
-SWEP.WeaponLength = 1 --No nearwall
-SWEP.Primary.Ammo = "" -- pistol, 357, smg1, ar2, buckshot, slam, SniperPenetratedRound, AirboatGun
-SWEP.Primary.ClipSize = 1 -- Size of a clip
-SWEP.Primary.DefaultClip = 1 -- Bullets you start with
-SWEP.Secondary.IronSightsEnabled = false --No ironsights
+SWEP.MuzzleFlashEffect = ""
+SWEP.DoMuzzleFlash = false
+SWEP.WeaponLength = 1
+SWEP.Primary.Ammo = ""
+SWEP.Primary.ClipSize = 1
+SWEP.Primary.DefaultClip = 1
+SWEP.Secondary.IronSightsEnabled = false
 SWEP.Secondary.DisplaySpread = false
 SWEP.IsMelee = true
 SWEP.IsThrowable = true
@@ -53,7 +53,7 @@ function SWEP:Deploy()
 	return BaseClass.Deploy(self)
 end
 
-local lim_up_vec = Vector(1,1,0.1)
+local lim_up_vec = Vector(1, 1, 0.1)
 
 function SWEP:ApplyForce(ent, force, posv, now)
 	if not IsValid(ent) or not ent.GetPhysicsObjectNum then return end
@@ -68,8 +68,8 @@ function SWEP:ApplyForce(ent, force, posv, now)
 
 		if IsValid(phys) then
 			if ent:IsPlayer() or ent:IsNPC() then
-				ent:SetVelocity( force * 0.1 * lim_up_vec )
-				phys:SetVelocity(phys:GetVelocity() + force * 0.1 * lim_up_vec )
+				ent:SetVelocity(force * 0.1 * lim_up_vec)
+				phys:SetVelocity(phys:GetVelocity() + force * 0.1 * lim_up_vec)
 			else
 				phys:ApplyForceOffset(force, posv)
 			end
@@ -183,7 +183,7 @@ function SWEP:SmackEffect(tr)
 		data:SetScale(1)
 
 		if (bit.band(util.PointContents(trSplash.HitPos), CONTENTS_SLIME) ~= 0) then
-			data:SetFlags(1) --FX_WATER_IN_SLIME
+			data:SetFlags(1)
 		end
 
 		util.Effect("watersplash", data)
@@ -296,8 +296,8 @@ function SWEP:SecondaryAttack()
 end
 
 function SWEP:ThrowKnife()
-	if not IsFirstTimePredicted() then return end
-	if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then return end
+	if !IsFirstTimePredicted() then return end
+	if TM.GAMEMODE == "gun_game" or TM.GAMEMODE == "fisticuffs" then return end
 
 	self:EmitSound(self.Primary_TFA.Sound)
 

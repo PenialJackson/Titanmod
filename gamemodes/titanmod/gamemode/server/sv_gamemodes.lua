@@ -15,7 +15,7 @@ local intermissionLength = GetConVar("sv_tm_intermission_length")
 
 util.AddNetworkString("NotifyCranked")
 
-if TM.GAMEMODE == GAMEMODES.IDS.FFA then
+if TM.GAMEMODE == "ffa" then
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
@@ -27,7 +27,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.FFA then
 	end
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.FIESTA then
+if TM.GAMEMODE == "fiesta" then
 	local fiestaTime = GetConVar("sv_tm_mode_fiesta_shuffle_length")
 
 	for _, v in ipairs(WEAPONS) do
@@ -71,7 +71,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.FIESTA then
 	end
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
+if TM.GAMEMODE == "gun_game" then
 	local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 
 	for _, v in ipairs(WEAPONS) do
@@ -94,7 +94,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
 	table.insert(ggLadder, {table.SeqRandom(ggRandMelee)})
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPERS then
+if TM.GAMEMODE == "shotty_snipers" then
 	for _, v in ipairs(WEAPONS) do
 		if v[4] == "sniper" and v[1] != "rust_bow" and v[1] != "rust_crossbow" and v[1] != "tfa_ins2_saiga_spike" then
 			table.insert(randPrimary, v[1])
@@ -106,7 +106,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPERS then
 	end
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.CRANKED then
+if TM.GAMEMODE == "cranked" then
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
@@ -118,7 +118,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.CRANKED then
 	end
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
+if TM.GAMEMODE == "koth" then
 	local kothScore = GetConVar("sv_tm_mode_koth_score")
 	local kothInterval = GetConVar("sv_tm_mode_koth_score_interval")
 
@@ -159,7 +159,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
 	end
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.QUICKDRAW then
+if TM.GAMEMODE == "quickdraw" then
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "secondary" and v[1] != "rust_bow" and v[1] != "swat_shield" and v[1] != "st_stim_pistol" then
 			table.insert(randSecondary, v[1])
@@ -169,7 +169,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.QUICKDRAW then
 	end
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.VIP then
+if TM.GAMEMODE == "vip" then
 	local vipScore = GetConVar("sv_tm_mode_koth_score")
 	local vipInterval = GetConVar("sv_tm_mode_koth_score_interval")
 
@@ -207,11 +207,9 @@ if TM.GAMEMODE == GAMEMODES.IDS.VIP then
 	end)
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.OVERKILL then
+if TM.GAMEMODE == "overkill" then
 	for _, v in ipairs(WEAPONS) do
-		if v[3] == "primary" then
-			table.insert(randOverkill, v[1])
-		elseif v[3] == "secondary" then
+		if v[3] == "primary" or v[3] == "secondary" then
 			table.insert(randOverkill, v[1])
 		elseif v[3] == "melee" then
 			table.insert(randMelee, v[1])
@@ -221,7 +219,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.OVERKILL then
 	table.Shuffle(randOverkill)
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
+if TM.GAMEMODE == "fisticuffs" then
 	for _, v in ipairs(WEAPONS) do
 		if v[3] == "primary" then
 			table.insert(randPrimary, v[1])
@@ -235,7 +233,7 @@ end
 
 -- setting up functions depeneding on the gamemode being played, this does not look pretty, but it will stop us from running a shit ton of if statements to check which gamemode is being played
 -- FFA, Shotty Snipers & KOTH
-if TM.GAMEMODE == GAMEMODES.IDS.FFA or TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPERS or TM.GAMEMODE == GAMEMODES.IDS.KOTH then
+if TM.GAMEMODE == "ffa" or TM.GAMEMODE == "shotty_snipers" or TM.GAMEMODE == "koth" then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutPrimary", table.SeqRandom(randPrimary))
 		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
@@ -250,7 +248,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.FFA or TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPER
 		ply:SetAmmo(1, "Grenade")
 	end
 
-	function HandlePlayerKill(ply, victim)
+	function HandlePlayerKill(ply, victim, weaponName)
 		return
 	end
 
@@ -262,7 +260,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.FFA or TM.GAMEMODE == GAMEMODES.IDS.SHOTTYSNIPER
 end
 
 -- Fiesta
-if TM.GAMEMODE == GAMEMODES.IDS.FIESTA then
+if TM.GAMEMODE == "fiestaMelee" then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutPrimary", fiestaPrimary)
 		ply:SetNWString("loadoutSecondary", fiestaSecondary)
@@ -276,7 +274,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.FIESTA then
 		ply:SetAmmo(1, "Grenade")
 	end
 
-	function HandlePlayerKill(ply, victim)
+	function HandlePlayerKill(ply, victim, weaponName)
 	end
 
 	function HandlePlayerDeath(ply, weaponName)
@@ -284,7 +282,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.FIESTA then
 end
 
 -- Gun Game
-if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
+if TM.GAMEMODE == "gun_game" then
 	local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 
 	function HandlePlayerInitialSpawn(ply)
@@ -301,7 +299,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
 	end
 
 	function HandlePlayerKill(ply, victim, weaponName)
-		if not ply:IsPlayer() or (ply == victim) then return end
+		if !ply:IsPlayer() or ply == victim then return end
 
 		if (ply:GetNWInt("ladderPosition") == (gunGameSize:GetInt() - 1)) == false then
 			if weaponName == "Tanto" or weaponName == "Mace" or weaponName == "KM-2000" or weaponName == "Bowie Knife" or weaponName == "Butterfly Knife" or weaponName == "Carver" or weaponName == "Dagger" or weaponName == "Fire Axe" or weaponName == "Fists" or weaponName == "Karambit" or weaponName == "Kukri" or weaponName == "M9 Bayonet" or weaponName == "Nunchucks" or weaponName == "Red Rebel" or weaponName == "Tri-Dagger" then return end
@@ -339,7 +337,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
 end
 
 -- Cranked
-if TM.GAMEMODE == GAMEMODES.IDS.CRANKED then
+if TM.GAMEMODE == "cranked" then
 	local runSpeedCVar = GetConVar("sv_tm_player_speed_run")
 	local crankedTime = GetConVar("sv_tm_mode_cranked_state_length")
 	local crankedMult = GetConVar("sv_tm_mode_cranked_state_buff_mult")
@@ -362,7 +360,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.CRANKED then
 		end
 	end
 
-	function HandlePlayerKill(ply, victim)
+	function HandlePlayerKill(ply, victim, weaponName)
 		-- player buffs once they become "cranked"
 		if ply:GetRunSpeed() <= runSpeedCVar:GetInt() then
 			ply:SetRunSpeed(ply:GetRunSpeed() * crankedMult:GetFloat())
@@ -402,7 +400,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.CRANKED then
 end
 
 -- Quickdraw
-if TM.GAMEMODE == GAMEMODES.IDS.QUICKDRAW then
+if TM.GAMEMODE == "quickdraw" then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
@@ -415,7 +413,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.QUICKDRAW then
 		ply:SetAmmo(1, "Grenade")
 	end
 
-	function HandlePlayerKill(ply, victim)
+	function HandlePlayerKill(ply, victim, weaponName)
 		return
 	end
 
@@ -426,7 +424,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.QUICKDRAW then
 end
 
 -- VIP
-if TM.GAMEMODE == GAMEMODES.IDS.VIP then
+if TM.GAMEMODE == "vip" then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutPrimary", table.SeqRandom(randPrimary))
 		ply:SetNWString("loadoutSecondary", table.SeqRandom(randSecondary))
@@ -441,7 +439,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.VIP then
 		ply:SetAmmo(1, "Grenade")
 	end
 
-	function HandlePlayerKill(ply, victim)
+	function HandlePlayerKill(ply, victim, weaponName)
 		if victim == GetGlobalEntity("tm_vip", NULL) then
 			SetGlobalEntity("tm_vip", ply)
 		end
@@ -467,7 +465,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.VIP then
 end
 
 -- Overkill
-if TM.GAMEMODE == GAMEMODES.IDS.OVERKILL then
+if TM.GAMEMODE == "overkill" then
 	function HandlePlayerInitialSpawn(ply)
 		table.Shuffle(randOverkill)
 
@@ -484,7 +482,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.OVERKILL then
 		ply:SetAmmo(1, "Grenade")
 	end
 
-	function HandlePlayerKill(ply, victim)
+	function HandlePlayerKill(ply, victim, weaponName)
 		return
 	end
 
@@ -497,7 +495,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.OVERKILL then
 	end
 end
 
-if TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
+if TM.GAMEMODE == "fisticuffs" then
 	function HandlePlayerInitialSpawn(ply)
 		ply:SetNWString("loadoutMelee", ply:GetNWString("chosenMelee"))
 	end
@@ -506,7 +504,7 @@ if TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
 		ply:Give(ply:GetNWString("loadoutMelee"))
 	end
 
-	function HandlePlayerKill(ply, victim)
+	function HandlePlayerKill(ply, victim, weaponName)
 		return
 	end
 

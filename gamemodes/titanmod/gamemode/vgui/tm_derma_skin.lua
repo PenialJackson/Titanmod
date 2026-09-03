@@ -695,8 +695,6 @@ function DTooltip:Paint(w, h)
 end
 
 function DPropertySheet:Init()
-	self:SetShowIcons(true)
-
 	self.tabScroller = vgui.Create("DHorizontalScroller", self)
 	self.tabScroller:SetOverlap(1)
 	self.tabScroller:Dock(TOP)

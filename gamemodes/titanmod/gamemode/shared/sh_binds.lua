@@ -6,7 +6,7 @@ hook.Add("PlayerButtonDown", "TMBinds", function(ply, button)
 	if (CLIENT or sp) and IsFirstTimePredicted() then
 		if GetGlobalBool("tm_intermission") then return end
 
-		if TM.GAMEMODE != GAMEMODES.IDS.GUNGAME then
+		if TM.GAMEMODE != "gun_game" then
 			if button == ply:GetInfoNum("tm_bind_primary", KEY_1) then
 				local weapon = ply:GetWeapon(ply:GetNWString("loadoutPrimary"))
 

@@ -276,7 +276,8 @@ local sv_tfa_weapon_weight = GetConVar("sv_tfa_weapon_weight")
 function SWEP:Sway(pos, ang, ftv)
 	local self2 = self:GetTable()
 	if not self:OwnerIsValid() then return pos, ang end
-	fac = GetClampedCVarFloat(gunswaycvar) * 3 * ((1 - ((self2.IronSightsProgressUnpredicted or self:GetIronSightsProgress()) or 0)) * 0.85 + 0.012)
+
+	local fac = GetClampedCVarFloat(gunswaycvar) * 3 * ((1 - ((self2.IronSightsProgressUnpredicted or self:GetIronSightsProgress()) or 0)) * 0.85 + 0.012)
 	if gunswayinvertcvar:GetBool() then fac = -fac end
 	local flipFactor = (self2.ViewModelFlip and -1 or 1)
 	local delta = delta or Angle()

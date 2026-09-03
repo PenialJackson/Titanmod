@@ -93,14 +93,13 @@ function GM:ScoreboardShow()
 
 		local connectedPlayers = player.GetAll()
 
-		if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
-			table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end)
-		else
+		if TM.GAMEMODE != "gun_game" then
 			table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end)
+		else
+			table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end)
 		end
 
 		for _, v in ipairs(connectedPlayers) do
-			-- constants for basic player information, much more optimized than checking every frame
 			local name = v:Nick()
 			local prestige = v:GetNWInt("playerPrestige")
 			local level = v:GetNWInt("playerLevel")

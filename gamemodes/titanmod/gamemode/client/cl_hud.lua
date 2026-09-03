@@ -111,49 +111,17 @@ local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 local crankedTime = GetConVar("sv_tm_mode_cranked_state_length")
 local voting = GetConVar("sv_tm_voting")
 
+local gmName = GAMEMODES[TM.GAMEMODE].name
+local gmPopupDesc = GAMEMODES[TM.GAMEMODE].popupDesc
+local gmPopupWinCondition = GAMEMODES[TM.GAMEMODE].popupWinCondition
+
 local function MatchStartPopup()
 	if GetGlobalInt("tm_matchtime", 0) - CurTime() > (GetGlobalInt("tm_matchtime", 0) - intermissionLength:GetInt()) then return end
-
-	local gm = string.upper(GAMEMODES.MODES[TM.GAMEMODE].name)
-	local desc
-	local winCondition
 
 	matchStartPopupSeen = true
 
 	surface.SetFont("HUD_AmmoCountSmall")
-	local popupW, popupH = select(1, surface.GetTextSize(gm))
-
-	if gm == "FFA" then
-		desc = "Eliminate other players"
-		winCondition = "Get the most score to WIN"
-	elseif gm == "CRANKED" then
-		desc = "Eliminate other players, movement boost on kill"
-		winCondition = "Get the most score to WIN"
-	elseif gm == "GUN GAME" then
-		desc = "Eliminate other players to advance to the next weapon"
-		winCondition = "Get a kill with every each to WIN"
-	elseif gm == "SHOTTY SNIPERS" then
-		desc = "Eliminate other players with snipers and shotguns"
-		winCondition = "Get the most score to WIN"
-	elseif gm == "FIESTA" then
-		desc = "Eliminate other players with constantly changing loadouts"
-		winCondition = "Get the most score to WIN"
-	elseif gm == "QUICKDRAW" then
-		desc = "Eliminate other players with secondaries"
-		winCondition = "Get the most score to WIN"
-	elseif gm == "KOTH" then
-		desc = "Capture and defend the objective"
-		winCondition = "Get the most score to WIN"
-	elseif gm == "VIP" then
-		desc = "Track down and kill the VIP, defend the status for yourself"
-		winCondition = "Get the most score to WIN"
-	elseif gm == "OVERKILL" then
-		desc = "Eliminate other players with no weapon restrictions"
-		winCondition = "Get the most score to WIN"
-	elseif gm == "FISTICUFFS" then
-		desc = "Eliminate other players with melee weapons"
-		winCondition = "Get the most score to WIN"
-	end
+	local popupW, popupH = select(1, surface.GetTextSize(string.upper(gmName)))
 
 	if IsValid(gamemodePopup) then gamemodePopup:Remove() end
 	if IsValid(gamemodeInfo) then gamemodeInfo:Remove() end
@@ -175,7 +143,7 @@ local function MatchStartPopup()
 		surface.SetDrawColor(0, 0, 0, 75)
 		surface.DrawRect(0, 0, gamemodePopup:GetWide(), gamemodePopup:GetTall())
 
-		draw.DrawText(gm, "HUD_AmmoCountSmall", w / 2, TM.ScreenScale(-2), COLORS.white, TEXT_ALIGN_CENTER)
+		draw.DrawText(string.upper(gmName), "HUD_AmmoCountSmall", w / 2, TM.ScreenScale(-2), COLORS.white, TEXT_ALIGN_CENTER)
 	end
 
 	local textW = 0
@@ -184,8 +152,8 @@ local function MatchStartPopup()
 		if !IsValid(gamemodePopup) then return end
 
 		surface.SetFont("HUD_Health")
-		local descTextW, descTextH = select(1, surface.GetTextSize(desc))
-		local winTextW, winTextH = select(1, surface.GetTextSize(winCondition))
+		local descTextW, descTextH = select(1, surface.GetTextSize(gmPopupDesc))
+		local winTextW, winTextH = select(1, surface.GetTextSize(gmPopupWinCondition))
 
 		textW = math.max(descTextW, winTextW)
 
@@ -205,8 +173,8 @@ local function MatchStartPopup()
 			surface.SetDrawColor(0, 0, 0, 75)
 			surface.DrawRect(0, 0, gamemodeInfo:GetWide(), gamemodeInfo:GetTall())
 
-			draw.DrawText(desc, "HUD_Health", w / 2, 0, COLORS.white, TEXT_ALIGN_CENTER)
-			draw.DrawText(winCondition, "HUD_Health", w / 2, descTextH, COLORS.white, TEXT_ALIGN_CENTER)
+			draw.DrawText(gmPopupDesc, "HUD_Health", w / 2, 0, COLORS.white, TEXT_ALIGN_CENTER)
+			draw.DrawText(gmPopupWinCondition, "HUD_Health", w / 2, descTextH, COLORS.white, TEXT_ALIGN_CENTER)
 		end
 	end)
 
@@ -229,7 +197,7 @@ net.Receive("PlayerSpawn", function(len)
 	if !IsValid(LocalPlayer()) then return end
 	if hudEnable then return end
 
-	if TM.GAMEMODE != GAMEMODES.IDS.GUNGAME and TM.GAMEMODE != GAMEMODES.IDS.FISTICUFFS then
+	if TM.GAMEMODE != "gun_game" and TM.GAMEMODE != "fisticuffs" then
 		ShowLoadoutOnSpawn()
 	end
 
@@ -298,25 +266,23 @@ local function CrosshairStateUpdate(wep)
 	return math.Clamp(math.Round(gap), 0, 100)
 end
 
-local modeName = GAMEMODES.MODES[TM.GAMEMODE].name
-
 local function RenderInfo()
 	local timeText = string.FormattedTime(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1, "%02i:%02i") or "00:00"
-	draw.DrawText(modeName .. " | " .. timeText, "HUD_Health", ScrW() / 2, TM.ScreenScale(-5) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
+	draw.DrawText(gmName .. " | " .. timeText, "HUD_Health", ScrW() / 2, TM.ScreenScale(-5) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 
-	if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
+	if TM.GAMEMODE == "gun_game" then
 		draw.DrawText(gunGameSize:GetInt() - LocalPlayer():GetNWInt("ladderPosition") .. " kills left", "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
-	elseif TM.GAMEMODE == GAMEMODES.IDS.FIESTA and (GetGlobalInt("FiestaTime", 0) - CurTime()) > 0 then
+	elseif TM.GAMEMODE == "fiesta" and (GetGlobalInt("FiestaTime", 0) - CurTime()) > 0 then
 		draw.DrawText(string.FormattedTime(math.Round(GetGlobalInt("FiestaTime", 0) - CurTime() + 0.5), "%02i:%02i"), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
-	elseif TM.GAMEMODE == GAMEMODES.IDS.CRANKED and timeUntilSelfDestruct != 0 then
+	elseif TM.GAMEMODE == "cranked" and timeUntilSelfDestruct != 0 and LocalPlayer():Alive() then
 		draw.DrawText(timeUntilSelfDestruct, "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
-	elseif TM.GAMEMODE == GAMEMODES.IDS.KOTH then
+	elseif TM.GAMEMODE == "koth" then
 		if GetGlobalString("tm_hillstatus") == "Occupied" then
 			draw.DrawText(GetGlobalEntity("tm_entonhill"):Nick(), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		else
 			draw.DrawText(GetGlobalString("tm_hillstatus"), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 		end
-	elseif TM.GAMEMODE == GAMEMODES.IDS.VIP then
+	elseif TM.GAMEMODE == "vip" then
 		if GetGlobalEntity("tm_vip") != NULL then
 			draw.DrawText(GetGlobalEntity("tm_vip"):Nick(), "HUD_Health", ScrW() / 2, TM.ScreenScale(25) + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_CENTER)
 
@@ -328,7 +294,7 @@ local function RenderInfo()
 		end
 	end
 
-	if TM.GAMEMODE == GAMEMODES.IDS.KOTH then
+	if TM.GAMEMODE == "koth" then
 		if GetGlobalString("tm_hillstatus") == "Empty" then
 			hillColor = Color(objEmptyR, objEmptyG, objEmptyB, 3)
 			objIndicatorColor = Color(objEmptyR, objEmptyG, objEmptyB, 175)
@@ -357,7 +323,7 @@ local function RenderInfo()
 		if LocalPlayer():GetNWBool("onOBJ") then
 			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 		end
-	elseif TM.GAMEMODE == GAMEMODES.IDS.VIP then
+	elseif TM.GAMEMODE == "vip" then
 		surface.SetMaterial(MATS.hillBorder)
 		surface.SetDrawColor(objOccupiedR, objOccupiedG, objOccupiedB, 175)
 
@@ -370,7 +336,7 @@ local function RenderInfo()
 		surface.DrawTexturedRect(ScrW() / 2 - TM.ScreenScale(24), TM.ScreenScale(57) + hudY, TM.ScreenScale(48), TM.ScreenScale(48))
 	end
 
-	if TM.GAMEMODE == GAMEMODES.IDS.CRANKED and timeUntilSelfDestruct != 0 and LocalPlayer():Alive() then
+	if TM.GAMEMODE == "cranked" and timeUntilSelfDestruct != 0 and LocalPlayer():Alive() then
 		surface.SetDrawColor(50, 50, 50, 80)
 		surface.DrawRect(ScrW() / 2 - TM.ScreenScale(75), TM.ScreenScale(60) + hudY, TM.ScreenScale(150), TM.ScreenScale(10))
 
@@ -537,7 +503,7 @@ local function RenderLoadout()
 				ammoColor = COLORS.red
 				ammoText = "0"
 			end
-		elseif (weapon:GetStat("InfiniteAmmo") and !weapon:GetStat("IsThrowable")) or TM.GAMEMODE == GAMEMODES.IDS.GUNGAME or TM.GAMEMODE == GAMEMODES.IDS.FISTICUFFS then
+		elseif (weapon:GetStat("InfiniteAmmo") and !weapon:GetStat("IsThrowable")) or TM.GAMEMODE == "gun_game" or TM.GAMEMODE == "fisticuffs" then
 			ammoText = "∞"
 		else
 			ammoText = "[" .. string.upper(reloadBind) .. "] THROW"
@@ -651,7 +617,7 @@ local function RenderKPO()
 end
 
 local function RenderVelocity()
-	draw.DrawText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityoverlayX + hudX, velocityoverlayY + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.DrawText(tostring(math.Round(LocalPlayer():GetVelocity():Length())) .. " u/s", "HUD_Health", velocityoverlayX + hudX, velocityoverlayY + hudY, Color(hudTextR, hudTextG, hudTextB), TEXT_ALIGN_LEFT)
 end
 
 local curMap = game.GetMap()
@@ -696,7 +662,7 @@ local kothPFP
 local kothPFPUpdated = false
 
 local function InitKOTH()
-	if TM.GAMEMODE != GAMEMODES.IDS.KOTH then return end
+	if TM.GAMEMODE != "koth" then return end
 	if IsValid(kothPFP) then return end
 
 	kothPFP = vgui.Create("AvatarImage", GetHUDPanel())
@@ -707,7 +673,7 @@ end
 InitKOTH()
 
 local function DrawKOTH()
-	if TM.GAMEMODE != GAMEMODES.IDS.KOTH then return end
+	if TM.GAMEMODE != "koth" then return end
 	if gameEnded then return end
 	if !hudEnable then return end
 
@@ -716,7 +682,7 @@ end
 hook.Add("PostDrawTranslucentRenderables", "DrawKOTH", DrawKOTH)
 
 local function UpdateKOTH()
-	if TM.GAMEMODE != GAMEMODES.IDS.KOTH then return end
+	if TM.GAMEMODE != "koth" then return end
 
 	if GetGlobalBool("tm_intermission") or gameEnded or !hudEnable then
 		kothPFP:Hide()
@@ -746,7 +712,7 @@ local vipPFP
 local currentVIP = NULL
 
 local function InitVIP()
-	if TM.GAMEMODE != GAMEMODES.IDS.VIP then return end
+	if TM.GAMEMODE != "vip" then return end
 	if IsValid(vipPFP) then return end
 
 	vipPFP = vgui.Create("AvatarImage", GetHUDPanel())
@@ -757,7 +723,7 @@ end
 InitVIP()
 
 local function UpdateVIP()
-	if TM.GAMEMODE != GAMEMODES.IDS.VIP then return end
+	if TM.GAMEMODE != "vip" then return end
 
 	if GetGlobalBool("tm_intermission") or gameEnded or !hudEnable then
 		vipPFP:Hide()
@@ -797,9 +763,6 @@ local function DrawHUD()
 	-- always
 	RenderInfo()
 	if killfeed then RenderKillFeed() end
-
-	-- gamemodes
-	if TM.GAMEMODE == GAMEMODES.IDS.KOTH then RenderKOTH() end
 
 	-- alive
 	if LocalPlayer():Alive() then
@@ -1221,14 +1184,18 @@ net.Receive("NotifyDeath", function(len)
 end)
 
 net.Receive("EndOfGame", function(len)
+	local firstMap = net.ReadString()
+	local secondMap = net.ReadString()
+	local firstMode = net.ReadString()
+	local secondMode = net.ReadString()
+
 	gameEnded = true
 
 	local winningPlayer
 	local wonMatch = false
 	local mapPicked = 0
-	local gamemodePicked
-	local mapDecided = false
-	local gamemodeDecided = false
+	local gamemodePicked = 0
+	local voteDecided = false
 	local decidedMap
 	local decidedMode
 	local voipActive = false
@@ -1237,7 +1204,7 @@ net.Receive("EndOfGame", function(len)
 
 	net.Receive("MapVoteSkipped", function(len)
 		decidedMap = net.ReadString()
-		decidedMode = net.ReadInt(5)
+		decidedMode = net.ReadString()
 	end)
 
 	if IsValid(killNotif) then killNotif:Remove() end
@@ -1249,47 +1216,27 @@ net.Receive("EndOfGame", function(len)
 	hook.Remove("PlayerStartVoice", "ImageOnVoice")
 	hook.Remove("PlayerEndVoice", "ImageOnVoice")
 
-	local firstMap = net.ReadString()
-	local secondMap = net.ReadString()
-	local thirdMap = net.ReadString()
-	local firstMode = net.ReadInt(5)
-	local secondMode = net.ReadInt(5)
-
 	local firstMapName = MAPS[firstMap].name
 	local firstMapThumb = MAPS[firstMap].thumbnail
 	local secondMapName = MAPS[secondMap].name
 	local secondMapThumb = MAPS[secondMap].thumbnail
-	local thirdMapName = MAPS[thirdMap].name
-	local thirdMapThumb = MAPS[thirdMap].thumbnail
 	local decidedMapName
 	local decidedMapThumb
-	local firstModeName
-	local firstModeDesc
-	local secondModeName
-	local secondModeDesc
+	local firstModeName = GAMEMODES[firstMode].name
+	local firstModeDesc = GAMEMODES[firstMode].desc
+	local secondModeName = GAMEMODES[secondMode].name
+	local secondModeDesc = GAMEMODES[secondMode].desc
 	local decidedModeName
-
-	for id, info in ipairs(GAMEMODES.MODES) do
-		if firstMode == id then
-			firstModeName = info.name
-			firstModeDesc = info.desc
-		end
-
-		if secondMode == id then
-			secondModeName = info.name
-			secondModeDesc = info.desc
-		end
-	end
 
 	local timeUntilNextMatch = 33
 	local votingActive = false
 
 	local connectedPlayers = player.GetHumans()
 
-	if TM.GAMEMODE == GAMEMODES.IDS.GUNGAME then
-		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end)
-	else
+	if TM.GAMEMODE != "gun_game" then
 		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("playerScoreMatch") > b:GetNWInt("playerScoreMatch") end)
+	else
+		table.sort(connectedPlayers, function(a, b) return a:GetNWInt("ladderPosition") > b:GetNWInt("ladderPosition") end)
 	end
 
 	local gradLColor
@@ -1488,7 +1435,7 @@ net.Receive("EndOfGame", function(len)
 		if IsValid(matchWinLoseText) then matchWinLoseText:Remove() end
 		if IsValid(detailsPanel) then detailsPanel:Remove() end
 
-		LocalPlayer():SetDSP(0)
+		LocalPlayer():SetDSP(0, false)
 		matchEndMusic:ChangeVolume(0.2)
 
 		votingActive = true
@@ -1512,11 +1459,12 @@ net.Receive("EndOfGame", function(len)
 			draw.DrawText("MATCH RESULTS", "GunPrintName", TM.MenuScale(237), TM.MenuScale(-3), COLORS.white, TEXT_ALIGN_CENTER)
 		end
 
-		local modeOneVotes = 0
-		local modeTwoVotes = 0
 		local mapOneVotes = 0
 		local mapTwoVotes = 0
 		local mapThreeVotes = 0
+		local modeOneVotes = 0
+		local modeTwoVotes = 0
+		local modeThreeVotes = 0
 
 		local votingPanel = vgui.Create("DPanel", endOfGamePanel)
 		votingPanel:Dock(BOTTOM)
@@ -1526,7 +1474,7 @@ net.Receive("EndOfGame", function(len)
 			surface.SetDrawColor(25, 25, 25, 100)
 			surface.DrawRect(0, 0, w, h)
 
-			if !mapDecided then
+			if !voteDecided then
 				if GetGlobalInt("VotesOnMapOne", 0) != 0 or GetGlobalInt("VotesOnMapTwo", 0) != 0 or GetGlobalInt("VotesOnMapThree", 0) != 0 then
 					mapOneVotes = math.Round(GetGlobalInt("VotesOnMapOne", 0) / (GetGlobalInt("VotesOnMapOne", 0) + GetGlobalInt("VotesOnMapTwo", 0) + GetGlobalInt("VotesOnMapThree", 0)) * 100)
 					mapTwoVotes = math.Round(GetGlobalInt("VotesOnMapTwo") / (GetGlobalInt("VotesOnMapTwo", 0) + GetGlobalInt("VotesOnMapOne", 0) + GetGlobalInt("VotesOnMapThree", 0)) * 100)
@@ -1537,13 +1485,9 @@ net.Receive("EndOfGame", function(len)
 
 				if mapPicked == 1 then
 					surface.DrawRect(TM.MenuScale(10), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5))
-				end
-
-				if mapPicked == 2 then
+				elseif mapPicked == 2 then
 					surface.DrawRect(TM.MenuScale(165), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5))
-				end
-
-				if mapPicked == 3 then
+				elseif mapPicked == 3 then
 					surface.DrawRect(TM.MenuScale(320), TM.MenuScale(80), TM.MenuScale(145), TM.MenuScale(5))
 				end
 
@@ -1551,7 +1495,7 @@ net.Receive("EndOfGame", function(len)
 
 				draw.DrawText(firstMapName, "MainMenuLoadoutWeapons", TM.MenuScale(10), TM.MenuScale(260), COLORS.white, TEXT_ALIGN_LEFT)
 				draw.DrawText(secondMapName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(260), COLORS.white, TEXT_ALIGN_CENTER)
-				draw.DrawText(thirdMapName, "MainMenuLoadoutWeapons", TM.MenuScale(465), TM.MenuScale(260), COLORS.white, TEXT_ALIGN_RIGHT)
+				draw.DrawText("Random", "MainMenuLoadoutWeapons", TM.MenuScale(465), TM.MenuScale(260), COLORS.white, TEXT_ALIGN_RIGHT)
 				draw.DrawText(mapOneVotes .. "% | " .. mapTwoVotes .. "% | " .. mapThreeVotes .. "%", "StreakText", w / 2, TM.MenuScale(55), COLORS.white, TEXT_ALIGN_CENTER)
 			else
 				draw.DrawText("NEXT MAP", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
@@ -1567,24 +1511,25 @@ net.Receive("EndOfGame", function(len)
 			surface.SetDrawColor(25, 25, 25, 100)
 			surface.DrawRect(0, 0, w, h)
 
-			if !gamemodeDecided then
-				if GetGlobalInt("VotesOnModeOne", 0) != 0 or GetGlobalInt("VotesOnModeTwo", 0) != 0 then
-					modeOneVotes = math.Round(GetGlobalInt("VotesOnModeOne", 0) / (GetGlobalInt("VotesOnModeOne", 0) + GetGlobalInt("VotesOnModeTwo", 0)) * 100)
-					modeTwoVotes = math.Round(GetGlobalInt("VotesOnModeTwo") / (GetGlobalInt("VotesOnModeTwo", 0) + GetGlobalInt("VotesOnModeOne", 0)) * 100)
+			if !voteDecided then
+				if GetGlobalInt("VotesOnModeOne", 0) != 0 or GetGlobalInt("VotesOnModeTwo", 0) != 0 or GetGlobalInt("VotesOnModeThree", 0) != 0 then
+					modeOneVotes = math.Round(GetGlobalInt("VotesOnModeOne", 0) / (GetGlobalInt("VotesOnModeOne", 0) + GetGlobalInt("VotesOnModeTwo", 0) + GetGlobalInt("VotesOnModeThree", 0)) * 100)
+					modeTwoVotes = math.Round(GetGlobalInt("VotesOnModeTwo") / (GetGlobalInt("VotesOnModeTwo", 0) + GetGlobalInt("VotesOnModeOne", 0) + GetGlobalInt("VotesOnModeThree", 0)) * 100)
+					modeThreeVotes = math.Round(GetGlobalInt("VotesOnModeThree") / (GetGlobalInt("VotesOnModeThree", 0) + GetGlobalInt("VotesOnModeOne", 0) + GetGlobalInt("VotesOnModeTwo", 0)) * 100)
 				end
 
 				surface.SetDrawColor(50, 125, 50, 75)
 
 				if gamemodePicked == 1 then
-					surface.DrawRect(TM.MenuScale(10), TM.MenuScale(62), TM.MenuScale(175), TM.MenuScale(9))
+					surface.DrawRect(TM.MenuScale(10), TM.MenuScale(62), TM.MenuScale(145), TM.MenuScale(9))
+				elseif gamemodePicked == 2 then
+					surface.DrawRect(TM.MenuScale(165), TM.MenuScale(62), TM.MenuScale(145), TM.MenuScale(9))
+				elseif gamemodePicked == 3 then
+					surface.DrawRect(TM.MenuScale(320), TM.MenuScale(62), TM.MenuScale(145), TM.MenuScale(9))
 				end
 
-				if gamemodePicked == 2 then
-					surface.DrawRect(TM.MenuScale(290), TM.MenuScale(62), TM.MenuScale(175), TM.MenuScale(9))
-				end
-
-				draw.DrawText("GAMEMODE VOTE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
-				draw.DrawText(modeOneVotes .. "% | " .. modeTwoVotes .. "%", "StreakText", w / 2, TM.MenuScale(72), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.DrawText("MODE VOTE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
+				draw.DrawText(modeOneVotes .. "% | " .. modeTwoVotes .. "% | " .. modeThreeVotes .. "%", "StreakText", w / 2, TM.MenuScale(72), COLORS.white, TEXT_ALIGN_CENTER)
 			else
 				draw.DrawText("NEXT MODE", "GunPrintName", w / 2, TM.MenuScale(5), COLORS.white, TEXT_ALIGN_CENTER)
 				draw.DrawText(decidedModeName, "MainMenuLoadoutWeapons", w / 2, TM.MenuScale(65), COLORS.white, TEXT_ALIGN_CENTER)
@@ -1596,6 +1541,7 @@ net.Receive("EndOfGame", function(len)
 		local mapChoiceThree = vgui.Create("DImageButton", votingPanel)
 		local modeChoice = vgui.Create("DButton", gamemodePanel)
 		local modeChoiceTwo = vgui.Create("DButton", gamemodePanel)
+		local modeChoiceThree = vgui.Create("DButton", gamemodePanel)
 
 		mapChoice:SetPos(TM.MenuScale(10), TM.MenuScale(85))
 		mapChoice:SetText("")
@@ -1604,12 +1550,12 @@ net.Receive("EndOfGame", function(len)
 		mapChoice:SetDepressImage(false)
 
 		function mapChoice:DoClick()
-			mapPicked = 1
-
 			net.Start("ReceiveMapVote")
 				net.WriteUInt(1, 3)
 				net.WriteUInt(mapPicked, 3)
 			net.SendToServer()
+
+			mapPicked = 1
 
 			surface.PlaySound("buttons/button15.wav")
 
@@ -1625,12 +1571,12 @@ net.Receive("EndOfGame", function(len)
 		mapChoiceTwo:SetDepressImage(false)
 
 		function mapChoiceTwo:DoClick()
-			mapPicked = 2
-
 			net.Start("ReceiveMapVote")
 				net.WriteUInt(2, 3)
 				net.WriteUInt(mapPicked, 3)
 			net.SendToServer()
+
+			mapPicked = 2
 
 			surface.PlaySound("buttons/button15.wav")
 
@@ -1642,16 +1588,16 @@ net.Receive("EndOfGame", function(len)
 		mapChoiceThree:SetPos(TM.MenuScale(320), TM.MenuScale(85))
 		mapChoiceThree:SetText("")
 		mapChoiceThree:SetSize(TM.MenuScale(145), TM.MenuScale(175))
-		mapChoiceThree:SetImage(thirdMapThumb)
+		mapChoiceThree:SetImage("icons/kothempty.png")
 		mapChoiceThree:SetDepressImage(false)
 
 		function mapChoiceThree:DoClick()
-			mapPicked = 3
-
 			net.Start("ReceiveMapVote")
 				net.WriteUInt(3, 3)
 				net.WriteUInt(mapPicked, 3)
 			net.SendToServer()
+
+			mapPicked = 3
 
 			surface.PlaySound("buttons/button15.wav")
 
@@ -1662,14 +1608,13 @@ net.Receive("EndOfGame", function(len)
 
 		modeChoice:SetPos(TM.MenuScale(10), TM.MenuScale(70))
 		modeChoice:SetText(firstModeName)
-		modeChoice:SetSize(TM.MenuScale(175), TM.MenuScale(30))
+		modeChoice:SetSize(TM.MenuScale(145), TM.MenuScale(30))
 		modeChoice:SetTooltip(firstModeDesc)
 
 		function modeChoice:DoClick()
 			net.Start("ReceiveModeVote")
-				net.WriteInt(firstMode, 5)
-				net.WriteInt(secondMode, 5)
-				net.WriteUInt(1, 2)
+				net.WriteUInt(1, 3)
+				net.WriteUInt(gamemodePicked, 3)
 			net.SendToServer()
 
 			gamemodePicked = 1
@@ -1678,18 +1623,18 @@ net.Receive("EndOfGame", function(len)
 
 			self:SetEnabled(false)
 			modeChoiceTwo:SetEnabled(true)
+			modeChoiceThree:SetEnabled(true)
 		end
 
-		modeChoiceTwo:SetPos(TM.MenuScale(290), TM.MenuScale(70))
+		modeChoiceTwo:SetPos(TM.MenuScale(165), TM.MenuScale(70))
 		modeChoiceTwo:SetText(secondModeName)
-		modeChoiceTwo:SetSize(TM.MenuScale(175), TM.MenuScale(30))
+		modeChoiceTwo:SetSize(TM.MenuScale(145), TM.MenuScale(30))
 		modeChoiceTwo:SetTooltip(secondModeDesc)
 
 		function modeChoiceTwo:DoClick()
 			net.Start("ReceiveModeVote")
-				net.WriteInt(secondMode, 5)
-				net.WriteInt(firstMode, 5)
-				net.WriteUInt(2, 2)
+				net.WriteUInt(2, 3)
+				net.WriteUInt(gamemodePicked, 3)
 			net.SendToServer()
 
 			gamemodePicked = 2
@@ -1697,6 +1642,27 @@ net.Receive("EndOfGame", function(len)
 			surface.PlaySound("buttons/button15.wav")
 
 			modeChoice:SetEnabled(true)
+			self:SetEnabled(false)
+			modeChoiceThree:SetEnabled(true)
+		end
+
+		modeChoiceThree:SetPos(TM.MenuScale(320), TM.MenuScale(70))
+		modeChoiceThree:SetText("Random")
+		modeChoiceThree:SetSize(TM.MenuScale(145), TM.MenuScale(30))
+		modeChoiceThree:SetTooltip("A gamemode selected at random")
+
+		function modeChoiceThree:DoClick()
+			net.Start("ReceiveModeVote")
+				net.WriteUInt(3, 3)
+				net.WriteUInt(gamemodePicked, 3)
+			net.SendToServer()
+
+			gamemodePicked = 3
+
+			surface.PlaySound("buttons/button15.wav")
+
+			modeChoice:SetEnabled(true)
+			modeChoiceTwo:SetEnabled(true)
 			self:SetEnabled(false)
 		end
 
@@ -1706,18 +1672,14 @@ net.Receive("EndOfGame", function(len)
 			mapChoiceThree:Remove()
 			modeChoice:Remove()
 			modeChoiceTwo:Remove()
+			modeChoiceThree:Remove()
 
 			decidedMapName = MAPS[decidedMap].name
 			decidedMapThumb = MAPS[decidedMap].thumbnail
 
-			for id, info in ipairs(GAMEMODES.MODES) do
-				if decidedMode == id then
-					decidedModeName = info.name
-				end
-			end
+			decidedModeName = GAMEMODES[decidedMode].name
 
-			mapDecided = true
-			gamemodeDecided = true
+			voteDecided = true
 
 			local decidedMapThumbPanel = vgui.Create("DImage", votingPanel)
 			decidedMapThumbPanel:SetPos(TM.MenuScale(150), TM.MenuScale(70))
@@ -1731,7 +1693,7 @@ net.Receive("EndOfGame", function(len)
 
 		net.Receive("MapVoteCompleted", function(len)
 			decidedMap = net.ReadString()
-			decidedMode = net.ReadInt(5)
+			decidedMode = net.ReadString()
 
 			MapVoteCompleted()
 		end)
