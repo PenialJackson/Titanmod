@@ -260,8 +260,29 @@ MAPS = {
 	}
 }
 
-WEAPONS = {}
-WEAPONS[1] = {"tfa_ins2_aa12", "AA-12", "primary", "shotgun"}
+WEPCLASSES = {}
+WEPCLASSES.Primary = 1
+WEPCLASSES.Secondary = 2
+WEPCLASSES.Melee = 3
+WEPCLASSES.None = 4
+
+WEPTYPES = {}
+WEPTYPES.
+
+WEAPONS = {
+	["tfa_ins2_aa12"] = {
+		name = "AA-12",
+		class = "primary",
+		type = "shotgun"
+	},
+
+	["tfa_ins2_acrc"] = {
+		name = "ACR",
+		class = "primary",
+		type = "rifle"
+	},
+}
+
 WEAPONS[2] = {"tfa_ins2_acrc", "ACR", "primary", "rifle"}
 WEAPONS[3] = {"tfa_ins2_aek971", "AEK-971", "primary", "rifle"}
 WEAPONS[4] = {"tfa_ins2_ak12", "AK-12", "primary", "rifle"}
