@@ -621,8 +621,13 @@ local function RenderVelocity()
 end
 
 local curMap = game.GetMap()
-local kothOrigin = MAPS[curMap].kothOrigin or Vector(0, 0, 0)
-local kothSize = MAPS[curMap].kothSize or Vector(128, 128, 128)
+local kothOrigin = Vector(0, 0, 0)
+local kothSize = Vector(128, 128, 128)
+
+if MAPS[curMap] then
+	kothOrigin = MAPS[curMap].kothOrigin
+	kothSize = MAPS[curMap].kothSize
+end
 
 local playerAngle
 local indiFade = 1

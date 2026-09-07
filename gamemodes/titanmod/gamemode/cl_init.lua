@@ -17,17 +17,6 @@ hook.Add("InitPostEntity", "LPCache", function()
 	lcply = ogLocalPlayer()
 end)
 
-local cScrW = ScrW()
-local cScrH = ScrH()
-
-function ScrW()
-	return cScrW
-end
-
-function ScrH()
-	return cScrH
-end
-
 local math = math
 local scale = GetConVar("tm_hud_scale")
 
@@ -54,11 +43,6 @@ TM.MenuScaleRounded = function(size)
 	local scaled = size * ratio
 	return size > 0 and math.max(1, math.floor(scaled)) or math.min(-1, math.floor(scaled))
 end
-
-hook.Add("OnScreenSizeChanged", "ClearScalingCache", function(_, _, newW, newH)
-	cScrW = newW
-	cScrH = newH
-end)
 
 for _, f in ipairs(file.Find("gamemodes/titanmod/gamemode/shared/*.lua", "GAME", "nameasc")) do
 	include("shared/" .. f)

@@ -43,7 +43,11 @@ end
 local unlockAllCVar = GetConVar("sv_tm_unlock_all")
 local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 
-local mapName = MAPS[game.GetMap()].name or game.GetMap()
+local mapName = game.GetMap()
+if MAPS[mapName] then
+	mapName = MAPS[mapName].name
+end
+
 local modeName = GAMEMODES[TM.GAMEMODE].name or "UNKNOWN"
 
 local MainMenu
