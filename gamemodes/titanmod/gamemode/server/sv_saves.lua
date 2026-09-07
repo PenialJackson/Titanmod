@@ -131,8 +131,8 @@ function SetupPlayerData(ply)
 	InitializeNetworkInt(ply, query, "playerAccoladeOnStreak", 0)
 	InitializeNetworkInt(ply, query, "playerAccoladeBuzzkill", 0)
 	InitializeNetworkInt(ply, query, "playerAccoladeClutch", 0)
-	for i = 1, #WEAPONS do
-		InitializeNetworkInt(ply, query, "killsWith_" .. WEAPONS[i][1], 0)
+	for id, _ in pairs(WEAPONS) do
+		InitializeNetworkInt(ply, query, "killsWith_" .. id, 0)
 	end
 
 	for k, v in ipairs(LEVELARRAY) do
@@ -191,8 +191,8 @@ function SavePlayerData(ply)
 	UninitializeNetworkInt(ply, query, "playerAccoladeSmackdown")
 	UninitializeNetworkInt(ply, query, "playerAccoladeHeadshot")
 	UninitializeNetworkInt(ply, query, "playerAccoladeClutch")
-	for i = 1, #WEAPONS do
-		UninitializeNetworkInt(ply, query, "killsWith_" .. WEAPONS[i][1])
+	for id, _ in pairs(WEAPONS) do
+		UninitializeNetworkInt(ply, query, "killsWith_" .. id)
 	end
 
 	tempNewCMD = string.sub(tempNewCMD, 1, -3) .. ";"

@@ -16,13 +16,13 @@ local intermissionLength = GetConVar("sv_tm_intermission_length")
 util.AddNetworkString("NotifyCranked")
 
 if TM.GAMEMODE == "ffa" then
-	for _, v in ipairs(WEAPONS) do
-		if v[3] == "primary" then
-			table.insert(randPrimary, v[1])
-		elseif v[3] == "secondary" then
-			table.insert(randSecondary, v[1])
-		elseif v[3] == "melee" then
-			table.insert(randMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.class == WEPCLASSES.Primary then
+			table.insert(randPrimary, id)
+		elseif wep.class == WEPCLASSES.Secondary then
+			table.insert(randSecondary, id)
+		elseif wep.class == WEPCLASSES.Melee then
+			table.insert(randMelee, id)
 		end
 	end
 end
@@ -30,13 +30,13 @@ end
 if TM.GAMEMODE == "fiesta" then
 	local fiestaTime = GetConVar("sv_tm_mode_fiesta_shuffle_length")
 
-	for _, v in ipairs(WEAPONS) do
-		if v[3] == "primary" then
-			table.insert(randPrimary, v[1])
-		elseif v[3] == "secondary" then
-			table.insert(randSecondary, v[1])
-		elseif v[3] == "melee" then
-			table.insert(randMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.class == WEPCLASSES.Primary then
+			table.insert(randPrimary, id)
+		elseif wep.class == WEPCLASSES.Secondary then
+			table.insert(randSecondary, id)
+		elseif wep.class == WEPCLASSES.Melee then
+			table.insert(randMelee, id)
 		end
 	end
 
@@ -74,19 +74,17 @@ end
 if TM.GAMEMODE == "gun_game" then
 	local gunGameSize = GetConVar("sv_tm_mode_gungame_ladder_size")
 
-	for _, v in ipairs(WEAPONS) do
-		if v[3] == "melee" then
-			table.insert(ggRandMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.class == WEPCLASSES.Melee then
+			table.insert(ggRandMelee, id)
 		end
 	end
 
-	local ggWeaponArray = WEAPONS
 	local itemsAdded = 0
-	table.Shuffle(ggWeaponArray)
 
-	for _, v in ipairs(ggWeaponArray) do
-		if (v[3] == "primary" or v[3] == "secondary") and v[1] != "st_stim_pistol" and v[1] != "swat_shield" and v[1] != "tfa_ins2_cq300" and v[1] != "tfa_ins2_ump45" and v[1] != "tfa_howa_type_64" and v[1] != "tfa_jw_tti_mpx" and v[1] != "tfa_codww2_flamethrower" and itemsAdded < (gunGameSize:GetInt() - 1) then
-			table.insert(ggLadder, {v[1], table.SeqRandom(ggRandMelee)})
+	for id, wep in RandomPairs(ggWeaponArray) do
+		if (wep.class == WEPCLASSES.Primary or wep.class == WEPCLASSES.Secondary) and id != "st_stim_pistol" and id != "swat_shield" and id != "tfa_ins2_cq300" and id != "tfa_ins2_ump45" and id != "tfa_howa_type_64" and id != "tfa_jw_tti_mpx" and id != "tfa_codww2_flamethrower" and itemsAdded < (gunGameSize:GetInt() - 1) then
+			table.insert(ggLadder, {id, table.SeqRandom(ggRandMelee)})
 			itemsAdded = itemsAdded + 1
 		end
 	end
@@ -95,25 +93,27 @@ if TM.GAMEMODE == "gun_game" then
 end
 
 if TM.GAMEMODE == "shotty_snipers" then
-	for _, v in ipairs(WEAPONS) do
-		if v[4] == "sniper" and v[1] != "rust_bow" and v[1] != "rust_crossbow" and v[1] != "tfa_ins2_saiga_spike" then
-			table.insert(randPrimary, v[1])
-		elseif v[4] == "shotgun" then
-			table.insert(randSecondary, v[1])
-		elseif v[3] == "melee" then
-			table.insert(randMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.type == WEPTYPES.Sniper then
+			table.insert(randPrimary, id)
+		elseif wep.type == WEPTYPES.Shotgun then
+			table.insert(randSecondary, id)
+		end
+
+		if wep.class == WEPCLASSES.Melee then
+			table.insert(randMelee, id)
 		end
 	end
 end
 
 if TM.GAMEMODE == "cranked" then
-	for _, v in ipairs(WEAPONS) do
-		if v[3] == "primary" then
-			table.insert(randPrimary, v[1])
-		elseif v[3] == "secondary" then
-			table.insert(randSecondary, v[1])
-		elseif v[3] == "melee" then
-			table.insert(randMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.class == WEPCLASSES.Primary then
+			table.insert(randPrimary, id)
+		elseif wep.class == WEPCLASSES.Secondary then
+			table.insert(randSecondary, id)
+		elseif wep.class == WEPCLASSES.Melee then
+			table.insert(randMelee, id)
 		end
 	end
 end
@@ -127,13 +127,13 @@ if TM.GAMEMODE == "koth" then
 		kothOBJ:Spawn()
 	end)
 
-	for _, v in ipairs(WEAPONS) do
-		if v[3] == "primary" then
-			table.insert(randPrimary, v[1])
-		elseif v[3] == "secondary" then
-			table.insert(randSecondary, v[1])
-		elseif v[3] == "melee" then
-			table.insert(randMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.class == WEPCLASSES.Primary then
+			table.insert(randPrimary, id)
+		elseif wep.class == WEPCLASSES.Secondary then
+			table.insert(randSecondary, id)
+		elseif wep.class == WEPCLASSES.Melee then
+			table.insert(randMelee, id)
 		end
 	end
 
@@ -160,11 +160,11 @@ if TM.GAMEMODE == "koth" then
 end
 
 if TM.GAMEMODE == "quickdraw" then
-	for _, v in ipairs(WEAPONS) do
-		if v[3] == "secondary" and v[1] != "rust_bow" and v[1] != "swat_shield" and v[1] != "st_stim_pistol" then
-			table.insert(randSecondary, v[1])
-		elseif v[3] == "melee" then
-			table.insert(randMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.class == WEPCLASSES.Secondary and id != "swat_shield" and id != "st_stim_pistol" then
+			table.insert(randSecondary, id)
+		elseif wep.class == WEPCLASSES.Melee then
+			table.insert(randMelee, id)
 		end
 	end
 end
@@ -173,13 +173,13 @@ if TM.GAMEMODE == "vip" then
 	local vipScore = GetConVar("sv_tm_mode_koth_score")
 	local vipInterval = GetConVar("sv_tm_mode_koth_score_interval")
 
-	for _, v in ipairs(WEAPONS) do
-		if v[3] == "primary" then
-			table.insert(randPrimary, v[1])
-		elseif v[3] == "secondary" then
-			table.insert(randSecondary, v[1])
-		elseif v[3] == "melee" then
-			table.insert(randMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.class == WEPCLASSES.Primary then
+			table.insert(randPrimary, id)
+		elseif wep.class == WEPCLASSES.Secondary then
+			table.insert(randSecondary, id)
+		elseif wep.class == WEPCLASSES.Melee then
+			table.insert(randMelee, id)
 		end
 	end
 
@@ -208,11 +208,11 @@ if TM.GAMEMODE == "vip" then
 end
 
 if TM.GAMEMODE == "overkill" then
-	for _, v in ipairs(WEAPONS) do
-		if v[3] == "primary" or v[3] == "secondary" then
-			table.insert(randOverkill, v[1])
-		elseif v[3] == "melee" then
-			table.insert(randMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.class == WEPCLASSES.Primary or wep.class == WEPCLASSES.Secondary then
+			table.insert(randOverkill, id)
+		elseif wep.class == WEPCLASSES.Melee then
+			table.insert(randMelee, id)
 		end
 	end
 
@@ -220,13 +220,13 @@ if TM.GAMEMODE == "overkill" then
 end
 
 if TM.GAMEMODE == "fisticuffs" then
-	for _, v in ipairs(WEAPONS) do
-		if v[3] == "primary" then
-			table.insert(randPrimary, v[1])
-		elseif v[3] == "secondary" then
-			table.insert(randSecondary, v[1])
-		elseif v[3] == "melee" then
-			table.insert(randMelee, v[1])
+	for id, wep in pairs(WEAPONS) do
+		if wep.class == WEPCLASSES.Primary then
+			table.insert(randPrimary, id)
+		elseif wep.class == WEPCLASSES.Secondary then
+			table.insert(randSecondary, id)
+		elseif wep.class == WEPCLASSES.Melee then
+			table.insert(randMelee, id)
 		end
 	end
 end

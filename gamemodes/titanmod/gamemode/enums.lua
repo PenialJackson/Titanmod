@@ -267,180 +267,178 @@ WEPCLASSES.Melee = 3
 WEPCLASSES.None = 4
 
 WEPTYPES = {}
-WEPTYPES.
+WEPTYPES.Rifle = 1
+WEPTYPES.SMG = 2
+WEPTYPES.LMG = 3
+WEPTYPES.Shotgun = 4
+WEPTYPES.Sniper = 5
+WEPTYPES.Pistol = 6
+WEPTYPES.Melee = 7
+WEPTYPES.Explosive = 8
+WEPTYPES.Special = 9
+WEPTYPES.None = 10
 
 WEAPONS = {
-	["tfa_ins2_aa12"] = {
-		name = "AA-12",
-		class = "primary",
-		type = "shotgun"
-	},
-
-	["tfa_ins2_acrc"] = {
-		name = "ACR",
-		class = "primary",
-		type = "rifle"
-	},
+	["tfa_ins2_aa12"] = {name = "AA-12", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["tfa_ins2_acrc"] = {name = "ACR", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_aek971"] = {name = "AEK-971", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_ak12"] = {name = "AK-12", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_akms"] = {name = "AK-47", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_aks_r"] = {name = "AKS-74U", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_cold_war_american180"] = {name = "American-180", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_abakan"] = {name = "AN-94", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_ar57"] = {name = "AR-57", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_inss_asval"] = {name = "AS-VAL", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_pd2_ash12"] = {name = "ASh-12", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_fml_csgo_aug"] = {name = "AUG A2", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_wpn_avt40"] = {name = "AVT-40", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_cod_accuracy_international_l115a3"] = {name = "AWM", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_ins2_warface_ax308"] = {name = "AX-308", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_ins2_barrett_m98_bravo"] = {name = "Barrett M98B", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_ins2_mx4"] = {name = "Beretta Mx4", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["rust_bow"] = {name = "Bow", class = WEPCLASSES.Secondary, type = WEPTYPES.Special},
+	["tfa_bo3_bowiezm"] = {name = "Bowie Knife", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins2_br99"] = {name = "BR99", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["tfa_doibren"] = {name = "Bren", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_bo3_butterfly"] = {name = "Butterfly Knife", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_bo3_bowie"] = {name = "Carver", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins2_m4_9mm"] = {name = "Colt 9mm", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_coonan_357"] = {name = "Coonan .357", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["rust_crossbow"] = {name = "Crossbow", class = WEPCLASSES.Primary, type = WEPTYPES.Special},
+	["tfa_ins2_cz75"] = {name = "CZ 75", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_cz805"] = {name = "CZ 805", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["yurie_eft_semin_push_dagger"] = {name = "Dagger", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins2_deagle"] = {name = "Desert Eagle", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_warface_amp_dsr1"] = {name = "DSR-50", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_dualmac"] = {name = "Dual MAC-10s", class = WEPCLASSES.Primary, type = WEPTYPES.Pistol},
+	["tfa_l4d2_skorpion_dual"] = {name = "Dual Skorpions", class = WEPCLASSES.Primary, type = WEPTYPES.Pistol},
+	["tfa_ins2_famas"] = {name = "FAMAS", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_doifg42"] = {name = "FG42", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_bo3_axe"] = {name = "Fire Axe", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_bo3_fists"] = {name = "Fists", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins2_fiveseven_eft"] = {name = "Fiveseven", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_codww2_flamethrower"] = {name = "Flamethrower", class = WEPCLASSES.Primary, type = WEPTYPES.Special},
+	["tfa_ins2_fn_2000"] = {name = "FN 2000", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_fn_fal"] = {name = "FN FAL", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_fnp45"] = {name = "FNP-45", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_g28"] = {name = "G28", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_g36a1"] = {name = "G36A1", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_wpn_g3a3"] = {name = "G3A3", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_wpn_imigalilarm"] = {name = "Galil", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_glk_gen4"] = {name = "Glock 17", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["grenade"] = {name = "Grenade", class = WEPCLASSES.None, type = WEPTYPES.Explosive},
+	["tfa_ins2_groza"] = {name = "Groza", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_gsh18"] = {name = "GSH-18", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_hk416"] = {name = "HK416", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_fml_hk53"] = {name = "HK53", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_cq300"] = {name = "Honey Badger", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_howa_type_64"] = {name = "Howa Type 64", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_imbelia2"] = {name = "Imbel IA2", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_warface_cheytac_m200"] = {name = "Intervention", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["ryry_tfa_chainsaw"] = {name = "KAC ChainSAW", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_doi_kar98k"] = {name = "Kar98k", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_karambit"] = {name = "Karambit", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_km2000_knife"] = {name = "KM-2000", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins2_krissv"] = {name = "KRISS Vector", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_coldwar_ks23"] = {name = "KS-23", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["tfa_ins2_ksg"] = {name = "KSG", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["yurie_eft_united_cutlery_m48_kukri"] = {name = "Kukri", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins2_l85a2"] = {name = "L85", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_doi_enfield"] = {name = "Lee Enfield", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_doilewis"] = {name = "Lewis Gun", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_ins2_zm_lr300"] = {name = "LR-300", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_doi_garand"] = {name = "M1 Garand", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_usurper"] = {name = "M134 Minigun", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_ins2_m14retro"] = {name = "M14", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	[""] = {name = "M1911", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_doim1918"] = {name = "M1918", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_doim1919"] = {name = "M1919", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_ins2_minimi"] = {name = "M249", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_doim3greasegun"] = {name = "M3 Grease Gun", class = WEPCLASSES.Secondary, type = WEPTYPES.SMG},
+	["tfa_ins2_colt_m45"] = {name = "M45A1", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_eftm4a1"] = {name = "M4A1", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_nam_m79"] = {name = "M79", class = WEPCLASSES.Primary, type = WEPTYPES.Explosive},
+	["tfa_ins2_m9"] = {name = "M9", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ilopn_m9_phrobis"] = {name = "M9 Bayonet", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["bocw_mac10_alt"] = {name = "MAC-10", class = WEPCLASSES.Secondary, type = WEPTYPES.SMG},
+	["tfa_ararebo_bf1"] = {name = "Mace", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins2_pm"] = {name = "Makarov", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_tfre_maresleg"] = {name = "Mare's Leg", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_fml_lefrench_mas38"] = {name = "Mas 38", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_doimg34"] = {name = "MG34", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_doimg42"] = {name = "MG42", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_ins2_mk14ebr"] = {name = "MK 14 EBR", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_mk23"] = {name = "MK 23", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_fml_inss_mk18"] = {name = "MK18", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_swmodel10"] = {name = "Model 10", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_mosin_nagant"] = {name = "Mosin Nagant", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_doimp40"] = {name = "MP40", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_mp443"] = {name = "MP-443", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ww1_mp18"] = {name = "MP18", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_inss2_hk_mp5a5"] = {name = "MP5", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_mp5k"] = {name = "MP5K", class = WEPCLASSES.Secondary, type = WEPTYPES.SMG},
+	["tfa_ins2_mp7"] = {name = "MP7", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_warface_bt_mp9"] = {name = "MP9", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_jw_tti_mpx"] = {name = "MPX", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_mr96"] = {name = "MR-96", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_pd2_remington_msr"] = {name = "MSR", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_ins2_mc255"] = {name = "MTs225", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["tfa_bocw_nailgun"] = {name = "Nailgun", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_nova"] = {name = "Nova", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["tfa_bo3_nunchucks"] = {name = "Nunchucks", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_l4d2_osp18"] = {name = "OSP-18", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_ots_33_pernach"] = {name = "OTs-33 Pernach", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_doiowen"] = {name = "Owen Gun", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_p320_m18"] = {name = "P320", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_fml_p90_tac"] = {name = "P90", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_blast_pindadss2"] = {name = "Pindad SS2", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_pkp"] = {name = "PKP", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_ins2_pm9"] = {name = "PM-9", class = WEPCLASSES.Secondary, type = WEPTYPES.SMG},
+	["tfa_fas2_ppbizon"] = {name = "PP-19 Bizon", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_nam_ppsh41"] = {name = "PPSH", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ww2_pbz39"] = {name = "PzB 39", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_ins2_norinco_qbz97"] = {name = "QBZ-97", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_qsz92"] = {name = "QSZ-92", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["yurie_eft_red_rebel_axe"] = {name = "Red Rebel", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins2_remington_m870"] = {name = "Remington M870", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["tfa_ins2_rfb"] = {name = "RFB", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["swat_shield"] = {name = "Riot Shield", class = WEPCLASSES.Secondary, type = WEPTYPES.Melee},
+	["tfa_ins2_rpg7_scoped"] = {name = "RPG-7", class = WEPCLASSES.Primary, type = WEPTYPES.Explosive},
+	["tfa_ins2_rpk_74m"] = {name = "RPK-74M", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_ins2_s&w_500"] = {name = "S&W 500", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_izh43sw"] = {name = "Sawed Off", class = WEPCLASSES.Secondary, type = WEPTYPES.Shotgun},
+	["tfa_ins2_scar_h_ssr"] = {name = "SCAR-H", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_scarl"] = {name = "SCAR-L", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_sc_evo"] = {name = "Scorpion Evo", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_l4d2_skorpion"] = {name = "Skorpion", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_sks"] = {name = "SKS", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_spas12"] = {name = "SPAS-12", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["tfa_ins2_spectre"] = {name = "Spectre M4", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_saiga_spike"] = {name = "Spike X1S", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_sr25_eft"] = {name = "SR-25", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_sr2m_veresk"] = {name = "SR-2M", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_doisten"] = {name = "Sten", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_nam_stevens620"] = {name = "Stevens 620", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["tfa_doistg44"] = {name = "StG 44", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_wpn_kacstoner"] = {name = "Stoner LMG A1", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_ins2_sv98"] = {name = "SV-98", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_ins2_warface_orsis_t5000"] = {name = "T-5000", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_japanese_exclusive_tanto"] = {name = "Tanto", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins_sandstorm_tariq"] = {name = "Tariq", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["st_stim_pistol"] = {name = "TCo Stim Pistol", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_doithompsonm1928"] = {name = "Thompson M1928", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_doithompsonm1a1"] = {name = "Thompson M1A1", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_tridagger"] = {name = "Tri-Dagger", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
+	["tfa_ins2_typhoon12"] = {name = "Typhoon F12", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
+	["tfa_ins2_ump45"] = {name = "UMP", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_usp_match"] = {name = "USP", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_imi_uzi"] = {name = "Uzi", class = WEPCLASSES.Secondary, type = WEPTYPES.SMG},
+	["tfa_ins2_vhsd2"] = {name = "VHS-D2", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
+	["tfa_ins2_wa2000"] = {name = "WA-2000", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
+	["tfa_ins2_walther_p99"] = {name = "Walther P99", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_doi_webley"] = {name = "Webley", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
+	["tfa_ins2_xm8"] = {name = "XM8", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle}
 }
-
-WEAPONS[2] = {"tfa_ins2_acrc", "ACR", "primary", "rifle"}
-WEAPONS[3] = {"tfa_ins2_aek971", "AEK-971", "primary", "rifle"}
-WEAPONS[4] = {"tfa_ins2_ak12", "AK-12", "primary", "rifle"}
-WEAPONS[5] = {"tfa_ins2_akms", "AK-47", "primary", "rifle"}
-WEAPONS[6] = {"tfa_ins2_aks_r", "AKS-74U", "primary", "smg"}
-WEAPONS[7] = {"tfa_cold_war_american180", "American-180", "primary", "smg"}
-WEAPONS[8] = {"tfa_ins2_abakan", "AN-94", "primary", "rifle"}
-WEAPONS[9] = {"tfa_ins2_ar57", "AR-57", "primary", "smg"}
-WEAPONS[10] = {"tfa_inss_asval", "AS-VAL", "primary", "rifle"}
-WEAPONS[11] = {"tfa_pd2_ash12", "ASh-12", "primary", "rifle"}
-WEAPONS[12] = {"tfa_fml_csgo_aug", "AUG A2", "primary", "rifle"}
-WEAPONS[13] = {"tfa_ins2_wpn_avt40", "AVT-40", "primary", "rifle"}
-WEAPONS[14] = {"tfa_cod_accuracy_international_l115a3", "AWM", "primary", "sniper"}
-WEAPONS[15] = {"tfa_ins2_warface_ax308", "AX-308", "primary", "sniper"}
-WEAPONS[16] = {"tfa_ins2_barrett_m98_bravo", "Barrett M98B", "primary", "sniper"}
-WEAPONS[17] = {"tfa_ins2_mx4", "Beretta Mx4", "primary", "smg"}
-WEAPONS[18] = {"rust_bow", "Bow", "secondary", "sniper"}
-WEAPONS[19] = {"tfa_bo3_bowiezm", "Bowie Knife", "melee"}
-WEAPONS[20] = {"tfa_ins2_br99", "BR99", "primary", "shotgun"}
-WEAPONS[21] = {"tfa_doibren", "Bren", "primary", "lmg"}
-WEAPONS[22] = {"tfa_bo3_butterfly", "Butterfly Knife", "melee"}
-WEAPONS[23] = {"tfa_bo3_bowie", "Carver", "melee"}
-WEAPONS[24] = {"tfa_ins2_m4_9mm", "Colt 9mm", "primary", "smg"}
-WEAPONS[25] = {"tfa_coonan_357", "Coonan .357", "secondary", "pistol"}
-WEAPONS[26] = {"rust_crossbow", "Crossbow", "primary", "sniper"}
-WEAPONS[27] = {"tfa_ins2_cz75", "CZ 75", "secondary", "pistol"}
-WEAPONS[28] = {"tfa_ins2_cz805", "CZ 805", "primary", "rifle"}
-WEAPONS[29] = {"yurie_eft_semin_push_dagger", "Dagger", "melee"}
-WEAPONS[30] = {"tfa_ins2_deagle", "Desert Eagle", "secondary", "pistol"}
-WEAPONS[31] = {"tfa_ins2_warface_amp_dsr1", "DSR-50", "primary", "sniper"}
-WEAPONS[32] = {"tfa_dualmac", "Dual MAC-10s", "primary", "pistol"}
-WEAPONS[33] = {"tfa_l4d2_skorpion_dual", "Dual Skorpions", "primary", "pistol"}
-WEAPONS[34] = {"tfa_ins2_famas", "FAMAS", "primary", "rifle"}
-WEAPONS[35] = {"tfa_doifg42", "FG42", "primary", "lmg"}
-WEAPONS[36] = {"tfa_bo3_axe", "Fire Axe", "melee"}
-WEAPONS[37] = {"tfa_bo3_fists", "Fists", "melee"}
-WEAPONS[38] = {"tfa_ins2_fiveseven_eft", "Fiveseven", "secondary", "pistol"}
-WEAPONS[39] = {"tfa_codww2_flamethrower", "Flamethrower", "primary", "special"}
-WEAPONS[40] = {"tfa_ins2_fn_2000", "FN 2000", "primary", "rifle"}
-WEAPONS[41] = {"tfa_ins2_fn_fal", "FN FAL", "primary", "rifle"}
-WEAPONS[42] = {"tfa_ins2_fnp45", "FNP-45", "secondary", "pistol"}
-WEAPONS[43] = {"tfa_ins2_g28", "G28", "primary", "rifle"}
-WEAPONS[44] = {"tfa_ins2_g36a1", "G36A1", "primary", "rifle"}
-WEAPONS[45] = {"tfa_ins2_wpn_g3a3", "G3A3", "primary", "rifle"}
-WEAPONS[46] = {"tfa_ins2_wpn_imigalilarm", "Galil", "primary", "rifle"}
-WEAPONS[47] = {"tfa_glk_gen4", "Glock 17", "secondary", "pistol"}
-WEAPONS[48] = {"grenade", "Grenade", "none", "explosive"} -- we have a grenade entry for kill tracking
-WEAPONS[49] = {"tfa_ins2_groza", "Groza", "primary", "rifle"}
-WEAPONS[50] = {"tfa_ins2_gsh18", "GSH-18", "secondary", "pistol"}
-WEAPONS[51] = {"tfa_ins2_hk416", "HK416", "primary", "rifle"}
-WEAPONS[52] = {"tfa_ins2_fml_hk53", "HK53", "primary", "rifle"}
-WEAPONS[53] = {"tfa_ins2_cq300", "Honey Badger", "primary", "rifle"}
-WEAPONS[54] = {"tfa_howa_type_64", "Howa Type 64", "primary", "rifle"}
-WEAPONS[55] = {"tfa_ins2_imbelia2", "Imbel IA2", "primary", "rifle"}
-WEAPONS[56] = {"tfa_ins2_warface_cheytac_m200", "Intervention", "primary", "sniper"}
-WEAPONS[57] = {"ryry_tfa_chainsaw", "KAC ChainSAW", "primary", "lmg"}
-WEAPONS[58] = {"tfa_doi_kar98k", "Kar98k", "primary", "sniper"}
-WEAPONS[59] = {"tfa_karambit", "Karambit", "melee"}
-WEAPONS[60] = {"tfa_km2000_knife", "KM-2000", "melee"}
-WEAPONS[61] = {"tfa_ins2_krissv", "KRISS Vector", "primary", "smg"}
-WEAPONS[62] = {"tfa_coldwar_ks23", "KS-23", "primary", "shotgun"}
-WEAPONS[63] = {"tfa_ins2_ksg", "KSG", "primary", "shotgun"}
-WEAPONS[64] = {"yurie_eft_united_cutlery_m48_kukri", "Kukri", "melee"}
-WEAPONS[65] = {"tfa_ins2_l85a2", "L85", "primary", "rifle"}
-WEAPONS[66] = {"tfa_doi_enfield", "Lee Enfield", "primary", "sniper"}
-WEAPONS[67] = {"tfa_doilewis", "Lewis Gun", "primary", "lmg"}
-WEAPONS[68] = {"tfa_ins2_zm_lr300", "LR-300", "primary", "rifle"}
-WEAPONS[69] = {"tfa_doi_garand", "M1 Garand", "primary", "rifle"}
-WEAPONS[70] = {"tfa_usurper", "M134 Minigun", "primary", "lmg"}
-WEAPONS[71] = {"tfa_ins2_m14retro", "M14", "primary", "rifle"}
-WEAPONS[72] = {"", "M1911", "secondary", "pistol"}
-WEAPONS[73] = {"tfa_doim1918", "M1918", "primary", "lmg"}
-WEAPONS[74] = {"tfa_doim1919", "M1919", "primary", "lmg"}
-WEAPONS[75] = {"tfa_ins2_minimi", "M249", "primary", "lmg"}
-WEAPONS[76] = {"tfa_doim3greasegun", "M3 Grease Gun", "secondary", "smg"}
-WEAPONS[77] = {"tfa_ins2_colt_m45", "M45A1", "secondary", "pistol"}
-WEAPONS[78] = {"tfa_ins2_eftm4a1", "M4A1", "primary", "rifle"}
-WEAPONS[79] = {"tfa_nam_m79", "M79", "primary", "explosive"}
-WEAPONS[80] = {"tfa_ins2_m9", "M9", "secondary", "pistol"}
-WEAPONS[81] = {"tfa_ilopn_m9_phrobis", "M9 Bayonet", "melee"}
-WEAPONS[82] = {"bocw_mac10_alt", "MAC-10", "secondary", "smg"}
-WEAPONS[83] = {"tfa_ararebo_bf1", "Mace", "melee"}
-WEAPONS[84] = {"tfa_ins2_pm", "Makarov", "secondary", "pistol"}
-WEAPONS[85] = {"tfa_tfre_maresleg", "Mare's Leg", "secondary", "pistol"}
-WEAPONS[86] = {"tfa_fml_lefrench_mas38", "Mas 38", "primary", "smg"}
-WEAPONS[87] = {"tfa_doimg34", "MG34", "primary", "lmg"}
-WEAPONS[88] = {"tfa_doimg42", "MG42", "primary", "lmg"}
-WEAPONS[89] = {"tfa_ins2_mk14ebr", "MK 14 EBR", "primary", "rifle"}
-WEAPONS[90] = {"tfa_ins2_mk23", "MK 23", "secondary", "pistol"}
-WEAPONS[91] = {"tfa_fml_inss_mk18", "MK18", "primary", "rifle"}
-WEAPONS[92] = {"tfa_ins2_swmodel10", "Model 10", "secondary", "pistol"}
-WEAPONS[93] = {"tfa_ins2_mosin_nagant", "Mosin Nagant", "primary", "sniper"}
-WEAPONS[94] = {"tfa_doimp40", "MP40", "primary", "smg"}
-WEAPONS[95] = {"tfa_ins2_mp443", "MP-443", "secondary", "pistol"}
-WEAPONS[96] = {"tfa_ww1_mp18", "MP18", "primary", "smg"}
-WEAPONS[97] = {"tfa_inss2_hk_mp5a5", "MP5", "primary", "smg"}
-WEAPONS[98] = {"tfa_ins2_mp5k", "MP5K", "secondary", "smg"}
-WEAPONS[99] = {"tfa_ins2_mp7", "MP7", "primary", "smg"}
-WEAPONS[100] = {"tfa_ins2_warface_bt_mp9", "MP9", "primary", "smg"}
-WEAPONS[101] = {"tfa_jw_tti_mpx", "MPX", "primary", "smg"}
-WEAPONS[102] = {"tfa_ins2_mr96", "MR-96", "secondary", "pistol"}
-WEAPONS[103] = {"tfa_ins2_pd2_remington_msr", "MSR", "primary", "sniper"}
-WEAPONS[104] = {"tfa_ins2_mc255", "MTs225", "primary", "shotgun"}
-WEAPONS[105] = {"tfa_bocw_nailgun", "Nailgun", "secondary", "pistol"}
-WEAPONS[106] = {"tfa_ins2_nova", "Nova", "primary", "shotgun"}
-WEAPONS[107] = {"tfa_bo3_nunchucks", "Nunchucks", "melee"}
-WEAPONS[108] = {"tfa_l4d2_osp18", "OSP-18", "secondary", "pistol"}
-WEAPONS[109] = {"tfa_ins2_ots_33_pernach", "OTs-33 Pernach", "secondary", "pistol"}
-WEAPONS[110] = {"tfa_doiowen", "Owen Gun", "primary", "smg"}
-WEAPONS[111] = {"tfa_ins2_p320_m18", "P320", "secondary", "pistol"}
-WEAPONS[112] = {"tfa_fml_p90_tac", "P90", "primary", "smg"}
-WEAPONS[113] = {"tfa_blast_pindadss2", "Pindad SS2", "primary", "rifle"}
-WEAPONS[114] = {"tfa_ins2_pkp", "PKP", "primary", "lmg"}
-WEAPONS[115] = {"tfa_ins2_pm9", "PM-9", "secondary", "smg"}
-WEAPONS[116] = {"tfa_fas2_ppbizon", "PP-19 Bizon", "primary", "smg"}
-WEAPONS[117] = {"tfa_nam_ppsh41", "PPSH", "primary", "smg"}
-WEAPONS[118] = {"tfa_ww2_pbz39", "PzB 39", "primary", "sniper"}
-WEAPONS[119] = {"tfa_ins2_norinco_qbz97", "QBZ-97", "primary", "rifle"}
-WEAPONS[120] = {"tfa_ins2_qsz92", "QSZ-92", "secondary", "pistol"}
-WEAPONS[121] = {"yurie_eft_red_rebel_axe", "Red Rebel", "melee"}
-WEAPONS[122] = {"tfa_ins2_remington_m870", "Remington M870", "primary", "shotgun"}
-WEAPONS[123] = {"tfa_ins2_rfb", "RFB", "primary", "rifle"}
-WEAPONS[124] = {"swat_shield", "Riot Shield", "secondary", "melee"}
-WEAPONS[125] = {"tfa_ins2_rpg7_scoped", "RPG-7", "primary", "explosive"}
-WEAPONS[126] = {"tfa_ins2_rpk_74m", "RPK-74M", "primary", "lmg"}
-WEAPONS[127] = {"tfa_ins2_s&w_500", "S&W 500", "secondary", "pistol"}
-WEAPONS[128] = {"tfa_ins2_izh43sw", "Sawed Off", "secondary", "shotgun"}
-WEAPONS[129] = {"tfa_ins2_scar_h_ssr", "SCAR-H", "primary", "rifle"}
-WEAPONS[130] = {"tfa_ins2_scarl", "SCAR-L", "primary", "rifle"}
-WEAPONS[131] = {"tfa_ins2_sc_evo", "Scorpion Evo", "primary", "smg"}
-WEAPONS[132] = {"tfa_l4d2_skorpion", "Skorpion", "secondary", "pistol"}
-WEAPONS[133] = {"tfa_ins2_sks", "SKS", "primary", "rifle"}
-WEAPONS[134] = {"tfa_ins2_spas12", "SPAS-12", "primary", "shotgun"}
-WEAPONS[135] = {"tfa_ins2_spectre", "Spectre M4", "primary", "smg"}
-WEAPONS[136] = {"tfa_ins2_saiga_spike", "Spike X1S", "primary", "sniper"}
-WEAPONS[137] = {"tfa_ins2_sr25_eft", "SR-25", "primary", "rifle"}
-WEAPONS[138] = {"tfa_ins2_sr2m_veresk", "SR-2M", "primary", "smg"}
-WEAPONS[139] = {"tfa_doisten", "Sten", "primary", "smg"}
-WEAPONS[140] = {"tfa_nam_stevens620", "Stevens 620", "primary", "shotgun"}
-WEAPONS[141] = {"tfa_doistg44", "StG 44", "primary", "rifle"}
-WEAPONS[142] = {"tfa_ins2_wpn_kacstoner", "Stoner LMG A1", "primary", "lmg"}
-WEAPONS[143] = {"tfa_ins2_sv98", "SV-98", "primary", "sniper"}
-WEAPONS[144] = {"tfa_ins2_warface_orsis_t5000", "T-5000", "primary", "sniper"}
-WEAPONS[145] = {"tfa_japanese_exclusive_tanto", "Tanto", "melee"}
-WEAPONS[146] = {"tfa_ins_sandstorm_tariq", "Tariq", "secondary", "pistol"}
-WEAPONS[147] = {"st_stim_pistol", "TCo Stim Pistol", "secondary", "pistol"}
-WEAPONS[148] = {"tfa_doithompsonm1928", "Thompson M1928", "primary", "smg"}
-WEAPONS[149] = {"tfa_doithompsonm1a1", "Thompson M1A1", "primary", "smg"}
-WEAPONS[150] = {"tfa_ins2_tridagger", "Tri-Dagger", "melee"}
-WEAPONS[151] = {"tfa_ins2_typhoon12", "Typhoon F12", "primary", "shotgun"}
-WEAPONS[152] = {"tfa_ins2_ump45", "UMP", "primary", "smg"}
-WEAPONS[153] = {"tfa_ins2_usp_match", "USP", "secondary", "pistol"}
-WEAPONS[154] = {"tfa_ins2_imi_uzi", "Uzi", "secondary", "smg"}
-WEAPONS[155] = {"tfa_ins2_vhsd2", "VHS-D2", "primary", "rifle"}
-WEAPONS[156] = {"tfa_ins2_wa2000", "WA-2000", "primary", "sniper"}
-WEAPONS[157] = {"tfa_ins2_walther_p99", "Walther P99", "secondary", "pistol"}
-WEAPONS[158] = {"tfa_doi_webley", "Webley", "secondary", "pistol"}
-WEAPONS[159] = {"tfa_ins2_xm8", "XM8", "primary", "rifle"}
 
 LEVELARRAY = {}
 LEVELARRAY[1] = 750 -- +75 XP

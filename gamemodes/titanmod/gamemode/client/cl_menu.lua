@@ -295,8 +295,8 @@ net.Receive("OpenMainMenu", function(len)
 
 						local weaponstatistics = BoardSelection:AddSubMenu("Weapons")
 						weaponstatistics:SetMaxHeight(ScrH() / 2)
-						for i = 1, #WEAPONS do
-							weaponstatistics:AddOption("Kills w/ " .. WEAPONS[i][2], function() LeaderboardSelected("Kills w/ " .. WEAPONS[i][2], "killsWith_" .. WEAPONS[i][1]) end)
+						for id, wep in pairs(WEAPONS) do
+							weaponstatistics:AddOption("Kills w/ " .. wep.name, function() LeaderboardSelected("Kills w/ " .. wep.name, "killsWith_" .. id) end)
 						end
 
 						BoardSelection:Open()
@@ -669,18 +669,16 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					if TM.GAMEMODE == "gun_game" then
 						draw.SimpleText(LocalPlayer():GetNWInt("ladderPosition") .. " / " .. gunGameSize:GetInt() .. " kills", "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
 					else
-						for i = 1, #WEAPONS do
-							if WEAPONS[i][1] == LocalPlayer():GetNWString("loadoutPrimary") then
-								draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
-							end
+						if WEAPONS[LocalPlayer():GetNWString("loadoutPrimary")] then
+							draw.SimpleText(WEAPONS[LocalPlayer():GetNWString("loadoutPrimary")].name, "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(15), white, TEXT_ALIGN_LEFT)
+						end
 
-							if WEAPONS[i][1] == LocalPlayer():GetNWString("loadoutSecondary") then
-								draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(40) , white, TEXT_ALIGN_LEFT)
-							end
+						if WEAPONS[LocalPlayer():GetNWString("loadoutSecondary")] then
+							draw.SimpleText(WEAPONS[LocalPlayer():GetNWString("loadoutSecondary")].name, "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(40) , white, TEXT_ALIGN_LEFT)
+						end
 
-							if WEAPONS[i][1] == LocalPlayer():GetNWString("loadoutMelee") then
-								draw.SimpleText(WEAPONS[i][2], "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(65), white, TEXT_ALIGN_LEFT)
-							end
+						if WEAPONS[LocalPlayer():GetNWString("loadoutMelee")] then
+							draw.SimpleText(WEAPONS[LocalPlayer():GetNWString("loadoutMelee")].name, "MainMenuLoadoutWeapons", TM.MenuScale(325) + TM.MenuScale(spawnTextAnim), TM.MenuScale(65), white, TEXT_ALIGN_LEFT)
 						end
 					end
 				else

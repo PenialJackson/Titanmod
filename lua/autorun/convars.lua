@@ -313,6 +313,22 @@ cvars["fov_amount"] = {
 	userinfo = true
 }
 
+cvars["customfov"] = {
+	client = true,
+	default = 0,
+	min = 0,
+	max = 1,
+	userinfo = true
+}
+
+cvars["customfov_value"] = {
+	client = true,
+	default = 100,
+	min = 100,
+	max = 144,
+	userinfo = true
+}
+
 cvars["fov_sprint"] = {
 	client = true,
 	default = 1,

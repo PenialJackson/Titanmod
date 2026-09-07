@@ -1943,8 +1943,8 @@ net.Receive("EndOfGame", function(len)
 				accolades:AddOption("On Streaks (Kill Streaks Started): " .. v:GetNWInt("playerAccoladeOnStreak"))
 				accolades:AddOption("Buzz Kills (Kill Streaks Ended): " .. v:GetNWInt("playerAccoladeBuzzkill"))
 
-				for i = 1, #WEAPONS do
-					weaponKills:AddOption(WEAPONS[i][2] .. ": " .. v:GetNWInt("killsWith_" .. WEAPONS[i][1]))
+				for id, wep in pairs(WEAPONS) do
+					weaponKills:AddOption(wep.name .. ": " .. v:GetNWInt("killsWith_" .. id))
 				end
 
 				dropdown:AddSpacer()
@@ -2008,26 +2008,9 @@ local loadoutHint = GetConVar("tm_hud_hints_loadout"):GetBool()
 function ShowLoadoutOnSpawn()
 	if !loadoutHint then return end
 
-	local primaryWeapon = ""
-	local secondaryWeapon = ""
-	local meleeWeapon = ""
-
-	for _, wep in ipairs(WEAPONS) do
-		local id = wep[1]
-		local name = wep[2]
-
-		if id == LocalPlayer():GetNWString("loadoutPrimary") then
-			primaryWeapon = name
-		end
-
-		if id == LocalPlayer():GetNWString("loadoutSecondary") then
-			secondaryWeapon = name
-		end
-
-		if id == LocalPlayer():GetNWString("loadoutMelee") then
-			meleeWeapon = name
-		end
-	end
+	local primaryWeapon = WEAPONS[LocalPlayer():GetNWString("loadoutPrimary")].name or ""
+	local secondaryWeapon = WEAPONS[LocalPlayer():GetNWString("loadoutSecondary")].name or ""
+	local meleeWeapon = WEAPONS[LocalPlayer():GetNWString("loadoutMelee")].name or ""
 
 	if primaryWeapon == "" and secondaryWeapon == "" and meleeWeapon == "" then return end
 

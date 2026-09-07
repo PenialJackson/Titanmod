@@ -55,8 +55,8 @@ function PlayerAccountWipe(ply, cmd, args)
 	ply:SetNWInt("playerAccoladeBuzzkill", 0)
 	ply:SetNWInt("playerAccoladeClutch", 0)
 
-	for i = 1, #WEAPONS do
-		ply:SetNWInt("killsWith_" .. WEAPONS[i][1], 0)
+	for id, _ in pairs(WEAPONS) do
+		ply:SetNWInt("killsWith_" .. id, 0)
 	end
 end
 concommand.Add("tm_wipeplayeraccount_cannotbeundone", PlayerAccountWipe)
