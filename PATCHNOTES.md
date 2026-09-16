@@ -25,6 +25,7 @@
 *WEAPON ADJUSTMENTS*
 - Renamed Dual Mac 10s to Dual MAC-10s
 - Renamed FG 42 to FG42
+- Renamed Fiveseven to Five-seveN
 - Renamed Glock 18 to Glock 17
 - Renamed Mac 10 to MAC-10
 - Renamed MG 34 to MG34
@@ -89,18 +90,24 @@
 - Improved brushwork and textures
 - Improved player clipping
 
-**>BALANCE**
-*Compensator Attachment*
+**>BALANCE: ATTACHMENTS**
+*Barrel: Compensator*
 - Removed ADS speed penalty (previously 5%)
 
-*Muzzle Brake Attachment*
+*Ammunition: Gust Shells*
+- Removed damage penalty (previously 40%)
+- Removed additional pellets (previously +8)
+- Increased spread penalty to 250% (previously 120%)
+
+*Barrel: Muzzle Brake*
 - Removed ADS speed penalty (previously 5%)
 
-*Suppressor Attachment*
+*Barrel: Suppressor*
 - Removed damage penalty (previously 5%)
 - Removed vertical recoil reduction (previously 5%)
 - Increased spread penalty to 10% (previously 5% spread bonus)
 
+**>BALANCE: WEAPONS**
 *ACR*
 - Reduced vertical recoil to 15 (previously 30)
 - Reduced horizontal recoil to 6 (previously 15)
@@ -184,6 +191,8 @@
 - Reduced the unlock requirment for most playermodels
 
 - Reworked how convars and config values are loaded and handled
+
+- Standardized the position and sorting of attachments across all weapons (NOTE: your pre-update local attachment data will be broken)
 
 - Updated the description of numerous attachments to better fit their actual stat changes
 
