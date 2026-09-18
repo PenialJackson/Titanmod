@@ -59,9 +59,6 @@ net.Receive("OpenMainMenu", function(len)
 		timer.Create("respawnTimeLeft", respawnTimeLeft, 1, function() end)
 	end
 
-	local canPrestige
-	if LocalPlayer():GetNWInt("playerLevel") != 60 then canPrestige = false else canPrestige = true end
-
 	local mouseX = 0
 	local mouseY = 0
 

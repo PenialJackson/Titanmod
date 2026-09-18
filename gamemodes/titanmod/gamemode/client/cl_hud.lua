@@ -1351,32 +1351,19 @@ net.Receive("EndOfGame", function(len)
 			textAnimTwo = math.Clamp(textAnimTwo - TM.MenuScale(3000) * FrameTime(), ScrH() / 2, ScrH())
 			detailsPanel:SetY(textAnimTwo)
 
-			if LocalPlayer():GetNWInt("playerLevel") != 60 then
-				levelAnim = math.Clamp(levelAnim + (LocalPlayer():GetNWInt("playerXP") / LocalPlayer():GetNWInt("playerXPToNextLevel")) * FrameTime(), 0, LocalPlayer():GetNWInt("playerXP") / LocalPlayer():GetNWInt("playerXPToNextLevel"))
-				xpCountUp = math.Clamp(xpCountUp + LocalPlayer():GetNWInt("playerXP") * FrameTime(), 0, LocalPlayer():GetNWInt("playerXP"))
+			levelAnim = math.Clamp(levelAnim + (LocalPlayer():GetNWInt("playerXP") / LocalPlayer():GetNWInt("playerXPToNextLevel")) * FrameTime(), 0, LocalPlayer():GetNWInt("playerXP") / LocalPlayer():GetNWInt("playerXPToNextLevel"))
+			xpCountUp = math.Clamp(xpCountUp + LocalPlayer():GetNWInt("playerXP") * FrameTime(), 0, LocalPlayer():GetNWInt("playerXP"))
 
-				surface.SetDrawColor(30, 30, 30, 150)
-				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), TM.MenuScale(600), TM.MenuScale(15))
+			surface.SetDrawColor(30, 30, 30, 150)
+			surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), TM.MenuScale(600), TM.MenuScale(15))
 
-				surface.SetDrawColor(255, 255, 255)
-				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), levelAnim * TM.MenuScale(600), TM.MenuScale(15))
+			surface.SetDrawColor(255, 255, 255)
+			surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), levelAnim * TM.MenuScale(600), TM.MenuScale(15))
 
-				draw.DrawText(LocalPlayer():GetNWInt("playerLevel"), "StreakText", w / 2 - TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_LEFT)
-				draw.DrawText(LocalPlayer():GetNWInt("playerLevel") + 1, "StreakText", w / 2 + TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_RIGHT)
-				draw.DrawText(math.Round(xpCountUp) .. " / " .. LocalPlayer():GetNWInt("playerXPToNextLevel") .. "XP  ^", "StreakText", (w / 2 - TM.MenuScale(295)) + (levelAnim * TM.MenuScale(600)), TM.MenuScale(75), COLORS.white, TEXT_ALIGN_RIGHT)
-				draw.DrawText("Earned " .. LocalPlayer():GetNWInt("playerScoreMatch") .. "XP + " .. bonusXP .. "XP Bonus", "StreakText", w / 2, TM.MenuScale(100), COLORS.white, TEXT_ALIGN_CENTER)
-			else
-				levelAnim = math.Clamp(levelAnim + (1 / 1) * FrameTime(), 0, 1)
-
-				surface.SetDrawColor(30, 30, 30, 150)
-				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), TM.MenuScale(600), TM.MenuScale(15))
-
-				surface.SetDrawColor(255, 255, 255)
-				surface.DrawRect(w / 2 - TM.MenuScale(300), TM.MenuScale(50), levelAnim * TM.MenuScale(600), TM.MenuScale(15))
-
-				draw.DrawText("MAX LEVEL", "StreakText", w / 2, TM.MenuScale(25), COLORS.white, TEXT_ALIGN_CENTER)
-				draw.DrawText("Prestige at the Main Menu", "StreakText", w / 2, TM.MenuScale(65), COLORS.white, TEXT_ALIGN_CENTER)
-			end
+			draw.DrawText(LocalPlayer():GetNWInt("playerLevel"), "StreakText", w / 2 - TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_LEFT)
+			draw.DrawText(LocalPlayer():GetNWInt("playerLevel") + 1, "StreakText", w / 2 + TM.MenuScale(300), TM.MenuScale(25), COLORS.white, TEXT_ALIGN_RIGHT)
+			draw.DrawText(math.Round(xpCountUp) .. " / " .. LocalPlayer():GetNWInt("playerXPToNextLevel") .. "XP  ^", "StreakText", (w / 2 - TM.MenuScale(295)) + (levelAnim * TM.MenuScale(600)), TM.MenuScale(75), COLORS.white, TEXT_ALIGN_RIGHT)
+			draw.DrawText("Earned " .. LocalPlayer():GetNWInt("playerScoreMatch") .. "XP + " .. bonusXP .. "XP Bonus", "StreakText", w / 2, TM.MenuScale(100), COLORS.white, TEXT_ALIGN_CENTER)
 		end
 	end
 
@@ -1815,7 +1802,6 @@ net.Receive("EndOfGame", function(len)
 			if !IsValid(v) then return end
 
 			local name = v:Nick()
-			local prestige = v:GetNWInt("playerPrestige")
 			local level = v:GetNWInt("playerLevel")
 			local frags = v:Frags()
 			local deaths = v:Deaths()
@@ -1823,7 +1809,7 @@ net.Receive("EndOfGame", function(len)
 			local score = v:GetNWInt("playerScoreMatch")
 
 			surface.SetFont("Health")
-			local nameLength = select(1, surface.GetTextSize(name .. " | " .. "P" .. prestige .. " L" .. level))
+			local nameLength = select(1, surface.GetTextSize(name .. " | " .. " LVL" .. level))
 
 			if frags <= 0 then
 				ratio = 0
@@ -1850,7 +1836,7 @@ net.Receive("EndOfGame", function(len)
 
 				surface.DrawRect(0, 0, w, h)
 
-				draw.DrawText(name .. " | " .. "P" .. prestige .. " L" .. level, "Health", TM.MenuScale(10), 0, COLORS.white, TEXT_ALIGN_LEFT)
+				draw.DrawText(name .. " | " .. " LVL" .. level, "Health", TM.MenuScale(10), 0, COLORS.white, TEXT_ALIGN_LEFT)
 				draw.DrawText(frags, "Health", TM.MenuScale(285), TM.MenuScale(35), Color(0, 255, 0), TEXT_ALIGN_LEFT)
 				draw.DrawText(deaths, "Health", TM.MenuScale(285), TM.MenuScale(60), Color(255, 0, 0), TEXT_ALIGN_LEFT)
 				draw.DrawText(ratioRounded .. "", "Health", TM.MenuScale(285), TM.MenuScale(85), Color(255, 255, 0), TEXT_ALIGN_LEFT)
@@ -1929,7 +1915,7 @@ net.Receive("EndOfGame", function(len)
 				local weaponKills = weaponstatistics:AddSubMenu("Kills With")
 				weaponKills:SetMaxHeight(ScrH() / 1.5)
 
-				statistics:AddOption("Prestige " .. v:GetNWInt("playerPrestige") .. " Level " .. v:GetNWInt("playerLevel"))
+				statistics:AddOption("Level " .. v:GetNWInt("playerLevel"))
 				statistics:AddOption("Score: " .. v:GetNWInt("playerScore"))
 				statistics:AddOption("Kills: " .. v:GetNWInt("playerKills"))
 				statistics:AddOption("Deaths: " .. v:GetNWInt("playerDeaths"))
@@ -1947,7 +1933,6 @@ net.Receive("EndOfGame", function(len)
 				accolades:AddOption("Point Blanks: " .. v:GetNWInt("playerAccoladePointblank"))
 				accolades:AddOption("On Streaks (Kill Streaks Started): " .. v:GetNWInt("playerAccoladeOnStreak"))
 				accolades:AddOption("Buzz Kills (Kill Streaks Ended): " .. v:GetNWInt("playerAccoladeBuzzkill"))
-
 				for id, wep in pairs(WEAPONS) do
 					weaponKills:AddOption(wep.name .. ": " .. v:GetNWInt("killsWith_" .. id))
 				end

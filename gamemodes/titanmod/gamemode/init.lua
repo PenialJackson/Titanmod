@@ -89,7 +89,6 @@ util.AddNetworkString("BeginSpectate")
 util.AddNetworkString("PlayerGearChange")
 util.AddNetworkString("PlayerModelChange")
 util.AddNetworkString("PlayerCardChange")
-util.AddNetworkString("PlayerPrestige")
 util.AddNetworkString("GrabLeaderboardData")
 util.AddNetworkString("SendLeaderboardData")
 util.AddNetworkString("SendChatMessage")
@@ -488,7 +487,7 @@ net.Receive("PlayerGearChange", function(len, ply)
 			local gearUnlock = GEAR[i][4]
 			local gearKills = GEAR[i][5]
 			local gearLevel = GEAR[i][6]
-			local playerTotalLevel = (ply:GetNWInt("playerPrestige") * 60) + ply:GetNWInt("playerLevel")
+			local playerLevel = ply:GetNWInt("playerLevel")
 
 			if unlockAll:GetBool() then
 				ply:SetNWString("chosenMelee", gearID)
@@ -509,7 +508,7 @@ net.Receive("PlayerGearChange", function(len, ply)
 					if TM.GAMEMODE != "gun_game" and TM.GAMEMODE != "fiesta" then
 						ply:SetNWString("loadoutMelee", gearID)
 					end
-				elseif gearUnlock == "melee" and playerTotalLevel >= gearLevel then
+				elseif gearUnlock == "melee" and playerLevel >= gearLevel then
 					ply:SetNWString("chosenMelee", gearID)
 
 					if TM.GAMEMODE != "gun_game" and TM.GAMEMODE != "fiesta" then
@@ -572,7 +571,7 @@ net.Receive("PlayerCardChange", function(len, ply)
 			local cardID = CARDS[i][1]
 			local cardUnlock = CARDS[i][4]
 			local cardValue = CARDS[i][5]
-			local playerTotalLevel = (ply:GetNWInt("playerPrestige") * 60) + ply:GetNWInt("playerLevel")
+			local playerLevel = ply:GetNWInt("playerLevel")
 
 			if unlockAll:GetBool() then
 				ply:SetNWString("chosenPlayercard", cardID)
@@ -601,27 +600,13 @@ net.Receive("PlayerCardChange", function(len, ply)
 					ply:SetNWString("chosenPlayercard", cardID)
 				elseif cardUnlock == "buzzkills" and ply:GetNWInt("playerAccoladeBuzzkill") >= cardValue then
 					ply:SetNWString("chosenPlayercard", cardID)
-				elseif cardUnlock == "level" and playerTotalLevel >= cardValue then
+				elseif cardUnlock == "level" and playerLevel >= cardValue then
 					ply:SetNWString("chosenPlayercard", cardID)
 				elseif cardUnlock == "mastery" and ply:GetNWInt("killsWith_" .. cardValue) >= masteryUnlockReq then
 					ply:SetNWString("chosenPlayercard", cardID)
 				end
 			end
 		end
-	end
-end)
-
-net.Receive("PlayerPrestige", function(len, ply)
-	if ply:GetNWInt("playerLevel") >= 60 then
-		local pres = ply:GetNWInt("playerPrestige", 0)
-		local nextPres = pres + 1
-
-		ply:SetNWInt("playerLevel", 1)
-		ply:SetNWInt("playerPrestige", nextPres)
-		ply:SetNWInt("playerXP", 0)
-		ply:SetNWInt("playerXPToNextLevel", 750)
-
-		SavePlayerData(ply)
 	end
 end)
 
