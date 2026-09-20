@@ -12,7 +12,6 @@ ATTACHMENT.Description = {
 	TFA.AttachmentColors["="], ".50 BMG conversion",
 	TFA.AttachmentColors["+"], "50% more damage",
 	TFA.AttachmentColors["-"], "250% more recoil",
-	TFA.AttachmentColors["-"], "250% more spread",
 	TFA.AttachmentColors["-"], "20% longer rechambering speed"
 }
 
@@ -20,7 +19,6 @@ ATTACHMENT.WeaponTable = {
 	["Primary"] = {
 		["Damage"] = function(wep, stat) return stat * 1.5 end,
 		["RPM"] = function(wep, stat) return 25 end,
-		["Spread"] = function(wep, stat) return stat * 2.5 end,
 		["KickUp"] = function(wep, stat) return stat * 2.5 end,
 		["KickHorizontal"] = function(wep, stat) return stat * 2.5 end,
 		["KickDown"] = function(wep, stat) return stat * 2.5 end,

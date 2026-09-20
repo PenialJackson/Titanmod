@@ -32,6 +32,8 @@
 - Renamed MG 42 to MG42
 - Renamed MP 40 to MP40
 - Renamed Remington MSR to MSR
+- Renamed Scorpion Evo to Scorpion EVO
+- Renamed Stoner LMG A1 to KAC Stoner
 - Removed the AK-400 and the M1911 from the weapon pool
 
 *NEW CONVAR SETTINGS*
@@ -112,6 +114,9 @@
 - Reduced vertical recoil to 15 (previously 30)
 - Reduced horizontal recoil to 6 (previously 15)
 
+*ASh-12*
+- Increased spread to 30 (previously 23)
+
 *Bow*
 - Removed the slight random deviation in the arrows travel path
 
@@ -159,6 +164,9 @@
 - Increased damage to 33 (previously 30)
 - Reduced RPM to 450 (previously 500)
 
+*M79*
+- Removed spread when hip firing
+
 *Mas 38*
 - Reduced vertical recoil to 18 (previously 25)
 - Reduced horizontal recoil to 5 (previously 10)
@@ -173,6 +181,9 @@
 *MSR*
 - Increased damage to 113 (previously 120)
 - Increased spread to 50 (previously 33)
+
+*S&W 500*
+- Increased spread to 25 (previously 15)
 
 *SKS*
 - Reduced horizontal recoil to 20 (previously 35)

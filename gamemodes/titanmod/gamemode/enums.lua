@@ -336,6 +336,7 @@ WEAPONS = {
 	["tfa_ins2_imbelia2"] = {name = "Imbel IA2", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
 	["tfa_ins2_warface_cheytac_m200"] = {name = "Intervention", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
 	["ryry_tfa_chainsaw"] = {name = "KAC ChainSAW", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
+	["tfa_ins2_wpn_kacstoner"] = {name = "KAC Stoner", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
 	["tfa_doi_kar98k"] = {name = "Kar98k", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
 	["tfa_karambit"] = {name = "Karambit", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
 	["tfa_km2000_knife"] = {name = "KM-2000", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
@@ -409,7 +410,7 @@ WEAPONS = {
 	["tfa_ins2_izh43sw"] = {name = "Sawed Off", class = WEPCLASSES.Secondary, type = WEPTYPES.Shotgun},
 	["tfa_ins2_scar_h_ssr"] = {name = "SCAR-H", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
 	["tfa_ins2_scarl"] = {name = "SCAR-L", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
-	["tfa_ins2_sc_evo"] = {name = "Scorpion Evo", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
+	["tfa_ins2_sc_evo"] = {name = "Scorpion EVO", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
 	["tfa_l4d2_skorpion"] = {name = "Skorpion", class = WEPCLASSES.Secondary, type = WEPTYPES.Pistol},
 	["tfa_ins2_sks"] = {name = "SKS", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
 	["tfa_ins2_spas12"] = {name = "SPAS-12", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
@@ -420,7 +421,6 @@ WEAPONS = {
 	["tfa_doisten"] = {name = "Sten", class = WEPCLASSES.Primary, type = WEPTYPES.SMG},
 	["tfa_nam_stevens620"] = {name = "Stevens 620", class = WEPCLASSES.Primary, type = WEPTYPES.Shotgun},
 	["tfa_doistg44"] = {name = "StG 44", class = WEPCLASSES.Primary, type = WEPTYPES.Rifle},
-	["tfa_ins2_wpn_kacstoner"] = {name = "Stoner LMG A1", class = WEPCLASSES.Primary, type = WEPTYPES.LMG},
 	["tfa_ins2_sv98"] = {name = "SV-98", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
 	["tfa_ins2_warface_orsis_t5000"] = {name = "T-5000", class = WEPCLASSES.Primary, type = WEPTYPES.Sniper},
 	["tfa_japanese_exclusive_tanto"] = {name = "Tanto", class = WEPCLASSES.Melee, type = WEPTYPES.Melee},
@@ -723,90 +723,90 @@ CARDS[130] = {"cards/mastery/howatype64.png", "Cradle", "Howa Type 64", "mastery
 CARDS[131] = {"cards/mastery/imbelia2.png", "Process", "Imbel IA2", "mastery", "tfa_ins2_imbelia2"}
 CARDS[132] = {"cards/mastery/intervention.png", "Trickshot", "Intervention", "mastery", "tfa_ins2_warface_cheytac_m200"}
 CARDS[133] = {"cards/mastery/kacchainsaw.png", "Scare", "KAC ChainSAW", "mastery", "ryry_tfa_chainsaw"}
-CARDS[134] = {"cards/mastery/kar98k.png", "Empire", "Kar98k", "mastery", "tfa_doi_kar98k"}
-CARDS[135] = {"cards/mastery/karambit.png", "Shoreline", "Karambit", "mastery", "tfa_karambit"}
-CARDS[136] = {"cards/mastery/km2000.png", "Flatgrass", "KM-2000", "mastery", "tfa_km2000_knife"}
-CARDS[137] = {"cards/mastery/krissvector.png", "Narkotica", "KRISS Vector", "mastery", "tfa_ins2_krissv"}
-CARDS[138] = {"cards/mastery/ks23.png", "Vintage", "KS-23", "mastery", "tfa_coldwar_ks23"}
-CARDS[139] = {"cards/mastery/ksg.png", "Flames", "KSG", "mastery", "tfa_ins2_ksg"}
-CARDS[140] = {"cards/mastery/kukri.png", "Peace", "Kukri", "mastery", "yurie_eft_united_cutlery_m48_kukri"}
-CARDS[141] = {"cards/mastery/l85.png", "Groves", "L85", "mastery", "tfa_ins2_l85a2"}
-CARDS[142] = {"cards/mastery/leeenfield.png", "Minecraft", "Lee Enfield master", "mastery", "tfa_doi_enfield"}
-CARDS[143] = {"cards/mastery/lewis.png", "Big Bang", "Lewis Gun", "mastery", "tfa_doilewis"}
-CARDS[144] = {"cards/mastery/lr300.png", "Oil Rig", "LR-300", "mastery", "tfa_ins2_zm_lr300"}
-CARDS[145] = {"cards/mastery/m1garand.png", "Underworld", "M1 Garand", "mastery", "tfa_doi_garand"}
-CARDS[146] = {"cards/mastery/minigun.png", "SYS.//", "M134 Minigun", "mastery", "tfa_usurper"}
-CARDS[147] = {"cards/mastery/m14.png", "Bridge", "M14", "mastery", "tfa_ins2_m14retro"}
-CARDS[148] = {"cards/mastery/m1911.png", "Relic", "mastery", "mastery", ""}
-CARDS[149] = {"cards/mastery/m1918.png", "Bipod", "M1918", "mastery", "tfa_doim1918"}
-CARDS[150] = {"cards/mastery/m1919.png", "Customs", "M1919", "mastery", "tfa_doim1919"}
-CARDS[151] = {"cards/mastery/m249.png", "Camper", "M249", "mastery", "tfa_ins2_minimi"}
-CARDS[152] = {"cards/mastery/m3grease.png", "Grease", "M3 Grease Gun", "mastery", "tfa_doim3greasegun"}
-CARDS[153] = {"cards/mastery/m45a1.png", "Legend", "M45A1", "mastery", "tfa_ins2_colt_m45"}
-CARDS[154] = {"cards/mastery/m4a1.png", "Smug", "M4A1", "mastery", "tfa_ins2_eftm4a1"}
-CARDS[155] = {"cards/mastery/m79.png", "Cool With It", "M79", "mastery", "tfa_nam_m79"}
-CARDS[156] = {"cards/mastery/m9.png", "Full Metal", "M9", "mastery", "tfa_ins2_m9"}
-CARDS[157] = {"cards/mastery/m9bayonet.png", "Park", "M9 Bayonet", "mastery", "tfa_ilopn_m9_phrobis"}
-CARDS[158] = {"cards/mastery/mac10.png", "Dev", "MAC-10", "mastery", "bocw_mac10_alt"}
-CARDS[159] = {"cards/mastery/mace.png", "Industry", "Mace master", "mastery", "tfa_ararebo_bf1"}
-CARDS[160] = {"cards/mastery/makarov.png", "Leaves", "Makarov", "mastery", "tfa_ins2_pm"}
-CARDS[161] = {"cards/mastery/maresleg.png", "High Optic", "Mare's Leg", "mastery", "tfa_tfre_maresleg"}
-CARDS[162] = {"cards/mastery/mas38.png", "Galaxy", "Mas 38", "mastery", "tfa_fml_lefrench_mas38"}
-CARDS[163] = {"cards/mastery/mg34.png", "Heavy ", "MG 34", "mastery", "tfa_doimg34"}
-CARDS[164] = {"cards/mastery/mg42.png", "D-Day", "MG 42", "mastery", "tfa_doimg42"}
-CARDS[165] = {"cards/mastery/mk14ebr.png", "Prepared", "MK 14 EBR", "mastery", "tfa_ins2_mk14ebr"}
-CARDS[166] = {"cards/mastery/mk23.png", "Uranium", "MK 23", "mastery", "tfa_ins2_mk23"}
-CARDS[167] = {"cards/mastery/mk18.png", "Waster", "MK18", "mastery", "tfa_fml_inss_mk18"}
-CARDS[168] = {"cards/mastery/model10.png", "Walter", "Model 10", "mastery", "tfa_ins2_swmodel10"}
-CARDS[169] = {"cards/mastery/mosin.png", "Rebirth", "Mosin Nagant", "mastery", "tfa_ins2_mosin_nagant"}
-CARDS[170] = {"cards/mastery/mp40.png", "Reflection", "MP 40", "mastery", "tfa_doimp40"}
-CARDS[171] = {"cards/mastery/mp443.png", "Bush", "MP-443", "mastery", "tfa_ins2_mp443"}
-CARDS[172] = {"cards/mastery/mp18.png", "Modern", "MP18", "mastery", "tfa_ww1_mp18"}
-CARDS[173] = {"cards/mastery/mp5.png", "Select", "MP5", "mastery", "tfa_inss2_hk_mp5a5"}
-CARDS[174] = {"cards/mastery/mp5k.png", "H&K", "MP5K", "mastery", "tfa_ins2_mp5k"}
-CARDS[175] = {"cards/mastery/mp7.png", "Oilspill", "MP7", "mastery", "tfa_ins2_mp7"}
-CARDS[176] = {"cards/mastery/mp9.png", "Training", "MP9", "mastery", "tfa_ins2_warface_bt_mp9"}
-CARDS[177] = {"cards/mastery/mpx.png", "Waterfall", "MPX", "mastery", "tfa_jw_tti_mpx"}
-CARDS[178] = {"cards/mastery/mr96.png", "Polish", "MR-96", "mastery", "tfa_ins2_mr96"}
-CARDS[179] = {"cards/mastery/remingtonmsr.png", "Lightshow", "Remington MSR", "mastery", "tfa_ins2_pd2_remington_msr"}
-CARDS[180] = {"cards/mastery/mts225.png", "Slug", "MTs225", "mastery", "tfa_ins2_mc255"}
-CARDS[181] = {"cards/mastery/nailgun.png", "Nails", "Nailgun", "mastery", "tfa_bocw_nailgun"}
-CARDS[182] = {"cards/mastery/nova.png", "Dark Street", "Nova", "mastery", "tfa_ins2_nova"}
-CARDS[183] = {"cards/mastery/nunchucks.png", "Yin", "Nunchucks", "mastery", "tfa_bo3_nunchucks"}
-CARDS[184] = {"cards/mastery/osp18.png", "Irons", "OSP-18", "mastery", "tfa_l4d2_osp18"}
-CARDS[185] = {"cards/mastery/otspernach.png", "Speedloader", "OTs-33 Pernach", "mastery", "tfa_ins2_ots_33_pernach"}
-CARDS[186] = {"cards/mastery/owenmki.png", "Grid", "Owen Gun", "mastery", "tfa_doiowen"}
-CARDS[187] = {"cards/mastery/p320.png", "Sauer", "P320", "mastery", "tfa_ins2_p320_m18"}
-CARDS[188] = {"cards/mastery/p90.png", "MISSING", "P90", "mastery", "tfa_fml_p90_tac"}
-CARDS[189] = {"cards/mastery/pindad.png", "Labs", "Pindad SS2", "mastery", "tfa_blast_pindadss2"}
-CARDS[190] = {"cards/mastery/pkp.png", "Royalty", "PKP", "mastery", "tfa_ins2_pkp"}
-CARDS[191] = {"cards/mastery/pm9.png", "Akimbo", "PM-9", "mastery", "tfa_ins2_pm9"}
-CARDS[192] = {"cards/mastery/ppbizon.png", "Rainbow", "PP-19 Bizon", "mastery", "tfa_fas2_ppbizon"}
-CARDS[193] = {"cards/mastery/ppsh.png", "Mephitic", "PPSH", "mastery", "tfa_nam_ppsh41"}
-CARDS[194] = {"cards/mastery/pzb39.png", "Exotic", "PzB 39", "mastery", "tfa_ww2_pbz39"}
-CARDS[195] = {"cards/mastery/qbz97.png", "Hideout", "QBZ-97", "mastery", "tfa_ins2_norinco_qbz97"}
-CARDS[196] = {"cards/mastery/qsz92.png", "yippee", "QSZ-92", "mastery", "tfa_ins2_qsz92"}
-CARDS[197] = {"cards/mastery/redrebel.png", "Tagilla", "Red Rebel", "mastery", "yurie_eft_red_rebel_axe"}
-CARDS[198] = {"cards/mastery/remingtonm870.png", "Code", "Remington M870 master", "mastery", "tfa_ins2_remington_m870"}
-CARDS[199] = {"cards/mastery/rfb.png", "Extraction", "RFB", "mastery", "tfa_ins2_rfb"}
-CARDS[200] = {"cards/mastery/rpg7.png", "Damascus", "RPG-7", "mastery", "tfa_ins2_rpg7_scoped"}
-CARDS[201] = {"cards/mastery/rpk74m.png", "Elcan", "RPK-74M", "mastery", "tfa_ins2_rpk_74m"}
-CARDS[202] = {"cards/mastery/sw500.png", "Companion", "S&W 500", "mastery", "tfa_ins2_s&w_500"}
-CARDS[203] = {"cards/mastery/sawedoff.png", "Halves", "Sawed Off", "mastery", "tfa_ins2_izh43sw"}
-CARDS[204] = {"cards/mastery/scarh.png", "Tilted", "SCAR-H", "mastery", "tfa_ins2_scar_h_ssr"}
-CARDS[205] = {"cards/mastery/scarl.png", "Overhead", "SCAR-L", "mastery", "tfa_ins2_scarl"}
-CARDS[206] = {"cards/mastery/scorpionevo.png", "Raid", "Scorpion Evo", "mastery", "tfa_ins2_sc_evo"}
-CARDS[207] = {"cards/mastery/skorpion.png", "Black Hole", "Skorpion", "mastery", "tfa_l4d2_skorpion"}
-CARDS[208] = {"cards/mastery/sks.png", "Scav", "SKS", "mastery", "tfa_ins2_sks"}
-CARDS[209] = {"cards/mastery/spas.png", "12 Gauge", "SPAS-12", "mastery", "tfa_ins2_spas12"}
-CARDS[210] = {"cards/mastery/spectrem4.png", "Mall", "Spectre M4", "mastery", "tfa_ins2_spectre"}
-CARDS[211] = {"cards/mastery/spikex1s.png", "Prototype", "Spike X1S", "mastery", "tfa_ins2_saiga_spike"}
-CARDS[212] = {"cards/mastery/sr25.png", "D2", "SR-25", "mastery", "tfa_ins2_sr25_eft"}
-CARDS[213] = {"cards/mastery/sr2m.png", "Blueprint", "SR-2M", "mastery", "tfa_ins2_sr2m_veresk"}
-CARDS[214] = {"cards/mastery/sten.png", "Lens Flare", "Sten", "mastery", "tfa_doisten"}
-CARDS[215] = {"cards/mastery/stevens620.png", "Mod", "Stevens 620", "mastery", "tfa_nam_stevens620"}
-CARDS[216] = {"cards/mastery/stg44.png", "Wood", "StG 44", "mastery", "tfa_doistg44"}
-CARDS[217] = {"cards/mastery/stonerlmg.png", "Stoner", "Stoner LMG A1", "mastery", "tfa_ins2_wpn_kacstoner"}
+CARDS[134] = {"cards/mastery/stonerlmg.png", "Stoner", "KAC Stoner", "mastery", "tfa_ins2_wpn_kacstoner"}
+CARDS[135] = {"cards/mastery/kar98k.png", "Empire", "Kar98k", "mastery", "tfa_doi_kar98k"}
+CARDS[136] = {"cards/mastery/karambit.png", "Shoreline", "Karambit", "mastery", "tfa_karambit"}
+CARDS[137] = {"cards/mastery/km2000.png", "Flatgrass", "KM-2000", "mastery", "tfa_km2000_knife"}
+CARDS[138] = {"cards/mastery/krissvector.png", "Narkotica", "KRISS Vector", "mastery", "tfa_ins2_krissv"}
+CARDS[139] = {"cards/mastery/ks23.png", "Vintage", "KS-23", "mastery", "tfa_coldwar_ks23"}
+CARDS[140] = {"cards/mastery/ksg.png", "Flames", "KSG", "mastery", "tfa_ins2_ksg"}
+CARDS[141] = {"cards/mastery/kukri.png", "Peace", "Kukri", "mastery", "yurie_eft_united_cutlery_m48_kukri"}
+CARDS[142] = {"cards/mastery/l85.png", "Groves", "L85", "mastery", "tfa_ins2_l85a2"}
+CARDS[143] = {"cards/mastery/leeenfield.png", "Minecraft", "Lee Enfield master", "mastery", "tfa_doi_enfield"}
+CARDS[144] = {"cards/mastery/lewis.png", "Big Bang", "Lewis Gun", "mastery", "tfa_doilewis"}
+CARDS[145] = {"cards/mastery/lr300.png", "Oil Rig", "LR-300", "mastery", "tfa_ins2_zm_lr300"}
+CARDS[146] = {"cards/mastery/m1garand.png", "Underworld", "M1 Garand", "mastery", "tfa_doi_garand"}
+CARDS[147] = {"cards/mastery/minigun.png", "SYS.//", "M134 Minigun", "mastery", "tfa_usurper"}
+CARDS[148] = {"cards/mastery/m14.png", "Bridge", "M14", "mastery", "tfa_ins2_m14retro"}
+CARDS[149] = {"cards/mastery/m1911.png", "Relic", "mastery", "mastery", ""}
+CARDS[150] = {"cards/mastery/m1918.png", "Bipod", "M1918", "mastery", "tfa_doim1918"}
+CARDS[151] = {"cards/mastery/m1919.png", "Customs", "M1919", "mastery", "tfa_doim1919"}
+CARDS[152] = {"cards/mastery/m249.png", "Camper", "M249", "mastery", "tfa_ins2_minimi"}
+CARDS[153] = {"cards/mastery/m3grease.png", "Grease", "M3 Grease Gun", "mastery", "tfa_doim3greasegun"}
+CARDS[154] = {"cards/mastery/m45a1.png", "Legend", "M45A1", "mastery", "tfa_ins2_colt_m45"}
+CARDS[155] = {"cards/mastery/m4a1.png", "Smug", "M4A1", "mastery", "tfa_ins2_eftm4a1"}
+CARDS[156] = {"cards/mastery/m79.png", "Cool With It", "M79", "mastery", "tfa_nam_m79"}
+CARDS[157] = {"cards/mastery/m9.png", "Full Metal", "M9", "mastery", "tfa_ins2_m9"}
+CARDS[158] = {"cards/mastery/m9bayonet.png", "Park", "M9 Bayonet", "mastery", "tfa_ilopn_m9_phrobis"}
+CARDS[159] = {"cards/mastery/mac10.png", "Dev", "MAC-10", "mastery", "bocw_mac10_alt"}
+CARDS[160] = {"cards/mastery/mace.png", "Industry", "Mace master", "mastery", "tfa_ararebo_bf1"}
+CARDS[161] = {"cards/mastery/makarov.png", "Leaves", "Makarov", "mastery", "tfa_ins2_pm"}
+CARDS[162] = {"cards/mastery/maresleg.png", "High Optic", "Mare's Leg", "mastery", "tfa_tfre_maresleg"}
+CARDS[163] = {"cards/mastery/mas38.png", "Galaxy", "Mas 38", "mastery", "tfa_fml_lefrench_mas38"}
+CARDS[164] = {"cards/mastery/mg34.png", "Heavy ", "MG34", "mastery", "tfa_doimg34"}
+CARDS[165] = {"cards/mastery/mg42.png", "D-Day", "MG42", "mastery", "tfa_doimg42"}
+CARDS[166] = {"cards/mastery/mk14ebr.png", "Prepared", "MK 14 EBR", "mastery", "tfa_ins2_mk14ebr"}
+CARDS[167] = {"cards/mastery/mk23.png", "Uranium", "MK 23", "mastery", "tfa_ins2_mk23"}
+CARDS[168] = {"cards/mastery/mk18.png", "Waster", "MK18", "mastery", "tfa_fml_inss_mk18"}
+CARDS[169] = {"cards/mastery/model10.png", "Walter", "Model 10", "mastery", "tfa_ins2_swmodel10"}
+CARDS[170] = {"cards/mastery/mosin.png", "Rebirth", "Mosin Nagant", "mastery", "tfa_ins2_mosin_nagant"}
+CARDS[171] = {"cards/mastery/mp40.png", "Reflection", "MP40", "mastery", "tfa_doimp40"}
+CARDS[172] = {"cards/mastery/mp443.png", "Bush", "MP-443", "mastery", "tfa_ins2_mp443"}
+CARDS[173] = {"cards/mastery/mp18.png", "Modern", "MP18", "mastery", "tfa_ww1_mp18"}
+CARDS[174] = {"cards/mastery/mp5.png", "Select", "MP5", "mastery", "tfa_inss2_hk_mp5a5"}
+CARDS[175] = {"cards/mastery/mp5k.png", "H&K", "MP5K", "mastery", "tfa_ins2_mp5k"}
+CARDS[176] = {"cards/mastery/mp7.png", "Oilspill", "MP7", "mastery", "tfa_ins2_mp7"}
+CARDS[177] = {"cards/mastery/mp9.png", "Training", "MP9", "mastery", "tfa_ins2_warface_bt_mp9"}
+CARDS[178] = {"cards/mastery/mpx.png", "Waterfall", "MPX", "mastery", "tfa_jw_tti_mpx"}
+CARDS[179] = {"cards/mastery/mr96.png", "Polish", "MR-96", "mastery", "tfa_ins2_mr96"}
+CARDS[180] = {"cards/mastery/remingtonmsr.png", "Lightshow", "MSR", "mastery", "tfa_ins2_pd2_remington_msr"}
+CARDS[181] = {"cards/mastery/mts225.png", "Slug", "MTs225", "mastery", "tfa_ins2_mc255"}
+CARDS[182] = {"cards/mastery/nailgun.png", "Nails", "Nailgun", "mastery", "tfa_bocw_nailgun"}
+CARDS[183] = {"cards/mastery/nova.png", "Dark Street", "Nova", "mastery", "tfa_ins2_nova"}
+CARDS[184] = {"cards/mastery/nunchucks.png", "Yin", "Nunchucks", "mastery", "tfa_bo3_nunchucks"}
+CARDS[185] = {"cards/mastery/osp18.png", "Irons", "OSP-18", "mastery", "tfa_l4d2_osp18"}
+CARDS[186] = {"cards/mastery/otspernach.png", "Speedloader", "OTs-33 Pernach", "mastery", "tfa_ins2_ots_33_pernach"}
+CARDS[187] = {"cards/mastery/owenmki.png", "Grid", "Owen Gun", "mastery", "tfa_doiowen"}
+CARDS[188] = {"cards/mastery/p320.png", "Sauer", "P320", "mastery", "tfa_ins2_p320_m18"}
+CARDS[189] = {"cards/mastery/p90.png", "MISSING", "P90", "mastery", "tfa_fml_p90_tac"}
+CARDS[190] = {"cards/mastery/pindad.png", "Labs", "Pindad SS2", "mastery", "tfa_blast_pindadss2"}
+CARDS[191] = {"cards/mastery/pkp.png", "Royalty", "PKP", "mastery", "tfa_ins2_pkp"}
+CARDS[192] = {"cards/mastery/pm9.png", "Akimbo", "PM-9", "mastery", "tfa_ins2_pm9"}
+CARDS[193] = {"cards/mastery/ppbizon.png", "Rainbow", "PP-19 Bizon", "mastery", "tfa_fas2_ppbizon"}
+CARDS[194] = {"cards/mastery/ppsh.png", "Mephitic", "PPSH", "mastery", "tfa_nam_ppsh41"}
+CARDS[195] = {"cards/mastery/pzb39.png", "Exotic", "PzB 39", "mastery", "tfa_ww2_pbz39"}
+CARDS[196] = {"cards/mastery/qbz97.png", "Hideout", "QBZ-97", "mastery", "tfa_ins2_norinco_qbz97"}
+CARDS[197] = {"cards/mastery/qsz92.png", "yippee", "QSZ-92", "mastery", "tfa_ins2_qsz92"}
+CARDS[198] = {"cards/mastery/redrebel.png", "Tagilla", "Red Rebel", "mastery", "yurie_eft_red_rebel_axe"}
+CARDS[199] = {"cards/mastery/remingtonm870.png", "Code", "Remington M870 master", "mastery", "tfa_ins2_remington_m870"}
+CARDS[200] = {"cards/mastery/rfb.png", "Extraction", "RFB", "mastery", "tfa_ins2_rfb"}
+CARDS[201] = {"cards/mastery/rpg7.png", "Damascus", "RPG-7", "mastery", "tfa_ins2_rpg7_scoped"}
+CARDS[202] = {"cards/mastery/rpk74m.png", "Elcan", "RPK-74M", "mastery", "tfa_ins2_rpk_74m"}
+CARDS[203] = {"cards/mastery/sw500.png", "Companion", "S&W 500", "mastery", "tfa_ins2_s&w_500"}
+CARDS[204] = {"cards/mastery/sawedoff.png", "Halves", "Sawed Off", "mastery", "tfa_ins2_izh43sw"}
+CARDS[205] = {"cards/mastery/scarh.png", "Tilted", "SCAR-H", "mastery", "tfa_ins2_scar_h_ssr"}
+CARDS[206] = {"cards/mastery/scarl.png", "Overhead", "SCAR-L", "mastery", "tfa_ins2_scarl"}
+CARDS[207] = {"cards/mastery/scorpionevo.png", "Raid", "Scorpion EVO", "mastery", "tfa_ins2_sc_evo"}
+CARDS[208] = {"cards/mastery/skorpion.png", "Black Hole", "Skorpion", "mastery", "tfa_l4d2_skorpion"}
+CARDS[209] = {"cards/mastery/sks.png", "Scav", "SKS", "mastery", "tfa_ins2_sks"}
+CARDS[210] = {"cards/mastery/spas.png", "12 Gauge", "SPAS-12", "mastery", "tfa_ins2_spas12"}
+CARDS[211] = {"cards/mastery/spectrem4.png", "Mall", "Spectre M4", "mastery", "tfa_ins2_spectre"}
+CARDS[212] = {"cards/mastery/spikex1s.png", "Prototype", "Spike X1S", "mastery", "tfa_ins2_saiga_spike"}
+CARDS[213] = {"cards/mastery/sr25.png", "D2", "SR-25", "mastery", "tfa_ins2_sr25_eft"}
+CARDS[214] = {"cards/mastery/sr2m.png", "Blueprint", "SR-2M", "mastery", "tfa_ins2_sr2m_veresk"}
+CARDS[215] = {"cards/mastery/sten.png", "Lens Flare", "Sten", "mastery", "tfa_doisten"}
+CARDS[216] = {"cards/mastery/stevens620.png", "Mod", "Stevens 620", "mastery", "tfa_nam_stevens620"}
+CARDS[217] = {"cards/mastery/stg44.png", "Wood", "StG 44", "mastery", "tfa_doistg44"}
 CARDS[218] = {"cards/mastery/sv98.png", "Vertigo", "SV-98", "mastery", "tfa_ins2_sv98"}
 CARDS[219] = {"cards/mastery/t5000.png", "Reserve", "T-5000", "mastery", "tfa_ins2_warface_orsis_t5000"}
 CARDS[220] = {"cards/mastery/tanto.png", "Shipment", "Tanto", "mastery", "tfa_japanese_exclusive_tanto"}
