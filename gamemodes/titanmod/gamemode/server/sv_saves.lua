@@ -2,7 +2,26 @@ local table = table
 local player = player
 
 hook.Add("Initialize", "InitPlayerNetworking", function()
-	sql.Query("CREATE TABLE IF NOT EXISTS PlayerData64 (SteamID INTEGER, Key TEXT, Value TEXT, SteamName TEXT);")
+	-- PlayerData64 is a really bad name and I don't want any conflicts to happen
+	if sql.TableExists("PlayerData64") then
+		if !ColumnExists("PlayerData64", "SteamID") or !ColumnExists("PlayerData64", "Key") or !ColumnExists("PlayerData64", "Value") then return end
+		sql.Query("ALTER TABLE PlayerData64 RENAME TO TMPlayerData64;")
+	end
+
+	sql.Query("CREATE TABLE IF NOT EXISTS TMPlayerData64 (SteamID INTEGER, Key TEXT, Value TEXT);")
+
+	-- new patch structure
+	if ColumnExists("TMPlayerData64", "SteamName") then
+		sql.Query("ALTER TABLE TMPlayerData64 RENAME TO TMPlayerData64_OLD;")
+
+		sql.Query("CREATE TABLE IF NOT EXISTS TMPlayerData64 (SteamID INTEGER, Key TEXT, Value TEXT);")
+		sql.Query([[
+			INSERT INTO TMPlayerData64 (SteamID, Key, Value)
+			SELECT SteamID, Key, Value FROM TMPlayerData64_OLD;
+		]])
+
+		sql.Query("DROP TABLE TMPlayerData64_OLD;")
+	end
 end)
 
 local modelFiles = {}
@@ -26,86 +45,78 @@ end
 local function InitializeNetworkInt(ply, query, key, value)
 	if query == "new" then
 		ply:SetNWInt(key, tonumber(value))
-
-		return
+		return tonumber(value)
 	end
 
 	for _, v in ipairs(query) do
 		if key == v.Key then
 			ply:SetNWInt(key, tonumber(v.Value))
-
-			return
+			return tonumber(v.Value)
 		end
 	end
 
 	ply:SetNWInt(key, tonumber(value))
+	return tonumber(value)
 end
 
 local function InitializeNetworkString(ply, query, key, value)
 	if query == "new" then
 		ply:SetNWString(key, tostring(value))
-
-		return
+		return tostring(value)
 	end
 
 	for _, v in ipairs(query) do
 		if key == v.Key then
 			ply:SetNWString(key, tostring(v.Value))
-
-			return
+			return tostring(v.Value)
 		end
 	end
 
 	ply:SetNWString(key, tostring(value))
+	return tostring(value)
 end
 
 local function UninitializeNetworkInt(ply, query, key)
 	local id64 = ply:SteamID64()
-	local name = ply:Nick()
 	local value = tonumber(ply:GetNWInt(key))
 
 	if query == "new" then
-		tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. ", " .. SQLStr(name) .. "), "
-
+		tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. "), "
 		return
 	end
 
 	for _, v in ipairs(query) do
 		if key == v.Key then
 			tempCMD = tempCMD .. "WHEN " .. SQLStr(key) .. " THEN " .. SQLStr(value) .. " "
-
 			return
 		end
 	end
 
-	tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. ", " .. SQLStr(name) .. "), "
+	tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. "), "
 end
 
 local function UninitializeNetworkString(ply, query, key)
 	local id64 = ply:SteamID64()
-	local name = ply:Nick()
 	local value = tostring(ply:GetNWString(key))
 
 	if query == "new" then
-		tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. ", " .. SQLStr(name) .. "), "
-
+		tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. "), "
 		return
 	end
 
 	for _, v in ipairs(query) do
 		if key == v.Key then
 			tempCMD = tempCMD .. "WHEN " .. SQLStr(key) .. " THEN " .. SQLStr(value) .. " "
-
 			return
 		end
 	end
 
-	tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. ", " .. SQLStr(name) .. "), "
+	tempNewCMD = tempNewCMD .. "(" .. SQLStr(id64) .. ", " .. SQLStr(key) .. ", " .. SQLStr(value) .. "), "
 end
 
 function SetupPlayerData(ply)
 	local id64 = ply:SteamID64()
-	local query = sql.Query("SELECT Key, Value FROM PlayerData64 WHERE SteamID = " .. id64 .. ";")
+	local query = sql.Query("SELECT Key, Value FROM TMPlayerData64 WHERE SteamID = " .. id64 .. ";")
 	if query == nil then
 		query = "new"
 	end
@@ -122,7 +133,6 @@ function SetupPlayerData(ply)
 	InitializeNetworkInt(ply, query, "highestKillGame", 0)
 	InitializeNetworkInt(ply, query, "farthestKill", 0)
 	InitializeNetworkInt(ply, query, "playerLevel", 1)
-	InitializeNetworkInt(ply, query, "playerPrestige", 0)
 	InitializeNetworkInt(ply, query, "playerXP", 0)
 	InitializeNetworkInt(ply, query, "playerAccoladeHeadshot", 0)
 	InitializeNetworkInt(ply, query, "playerAccoladeSmackdown", 0)
@@ -160,13 +170,13 @@ function SavePlayerData(ply)
 
 	if tempNewCMD != nil or tempCMD != nil then return end -- shouldn't be possible but just to be safe
 	local id64 = ply:SteamID64()
-	local query = sql.Query("SELECT Key, Value FROM PlayerData64 WHERE SteamID = " .. id64 .. ";")
+	local query = sql.Query("SELECT Key, Value FROM TMPlayerData64 WHERE SteamID = " .. id64 .. ";")
 	if query == nil then
 		query = "new"
 	end
 
-	tempNewCMD = "INSERT INTO PlayerData64 (SteamID, Key, Value, SteamName) VALUES"
-	tempCMD = "UPDATE PlayerData64 SET Value = CASE Key "
+	tempNewCMD = "INSERT INTO TMPlayerData64 (SteamID, Key, Value) VALUES"
+	tempCMD = "UPDATE TMPlayerData64 SET Value = CASE Key "
 
 	sql.Begin()
 
@@ -179,7 +189,6 @@ function SavePlayerData(ply)
 	UninitializeNetworkInt(ply, query, "highestKillGame")
 	UninitializeNetworkInt(ply, query, "farthestKill")
 	UninitializeNetworkInt(ply, query, "playerLevel")
-	UninitializeNetworkInt(ply, query, "playerPrestige")
 	UninitializeNetworkInt(ply, query, "playerXP")
 	UninitializeNetworkString(ply, query, "chosenPlayermodel")
 	UninitializeNetworkString(ply, query, "chosenPlayercard")
@@ -198,11 +207,11 @@ function SavePlayerData(ply)
 	tempNewCMD = string.sub(tempNewCMD, 1, -3) .. ";"
 	tempCMD = tempCMD .. "ELSE Value END WHERE SteamID = " .. id64 .. ";"
 
-	if tempNewCMD != "INSERT INTO PlayerData64 (SteamID, Key, Value, SteamName) VALU;" then
+	if tempNewCMD != "INSERT INTO TMPlayerData64 (SteamID, Key, Value) VALU;" then
 		sql.Query(tempNewCMD)
 	end
 
-	if tempCMD != "UPDATE PlayerData64 SET Value = CASE Key ELSE Value END WHERE SteamID = " .. id64 .. ";" then
+	if tempCMD != "UPDATE TMPlayerData64 SET Value = CASE Key ELSE Value END WHERE SteamID = " .. id64 .. ";" then
 		sql.Query(tempCMD)
 	end
 

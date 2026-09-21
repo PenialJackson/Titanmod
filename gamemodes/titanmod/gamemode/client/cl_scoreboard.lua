@@ -69,6 +69,7 @@ function GM:ScoreboardShow()
 		LevelingPanel.Paint = function(self, w, h)
 			surface.SetDrawColor(35, 35, 35, 100)
 			surface.DrawRect(0, TM.MenuScale(20), TM.MenuScale(630), TM.MenuScale(10))
+
 			surface.SetDrawColor(Color(255, 255, 255, 25))
 			surface.DrawRect(0, TM.MenuScale(20), w, TM.MenuScale(1))
 			surface.DrawRect(0, h - TM.MenuScale(1), w, TM.MenuScale(1))
@@ -76,15 +77,11 @@ function GM:ScoreboardShow()
 			surface.DrawRect(w - TM.MenuScale(1), TM.MenuScale(20), TM.MenuScale(1), TM.MenuScale(10))
 
 			surface.SetDrawColor(255, 255, 0, 50)
-			if LocalPlayer:GetNWInt("playerLevel") != 60 then
-				xpCountUp = math.Clamp(xpCountUp + LocalPlayer:GetNWInt("playerXP") * FrameTime() * 4, 0, LocalPlayer:GetNWInt("playerXP"))
-				levelAnim = math.Clamp(levelAnim + (LocalPlayer:GetNWInt("playerXP") / LocalPlayer:GetNWInt("playerXPToNextLevel")) * FrameTime() * 4, 0, LocalPlayer:GetNWInt("playerXP") / LocalPlayer:GetNWInt("playerXPToNextLevel"))
-				draw.SimpleText("P" .. LocalPlayer:GetNWInt("playerPrestige") .. " L" .. LocalPlayer:GetNWInt("playerLevel") .. " | " .. math.Round(xpCountUp) .. " / " .. LocalPlayer:GetNWInt("playerXPToNextLevel") .. "XP", "StreakText", 0, TM.MenuScale(-3), white, TEXT_ALIGN_LEFT)
-				surface.DrawRect(0, TM.MenuScale(20), levelAnim * TM.MenuScale(630), TM.MenuScale(10))
-			else
-				draw.SimpleText("P" .. LocalPlayer:GetNWInt("playerPrestige") .. " L" .. LocalPlayer:GetNWInt("playerLevel"), "StreakText", 0, TM.MenuScale(-3), white, TEXT_ALIGN_LEFT)
-				surface.DrawRect(0, TM.MenuScale(20), TM.MenuScale(630), TM.MenuScale(10))
-			end
+
+			xpCountUp = math.Clamp(xpCountUp + LocalPlayer:GetNWInt("playerXP") * FrameTime() * 4, 0, LocalPlayer:GetNWInt("playerXP"))
+			levelAnim = math.Clamp(levelAnim + (LocalPlayer:GetNWInt("playerXP") / LocalPlayer:GetNWInt("playerXPToNextLevel")) * FrameTime() * 4, 0, LocalPlayer:GetNWInt("playerXP") / LocalPlayer:GetNWInt("playerXPToNextLevel"))
+			draw.SimpleText("LVL" .. LocalPlayer:GetNWInt("playerLevel") .. " | " .. math.Round(xpCountUp) .. " / " .. LocalPlayer:GetNWInt("playerXPToNextLevel") .. "XP", "StreakText", 0, TM.MenuScale(-3), white, TEXT_ALIGN_LEFT)
+			surface.DrawRect(0, TM.MenuScale(20), levelAnim * TM.MenuScale(630), TM.MenuScale(10))
 		end
 	end
 
@@ -101,7 +98,6 @@ function GM:ScoreboardShow()
 
 		for _, v in ipairs(connectedPlayers) do
 			local name = v:Nick()
-			local prestige = v:GetNWInt("playerPrestige")
 			local level = v:GetNWInt("playerLevel")
 			local ping = v:Ping()
 			local ratio
@@ -129,6 +125,7 @@ function GM:ScoreboardShow()
 			PlayerPanel:SetPos(0, 0)
 			PlayerPanel.Paint = function(w, h)
 				if not IsValid(v) then return end
+
 				if v:GetNWBool("mainmenu") == true then
 					draw.RoundedBox(0, 0, 0, TM.MenuScale(630), h, Color(35, 35, 100, 100))
 				elseif not v:Alive() then
@@ -138,7 +135,7 @@ function GM:ScoreboardShow()
 				end
 
 				draw.SimpleText(name, "Health", TM.MenuScale(255), TM.MenuScale(5), white, TEXT_ALIGN_LEFT)
-				draw.SimpleText("P" .. prestige .. " L" .. level, "Health", TM.MenuScale(255), TM.MenuScale(35), white, TEXT_ALIGN_LEFT)
+				draw.SimpleText("LVL" .. level, "Health", TM.MenuScale(255), TM.MenuScale(35), white, TEXT_ALIGN_LEFT)
 				draw.SimpleText(ping .. "ms", "StreakText", TM.MenuScale(255), TM.MenuScale(72), white, TEXT_ALIGN_LEFT)
 				draw.SimpleText(v:Frags(), "Health", TM.MenuScale(375), TM.MenuScale(35), Color(0, 255, 0), TEXT_ALIGN_CENTER)
 				draw.SimpleText(v:Deaths(), "Health", TM.MenuScale(420), TM.MenuScale(35), Color(255, 0, 0), TEXT_ALIGN_CENTER)
@@ -197,7 +194,7 @@ function GM:ScoreboardShow()
 				local weaponKills = weaponstatistics:AddSubMenu("Kills With")
 				weaponKills:SetMaxHeight(ScrH() / 1.5)
 
-				statistics:AddOption("Prestige " .. v:GetNWInt("playerPrestige") .. " Level " .. v:GetNWInt("playerLevel"))
+				statistics:AddOption("Level " .. v:GetNWInt("playerLevel"))
 				statistics:AddOption("Score: " .. v:GetNWInt("playerScore"))
 				statistics:AddOption("Kills: " .. v:GetNWInt("playerKills"))
 				statistics:AddOption("Deaths: " .. v:GetNWInt("playerDeaths"))
@@ -215,7 +212,6 @@ function GM:ScoreboardShow()
 				accolades:AddOption("Point Blanks: " .. v:GetNWInt("playerAccoladePointblank"))
 				accolades:AddOption("On Streaks (Kill Streaks Started): " .. v:GetNWInt("playerAccoladeOnStreak"))
 				accolades:AddOption("Buzz Kills (Kill Streaks Ended): " .. v:GetNWInt("playerAccoladeBuzzkill"))
-
 				for id, wep in pairs(WEAPONS) do
 					weaponKills:AddOption(wep.name .. ": " .. v:GetNWInt("killsWith_" .. id))
 				end

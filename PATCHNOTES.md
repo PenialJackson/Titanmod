@@ -217,6 +217,10 @@
 
 - Most optic attachments have had their names simplified
 
+- Removed post processing when underwater
+
+- Reworked database saving to avoid potential conflicts with other addons
+
 - Fixed Coonan .357 and various melee weapons not being able to fire underwater
 
 - Fixed Crossbow and Coonan .357 having spread while ADSing
@@ -238,12 +242,6 @@
 - Fixed console errors caused by materials
 
 - Fixed console errors caused by the use of obselete ladder setup on various maps
-
-- Cleaned up numerous unnecessary files and parts of code
-
-- Removed various broken or unnecessary server convars
-
-- Removed post processing when underwater
 
 - New set of rendered gamemode backgrounds thanks to Tired Swiss
 

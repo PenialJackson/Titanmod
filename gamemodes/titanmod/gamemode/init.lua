@@ -110,8 +110,6 @@ end
 net.Receive("PlayerInitialSpawn", function(len, ply)
 	ply:KillSilent()
 	OpenMainMenu(ply)
-
-	sql.Query("UPDATE PlayerData64 SET SteamName = " .. SQLStr(ply:Nick()) .. " WHERE SteamID = " .. ply:SteamID64() .. ";")
 end)
 
 local hpCVar = GetConVar("sv_tm_player_hp_max")
@@ -166,11 +164,7 @@ function GM:PlayerSpawn(ply)
 end
 
 function GM:PlayerInitialSpawn(ply)
-	ply:SetNWInt("playerID64", ply:SteamID64())
-	ply:SetNWString("playerName", ply:Nick())
-
 	SetupPlayerData(ply)
-
 	ply:SetCanZoom(false)
 	HandlePlayerInitialSpawn(ply)
 end
@@ -199,8 +193,9 @@ net.Receive("GrabLeaderboardData", function(len, ply)
 		timer.Create(ply:SteamID64() .. "_GrabBoardDataCooldown", 3, 1, function() end)
 	end
 
-	local tbl
-	tbl = sql.Query("SELECT SteamID, SteamName, Value FROM PlayerData64 WHERE Key = " .. SQLStr(key) .. " ORDER BY Value + 0 DESC LIMIT 100;")
+	local tbl = sql.Query("SELECT SteamID, Value FROM TMPlayerData64 WHERE Key = " .. SQLStr(key) .. " ORDER BY Value + 0 DESC LIMIT 100;")
+
+	if tbl == nil then return end
 
 	net.Start("SendLeaderboardData", true)
 		net.WriteTable(tbl)

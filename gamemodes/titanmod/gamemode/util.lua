@@ -21,6 +21,21 @@ function table.SeqRandom(tbl)
 	return tbl[math.random(#tbl)]
 end
 
+-- see if column exists in SQL database
+function ColumnExists(dbName, columnName)
+    local result = sql.Query(string.format("PRAGMA table_info(%s);", SQLStr(dbName, true)))
+
+    if !result then return false end
+
+    for _, columnData in ipairs(result) do
+        if columnData.name == columnName then
+            return true
+        end
+    end
+
+    return false
+end
+
 local blurMat = Material("pp/blurscreen")
 local blurCol = Color(255, 255, 255)
 

@@ -109,12 +109,6 @@ net.Receive("OpenMainMenu", function(len)
 			MainPanel.Paint = function()
 				draw.SimpleText(LocalPlayer():GetNWInt("playerLevel"), "AmmoCountSmall", TM.MenuScale(440), TM.MenuScale(-5), white, TEXT_ALIGN_LEFT)
 
-				if LocalPlayer():GetNWInt("playerPrestige") != 0 and LocalPlayer():GetNWInt("playerLevel") != 60 then
-					draw.SimpleText("PRESTIGE " .. LocalPlayer():GetNWInt("playerPrestige"), "StreakText", TM.MenuScale(660), TM.MenuScale(37.5), white, TEXT_ALIGN_RIGHT)
-				elseif LocalPlayer():GetNWInt("playerPrestige") != 0 and LocalPlayer():GetNWInt("playerLevel") == 60 then
-					draw.SimpleText("PRESTIGE " .. LocalPlayer():GetNWInt("playerPrestige"), "StreakText", TM.MenuScale(535), TM.MenuScale(37.5), white, TEXT_ALIGN_LEFT)
-				end
-
 				if LocalPlayer():GetNWInt("playerLevel") != 60 then
 					draw.SimpleText(math.Round(LocalPlayer():GetNWInt("playerXP"), 0) .. " / " .. math.Round(LocalPlayer():GetNWInt("playerXPToNextLevel"), 0) .. "XP", "StreakText", TM.MenuScale(660), TM.MenuScale(57.5), white, TEXT_ALIGN_RIGHT)
 					draw.SimpleText(LocalPlayer():GetNWInt("playerLevel") + 1, "StreakText", TM.MenuScale(665), TM.MenuScale(72.5), white, TEXT_ALIGN_LEFT)
@@ -129,46 +123,6 @@ net.Receive("OpenMainMenu", function(len)
 				end
 
 				draw.SimpleText(string.FormattedTime(math.Round(GetGlobalInt("tm_matchtime", 0) - CurTime() + 1), "%2i:%02i" .. " / " .. modeName .. ", " .. mapName), "StreakText", TM.MenuScale(10 + spawnTextAnim), ScrH() / 2 - TM.MenuScale(60) - TM.MenuScale(pushSpawnItems), white, TEXT_ALIGN_LEFT)
-			end
-
-			if canPrestige == true then
-				local PrestigeButton = vgui.Create("DButton", MainPanel)
-				PrestigeButton:SetPos(TM.MenuScale(437.5), TM.MenuScale(67.5))
-				PrestigeButton:SetText("")
-				PrestigeButton:SetSize(TM.MenuScale(180), TM.MenuScale(30))
-				local textAnim = 0
-				local prestigeConfirm = 0
-				local rainbowSpeed = 160
-				local rainbowColor = HSVToColor((CurTime() * rainbowSpeed) % 360, 1, 1)
-				PrestigeButton.Paint = function()
-					rainbowColor = HSVToColor((CurTime() * rainbowSpeed) % 360, 1, 1)
-					if PrestigeButton:IsHovered() then
-						textAnim = math.Clamp(textAnim + 200 * RealFrameTime(), 0, 20)
-					else
-						textAnim = math.Clamp(textAnim - 200 * RealFrameTime(), 0, 20)
-					end
-
-					if prestigeConfirm == 0 then
-						draw.DrawText("PRESTIGE TO P" .. LocalPlayer():GetNWInt("playerPrestige") + 1, "StreakText", TM.MenuScale(5) + TM.MenuScale(textAnim), TM.MenuScale(5), rainbowColor, TEXT_ALIGN_LEFT)
-					else
-						draw.DrawText("ARE YOU SURE?", "StreakText", TM.MenuScale(5) + TM.MenuScale(textAnim), TM.MenuScale(5), solidRed, TEXT_ALIGN_LEFT)
-					end
-				end
-				PrestigeButton.DoClick = function()
-					if (prestigeConfirm == 0) then
-						TriggerSound("click")
-						prestigeConfirm = 1
-					else
-						surface.PlaySound("tmui/prestige.wav")
-
-						net.Start("PlayerPrestige")
-						net.SendToServer()
-
-						PrestigeButton:Hide()
-					end
-
-					timer.Simple(3, function() prestigeConfirm = 0 end)
-				end
 			end
 
 			plyCallingCard = vgui.Create("DImage", MainPanel)
@@ -806,7 +760,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 				local progressionGearTotal = 0
 				local progressionGearUnlocked = 0
 
-				local playerTotalLevel = (LocalPlayer():GetNWInt("playerPrestige") * 60) + LocalPlayer():GetNWInt("playerLevel")
+				local playerTotalLevel = LocalPlayer():GetNWInt("playerLevel")
 
 				-- checking for the players currently equipped gear
 				for i = 1, #GEAR do
@@ -1312,7 +1266,7 @@ Head to the OPTIONS page to tailor the experience to your needs. There is an ext
 					local prideCardsTotal = 0
 					local prideCardsUnlocked = 0
 
-					local playerTotalLevel = (LocalPlayer():GetNWInt("playerPrestige") * 60) + LocalPlayer():GetNWInt("playerLevel")
+					local playerTotalLevel = LocalPlayer():GetNWInt("playerLevel")
 
 					-- checking for the players currently equipped card
 					for i = 1, #CARDS do
