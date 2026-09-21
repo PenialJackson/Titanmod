@@ -436,27 +436,6 @@ function GM:PlayerDeath(victim, inflictor, attacker)
 	CheckForPlayerLevel(attacker)
 end
 
-function CheckForPlayerLevel(ply)
-	if ply:GetNWInt("playerLevel") == 60 then return end
-	local curExp = ply:GetNWInt("playerXP")
-	local curLvl = ply:GetNWInt("playerLevel")
-
-	if (curExp >= ply:GetNWInt("playerXPToNextLevel")) then
-		curExp = curExp - ply:GetNWInt("playerXPToNextLevel")
-		ply:SetNWInt("playerLevel", curLvl + 1)
-		ply:SetNWInt("playerXP", curExp)
-
-		for k, v in ipairs(LEVELARRAY) do
-			if (curLvl + 1) == k then ply:SetNWInt("playerXPToNextLevel", v) end
-		end
-
-		net.Start("SendNotification")
-			net.WriteString("You are now level " .. curLvl + 1 .. "!")
-			net.WriteString("level")
-		net.Send(ply)
-	end
-end
-
 net.Receive("CloseMainMenu", function(len, ply)
 	ply:SetNWBool("mainmenu", false)
 

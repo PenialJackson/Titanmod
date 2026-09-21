@@ -145,10 +145,11 @@ function SetupPlayerData(ply)
 		InitializeNetworkInt(ply, query, "killsWith_" .. id, 0)
 	end
 
-	for k, v in ipairs(LEVELARRAY) do
-		if ply:GetNWInt("playerLevel") == k and v != "prestige" then
-			ply:SetNWInt("playerXPToNextLevel", v)
-		end
+	local lvl = ply:GetNWInt("playerLevel")
+	local expForNextLvl = ExpForLevel(lvl)
+
+	if expForNextLvl then
+		ply:SetNWInt("playerXPToNextLevel", expForNextLvl)
 	end
 
 	-- checks for potential save file corruption and will fix it accordingly
