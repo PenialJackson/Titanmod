@@ -5,22 +5,44 @@ hook.Add("Initialize", "InitPlayerNetworking", function()
 	-- PlayerData64 is a really bad name and I don't want any conflicts to happen
 	if sql.TableExists("PlayerData64") then
 		if !ColumnExists("PlayerData64", "SteamID") or !ColumnExists("PlayerData64", "Key") or !ColumnExists("PlayerData64", "Value") then return end
-		sql.Query("ALTER TABLE PlayerData64 RENAME TO TMPlayerData64;")
+		sql.Query("ALTER TABLE PlayerData64 RENAME TO tmplayerdata;")
 	end
 
-	sql.Query("CREATE TABLE IF NOT EXISTS TMPlayerData64 (SteamID INTEGER, Key TEXT, Value TEXT);")
+	sql.Query("CREATE TABLE IF NOT EXISTS tmplayerdata (SteamID INTEGER, Key TEXT, Value TEXT);")
 
 	-- new patch structure
-	if ColumnExists("TMPlayerData64", "SteamName") then
-		sql.Query("ALTER TABLE TMPlayerData64 RENAME TO TMPlayerData64_OLD;")
+	if ColumnExists("tmplayerdata", "SteamName") then
+		sql.Query("ALTER TABLE tmplayerdata RENAME TO tmplayerdata_OLD;")
 
-		sql.Query("CREATE TABLE IF NOT EXISTS TMPlayerData64 (SteamID INTEGER, Key TEXT, Value TEXT);")
+		sql.Query("CREATE TABLE IF NOT EXISTS tmplayerdata (SteamID INTEGER, Key TEXT, Value TEXT);")
 		sql.Query([[
-			INSERT INTO TMPlayerData64 (SteamID, Key, Value)
-			SELECT SteamID, Key, Value FROM TMPlayerData64_OLD;
+			INSERT INTO tmplayerdata (SteamID, Key, Value)
+			SELECT SteamID, Key, Value FROM tmplayerdata_OLD;
 		]])
 
-		sql.Query("DROP TABLE TMPlayerData64_OLD;")
+		sql.Query("DROP TABLE tmplayerdata_OLD;")
+	end
+
+	-- transfer to new player progression
+	local prestigeQuery = sql.Query("SELECT * FROM tmplayerdata WHERE Key = playerPrestige;")
+
+	if prestigeQuery then
+		local ids = {}
+
+		for row, column in ipairs(prestigeQuery) do
+			local id = tonumber(column.SteamID)
+			if ids[id] != nil then continue end
+
+			local prestige = column.Value
+			local level = 0
+			local score = 0
+			local matchTotal = 0
+			local matchWins = 0
+
+			local xp = 0
+
+			ids[id] = xp
+		end
 	end
 end)
 
@@ -116,7 +138,8 @@ end
 
 function SetupPlayerData(ply)
 	local id64 = ply:SteamID64()
-	local query = sql.Query("SELECT Key, Value FROM TMPlayerData64 WHERE SteamID = " .. id64 .. ";")
+	local query = sql.Query("SELECT Key, Value FROM tmplayerdata WHERE SteamID = " .. SQLStr(id64) .. ";")
+
 	if query == nil then
 		query = "new"
 	end
@@ -171,13 +194,14 @@ function SavePlayerData(ply)
 
 	if tempNewCMD != nil or tempCMD != nil then return end -- shouldn't be possible but just to be safe
 	local id64 = ply:SteamID64()
-	local query = sql.Query("SELECT Key, Value FROM TMPlayerData64 WHERE SteamID = " .. id64 .. ";")
+	local query = sql.Query("SELECT Key, Value FROM tmplayerdata WHERE SteamID = " .. SQLStr(id64) .. ";")
+
 	if query == nil then
 		query = "new"
 	end
 
-	tempNewCMD = "INSERT INTO TMPlayerData64 (SteamID, Key, Value) VALUES"
-	tempCMD = "UPDATE TMPlayerData64 SET Value = CASE Key "
+	tempNewCMD = "INSERT INTO tmplayerdata (SteamID, Key, Value) VALUES"
+	tempCMD = "UPDATE tmplayerdata SET Value = CASE Key "
 
 	sql.Begin()
 
@@ -206,13 +230,13 @@ function SavePlayerData(ply)
 	end
 
 	tempNewCMD = string.sub(tempNewCMD, 1, -3) .. ";"
-	tempCMD = tempCMD .. "ELSE Value END WHERE SteamID = " .. id64 .. ";"
+	tempCMD = tempCMD .. "ELSE Value END WHERE SteamID = " .. SQLStr(id64) .. ";"
 
-	if tempNewCMD != "INSERT INTO TMPlayerData64 (SteamID, Key, Value) VALU;" then
+	if tempNewCMD != "INSERT INTO tmplayerdata (SteamID, Key, Value) VALU;" then
 		sql.Query(tempNewCMD)
 	end
 
-	if tempCMD != "UPDATE TMPlayerData64 SET Value = CASE Key ELSE Value END WHERE SteamID = " .. id64 .. ";" then
+	if tempCMD != "UPDATE tmplayerdata SET Value = CASE Key ELSE Value END WHERE SteamID = " .. SQLStr(id64) .. ";" then
 		sql.Query(tempCMD)
 	end
 

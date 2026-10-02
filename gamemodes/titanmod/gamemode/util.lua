@@ -21,6 +21,20 @@ function table.SeqRandom(tbl)
 	return tbl[math.random(#tbl)]
 end
 
+-- ipairs but reversed
+function Reverseipairs(tbl)
+	local i = #tbl + 1
+
+	return function()
+		i = i - 1
+		local value = tbl[i]
+
+		if i >= 1 then
+			return i, value
+		end
+	end
+end
+
 -- see if column exists in SQL database
 function ColumnExists(dbName, columnName)
     local result = sql.Query(string.format("PRAGMA table_info(%s);", SQLStr(dbName, true)))

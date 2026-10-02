@@ -2,7 +2,7 @@ TM.STATS = TM.STATS or {}
 
 local plyMeta = FindMetaTable("Player")
 
-EFGM.STATS["Level"] = {
+TM.STATS["Level"] = {
 	["name"] = "Level",
 	["type"] = "integer",
 	["default"] = 1,
