@@ -186,10 +186,16 @@ net.Receive("OpenMainMenu", function(len)
 					LeaderboardTextHolder.Paint = function(self, w, h)
 						draw.RoundedBox(0, 0, 0, w, h, gray)
 						draw.SimpleText("LEADERBOARDS", "AmmoCountSmall", TM.MenuScale(20), TM.MenuScale(20), white, TEXT_ALIGN_LEFT)
-						draw.SimpleText("Entries update on match start/player disconnect | Only top 100 are shown", "StreakText", TM.MenuScale(25), TM.MenuScale(100), white, TEXT_ALIGN_LEFT)
+						draw.SimpleText("Entries update on match start/player disconnect | Only top 100 is shown", "StreakText", TM.MenuScale(25), TM.MenuScale(100), white, TEXT_ALIGN_LEFT)
 
-						if SelectedBoardName != nil then draw.SimpleText(SelectedBoardName, "OptionsHeader", TM.MenuScale(85), TM.MenuScale(124), white, TEXT_ALIGN_LEFT) end
-						if timer.Exists("SendBoardDataRequestCooldown") then draw.SimpleText(math.Round(timer.TimeLeft("SendBoardDataRequestCooldown"), 1), "StreakText", TM.MenuScale(41), TM.MenuScale(145), white, TEXT_ALIGN_CENTER) end
+						if SelectedBoardName != nil then
+							draw.SimpleText(SelectedBoardName, "OptionsHeader", TM.MenuScale(85), TM.MenuScale(124), white, TEXT_ALIGN_LEFT)
+						end
+
+						if timer.Exists("SendBoardDataRequestCooldown") then
+							draw.SimpleText(math.Round(timer.TimeLeft("SendBoardDataRequestCooldown"), 1), "StreakText", TM.MenuScale(41), TM.MenuScale(145), white, TEXT_ALIGN_CENTER)
+						end
+
 						draw.SimpleText("#", "StreakText", TM.MenuScale(20), TM.MenuScale(185), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Name", "StreakText", TM.MenuScale(85), TM.MenuScale(185), white, TEXT_ALIGN_LEFT)
 						draw.SimpleText("Stat", "StreakText", TM.MenuScale(710), TM.MenuScale(185), white, TEXT_ALIGN_RIGHT)
@@ -231,10 +237,8 @@ net.Receive("OpenMainMenu", function(len)
 						statistics:AddOption("Score", function() LeaderboardSelected("Score", "playerScore") end)
 						statistics:AddOption("Kills", function() LeaderboardSelected("Kills", "playerKills") end)
 						statistics:AddOption("Deaths", function() LeaderboardSelected("Deaths", "playerDeaths") end)
-						-- statistics:AddOption("K/D Ratio", function() LeaderboardSelected("K/D Ratio", "kd") end)
 						statistics:AddOption("Matches Played", function() LeaderboardSelected("Matches Played", "matchesPlayed") end)
 						statistics:AddOption("Matches Won", function() LeaderboardSelected("Matches Won", "matchesWon") end)
-						-- statistics:AddOption("W/L Ratio", function() LeaderboardSelected("W/L Ratio", "wl") end)
 						statistics:AddOption("Highest Killstreak", function() LeaderboardSelected("Highest Killstreak", "highestKillStreak") end)
 						statistics:AddOption("Highest Kill Game", function() LeaderboardSelected("Highest Kill Game", "highestKillGame") end)
 						statistics:AddOption("Farthest Kill", function() LeaderboardSelected("Farthest Kill", "farthestKill") end)
@@ -282,33 +286,35 @@ net.Receive("OpenMainMenu", function(len)
 						draw.RoundedBox(0, 0, 0, w, h, gray)
 
 						if SelectedBoard == nil then return end
-						for p, t in pairs(SelectedBoard) do
-							if t.Value == "NULL" then return end
-							if t.SteamName != LocalPlayer():Nick() then
+
+						for p, t in ipairs(SelectedBoard) do
+							if t.value == "NULL" then return end
+
+							if t.id != LocalPlayer():SteamID64() then
 								draw.SimpleText(p, "SettingsLabel", TM.MenuScale(20), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT)
-								if t.SteamName != "NULL" then draw.SimpleText(string.sub(t.SteamName, 1, 21), "SettingsLabel", TM.MenuScale(85), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT) else draw.SimpleText(t.SteamID, "SettingsLabel", TM.MenuScale(85), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT) end
+								draw.SimpleText(string.sub(t.id, 1, 21), "SettingsLabel", TM.MenuScale(85), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_LEFT)
 							else
 								draw.SimpleText(p, "SettingsLabel", TM.MenuScale(20), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_LEFT)
-								draw.SimpleText(string.sub(t.SteamName, 1, 21), "SettingsLabel", TM.MenuScale(85), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_LEFT)
+								draw.SimpleText(string.sub(t.id, 1, 21), "SettingsLabel", TM.MenuScale(85), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_LEFT)
 							end
 
 							if SelectedBoardName == "W/L Ratio" then
-								if t.SteamName != LocalPlayer():Nick() then
-									draw.SimpleText(math.Round(t.Value) .. "%", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
+								if t.id != LocalPlayer():SteamID64() then
+									draw.SimpleText(math.Round(t.value) .. "%", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
 								else
-									draw.SimpleText(math.Round(t.Value) .. "%", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
+									draw.SimpleText(math.Round(t.value) .. "%", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
 								end
 							elseif SelectedBoardName == "Farthest Kill" then
-								if t.SteamName != LocalPlayer():Nick() then
-									draw.SimpleText(math.Round(t.Value, 2) .. "m", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
+								if t.id != LocalPlayer():SteamID64() then
+									draw.SimpleText(math.Round(t.value, 2) .. "m", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
 								else
-									draw.SimpleText(math.Round(t.Value, 2) .. "m", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
+									draw.SimpleText(math.Round(t.value, 2) .. "m", "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
 								end
 							else
-								if t.SteamName != LocalPlayer():Nick() then
-									draw.SimpleText(math.Round(t.Value, 2), "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
+								if t.id != LocalPlayer():SteamID64() then
+									draw.SimpleText(math.Round(t.value, 2), "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), white, TEXT_ALIGN_RIGHT)
 								else
-									draw.SimpleText(math.Round(t.Value, 2), "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
+									draw.SimpleText(math.Round(t.value, 2), "SettingsLabel", TM.MenuScale(710), (p - 1) * TM.MenuScale(41.25), Color(255, 255, 0), TEXT_ALIGN_RIGHT)
 								end
 							end
 						end
@@ -335,19 +341,19 @@ net.Receive("OpenMainMenu", function(len)
 			end
 
 			net.Receive("SendLeaderboardData", function(len)
-				ReceivedBoard = net.ReadTable()
+				local ReceivedBoard = net.ReadTable()
 				ProfilesHolder:Clear()
 
-				for p, t in pairs(ReceivedBoard) do
+				for _, v in ipairs(ReceivedBoard) do
 					local SteamProfile = vgui.Create("DImageButton", ProfilesHolder)
 					SteamProfile:SetImage("icons/linkicon.png")
 					SteamProfile:SetSize(TM.MenuScale(40), TM.MenuScale(40))
-					SteamProfile:SetTooltip("Open " .. t.SteamName .. "'s Steam Profile")
+					SteamProfile:SetTooltip("Open " .. v.id .. "'s Steam Profile")
 					ProfilesHolder:Add(SteamProfile)
 
 					SteamProfile.DoClick = function()
 						TriggerSound("click")
-						gui.OpenURL("http://steamcommunity.com/profiles/" .. t.SteamID)
+						gui.OpenURL("http://steamcommunity.com/profiles/" .. v.id)
 					end
 				end
 

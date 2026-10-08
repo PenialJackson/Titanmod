@@ -193,7 +193,7 @@ net.Receive("GrabLeaderboardData", function(len, ply)
 		timer.Create(ply:SteamID64() .. "_GrabBoardDataCooldown", 3, 1, function() end)
 	end
 
-	local tbl = sql.Query("SELECT SteamID, Value FROM TMPlayerData64 WHERE Key = " .. SQLStr(key) .. " ORDER BY Value + 0 DESC LIMIT 100;")
+	local tbl = sql.Query("SELECT id, value FROM tmplayerdata WHERE key = " .. SQLStr(key) .. " ORDER BY value + 0 DESC LIMIT 100;")
 
 	if tbl == nil then return end
 

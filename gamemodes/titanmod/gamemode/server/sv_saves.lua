@@ -8,15 +8,15 @@ hook.Add("Initialize", "InitPlayerNetworking", function()
 		sql.Query("ALTER TABLE PlayerData64 RENAME TO tmplayerdata;")
 	end
 
-	sql.Query("CREATE TABLE IF NOT EXISTS tmplayerdata (SteamID INTEGER, Key TEXT, Value TEXT);")
+	sql.Query("CREATE TABLE IF NOT EXISTS tmplayerdata (id INTEGER, key TEXT, value TEXT);")
 
 	-- new patch structure
 	if ColumnExists("tmplayerdata", "SteamName") then
 		sql.Query("ALTER TABLE tmplayerdata RENAME TO tmplayerdata_OLD;")
 
-		sql.Query("CREATE TABLE IF NOT EXISTS tmplayerdata (SteamID INTEGER, Key TEXT, Value TEXT);")
+		sql.Query("CREATE TABLE IF NOT EXISTS tmplayerdata (id INTEGER, key TEXT, value TEXT);")
 		sql.Query([[
-			INSERT INTO tmplayerdata (SteamID, Key, Value)
+			INSERT INTO tmplayerdata (id, key, value)
 			SELECT SteamID, Key, Value FROM tmplayerdata_OLD;
 		]])
 
@@ -24,31 +24,61 @@ hook.Add("Initialize", "InitPlayerNetworking", function()
 	end
 
 	-- transfer to new player progression
-	local prestigeQuery = sql.Query("SELECT * FROM tmplayerdata WHERE Key = playerPrestige;")
+	local prestigeQuery = sql.Query("SELECT * FROM tmplayerdata WHERE key = playerPrestige;")
 
 	if prestigeQuery then
 		local ids = {}
+		local xpPerPrestige = ExpForLevel(60)
 
-		for row, column in ipairs(prestigeQuery) do
-			local id = tonumber(column.SteamID)
-			if ids[id] != nil then continue end
+		for _, column in ipairs(prestigeQuery) do
+			local id = tonumber(column.id)
+			if ids[id] == true then continue end
 
-			local prestige = column.Value
-			local level = 0
-			local score = 0
-			local matchTotal = 0
-			local matchWins = 0
+			local prestige = column.value
+			local level = sql.QueryValue("SELECT value FROM tmplayerdata WHERE id = " .. SQLStr(id) .. " AND key = playerLevel;")
+			local score = sql.QueryValue("SELECT value FROM tmplayerdata WHERE id = " .. SQLStr(id) .. " AND key = playerScore;")
+			local matchTotal = sql.QueryValue("SELECT value FROM tmplayerdata WHERE id = " .. SQLStr(id) .. " AND key = matchesPlayed;")
+			local matchWins = sql.QueryValue("SELECT value FROM tmplayerdata WHERE id = " .. SQLStr(id) .. " AND key = matchesWon;")
 
 			local xp = 0
 
-			ids[id] = xp
+			if prestige > 0 then
+				xp = xp + (xpPerPrestige * prestige)
+			end
+
+			if level > 1 then
+				xp = xp + ExpForLevel(level)
+			end
+
+			if score > 0 then
+				xp = xp + score
+			end
+
+			if matchTotal > 0 then
+				xp = xp + (750 * matchTotal)
+			end
+
+			if matchWins > 0 then
+				xp = xp + (750 * matchWins)
+			end
+
+			local newLevel, newXP = LevelFromExp(xp)
+
+			sql.Query("UPDATE tmplayerdata SET value = " .. SQLStr(newLevel) .. " WHERE id = " .. SQLStr(id) .. " AND key = playerLevel;")
+			sql.Query("UPDATE tmplayerdata SET value = " .. SQLStr(newXP) .. " WHERE id = " .. SQLStr(id) .. " AND key = playerXP;")
+			sql.Query("DELETE FROM tmplayerdata WHERE id = " .. SQLStr(id) .. " AND key = playerPrestige;")
+
+			ids[id] = true
 		end
+
+		ids = {}
 	end
 end)
 
 local modelFiles = {}
 local cardFiles = {}
 local meleeFiles = {}
+
 local tempCMD = nil
 local tempNewCMD = nil
 
@@ -71,9 +101,9 @@ local function InitializeNetworkInt(ply, query, key, value)
 	end
 
 	for _, v in ipairs(query) do
-		if key == v.Key then
-			ply:SetNWInt(key, tonumber(v.Value))
-			return tonumber(v.Value)
+		if key == v.key then
+			ply:SetNWInt(key, tonumber(v.value))
+			return tonumber(v.value)
 		end
 	end
 
@@ -88,9 +118,9 @@ local function InitializeNetworkString(ply, query, key, value)
 	end
 
 	for _, v in ipairs(query) do
-		if key == v.Key then
-			ply:SetNWString(key, tostring(v.Value))
-			return tostring(v.Value)
+		if key == v.key then
+			ply:SetNWString(key, tostring(v.value))
+			return tostring(v.value)
 		end
 	end
 
@@ -108,7 +138,7 @@ local function UninitializeNetworkInt(ply, query, key)
 	end
 
 	for _, v in ipairs(query) do
-		if key == v.Key then
+		if key == v.key then
 			tempCMD = tempCMD .. "WHEN " .. SQLStr(key) .. " THEN " .. SQLStr(value) .. " "
 			return
 		end
@@ -127,7 +157,7 @@ local function UninitializeNetworkString(ply, query, key)
 	end
 
 	for _, v in ipairs(query) do
-		if key == v.Key then
+		if key == v.key then
 			tempCMD = tempCMD .. "WHEN " .. SQLStr(key) .. " THEN " .. SQLStr(value) .. " "
 			return
 		end
@@ -138,7 +168,7 @@ end
 
 function SetupPlayerData(ply)
 	local id64 = ply:SteamID64()
-	local query = sql.Query("SELECT Key, Value FROM tmplayerdata WHERE SteamID = " .. SQLStr(id64) .. ";")
+	local query = sql.Query("SELECT key, value FROM tmplayerdata WHERE id = " .. SQLStr(id64) .. ";")
 
 	if query == nil then
 		query = "new"
@@ -194,14 +224,14 @@ function SavePlayerData(ply)
 
 	if tempNewCMD != nil or tempCMD != nil then return end -- shouldn't be possible but just to be safe
 	local id64 = ply:SteamID64()
-	local query = sql.Query("SELECT Key, Value FROM tmplayerdata WHERE SteamID = " .. SQLStr(id64) .. ";")
+	local query = sql.Query("SELECT key, value FROM tmplayerdata WHERE id = " .. SQLStr(id64) .. ";")
 
 	if query == nil then
 		query = "new"
 	end
 
-	tempNewCMD = "INSERT INTO tmplayerdata (SteamID, Key, Value) VALUES"
-	tempCMD = "UPDATE tmplayerdata SET Value = CASE Key "
+	tempNewCMD = "INSERT INTO tmplayerdata (id, key, value) VALUES"
+	tempCMD = "UPDATE tmplayerdata SET value = CASE key "
 
 	sql.Begin()
 
@@ -230,13 +260,13 @@ function SavePlayerData(ply)
 	end
 
 	tempNewCMD = string.sub(tempNewCMD, 1, -3) .. ";"
-	tempCMD = tempCMD .. "ELSE Value END WHERE SteamID = " .. SQLStr(id64) .. ";"
+	tempCMD = tempCMD .. "ELSE value END WHERE id = " .. SQLStr(id64) .. ";"
 
-	if tempNewCMD != "INSERT INTO tmplayerdata (SteamID, Key, Value) VALU;" then
+	if tempNewCMD != "INSERT INTO tmplayerdata (id, key, value) VALU;" then
 		sql.Query(tempNewCMD)
 	end
 
-	if tempCMD != "UPDATE tmplayerdata SET Value = CASE Key ELSE Value END WHERE SteamID = " .. SQLStr(id64) .. ";" then
+	if tempCMD != "UPDATE tmplayerdata SET value = CASE key ELSE value END WHERE id = " .. SQLStr(id64) .. ";" then
 		sql.Query(tempCMD)
 	end
 
